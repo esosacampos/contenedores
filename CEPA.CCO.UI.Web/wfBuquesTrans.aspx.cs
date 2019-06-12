@@ -549,7 +549,7 @@ namespace CEPA.CCO.UI.Web
                 WidthPercentage = 100
             };
 
-            float[] widths = new float[] { 1.5f, 8.5f, 3.7f, 4.5f, 3f, 2f, 5f, 6.5f };
+            float[] widths = new float[] { 1.5f, 9.5f, 3.7f, 4.5f, 2.7f, 2.3f, 5f, 6.5f };
             table.SetWidths(widths);
             table.HorizontalAlignment = 1;
             table.SpacingBefore = 10f;
