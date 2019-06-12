@@ -1,0 +1,93 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Principal.master.cs"
+    Inherits="CEPA.CCO.UI.Web.Principal" %>
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head runat="server">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <!--[if IE]><![endif]-->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <%-- <link rel="stylesheet" href="css/style.css">--%>
+    <link href="CSS/CEPA_CSS.css" rel="Stylesheet" type="text/css" />
+    <link href="CSS/Meny.css" rel="stylesheet" type="text/css" />
+    <link type="text/css" rel="stylesheet" href="http://jquery-ui.googlecode.com/svn/tags/1.7/themes/redmond/jquery-ui.css" />
+    <link href="CSS/MultipleFileUpload.css" rel="stylesheet" type="text/css" />
+
+    <!--[if IE]> <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <!--[if lt IE 7]>
+			<p class="chromeframe">Usted está utilizando un <strong>navegador</strong> obsoleto. Por favor <a href="http://browsehappy.com/">actualice su navegador</a> o <a href="http://www.google.com/chromeframe/?redirect=true">active Google Chrome Frame</a> para mejorar su experiencia.</p>
+		<![endif]-->
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" EnablePartialRendering="true" runat="server"
+        AsyncPostBackTimeout="600">
+    </asp:ScriptManager>
+    <div id="contenedor">
+        <div id="masthead">
+            <div class="logo">
+                <a href="#">CEPA - Contenedores</a></div>
+            <p>
+                <asp:LoginName ID="LoginName1" runat="server" Style="font-size: large; font-weight: 700" />
+                &nbsp&nbsp
+                <asp:LoginStatus ID="LoginStatus1" LogoutPageUrl="~/Inicio.aspx" LogoutAction="RedirectToLoginPage"
+                    runat="server" ForeColor="White" LoginText="Iniciar Sesión" LogoutText="Cerrar Sesión"
+                    Style="font-size: large" />
+            </p>
+        </div>
+        <div id="page_content">
+            <div id="sidebar">
+              <%--  <div id='cssmenu'>--%>
+                    <asp:Menu ID="MenuPrincipal" MaximumDynamicDisplayLevels="20" runat="server" Height="42px"
+                        Orientation="Vertical" StaticSubMenuIndent="" BackColor="#F7F6F3" DynamicHorizontalOffset="2"
+                        Font-Names="Verdana" Font-Size="12px" ForeColor="#1584CE" DynamicVerticalOffset="2">
+                        <DynamicHoverStyle BackColor="#1584CE" ForeColor="White" />
+                        <DynamicMenuItemStyle HorizontalPadding="10px" VerticalPadding="7px" BackColor="#F7F6F3"
+                            ForeColor="#1584CE" />
+                        <DynamicMenuStyle BackColor="#F7F6F3" HorizontalPadding="10px" VerticalPadding="7px" />
+                        <DynamicSelectedStyle BackColor="#F7F6F3" ForeColor="#1584CE" HorizontalPadding="10px"
+                            ItemSpacing="6px" />
+                        <StaticHoverStyle BackColor="#1584CE" ForeColor="White" />
+                        <StaticMenuItemStyle HorizontalPadding="10px" VerticalPadding="10px" BackColor="#F7F6F3"
+                            ForeColor="#1584CE" />
+                        <StaticMenuStyle BackColor="#F7F6F3" />
+                        <StaticSelectedStyle BackColor="#F7F6F3" />
+                    </asp:Menu>
+               <%-- </div>--%>
+            </div>  
+                     
+        </div>
+        <div id="content" style="height: auto;">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        <div id="footer">
+            <p>
+                © 2013 CEPA / Acajutla, El Salvador - Todos los derechos reservados.
+            </p>
+        </div>
+        <div id="cierre" style="height: auto;">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </div>
+    </form>
+    <%--    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>        window.jQuery || document.write('<script src="Scripts/jquery.js"><\/script>')</script>
+    <script src="Scripts/scripts.js"></script>
+    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="Scripts/script.js"></script>    
+    <script src="Scripts/jquery.responsivetable.min.js"></script>--%>
+</body>
+</html>

@@ -1,0 +1,64 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Principal.master.cs"
+    Inherits="CEPA.CCO.UI.Web.Principal" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="CSS/CEPA_CSS.css" rel="Stylesheet" type="text/css" />
+    <link href="CSS/Meny.css" rel="stylesheet" type="text/css" />
+    <link type="text/css" rel="stylesheet" href="http://jquery-ui.googlecode.com/svn/tags/1.7/themes/redmond/jquery-ui.css" />
+    <script src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.2.js" type="text/javascript"></script>
+    <script src="http://ajax.microsoft.com/ajax/jquery/jquery-1.7.1.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"
+        type="text/javascript"></script>
+    <%--<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.3/themes/base/jquery-ui.css"
+        type="text/css" media="all" />--%>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" EnablePageMethods="True" runat="server">
+        <Scripts>
+        </Scripts>
+    </asp:ScriptManager>
+    <div id="contenedor">
+        <div id="masthead">
+            <div class="logo">
+                <a href="#" style="font-weight: bold">CEPA - Contenedores</a></div>
+            <p>
+                <asp:LoginName ID="LoginName1" runat="server" Style="font-size: large; font-weight: 800" />
+                &nbsp&nbsp
+                <asp:LoginStatus ID="LoginStatus1" LogoutPageUrl="~/Inicio.aspx" LogoutAction="RedirectToLoginPage"
+                    runat="server" ForeColor="White" LoginText="Iniciar Sesión" LogoutText="Cerrar Sesión"
+                    Style="font-size: large; font-weight: 700" OnLoggingOut="LoginStatus1_LoggingOut" />
+            </p>
+        </div>
+        <%--<div id="page_content">
+            <div id="sidebar">
+                <div id='cssmenu'>
+                </div>
+            </div>
+        </div>--%>
+        <div id="content">
+            <%--<div style="float: left; width: 69%">--%>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+            <%--</div>--%>
+        </div>
+        <div id="TopLateral">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <%--</div>--%>
+        <div id="footer">
+            <p>
+                © 2013 CEPA / Acajutla, El Salvador - Todos los derechos reservados.
+            </p>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

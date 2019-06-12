@@ -1,0 +1,55 @@
+﻿.fUploadControl
+{
+    width: 500px;
+    border: 2px solid oldnavy;
+    padding: 20px;
+}
+.fileinput 
+{
+    float:right;
+    background:#d4d4d4;
+    color:Black;
+    border:1px solid navy;
+}
+.fUploadControl legend
+{
+    padding-left:25px;
+    padding-right:5px;
+}
+.fUploadControl > a:link
+{
+    float: right;
+    background-image: url('~/images/icoNew.png');
+    background-repeat: no-repeat;
+    padding-left: 22px;
+}
+.fileInput
+{
+    display: block;
+    margin: 3px;
+    width: 100%;
+}
+.mssgOK
+{
+    display: block;
+    background-position: 10px center;
+    background-image: url('~/images/icoInfo.png');
+    background-repeat: no-repeat;
+    padding-left: 30px;
+    margin:5px;
+}
+.mssgERRORas
+{
+    display: block;
+    background-position: 3px center;
+    background-image: url('~/images/icoWarning.png');
+    background-repeat: no-repeat;
+    padding: 5px 5px 5px 25px;
+    margin: 5px;
+    background-color: #FFF0FF;
+    color:Black;
+}
+.comment
+{
+    margin:5px;
+}

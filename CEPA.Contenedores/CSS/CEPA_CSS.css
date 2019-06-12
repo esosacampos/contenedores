@@ -1,0 +1,517 @@
+﻿body
+{
+	border-style: none;
+	border-color: inherit;
+	border-width: 0;
+	margin: 0;
+	padding: 0;
+	font-family: Segoe UI Light;
+	color: black;
+	font-size: 14px;
+}
+
+#contenedor
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #f3f3f3;
+}
+
+#masthead
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 100%;
+	overflow: auto;
+	text-align: right;
+	background: #1584CE;
+	font-family: Segoe UI Ligth;
+	font-weight: lighter;
+	font-size: 14px;
+	color: white;
+}
+
+#page_content
+{
+	position: relative;
+}
+
+#sidebar
+{
+	position: relative;
+	float: left;
+	width: 200px;
+	height: 100%;
+	background-color: #fff;   
+	padding: 0;
+	border: 0; /*background: url('Img/bg-sidebar1.gif') no-repeat left top; 	width: 200px; 	height: 22300%; 	position:absolute; 	left: 0; 	top: 0; 	color: #888; 	font-size: 11px;*/
+}
+
+#content
+{
+	margin-left: 200px;
+	padding-top: 15px;
+	padding-bottom: 25px;
+	padding-left: 25px;
+	padding-right: 25px;
+	margin-top: 0;
+	background-color: #fff;
+	margin-bottom: 0;
+	border: 0;
+}
+
+#content a
+{
+	text-decoration: none;
+	color: gray;
+	font-size: 12pt;
+	font-weight: 700;
+}
+
+#content a:hover
+{
+	text-decoration: underline;
+	color: gray;
+}
+
+#content h2
+{
+	border-left: 0px none gray;
+	border-right: 0px none gray;
+	border-top: 0px none gray;
+	border-bottom: 1px double gray;
+	font-family: 'Segoe UI Light';
+	font-size: large;
+	padding: 20px;
+	margin: 0;
+	padding: 0 0 10px 0;
+}
+
+#footer
+{
+	font-family: 'Segoe UI';
+	font-size: 14px;
+	border-width: thin 0 0 0;
+	border-color: gray;
+	border-style: groove none none none;
+	clear: both;
+	width: 100%;
+	overflow: hidden;
+	padding-right: 0;
+	padding-bottom: 0;
+	padding-left: 0;
+	color: gray;
+	background-color: #FFFFFF;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+#masthead .logo
+{
+	padding: 10px 20px;
+	float: left;
+	color: white;
+	width: auto;
+	font-family: Segoe UI;
+	font-size: 25px;
+	background: #1584CE;
+	text-align: left;
+	height: auto;
+}
+
+#masthead .logo:hover
+{
+	background-color: #1584CE;
+}
+
+#masthead .logo a
+{
+	font-family: Segoe UI;
+	font-size: 25px;
+	color: white;
+	text-decoration: none;
+}
+
+#masthead .logo a:hover
+{
+	font-family: Segoe UI;
+	font-size: 25px;
+	color: white;
+	text-decoration: none;
+	background-color: #89a6b1;
+}
+
+#masthead .logo a:active
+{
+	font-family: Segoe UI;
+	font-size: 25px;
+	color: white;
+	text-decoration: none;
+	background-color: #89a6b1;
+}
+
+#masthead .logo .item
+{
+	font-family: Segoe UI;
+	font-size: 18px;
+	color: white;
+	text-decoration: none;
+}
+
+#masthead .logo .item:hover
+{
+	font-family: Segoe UI;
+	font-size: 18px;
+	color: white;
+	text-decoration: none;
+	background-color: #89a6b1;
+}
+
+#masthead .logo .item:active
+{
+	font-family: Segoe UI;
+	font-size: 18px;
+	color: white;
+	text-decoration: none;
+	background-color: #89a6b1;
+}
+
+
+#masthead p
+{
+	font-family: Segoe UI Light;
+	margin: 0;
+	margin-top: 14px;
+	margin-right: 5px;
+	font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+	font-family: Segoe UI Light;
+}
+
+/*ESTILOS DE EXPLORACION*/
+/*#sidebar ul {
+	list-style-type: none;
+	width: 100%;
+	display: block;
+	padding: 0;
+	padding: 0;
+	margin-top: 0px;
+}
+
+#sidebar li{
+	display: block;
+}
+
+#sidebar a{
+	font-family: 'Segoe UI';
+	font-size: 18px;
+	text-decoration: none;
+	color: #808080;
+	padding-left: 20px;
+	padding-right: 5%;
+	padding-top: 4%;
+	padding-bottom: 4%;
+	display: block;
+}
+
+#sidebar p{
+	font-family: 'Segoe UI Light';
+	font-size: 30px;
+	text-decoration: none;
+	color: #808080;
+	padding-left: 20px;
+	margin-bottom: 0;
+	margin-top: 3px;
+	display: block;
+}
+
+#sidebar a:hover {
+	font-family: 'Segoe UI';
+	font-size: 18px;
+	text-decoration: none;
+	background: #e8e6e6;
+}
+
+#sidebar a:active{
+	font-family: 'Segoe UI';
+	font-size: 18px;
+	text-decoration: none;
+	color: #808080;
+	background: #d4d4d4;
+}
+
+#sidebar .current{
+	font-family: 'Segoe UI';
+	font-size: 18px;
+	text-decoration: none;
+	color: #808080;
+	background: #d4d4d4;
+}
+
+#sidebar a:focus{
+	font-family: 'Segoe UI';
+	font-size: 18px;
+	text-decoration: none;
+	color: #808080;
+	background: #d4d4d4;
+}
+
+#sidebar li ul{
+	display:none;
+	position:absolute;
+	min-width:140px;
+}
+
+#sidebar li:hover > ul {
+display:block;
+}*/
+
+
+/*CONTENIDO DE TOP 5*/
+#titleTop
+{
+	background-color: #1584CE;
+	font-family: 'Segoe UI Semibold';
+	color: #FFFFFF;
+	text-align: left;
+	font-size: 18px;
+	height: 35px;
+	padding-top: 10px;
+	padding-left: 15px;
+}
+
+
+/*Controles*/
+
+* Forms button, input, select, textarea
+{
+	overflow: visible;
+	margin: 0 2 0 0px; /*vertical-align: baseline;*/
+	outline: none;
+}
+
+/* 1) Remove default scrollbar in IE: www.sitepoint.com/blogs/2010/08/20/ie-remove-textarea-scrollbars/
+	   2) Align to text-top */
+textarea
+{
+	overflow: auto;
+	vertical-align: text-top;
+}
+
+/* Hand cursor on clickable input elements */
+label[for], input[type=button], input[type=submit], input[type=image], button
+{
+	cursor: pointer;
+}
+
+/* Remove extra padding and inner border in Firefox */
+input::-moz-focus-inner, button::-moz-focus-inner
+{
+	border: 0;
+	padding: 0;
+}
+
+input[type=button], input[type=checkbox], input[type=radio], input[type=submit], select
+{
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+input[type=text], input[type=password], textarea
+{
+	-webkit-appearance: textfield;
+	-moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+	border: 1px solid #cacaca;
+}
+
+button, input, select, textarea, label
+{
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	line-height: normal;
+	font-family: "Segoe UI Light";
+}
+
+label
+{
+	display: block;
+	font-weight: normal;
+	margin: 0 0 7px 10px;
+}
+
+.commentContainer
+{
+	float: left;
+	padding: 12px 16px 12px 20px;
+	background-color: #368abb; /*#1570A6*/
+	margin-bottom: 30px;
+}
+
+.commentContainer::after
+{
+	display: block;
+	position: absolute;
+	left: 600px; /*bottom: -40px;*/
+	content: " ";
+	border-color: #368abb transparent transparent transparent;
+	border-style: solid;
+	border-width: 20px;
+}
+.commentContainer h3
+{
+	color: #FFF;
+	font-family: "Segoe UI Light" , Segoe UI, Arial, sans-serif;
+}
+
+.comment-data
+{
+	background-image: url('icons/chat.png');
+	width: 63px;
+	height: 48px;
+	float: left;
+	margin: 7px 12px 5px 0;
+}
+
+.comentText
+{
+	display: block;
+	float: left;
+	width: 500px;
+	color: #FFF;
+	margin: 8px 0px;
+}
+
+fieldset
+{
+	background-color: #fafafa;
+	border: 1px solid #c9c9c9;
+	padding: 20px;
+	width: 95%;
+	height: auto;
+	margin-left: 0px;
+	height: 177px;
+}
+
+input[type="text"]
+{
+	padding: 8px 6px 8px 12px;
+	font-family: "Segoe UI" , "Segoe UI Web Regular" , "Helvetica Neue" , "BBAlpha Sans" , "S60 Sans" , Arial, "sans-serif";
+	color: #212121;
+	margin-bottom: 10px;
+}
+
+fieldset p
+{
+	display: block;
+	margin: 0;
+	height: 10px;
+	width: 6px;
+	text-align: left;
+}
+
+legend
+{
+	font: normal 16px "Segue UI Light" , Segoe UI, Arial, Helvetica, Sans-serif;
+	padding: 10px 6px;
+	text-transform: uppercase;
+}
+
+/* Input fields */
+input, textarea, select
+{
+	background: #fff;
+	border: 1px solid #cacaca;
+	color: #777;
+	padding: 10px 15px;
+}
+
+
+
+textarea
+{
+	width: 560px;
+	resize: none;
+	border: 1px solid #c9c9c9;
+	background-color: #FFF;
+}
+
+input:hover, input:focus, textarea:hover, textarea:focus, select:hover
+{
+	color: #333;
+}
+
+textarea, select
+{
+}
+
+input[type=checkbox], input[type=radio], select
+{
+	margin-left: 1px;
+	text-align: left;
+}
+
+/* Submit */
+input[type=submit]
+{
+	background-color: #1584CE;
+	color: #FFF;
+	font-weight: 700;
+	font-size: 18px;
+	text-align: left;
+}
+
+input[type=submit]:hover
+{
+	background-color: #89a6b1;
+	color: #FFF;
+}
+
+/* Search inputs */
+input[type=search]
+{
+	background: #fff url(images/search.png) no-repeat 10px center;
+	padding-left: 25px;
+	-webkit-appearance: none;
+}
+
+input[type=search]::-webkit-search-results-button
+{
+	-webkit-appearance: none;
+}
+
+.searchform input[type=search]
+{
+	padding-right: 0;
+	max-width: 200px;
+}
+
+.searchform input[type=submit]
+{
+	padding: 10px 12px;
+	float: right;
+}
+
+.updateicon
+{
+	background-position: center;
+	border-style: none;
+	background-image: url('images/normalicon.png');
+	background-repeat: no-repeat;
+	background-attachment: inherit;
+}
+
+.updateicon:hover
+{
+	background-image: url(images/hovericon.png);
+}

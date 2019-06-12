@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<profile>
+  <section name="CONFIGSQL">
+    <entry name="Server">10.1.4.61\BD_PRODUCCION</entry>
+    <entry name="Database">CEPA_CONTENEDORES</entry>
+    <entry name="Library">dbmssocn (TCP/IP)</entry>
+    <entry name="Parameters"></entry>
+    <entry name="Username">contenedores.cepa</entry>
+    <entry name="Password">contenedores</entry>
+    <entry name="Windows">False</entry>
+  </section>
+  <section name="CONFIGSQL2">
+    <entry name="Server">10.1.4.61\BD_PRODUCCION</entry>
+    <entry name="Database">CEPA_CONTENEDORES</entry>
+    <entry name="Library">dbmssocn (TCP/IP)</entry>
+    <entry name="Parameters"></entry>
+    <entry name="Username">tracking.web</entry>
+    <entry name="Password">16$Tr@cking_@CC</entry>
+    <entry name="Windows">False</entry>
+  </section>
+  <section name="CONFIGSQL1">
+    <entry name="Server">10.1.4.61\BD_PRODUCCION</entry>
+    <!--<entry name="Server">ACA160602</entry>-->
+    <entry name="Database">CEPA_CONTRATISTAS</entry>
+    <entry name="Library">dbmssocn (TCP/IP)</entry>
+    <entry name="Parameters"></entry>
+    <entry name="Username">itr</entry>
+    <entry name="Password">2015itr</entry>
+    <entry name="Windows">False</entry>
+  </section>
+  <section name="CONFIGLINKED">
+    <entry name="Server">10.1.4.148\COSTOSACA</entry>
+    <!--<entry name="Server">ACA160602</entry>-->
+    <entry name="Database">CEPA_CONTENEDORES</entry>
+    <entry name="Library">dbmssocn (TCP/IP)</entry>
+    <entry name="Parameters"></entry>
+    <entry name="Username">contenedores.cepa</entry>
+    <entry name="Password">contenedores</entry>
+    <entry name="Windows">False</entry>
+  </section>
+  <section name="CONFIGSYBASE">
+    <entry name="Provider">Sybase.ASEOLEDBProvider.2</entry>
+    <entry name="ServerName">10.1.4.30</entry>
+    <entry name="ServerPortAddress">5000</entry>
+    <entry name="Database">CEPA_SADFI</entry>
+    <entry name="Username">s_operaciones</entry>
+    <entry name="Password">s_operaciones8023</entry>
+  </section>
+  <section name="CONFIGVFP">
+    <entry name="Provider">VFPOLEDB.1</entry>
+    <entry name="Data Source">\\10.1.4.44\container\dbf\contenedores.dbc</entry>
+  </section>
+  <section name="CONFIGEXCEL">
+    <entry name="Provider">Microsoft.ACE.OLEDB.12.0</entry>
+    <entry name="Extended">Excel 12.0 Xml</entry>
+    <entry name="HDR">YES</entry>
+    <entry name="IMEX">1</entry>
+    <entry name="TypeGuessRows">0</entry>
+    <entry name="ImportMixedTypes">Text</entry>
+  </section>
+  <section name="MAIL">
+    <entry name="smtpServer">mail.cepa.gob.sv</entry>
+    <entry name="fromMail">container.acajutla@cepa.gob.sv</entry>
+    <entry name="nameMail">Notificacion | Contenedores</entry>
+    <entry name="smtpPort">2552</entry>
+    <entry name="smtpUser">container.acajutla@cepa.gob.sv</entry>
+    <entry name="smtpPwd">container2019</entry>
+    <entry name="smtpSSL">False</entry>
+  </section>
+  <section name="MAIL2">
+    <entry name="smtpServer">smtp.gmail.com</entry>
+    <entry name="fromMail">cepa.contenedores@gmail.com</entry>
+    <entry name="nameMail">Notificacion | Contenedores</entry>
+    <entry name="smtpPort">587</entry>
+    <entry name="smtpUser">cepa.contenedores@gmail.com</entry>
+    <entry name="smtpPwd">puertoacajutla</entry>
+    <entry name="smtpSSL">True</entry>
+  </section>
+  <section name="FILES">
+    <entry name="Rpt">
+    </entry>
+  </section>
+</profile>

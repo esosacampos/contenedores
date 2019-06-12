@@ -1,0 +1,228 @@
+﻿/*body {
+    background: white;
+    font-size: .95em;
+    font-family: Segoe UI, "Helvetica Neue" , Arial, Tahoma, Lucida Grande, Sans-Serif;
+    margin: 0px;
+    padding: 0px;
+    color: #696969;
+}*/
+
+
+/*****************************************************
+            PAGINA DE INICIO
+*****************************************************/
+
+.wrap-shell
+{
+    width: 960px;
+    background-color:  #FFF;
+    margin: 0px auto 10px auto;
+    height: auto;
+}
+
+.floatLeft
+{
+    float: left;
+}
+
+.floatT {
+	float: left;
+    width: 72%;
+    padding: 20px 3% 0 0;				
+    min-height: 400px;
+    height: auto !important;
+    height: 400px;
+}
+
+
+#brandContent
+{
+    display: block;
+    width: 50%;
+    color: #FFF;
+    
+}
+    #brandContent h1 
+    {
+        font-weight: 100;
+        color: #FFF;
+        font-size: 45px;
+        line-height: 29px;
+        margin: 0px 0px 0px 0px;
+        padding: 0;
+    }
+    
+
+.loginCont
+{
+    margin-top: 45px;
+    float: left;
+    width: 100%;
+}
+
+.brandImg
+{
+    /*padding: 0;*/
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.brandText
+{
+    height: 120px;
+    width: 413px;
+    padding: 15px 31px 0px 31px;
+    background-color: #1584CE;  
+}
+
+    .brandText h1 
+    {
+        font-weight: 100;
+        color: #FFF;
+        font-size: 45px;
+        line-height: 29px;
+        margin: 0px 0px 0px 0px;
+        padding: 0;
+    }
+    .brandText p 
+        {
+            font-weight: 100;
+            font-size: 14px;
+            line-height: 16px;
+            margin: 12px 0px 18px 0px;
+            padding: 0;
+            font-family: Segoe UI, Arial, Helvetica, Sans-Serif;
+        }
+
+#signInTD
+{
+    x-width: 72%;
+    margin-left: 75pxpx;
+}
+
+.signInHeader
+{
+    margin-top: 15px;
+    float: left;
+    max-width: %;%;
+    margin-bottom: 30px;
+}
+
+.signInCont
+{
+    width: 320px;
+}
+
+.signInCont a
+{
+    color: #0072C6;
+    text-decoration: none;
+}
+
+.signInCont strong
+{
+    color: #0072C6;
+    font-weight: bold;
+}
+
+.signInCont a:hover
+{
+    text-decoration: underline;
+}
+/*
+input[type="text"], input[type="password"], input[type="email"], input[type="number"]
+{
+    width: 320px;
+    padding: 8px 6px 8px 12px;
+    border: 1px solid rgba(0, 0, 0, 0.27);
+    font-family: "Segoe UI", "Segoe UI Web Regular", "Helvetica Neue", "BBAlpha Sans", "S60 Sans", Arial, "sans-serif";
+    color: #212121;
+    margin-bottom: 10px;
+}
+*/
+
+
+#inputTxtandPassw
+{
+    padding: 8px 6px 8px 12px;
+    font-family: "Segoe UI", "Segoe UI Web Regular", "Helvetica Neue", "BBAlpha Sans", "S60 Sans", Arial, "sans-serif";
+    color: #212121;
+    margin-bottom: 10px;
+    }
+
+#inputTxtandPassw2
+{
+    padding: 8px 6px 8px 12px;
+    font-family: "Segoe UI", "Segoe UI Web Regular", "Helvetica Neue", "BBAlpha Sans", "S60 Sans", Arial, "sans-serif";
+    color: #212121;
+    margin-bottom: 10px;
+    }
+
+input[type="text"] {
+     width: 320px;
+    padding: 8px 6px 8px 12px;
+    border: 1px solid rgba(0, 0, 0, 0.27);
+    font-family: "Segoe UI", "Segoe UI Web Regular", "Helvetica Neue", "BBAlpha Sans", "S60 Sans", Arial, "sans-serif";
+    color: #212121;
+    margin-bottom: 10px;
+    height: 20px;
+}
+
+.LoginField
+{
+    float: left;
+    margin-bottom: 25px;
+}
+
+.LoginField input[type="submit"] 
+{
+    border: 1px solid #214e7e;
+        padding: 3px;
+        font-size: .95em;
+        color: #FFF;
+        width: 120px;
+        font-family: Segoe UI, "Helvetica Neue" , Arial, Tahoma, Lucida Grande, Sans-Serif;
+        background-color:#1584CE;
+    }
+    
+    .LoginField input[type="submit"]:hover
+{
+    border: 1px solid #89a6b1;
+    padding: 3px;
+    font-size: 0.95em;
+    color: #FFF;
+    width: 120px;
+    font-family: 'Segoe UI' , 'Helvetica Neue' , Arial, Tahoma, 'Lucida Grande' , Sans-Serif;
+    background-color: #89a6b1; /*#0094a7;*/
+}
+
+.pplaceholder
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 5;
+    width: 100%;
+}
+
+#index-footer
+{
+    float: left;
+    border-top: 1px solid #ccc;
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+    font-size: 0.8em;
+}
+
+
+#index-footer a
+{
+    color: #2a2a2a;
+    text-decoration: none;
+}
+
+
+
+/*/* /*forms   
+----------------------------------------------------------

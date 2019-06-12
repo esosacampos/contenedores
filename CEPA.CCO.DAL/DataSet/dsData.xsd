@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsData" targetNamespace="http://tempuri.org/dsData.xsd" xmlns:mstns="http://tempuri.org/dsData.xsd" xmlns="http://tempuri.org/dsData.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="ConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="ConnectionString (Settings)" PropertyReference="ApplicationSettings.CEPA.CCO.DAL.Properties.Settings.GlobalReference.Default.ConnectionString" Provider="System.Data.OleDb" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsData" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsData" msprop:Generator_UserDSName="dsData">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="CCO_DETA_BOOKING" msprop:Generator_TableClassName="CCO_DETA_BOOKINGDataTable" msprop:Generator_TableVarName="tableCCO_DETA_BOOKING" msprop:Generator_TablePropName="CCO_DETA_BOOKING" msprop:Generator_RowDeletingName="CCO_DETA_BOOKINGRowDeleting" msprop:Generator_UserTableName="CCO_DETA_BOOKING" msprop:Generator_RowChangingName="CCO_DETA_BOOKINGRowChanging" msprop:Generator_RowEvHandlerName="CCO_DETA_BOOKINGRowChangeEventHandler" msprop:Generator_RowDeletedName="CCO_DETA_BOOKINGRowDeleted" msprop:Generator_RowEvArgName="CCO_DETA_BOOKINGRowChangeEvent" msprop:Generator_RowChangedName="CCO_DETA_BOOKINGRowChanged" msprop:Generator_RowClassName="CCO_DETA_BOOKINGRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="shipment_name" msprop:Generator_ColumnVarNameInTable="columnshipment_name" msprop:Generator_ColumnPropNameInRow="shipment_name" msprop:Generator_ColumnPropNameInTable="shipment_nameColumn" msprop:Generator_UserColumnName="shipment_name">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="n_container" msprop:Generator_ColumnVarNameInTable="columnn_container" msprop:Generator_ColumnPropNameInRow="n_container" msprop:Generator_ColumnPropNameInTable="n_containerColumn" msprop:Generator_UserColumnName="n_container">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="11" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="c_tamaño" msprop:Generator_ColumnVarNameInTable="columnc_tamaño" msprop:Generator_ColumnPropNameInRow="c_tamaño" msprop:Generator_ColumnPropNameInTable="c_tamañoColumn" msprop:Generator_UserColumnName="c_tamaño">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="n_sello" msprop:Generator_ColumnVarNameInTable="columnn_sello" msprop:Generator_ColumnPropNameInRow="n_sello" msprop:Generator_ColumnPropNameInTable="n_selloColumn" msprop:Generator_UserColumnName="n_sello">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

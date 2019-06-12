@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A5ED2CA4-7376-4038-958E-19563EEB8502}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CEPA.CCO.UI.Web.Consulta</RootNamespace>
+    <AssemblyName>CEPA.CCO.UI.Web.Consulta</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.87.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.87.1\lib\net40\ClosedXML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bootstrap\csss\bootstrap-datetimepicker.css" />
+    <Content Include="bootstrap\csss\bootstrap-responsive.css" />
+    <Content Include="bootstrap\csss\bootstrap-select.css" />
+    <Content Include="bootstrap\csss\bootstrap-theme.css" />
+    <Content Include="bootstrap\csss\bootstrap-theme.min.css" />
+    <Content Include="bootstrap\csss\bootstrap.css" />
+    <Content Include="bootstrap\csss\bootstrap.fd.css" />
+    <Content Include="bootstrap\csss\bootstrap.min.css" />
+    <Content Include="bootstrap\csss\demo.css" />
+    <Content Include="bootstrap\csss\estiloLogin.css" />
+    <Content Include="bootstrap\csss\estilowrapper.css" />
+    <Content Include="bootstrap\csss\font-awesome.min.css" />
+    <Content Include="bootstrap\csss\fonts\footable.svg" />
+    <Content Include="bootstrap\csss\footable-demos.css" />
+    <Content Include="bootstrap\csss\footable.core.css" />
+    <Content Include="bootstrap\csss\footable.metro.css" />
+    <Content Include="bootstrap\csss\normalize.css" />
+    <Content Include="bootstrap\csss\slicknav.min.css" />
+    <Content Include="bootstrap\csss\todc-bootstrap.min.css" />
+    <Content Include="bootstrap\csss\vertical-responsive-menu.min.css" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="bootstrap\js\bootbox.min.js" />
+    <Content Include="bootstrap\js\bootstrap-datetimepicker.js" />
+    <Content Include="bootstrap\js\bootstrap-select.min.js" />
+    <Content Include="bootstrap\js\bootstrap.fd.js" />
+    <Content Include="bootstrap\js\bootstrap.js" />
+    <Content Include="bootstrap\js\bootstrap.min.js" />
+    <Content Include="bootstrap\js\footable.filter.js" />
+    <Content Include="bootstrap\js\footable.js" />
+    <Content Include="bootstrap\js\footable.paginate.js" />
+    <Content Include="bootstrap\js\html5shiv.min.js" />
+    <Content Include="bootstrap\js\ie10-viewport.js" />
+    <Content Include="bootstrap\js\jquery-1.11.2.min.js" />
+    <Content Include="bootstrap\js\jquery.placeholder.js" />
+    <Content Include="bootstrap\js\moment-with-locales.min.js" />
+    <Content Include="bootstrap\js\moment.min.js" />
+    <Content Include="bootstrap\js\npm.js" />
+    <Content Include="bootstrap\js\respond.min.js" />
+    <Content Include="bootstrap\js\slicknav.min.js" />
+    <Content Include="bootstrap\js\vertical-responsive-menu.min.js" />
+    <Content Include="css\demo.css" />
+    <Content Include="css\font-awesome.css" />
+    <Content Include="css\InicioStyle.css" />
+    <Content Include="css\noJS.css" />
+    <Content Include="css\reset.css" />
+    <Content Include="css\style.css" />
+    <Content Include="css\styleDD.css" />
+    <Content Include="DATA\xmlConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Default.aspx" />
+    <Content Include="font\fontawesome-webfont.svg" />
+    <Content Include="images\26270.png" />
+    <Content Include="images\bg-maincont.png" />
+    <Content Include="images\bg.jpg" />
+    <Content Include="images\bg.png" />
+    <Content Include="images\CEPA_LOGO.gif" />
+    <Content Include="images\flecha.png" />
+    <Content Include="images\IMG_8062.JPG" />
+    <Content Include="images\IMG_8062.png" />
+    <Content Include="images\nadie.png" />
+    <Content Include="images\overlay_bg.png" />
+    <Content Include="images\overlay_link.png" />
+    <Content Include="images\Photo0810.jpg" />
+    <Content Include="images\Photo0810p.png" />
+    <Content Include="images\response-free-website-template.png" />
+    <Content Include="images\side-1.jpg" />
+    <Content Include="Inicio.aspx" />
+    <Content Include="js\jquery.responsivetable.min.js" />
+    <Content Include="js\modernizr.custom.79639.js" />
+    <Content Include="js\script.js" />
+    <Content Include="js\scripts.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="wfConsultaDAN.aspx" />
+    <Content Include="wfInicioE.aspx" />
+    <Content Include="wfTracking.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Inicio.aspx.cs">
+      <DependentUpon>Inicio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inicio.aspx.designer.cs">
+      <DependentUpon>Inicio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LDAPRoleProvider.cs" />
+    <Compile Include="Principal.Master.cs">
+      <DependentUpon>Principal.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Principal.Master.designer.cs">
+      <DependentUpon>Principal.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="wfConsultaDAN.aspx.cs">
+      <DependentUpon>wfConsultaDAN.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfConsultaDAN.aspx.designer.cs">
+      <DependentUpon>wfConsultaDAN.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfInicioE.aspx.cs">
+      <DependentUpon>wfInicioE.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfInicioE.aspx.designer.cs">
+      <DependentUpon>wfInicioE.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfTracking.aspx.cs">
+      <DependentUpon>wfTracking.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfTracking.aspx.designer.cs">
+      <DependentUpon>wfTracking.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Principal.Master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bootstrap\csss\bootstrap-theme.css.map" />
+    <Content Include="bootstrap\csss\bootstrap.css.map" />
+    <Content Include="bootstrap\csss\fonts\footable.eot" />
+    <Content Include="bootstrap\csss\fonts\footable.ttf" />
+    <Content Include="bootstrap\csss\fonts\footable.woff" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="css\.DS_Store" />
+    <None Include="font\fontawesome-webfont.eot" />
+    <None Include="font\fontawesome-webfont.ttf" />
+    <None Include="font\fontawesome-webfont.woff" />
+    <None Include="images\.DS_Store" />
+    <None Include="js\.DS_Store" />
+    <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\Consulta.pubxml" />
+    <None Include="Properties\PublishProfiles\Consulta8.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CEPA.CCO.BL\CEPA.CCO.BL.csproj">
+      <Project>{15457455-AD5F-410C-ADED-BFB964451A02}</Project>
+      <Name>CEPA.CCO.BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CEPA.CCO.DAL\CEPA.CCO.DAL.csproj">
+      <Project>{2FFBBB22-7C92-4C98-B1A8-145DE0ECD864}</Project>
+      <Name>CEPA.CCO.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CEPA.CCO.Entidades\CEPA.CCO.Entidades.csproj">
+      <Project>{6C666892-7A38-44AD-A43C-9BE068CF8B37}</Project>
+      <Name>CEPA.CCO.Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CEPA.CCO.Linq\CEPA.CCO.Linq.csproj">
+      <Project>{24BE033E-8BD5-4A18-8274-C2B501B32571}</Project>
+      <Name>CEPA.CCO.Linq</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>39122</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,83 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Principal.master.cs"
+    Inherits="CEPA.CCO.UI.Web.Principal" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link href="CSS/CEPA_CSS.css" rel="Stylesheet" type="text/css" />
+    <link href="CSS/Meny.css" rel="stylesheet" type="text/css" />
+    <link type="text/css" rel="stylesheet" href="http://jquery-ui.googlecode.com/svn/tags/1.7/themes/redmond/jquery-ui.css" />
+    <link href="CSS/MultipleFileUpload.css" rel="stylesheet" type="text/css" />       
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" EnablePartialRendering="true" runat="server" AsyncPostBackTimeout="600">
+        <Scripts>                 
+        </Scripts>
+        
+    </asp:ScriptManager>
+    <div id="contenedor">
+        <div id="masthead">
+            <div class="logo">
+                <a href="#">CEPA - Contenedores</a></div>
+            <p>
+                <asp:LoginName ID="LoginName1" runat="server" 
+                    style="font-size: large; font-weight: 700" />
+                &nbsp&nbsp
+                <asp:LoginStatus ID="LoginStatus1" LogoutPageUrl="~/Inicio.aspx" LogoutAction="RedirectToLoginPage"
+                    runat="server" ForeColor="White" LoginText="Iniciar Sesión" 
+                    LogoutText="Cerrar Sesión" style="font-size: large" />
+            </p>
+        </div>
+        <div id="page_content">    
+            <div id="sidebar">
+                <div id='cssmenu'>
+                    <ul>
+                        <li><a href="/default.aspx"><span>Inicio</span></a></li>
+                        <li class='has-sub'><a href='#'><span>Navieras </span></a>
+                            <ul>
+                                <li><a href="wfPrincipalNavi.aspx"><span>Cargar Listado de Importación</span></a></li>                              
+                                <li class='last'><a href='wfConsultaCancel.aspx'><span>Cancelar Contenedores</span></a></li>
+                                <li class='last'><a href="wfCargarBooking.aspx"><span>Cargar Booking</span></a></li>
+                                <li class='last'><a href="wfConsultaBooking.aspx"><span>Consultar Booking</span></a></li>    
+                               <%-- <li class='last'><a href="wfDespacho.aspx"><span>Registrar Despacho de Contenedor</span></a></li>                           
+                                <li class='last'><a href="wfRegistrarSalida.aspx"><span>Registrar Exportación de Contenedor</span></a></li>--%>
+                            </ul>
+                        </li>
+                        <li class='has-sub'><a href='#'><span>Aduana </span></a>
+                            <ul>
+                                <%--<li><a href="wfConsultaBuques.aspx"><span>Autorizar Listado de Importación</span></a></li>--%> 
+                                <li><a href="#"><span>Autorizar Listado de Importación</span></a></li>                               
+                            </ul>
+                        </li>
+                        <li class='has-sub'><a href='#'><span>DAN</span></a>
+                            <ul>
+                                <li><a href="wfPrincipalDAN.aspx"><span>Retener Contenedores</span></a></li>   
+                                <li><a href="wfPrincipalDANL.aspx"><span>Liberar Contenedores</span></a></li>         
+                                <%--  <li><a href="#"><span>Retener Contenedores</span></a></li>   
+                                <li><a href="#"><span>Liberar Contenedores</span></a></li>      --%>                  
+                            </ul>
+                        </li>
+                        <li><a href='#'><span>Acerca De</span></a></li>
+                        <li class='last'><a href='#'><span>Contacto</span></a></li>
+                    </ul>
+                </div>
+           </div>
+        </div>
+    </div>
+         <div id="content" style="height: 580px">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+         </div>
+         <div id="footer">
+            <p>
+                © 2013 CEPA / Acajutla, El Salvador - Todos los derechos reservados.
+            </p>
+         </div>      
+
+    </form>
+</body>
+</html>

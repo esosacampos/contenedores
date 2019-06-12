@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://aduana.gob.sv/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="WSManifiestoCEPAService" targetNamespace="http://aduana.gob.sv/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="https://siduneaworld.aduana.gob.sv:443/WSManifestCEPA/cepaService?xsd=1" namespace="http://aduana.gob.sv/" />
+    </xsd:schema>
+  </types>
+  <message name="updateCepaData">
+    <part name="parameters" element="tns:updateCepaData" />
+  </message>
+  <message name="updateCepaDataResponse">
+    <part name="parameters" element="tns:updateCepaDataResponse" />
+  </message>
+  <message name="getContenedorData">
+    <part name="parameters" element="tns:getContenedorData" />
+  </message>
+  <message name="getContenedorDataResponse">
+    <part name="parameters" element="tns:getContenedorDataResponse" />
+  </message>
+  <message name="getDocumentoInfoDocumento">
+    <part name="parameters" element="tns:getDocumentoInfoDocumento" />
+  </message>
+  <message name="getDocumentoInfoDocumentoResponse">
+    <part name="parameters" element="tns:getDocumentoInfoDocumentoResponse" />
+  </message>
+  <message name="insertContenedorDAN">
+    <part name="parameters" element="tns:insertContenedorDAN" />
+  </message>
+  <message name="insertContenedorDANResponse">
+    <part name="parameters" element="tns:insertContenedorDANResponse" />
+  </message>
+  <message name="validaContenedorDecla">
+    <part name="parameters" element="tns:validaContenedorDecla" />
+  </message>
+  <message name="validaContenedorDeclaResponse">
+    <part name="parameters" element="tns:validaContenedorDeclaResponse" />
+  </message>
+  <message name="getCepaData">
+    <part name="parameters" element="tns:getCepaData" />
+  </message>
+  <message name="getCepaDataResponse">
+    <part name="parameters" element="tns:getCepaDataResponse" />
+  </message>
+  <message name="consumeWsCepa">
+    <part name="parameters" element="tns:consumeWsCepa" />
+  </message>
+  <message name="consumeWsCepaResponse">
+    <part name="parameters" element="tns:consumeWsCepaResponse" />
+  </message>
+  <portType name="WSManifiestoCEPA">
+    <operation name="updateCepaData">
+      <input wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/updateCepaDataRequest" message="tns:updateCepaData" />
+      <output wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/updateCepaDataResponse" message="tns:updateCepaDataResponse" />
+    </operation>
+    <operation name="getContenedorData">
+      <input wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/getContenedorDataRequest" message="tns:getContenedorData" />
+      <output wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/getContenedorDataResponse" message="tns:getContenedorDataResponse" />
+    </operation>
+    <operation name="getDocumentoInfoDocumento">
+      <input wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/getDocumentoInfoDocumentoRequest" message="tns:getDocumentoInfoDocumento" />
+      <output wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/getDocumentoInfoDocumentoResponse" message="tns:getDocumentoInfoDocumentoResponse" />
+    </operation>
+    <operation name="insertContenedorDAN">
+      <input wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/insertContenedorDANRequest" message="tns:insertContenedorDAN" />
+      <output wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/insertContenedorDANResponse" message="tns:insertContenedorDANResponse" />
+    </operation>
+    <operation name="validaContenedorDecla">
+      <input wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/validaContenedorDeclaRequest" message="tns:validaContenedorDecla" />
+      <output wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/validaContenedorDeclaResponse" message="tns:validaContenedorDeclaResponse" />
+    </operation>
+    <operation name="getCepaData">
+      <input wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/getCepaDataRequest" message="tns:getCepaData" />
+      <output wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/getCepaDataResponse" message="tns:getCepaDataResponse" />
+    </operation>
+    <operation name="consumeWsCepa">
+      <input wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/consumeWsCepaRequest" message="tns:consumeWsCepa" />
+      <output wsam:Action="http://aduana.gob.sv/WSManifiestoCEPA/consumeWsCepaResponse" message="tns:consumeWsCepaResponse" />
+    </operation>
+  </portType>
+  <binding name="WSManifiestoCEPAPortBinding" type="tns:WSManifiestoCEPA">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="updateCepaData">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="getContenedorData">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="getDocumentoInfoDocumento">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="insertContenedorDAN">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="validaContenedorDecla">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="getCepaData">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="consumeWsCepa">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="WSManifiestoCEPAService">
+    <port name="WSManifiestoCEPAPort" binding="tns:WSManifiestoCEPAPortBinding">
+      <soap:address location="https://siduneaworld.aduana.gob.sv:443/WSManifestCEPA/cepaService" />
+    </port>
+  </service>
+</definitions>

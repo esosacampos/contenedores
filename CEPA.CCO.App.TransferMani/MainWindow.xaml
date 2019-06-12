@@ -1,0 +1,22 @@
+﻿<Window x:Class="CEPA.CCO.App.TransferMani.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="393.333" Width="625" WindowStartupLocation="CenterScreen">
+    <Grid x:Name="frmTransfer" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" Margin="0,0,2,0" Loaded="FrmTransfer_Loaded">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="406*"/>
+            <ColumnDefinition Width="209*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="txtYear" HorizontalAlignment="Left" Height="42" Margin="212,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="321" TextAlignment="Center" FontSize="24" Grid.ColumnSpan="2"/>
+        <Label Content="Año&#xD;&#xA;Manifiesto&#xD;&#xA;" HorizontalAlignment="Left" Margin="76,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.324,0.082" FontSize="24" FontWeight="Bold" Width="130"/>
+        <Button x:Name="btnTransfer" Content="Transferir" HorizontalAlignment="Center" Margin="52,202,85,59" VerticalAlignment="Center" Width="478" Background="#FF5983DC" FontSize="24" FontWeight="Bold" Height="58" Click="btnTransfer_Click" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtMani" HorizontalAlignment="Left" Height="42" Margin="212,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="321" TextAlignment="Center" FontSize="24" Grid.ColumnSpan="2"/>
+        <Label Content="# Manifiesto&#xA;" HorizontalAlignment="Left" Margin="55,100,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.324,0.082" FontSize="24" FontWeight="Bold"/>
+        <CheckBox x:Name="cbSidunea" Content="CheckBox" HorizontalAlignment="Left" Height="16" Margin="205,170,0,0" VerticalAlignment="Top" Width="21" RenderTransformOrigin="-15.58,2.967"/>
+        <Label Content="Sidunea World&#xA;" HorizontalAlignment="Left" Margin="23,151,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.324,0.082" FontSize="24" FontWeight="Bold"/>
+        <CheckBox x:Name="cbActAll" Content="CheckBox" HorizontalAlignment="Left" Height="16" Margin="101,170,0,0" VerticalAlignment="Top" Width="21" RenderTransformOrigin="-15.58,2.967" Grid.Column="1"/>
+        <Label Content="ActualizarTodos" HorizontalAlignment="Left" Margin="313,151,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.324,0.082" FontSize="24" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="lblMensaje" Text="NOTA: Para actualizar un manifiesto indiar año y # de manifiesto indicando si es Sidunea World // Para actualizarlos todo el año solo colocar año e indicar Sidunea World" HorizontalAlignment="Left" Margin="10,303,0,18" RenderTransformOrigin="0.324,0.082" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2" Width="595" VerticalContentAlignment="Stretch" TextWrapping="WrapWithOverflow" IsEnabled="False" />
+
+    </Grid>
+</Window>

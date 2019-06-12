@@ -1,0 +1,34 @@
+﻿body {
+    background: url('../../CSS/Images/Photo0810.jpg') no-repeat fixed center;
+   -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+form,
+input,
+button {
+    margin: 10px;
+}
+
+#login {
+    background-color: rgba(0, 0, 0, 0.5);
+    margin-top: 100px;
+    border-radius: 10px;
+}
+#nebaris {
+    background-color: #000;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-family: helvetica;
+    margin-top: 300px;
+}
+#nebaris a {
+    color: rgb(178, 255, 178);
+    border: 0;
+}
+#nebaris a:hover {
+    color: white;
+    background-color: black;
+}

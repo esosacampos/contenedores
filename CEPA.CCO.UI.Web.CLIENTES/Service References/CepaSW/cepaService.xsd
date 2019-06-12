@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://aduana.gob.sv/" targetNamespace="http://aduana.gob.sv/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="consumeWsCepa" type="tns:consumeWsCepa" />
+  <xs:element name="consumeWsCepaResponse" type="tns:consumeWsCepaResponse" />
+  <xs:element name="getCepaData" type="tns:getCepaData" />
+  <xs:element name="getCepaDataResponse" type="tns:getCepaDataResponse" />
+  <xs:element name="getContenedorData" type="tns:getContenedorData" />
+  <xs:element name="getContenedorDataResponse" type="tns:getContenedorDataResponse" />
+  <xs:element name="getDocumentoInfoDocumento" type="tns:getDocumentoInfoDocumento" />
+  <xs:element name="getDocumentoInfoDocumentoResponse" type="tns:getDocumentoInfoDocumentoResponse" />
+  <xs:element name="insertContenedorDAN" type="tns:insertContenedorDAN" />
+  <xs:element name="insertContenedorDANResponse" type="tns:insertContenedorDANResponse" />
+  <xs:element name="updateCepaData" type="tns:updateCepaData" />
+  <xs:element name="updateCepaDataResponse" type="tns:updateCepaDataResponse" />
+  <xs:element name="validaContenedorDecla" type="tns:validaContenedorDecla" />
+  <xs:element name="validaContenedorDeclaResponse" type="tns:validaContenedorDeclaResponse" />
+  <xs:complexType name="insertContenedorDAN">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="xmlData" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insertContenedorDANResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateCepaData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="xmlData" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateCepaDataResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCepaData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="xmlData" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCepaDataResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="consumeWsCepa">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="xmlData" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="consumeWsCepaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getContenedorData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="xmlData" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getContenedorDataResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getDocumentoInfoDocumento">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="xmlData" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getDocumentoInfoDocumentoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="validaContenedorDecla">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="xmlData" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="validaContenedorDeclaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

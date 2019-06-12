@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="default.aspx" title="Inicio"  description="Pagina Principal">
+    <siteMapNode url="" title="Navieras"  description="Navieras">
+      <siteMapNode url="~/Navieras/wfPrincipalNavi.aspx" title="Buques Anunciados Importación"  description="" >
+        <siteMapNode url="~/Navieras/wfCargar.aspx" title="Cargar Listado Importación"  description="" />
+      </siteMapNode>
+      <siteMapNode url="~/Navieras/wfConsultaCancel.aspx" title="Cancelar Contenedores"  description="">
+        <siteMapNode url="~/Navieras/wfCancelarCon.aspx" title="Contenedores a Cancelar"  description=""/>
+      </siteMapNode>
+      <siteMapNode url="~/Navieras/wfConsultaCambio.aspx" title="Cambio De Condicion De Contenedores"  description="">
+        <siteMapNode url="~/Navieras/wfCambioTran.aspx" title="Cambiar Condicion"  description=""/>
+      </siteMapNode>
+      <siteMapNode url="wfCargarBookings.aspx" title="Cargar Listado Bookings"  description="" />
+    </siteMapNode>
+    <siteMapNode url="" title="DAN"  description="DAN">
+      <siteMapNode url="~/DAN/wfPrincipalDAN.aspx" title="Retener Contenedores"  description="">
+        <siteMapNode url="~/DAN/wfDetalleDAN.aspx" title="Detalle Retencion"  description="" />
+      </siteMapNode>
+      <siteMapNode url="~/DAN/wfDetalleDANL.aspx" title="Liberar Contenedores"  description="" />
+      <siteMapNode url="~/DAN/wfGenerarOficio.aspx" title="Generar Oficio"  description="" />
+      <siteMapNode url="~/DAN/wfTipoRevision.aspx" title="Tipo De Revision"  description="" />
+    </siteMapNode>
+    <siteMapNode url="" title="Facturacion"  description="Facturacion">
+      <siteMapNode url="wfValidaTarja.aspx" title="Autorizacion Manual De Despacho De Contenedor"  description="" />
+      <siteMapNode url="wfConsulExport.aspx" title="Consulta Contenedores De Exportación"  description="" />
+    </siteMapNode>
+    <siteMapNode url="" title="Consulta"  description="Consulta">
+      <siteMapNode url="wfBuquesTrans.aspx" title="Consulta Recepcion En Patio De Contenedores"  description="">
+        <siteMapNode url="wfConsultaTrans.aspx" title="Consulta Contenedores Transmitidos"  description=""/>
+      </siteMapNode>
+      <siteMapNode url="wfAlertaDAN.aspx" title="Alerta Contenedores Liberados"  description="" />
+      <siteMapNode url="wfConsulEstado.aspx" title="Consulta Estado Contenedor En ADUANA"  description="" />
+    </siteMapNode>
+    <siteMapNode url="" title="Reportes"  description="Reportes">
+      <siteMapNode url="wfTEUS.aspx" title="Reporte TEUS Por Naviera"  description="" />
+      <siteMapNode url="wfInformeTEUS.aspx" title="Reporte De Linea Y Contenedores"  description="" />
+    </siteMapNode>
+    <siteMapNode url="" title="Exportacion"  description="Exportacion">
+      <siteMapNode url="~/Navieras/wfExportacion.aspx" title="Cargar Listado Exportacion"  description="" />
+      <siteMapNode url="~/ADUANA/wfPrinciExport.aspx" title="Autorizar Listado Exportacion"  description="" />
+    </siteMapNode>
+    <siteMapNode url="" title="OIRSA"  description="OIRSA">
+      <siteMapNode url="~/wfOIRSA.aspx" title="Generacion De Listados"  description="" />
+      <siteMapNode url="~/wfModPaises.aspx" title="Paises"  description="" />
+    </siteMapNode>
+    <siteMapNode url="" title="ADUANA"  description="ADUANA">
+      <siteMapNode url="~/wfPrincipalDGA.aspx" title="Solicitud de Contenedores DGA"  description="">
+        <siteMapNode url="~/wfDetalleDGA.aspx" title="Contenedores Solicitados DGA"  description="" />
+      </siteMapNode>
+    </siteMapNode>
+    <siteMapNode url="" title="Analisis"  description="Analisis">
+      <siteMapNode url="~/wfConsulDecla.aspx" title="Declaraciones"  description="" />
+    </siteMapNode>
+    <siteMapNode url="wfTracking.aspx" title="Consulta Tracking"  description="" />
+    <siteMapNode url="wfConsultaDAN.aspx" title="Consultar Contenedores DAN"  description="" />
+    <siteMapNode url="wfDANEstadistica.aspx" title="Reporte Consolidado De Contenedores"  description="" />
+    <siteMapNode url="" title="UCC"  description="UCC">
+      <siteMapNode url="~/UCC/wfPrincipalUCC.aspx" title="Retener Contenedores UCC"  description="">
+        <siteMapNode url="~/UCC/wfDetalleUCC.aspx" title="Detalle Retencion UCC"  description="" />
+      </siteMapNode>      
+    </siteMapNode>
+  </siteMapNode>
+</siteMap>

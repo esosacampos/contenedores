@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="CEPA.CCO.UI.Web" Label="CEPA.CCO.UI.Web" Category="Proyecto" />
+    <Node Id="ClosedXML 0.87.1" Label="ClosedXML 0.87.1" Category="Paquete" />
+    <Node Id="DocumentFormat.OpenXml 2.5" Label="DocumentFormat.OpenXml 2.5" Category="Paquete" />
+    <Node Id="HtmlAgilityPack 1.5.1" Label="HtmlAgilityPack 1.5.1" Category="Paquete" />
+    <Node Id="iTextSharp 5.5.11" Label="iTextSharp 5.5.11" Category="Paquete" />
+    <Node Id="itextsharp.xmlworker 5.5.11" Label="itextsharp.xmlworker 5.5.11" Category="Paquete" />
+    <Node Id="Microsoft.Report.Viewer 10.0.0.0" Label="Microsoft.Report.Viewer 10.0.0.0" Category="Paquete" />
+    <Node Id="morelinq 2.6.0" Label="morelinq 2.6.0" Category="Paquete" />
+    <Node Id="Newtonsoft.Json 4.5.1" Label="Newtonsoft.Json 4.5.1" Category="Paquete" />
+    <Node Id="System.ValueTuple 4.3.1" Label="System.ValueTuple 4.3.1" Category="Paquete" />
+    <Node Id="CEPA.CCO.AduanaService" Label="CEPA.CCO.AduanaService" Category="Proyecto" />
+    <Node Id="DocumentFormat.OpenXml 2.5" Label="DocumentFormat.OpenXml 2.5" Category="Paquete" />
+    <Node Id="CEPA.CCO.UI.Web.CLIENTES" Label="CEPA.CCO.UI.Web.CLIENTES" Category="Proyecto" />
+    <Node Id="iTextSharp 5.5.11" Label="iTextSharp 5.5.11" Category="Paquete" />
+    <Node Id="itextsharp.xmlworker 5.5.11" Label="itextsharp.xmlworker 5.5.11" Category="Paquete" />
+    <Node Id="Newtonsoft.Json 10.0.3" Label="Newtonsoft.Json 10.0.3" Category="Paquete" />
+    <Node Id="CEPA.CCO.TareasProgram" Label="CEPA.CCO.TareasProgram" Category="Proyecto" />
+    <Node Id="morelinq 2.6.0" Label="morelinq 2.6.0" Category="Paquete" />
+    <Node Id="System.ValueTuple 4.3.1" Label="System.ValueTuple 4.3.1" Category="Paquete" />
+    <Node Id="CEPA.CCO.UI.Web.Consulta" Label="CEPA.CCO.UI.Web.Consulta" Category="Proyecto" />
+    <Node Id="ClosedXML 0.87.1" Label="ClosedXML 0.87.1" Category="Paquete" />
+    <Node Id="DocumentFormat.OpenXml 2.7.2" Label="DocumentFormat.OpenXml 2.7.2" Category="Paquete" />
+    <Node Id="CEPA.CCO.Linq" Label="CEPA.CCO.Linq" Category="Proyecto" />
+    <Node Id="Microsoft.Office.Interop.Excel 14.0.0.1" Label="Microsoft.Office.Interop.Excel 14.0.0.1" Category="Paquete" />
+    <Node Id="CEPA.CCO.DAL" Label="CEPA.CCO.DAL" Category="Proyecto" />
+    <Node Id="ClosedXML 0.87.1" Label="ClosedXML 0.87.1" Category="Paquete" />
+    <Node Id="DocumentFormat.OpenXml 2.7.2" Label="DocumentFormat.OpenXml 2.7.2" Category="Paquete" />
+    <Node Id="CEPA.CCO.Entidades" Label="CEPA.CCO.Entidades" Category="Proyecto" />
+    <Node Id="Newtonsoft.Json 4.5.1" Label="Newtonsoft.Json 4.5.1" Category="Paquete" />
+  </Nodes>
+  <Links>
+    <Link Source="ClosedXML 0.87.1" Target="DocumentFormat.OpenXml 2.5" Category="Dependencia de paquete" />
+    <Link Source="ClosedXML 0.87.1" Target="DocumentFormat.OpenXml 2.5" Category="Dependencia de paquete" />
+    <Link Source="itextsharp.xmlworker 5.5.11" Target="iTextSharp 5.5.11" Category="Dependencia de paquete" />
+    <Link Source="morelinq 2.6.0" Target="System.ValueTuple 4.3.1" Category="Dependencia de paquete" />
+    <Link Source="morelinq 2.6.0" Target="System.ValueTuple 4.3.1" Category="Dependencia de paquete" />
+    <Link Source="CEPA.CCO.UI.Web" Target="ClosedXML 0.87.1" Category="Paquete instalado" />
+    <Link Source="CEPA.CCO.UI.Web" Target="HtmlAgilityPack 1.5.1" Category="Paquete instalado" />
+    <Link Source="CEPA.CCO.UI.Web" Target="itextsharp.xmlworker 5.5.11" Category="Paquete instalado" />
+    <Link Source="CEPA.CCO.UI.Web" Target="Microsoft.Report.Viewer 10.0.0.0" Category="Paquete instalado" />
+    <Link Source="CEPA.CCO.UI.Web" Target="morelinq 2.6.0" Category="Paquete instalado" />
+    <Link Source="CEPA.CCO.UI.Web" Target="Newtonsoft.Json 4.5.1" Category="Paquete instalado" />
+    <Link Source="CEPA.CCO.AduanaService" Target="DocumentFormat.OpenXml 2.5" Category="Paquete instalado" />
+    <Link Source="itextsharp.xmlworker 5.5.11" Target="iTextSharp 5.5.11" Category="Dependencia de paquete" />
+    <Link Source="CEPA.CCO.UI.Web.CLIENTES" Target="itextsharp.xmlworker 5.5.11" Category="Paquete instalado" />
+    <Link Source="CEPA.CCO.UI.Web.CLIENTES" Target="Newtonsoft.Json 10.0.3" Category="Paquete instalado" />
+    <Link Source="morelinq 2.6.0" Target="System.ValueTuple 4.3.1" Category="Dependencia de paquete" />
+    <Link Source="morelinq 2.6.0" Target="System.ValueTuple 4.3.1" Category="Dependencia de paquete" />
+    <Link Source="CEPA.CCO.TareasProgram" Target="morelinq 2.6.0" Category="Paquete instalado" />
+    <Link Source="ClosedXML 0.87.1" Target="DocumentFormat.OpenXml 2.7.2" Category="Dependencia de paquete" />
+    <Link Source="ClosedXML 0.87.1" Target="DocumentFormat.OpenXml 2.7.2" Category="Dependencia de paquete" />
+    <Link Source="CEPA.CCO.UI.Web.Consulta" Target="ClosedXML 0.87.1" Category="Paquete instalado" />
+    <Link Source="CEPA.CCO.Linq" Target="Microsoft.Office.Interop.Excel 14.0.0.1" Category="Paquete instalado" />
+    <Link Source="ClosedXML 0.87.1" Target="DocumentFormat.OpenXml 2.7.2" Category="Dependencia de paquete" />
+    <Link Source="ClosedXML 0.87.1" Target="DocumentFormat.OpenXml 2.7.2" Category="Dependencia de paquete" />
+    <Link Source="CEPA.CCO.DAL" Target="ClosedXML 0.87.1" Category="Paquete instalado" />
+    <Link Source="CEPA.CCO.Entidades" Target="Newtonsoft.Json 4.5.1" Category="Paquete instalado" />
+  </Links>
+  <Categories>
+    <Category Id="Proyecto" />
+    <Category Id="Paquete" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Proyecto" ValueLabel="True">
+      <Condition Expression="HasCategory('Proyecto')" />
+      <Setter Property="Background" Value="Blue" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Dependencia de paquete" ValueLabel="True">
+      <Condition Expression="HasCategory('Dependencia de paquete')" />
+      <Setter Property="Background" Value="Yellow" />
+    </Style>
+  </Styles>
+</DirectedGraph>

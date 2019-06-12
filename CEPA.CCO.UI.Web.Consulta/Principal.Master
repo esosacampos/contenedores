@@ -1,0 +1,151 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Principal.master.cs"
+    Inherits="CEPA.Estilo.Principal" %>
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head runat="server">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <!--[if IE]><![endif]-->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="css/style.css" />
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <!--[if lt IE 7]>
+			<p class="chromeframe">Usted está utilizando un <strong>navegador</strong> obsoleto. Por favor <a href="http://browsehappy.com/">actualice su navegador</a> o <a href="http://www.google.com/chromeframe/?redirect=true">active Google Chrome Frame</a> para mejorar su experiencia.</p>
+		<![endif]-->
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" EnablePageMethods="True" runat="server">
+    </asp:ScriptManager> 
+            <div class="container darkbg clearfix">
+                <div id="headercont" class="clearfix">
+                    <div id="headerlogo">
+                        <h1>
+                    <a title="" href="" style="margin-bottom:10px;">CEPA - Contenedores</a><br />
+                    <a>Puerto de Acajutla</a>
+                    </h1>          
+                    </div>
+                    <div id="headerright">
+                        <p>
+                            <asp:LoginName ID="LoginName1" runat="server" Style="font-size: large; font-weight: 800" />
+                            &nbsp&nbsp
+                            <br />
+                            <asp:LoginStatus ID="LoginStatus1" LogoutPageUrl="~/wfInicioE.aspx" LogoutAction="RedirectToLoginPage"
+                                runat="server" ForeColor="White" LoginText="Iniciar Sesión" LogoutText="Cerrar Sesión"
+                                Style="font-size: large; font-weight: 700" OnLoggingOut="LoginStatus1_LoggingOut" />
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="container lightbluebg clearfix">
+                <div id="menucont" class="clearfix">
+                    <div class="menu">
+                    </div>
+                </div>
+            </div>
+            <div class="container clearfix">
+                <div id="maincont" class="clearfix">
+                    <div id="mainleft">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+                    <div id="mainright">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">                         
+                        </asp:ContentPlaceHolder>
+                        <div class="sidecont clearfix">
+                            <div class="sidesection clearfix">                            
+                                <div class="sidetop">
+                                    <asp:LinkButton ID="Button1" runat="server" CssClass="button" 
+                                onclick="Button1_Click">Inicio</asp:LinkButton>  
+                                    <asp:ContentPlaceHolder ID="ContentPlaceHolder7" runat="server">                                     
+                                    </asp:ContentPlaceHolder>
+                                </div>      
+                                <div class="sidetop">
+                                    <asp:LinkButton ID="LinkButton1" runat="server" CssClass="button" 
+                                        onclick="LinkButton1_Click">Consulta DAN</asp:LinkButton>      
+                                    <asp:ContentPlaceHolder ID="ContentPlaceHolder3" runat="server">                                     
+                                    </asp:ContentPlaceHolder>
+                                </div>
+                                <div class="sidebottom">
+                                    <%--<asp:LinkButton ID="LinkButton2" runat="server" CssClass="button" 
+                                        onclick="LinkButton2_Click">Consulta Tracking</asp:LinkButton>      --%>
+                                    <asp:ContentPlaceHolder ID="ContentPlaceHolder4" runat="server">                                        
+                                    </asp:ContentPlaceHolder>
+                                </div>
+                            </div>
+                            <div class="sidesection clearfix">
+                                <div class="sidetop">
+                                    <asp:ContentPlaceHolder ID="ContentPlaceHolder5" runat="server">
+                                    </asp:ContentPlaceHolder>
+                                </div>
+                                <div class="sidebottom">
+                                    <asp:ContentPlaceHolder ID="ContentPlaceHolder6" runat="server">
+                                    </asp:ContentPlaceHolder>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container clearfix">
+                <div id="footercont" class="clearfix">
+                    <p>
+                        © 2014 CEPA / Acajutla, El Salvador - Todos los derechos reservados. <a title="derby website design"
+                            href="http://www.derby-webdesign.co.uk/" rel="external">Seccion Informatica / Acajutla
+                            Soporte Técnico elsa.sosa@cepa.gob.sv</a></p>
+                </div>
+            </div>
+    </form>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>        window.jQuery || document.write('<script src="js/jquery.js"><\/script>')</script>
+    <script src="js/scripts.js"></script>
+    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="js/script.js"></script>    
+    <script src="js/jquery.responsivetable.min.js"></script>
+    
+    <asp:ContentPlaceHolder ID="scripts" runat="server">
+    </asp:ContentPlaceHolder>
+    
+        
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+        var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+        (function (d, t) {
+            var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            g.src = '//www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g, s)
+        } (document, 'script'));
+
+//        $(function () {
+//            $(':input').bind('change', function () { setConfirmUnload(true); }); // Prevent accidental navigation away
+//            $('.noprompt-required').click(function () { setConfirmUnload(false); });
+
+//            function setConfirmUnload(on) {
+//                window.onbeforeunload = (on) ? unloadMessage : null;
+//            }
+
+//            function unloadMessage() {
+//                return 'Ha introducido datos en esta página. Si sale de esta página sin guardar primero los datos, se perderán los cambios.';
+//            }
+
+//            window.onerror = UnspecifiedErrorHandler;
+//            function UnspecifiedErrorHandler() {
+//                return true;
+//            }
+//        });
+
+    </script>
+</body>
+</html>

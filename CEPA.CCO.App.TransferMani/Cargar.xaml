@@ -1,0 +1,17 @@
+﻿<Window x:Class="CEPA.CCO.App.TransferMani.Cargar"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Cargar" Height="337.234" Width="678.723">
+    <Grid>
+        <Button x:Name="btnCargar" Content="Cargar" HorizontalAlignment="Left" Height="55" Margin="157,241,0,0" VerticalAlignment="Top" Width="369" Click="btnCargar_Click" />
+        <TextBox Height="200"
+Width="500"
+TextWrapping="Wrap"
+AcceptsReturn="True"
+HorizontalScrollBarVisibility="Disabled"
+VerticalScrollBarVisibility="Auto" Margin="93,30,78,76" x:Name="txtBloque" TextChanged="TxtBloque_TextChanged">
+           
+        </TextBox>
+
+    </Grid>
+</Window>
