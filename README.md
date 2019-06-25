@@ -1,5 +1,5 @@
 # PROYECTO CEPA - CONTENEDORES
-CEPA - RRHH --> https://acajutlaweb.cepa.gob.sv:6500 --> http://contenedores.acajutlaweb.site 
+CEPA - Contenedores --> https://acajutlaweb.cepa.gob.sv:6500 --> http://contenedores.acajutlaweb.site 
 
 ## Introducción
 Este proyecto nace en el 2013, bajo la perspectiva que fuera una plataforma para que agencias navieras, pudieran cargar listados de contenedores de importación y generar estos listados bajos estructuras solicitadas por el departamento de operaciones de CEPA - Acajutla, para facilitar el proceso de descarga de contenedores y apuntando a agilizar el tiempo de respuesta.
