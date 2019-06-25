@@ -1602,6 +1602,7 @@ namespace CEPA.CCO.DAL
                 _command.Parameters.Add(new SqlParameter("@n_contenedor", _Encanaviera.n_contenedor));
                 _command.Parameters.Add(new SqlParameter("@c_naviera", _Encanaviera.c_naviera));
 
+                _command.Transaction = (SqlTransaction)tranValid;
 
                 try
                 {

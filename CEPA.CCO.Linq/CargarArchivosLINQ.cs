@@ -518,27 +518,27 @@ namespace CEPA.CCO.Linq
                         _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): DENEGADA Listado de Importación Buque: {0}, # de Viaje {1}, Manifiesto de Aduana # {2}", d_buque, cn_voyage, manif);
                     }
 
-                    //_correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-                    //List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                    _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                    List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
 
-                    //if (_listaCC == null)
-                    //{
-                    //    _listaCC = new List<Notificaciones>();
-                    //}
-
-                    //_correo.ListaCC = _listaCC;
-
-                    Notificaciones _notiCC = new Notificaciones
+                    if (_listaCC == null)
                     {
-                        IdNotificacion = -1,
-                        sMail = "elsa.sosa@cepa.gob.sv",
-                        dMail = "Elsa Sosa"
-                    };
+                        _listaCC = new List<Notificaciones>();
+                    }
 
-                    List<Notificaciones> _ccList = new List<Notificaciones>();
-                    _ccList.Add(_notiCC);
+                    _correo.ListaCC = _listaCC;
 
-                    _correo.ListaNoti = _ccList;
+                    //Notificaciones _notiCC = new Notificaciones
+                    //{
+                    //    IdNotificacion = -1,
+                    //    sMail = "elsa.sosa@cepa.gob.sv",
+                    //    dMail = "Elsa Sosa"
+                    //};
+
+                    //List<Notificaciones> _ccList = new List<Notificaciones>();
+                    //_ccList.Add(_notiCC);
+
+                    //_correo.ListaNoti = _ccList;
                     _correo.ListArch.Add(a);
                     _correo.Asunto = Html;
                     _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);

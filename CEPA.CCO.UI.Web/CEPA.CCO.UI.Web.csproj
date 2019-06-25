@@ -249,6 +249,7 @@
     <Content Include="DAN\wfPrincipalDAN.aspx" />
     <Content Include="DAN\wfTipoRevision.aspx" />
     <Content Include="Navieras\wfAlertEstadia.aspx" />
+    <Content Include="Navieras\wfAlertSalidas.aspx" />
     <Content Include="Navieras\wfCambioTran.aspx" />
     <Content Include="Navieras\wfCancelarCon.aspx" />
     <Content Include="Navieras\wfCargarBookings.aspx" />
@@ -568,6 +569,13 @@
     </Compile>
     <Compile Include="Navieras\wfAlertEstadia.aspx.designer.cs">
       <DependentUpon>wfAlertEstadia.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Navieras\wfAlertSalidas.aspx.cs">
+      <DependentUpon>wfAlertSalidas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Navieras\wfAlertSalidas.aspx.designer.cs">
+      <DependentUpon>wfAlertSalidas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Navieras\wfCambioTran.aspx.cs">
       <DependentUpon>wfCambioTran.aspx</DependentUpon>

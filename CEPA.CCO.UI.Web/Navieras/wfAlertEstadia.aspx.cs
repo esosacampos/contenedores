@@ -422,7 +422,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                     else
                     {
                         e.Row.Cells[3].Text = "/ / : : ";
-                    }                   
+                    }
                 }
 
                 HiddenField hCat = (HiddenField)e.Row.FindControl("hCat") as HiddenField;
@@ -442,9 +442,6 @@ namespace CEPA.CCO.UI.Web.Navieras
 
                 if (hCat.Value == "VACIO")
                 {
-                    //e.Row.Cells[4].Visible = true;
-                    //grvDatos.HeaderRow.Cells[4].Visible = true;
-                    //grvDatos.Columns[4].Visible = true;
 
                     Label lblFec = (Label)e.Row.FindControl("lblVacio") as Label;
 
@@ -456,7 +453,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                         }
                         else
                         {
-                            
+
                         }
 
                     }
@@ -479,9 +476,9 @@ namespace CEPA.CCO.UI.Web.Navieras
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                System.Web.UI.ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('Información no devuelve resultados verificar y volver a intentar : "+ ex.Message +"');", true);
+                System.Web.UI.ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('Información no devuelve resultados verificar y volver a intentar : " + ex.Message + "');", true);
                 return;
             }
         }

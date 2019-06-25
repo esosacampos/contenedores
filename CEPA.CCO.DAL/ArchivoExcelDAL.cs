@@ -301,6 +301,10 @@ namespace CEPA.CCO.DAL
                 _conn.Open();
 
                 int num_fila = 2;
+                string celdaClase = "";
+                string celda = "";
+                string celdaSello = "";
+                string celdaPel = "";
                 object Valor = null;
                 object Valor2 = null;
                 object Valor3 = null;
@@ -320,104 +324,130 @@ namespace CEPA.CCO.DAL
                 _command.CommandType = CommandType.Text;
 
                 OleDbDataReader _reader = _command.ExecuteReader();
-
-                if (_reader.HasRows)
+                try
                 {
-                    while (_reader.Read())
+                    if (_reader.HasRows)
                     {
-                        if (!_reader.IsDBNull(0))
+                        while (_reader.Read())
                         {
-
-                            if (!_reader.IsDBNull(18))
+                            if (!_reader.IsDBNull(0))
                             {
-                                if (ArchivoBookingDAL.isNumeric(_reader[18]))
-                                    Valor = Convert.ToString(_reader[18]);
-                                else
-                                    Valor = _reader[18];
+
+                                if (!_reader.IsDBNull(18))
+                                {
+                                    if (ArchivoBookingDAL.isNumeric(_reader[18]))
+                                        Valor = Convert.ToString(_reader[18]);
+                                    else
+                                        Valor = _reader[18];
+                                }
+
+                                if (!_reader.IsDBNull(19))
+                                {
+                                    if (ArchivoBookingDAL.isNumeric(_reader[19]))
+                                        Valor2 = Convert.ToString(_reader[19]);
+                                    else
+                                        Valor2 = _reader[19];
+                                }
+
+                                if (!_reader.IsDBNull(2))
+                                {
+                                    if (ArchivoBookingDAL.isNumeric(_reader[2]))
+                                        Valor3 = Convert.ToString(_reader[2]);
+                                    else
+                                        Valor3 = _reader[2];
+
+                                }
+
+                                if (!_reader.IsDBNull(3))
+                                {
+                                    if (ArchivoBookingDAL.isNumeric(_reader[3]))
+                                        Valor4 = Convert.ToString(_reader[3]);
+                                    else
+                                        Valor4 = _reader[3];
+
+                                }
+
+                                if (!_reader.IsDBNull(1))
+                                {
+                                    if (ArchivoBookingDAL.isNumeric(_reader[1].ToString().TrimEnd().TrimStart()))
+                                        Valor5 = Convert.ToString(_reader[1]);
+                                    else
+                                        Valor5 = _reader[1];
+                                }
+
+                                if (!_reader.IsDBNull(9))
+                                {
+                                    if (ArchivoBookingDAL.isNumeric(_reader[9]))
+                                        Valor9 = Convert.ToString(_reader[9]);
+                                    else
+                                        Valor9 = _reader[9];
+                                }
+
+                                ArchivoExcel _tmpArc = new ArchivoExcel
+                                {
+                                    num_fila = num_fila,
+                                    //num_manif = (int)_reader.GetDouble(0),                                    
+                                    c_imo = Convert.ToDouble(Valor5.ToString().TrimStart().TrimEnd()),
+                                    c_voyage = _reader.IsDBNull(2) ? "" : Valor3.ToString(),
+                                    celda = "D",
+                                    n_BL = _reader.IsDBNull(3) ? "" : Valor4.ToString(),
+                                    n_contenedor = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                                    c_tamaño = _reader.GetString(5),
+                                    v_peso = _reader.IsDBNull(6) ? 0.00 : (double)_reader.GetDouble(6),
+                                    b_estado = _reader.GetString(7),
+                                    s_consignatario = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
+                                    celdaSello = "J",
+                                    n_sello = _reader.IsDBNull(9) ? "" : Valor9.ToString(),
+                                    c_pais_destino = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
+                                    c_pais_origen = _reader.IsDBNull(11) ? "" : _reader.GetString(11),
+                                    c_detalle_pais = _reader.IsDBNull(12) ? "" : _reader.GetString(12),
+                                    s_comodity = _reader.IsDBNull(13) ? "" : _reader.GetString(13),
+                                    s_prodmanifestado = _reader.IsDBNull(14) ? "" : _reader.GetString(14),
+                                    v_tara = (double)_reader.GetDouble(15),
+                                    b_reef = _reader.IsDBNull(16) ? "" : _reader.GetString(16),
+                                    b_ret_dir = _reader.IsDBNull(17) ? "" : _reader.GetString(17),
+                                    celdaPel = "S",
+                                    c_imo_imd = _reader.IsDBNull(18) ? "" : Valor.ToString().Replace(",", "."),
+                                    celdaClase = "T",
+                                    c_un_number = _reader.IsDBNull(19) ? "" : Valor2.ToString(),
+                                    b_transhipment = _reader.IsDBNull(20) ? "" : _reader.GetString(20),
+                                    c_condicion = _reader.IsDBNull(21) ? "" : _reader.GetString(21),
+                                    b_shipper = _reader.IsDBNull(22) ? "" : _reader.GetString(22),
+                                    celdaTrans = "X",
+                                    b_transferencia = _reader.IsDBNull(23) ? "" : _reader.GetString(23).Trim().TrimEnd().TrimStart(),
+                                    celdaMan = "Y",
+                                    b_manejo = _reader.IsDBNull(24) ? "" : _reader.GetString(24).Trim().TrimEnd().TrimStart(),
+                                    celdaDes = "Z",
+                                    b_despacho = _reader.IsDBNull(25) ? "" : _reader.GetString(25).Trim().TrimEnd().TrimStart()
+                                };
+                                listaArch.Add(_tmpArc);
+                                num_fila = num_fila + 1;
+
+                                celda = _tmpArc.celda;
+                                celda = _tmpArc.celdaSello;
+                                celda = _tmpArc.celdaPel;
+                                celda = _tmpArc.celdaClase;
+                                celda = _tmpArc.celdaTrans;
+                                celda = _tmpArc.celdaMan;
+                                celda = _tmpArc.celdaDes;
+                                    
+
                             }
-
-                            if (!_reader.IsDBNull(19))
-                            {
-                                if (ArchivoBookingDAL.isNumeric(_reader[19]))
-                                    Valor2 = Convert.ToString(_reader[19]);
-                                else
-                                    Valor2 = _reader[19];
-                            }
-
-                            if (!_reader.IsDBNull(2))
-                            {
-                                if (ArchivoBookingDAL.isNumeric(_reader[2]))
-                                    Valor3 = Convert.ToString(_reader[2]);
-                                else
-                                    Valor3 = _reader[2];
-
-                            }
-
-                            if (!_reader.IsDBNull(3))
-                            {
-                                if (ArchivoBookingDAL.isNumeric(_reader[3]))
-                                    Valor4 = Convert.ToString(_reader[3]);
-                                else
-                                    Valor4 = _reader[3];
-
-                            }
-
-                            if (!_reader.IsDBNull(1))
-                            {
-                                if (ArchivoBookingDAL.isNumeric(_reader[1].ToString().TrimEnd().TrimStart()))
-                                    Valor5 = Convert.ToString(_reader[1]);
-                                else
-                                    Valor5 = _reader[1];
-                            }
-
-                            if (!_reader.IsDBNull(9))
-                            {
-                                if (ArchivoBookingDAL.isNumeric(_reader[9]))
-                                    Valor9 = Convert.ToString(_reader[9]);
-                                else
-                                    Valor9 = _reader[9];
-                            }
-
-                            ArchivoExcel _tmpArc = new ArchivoExcel
-                            {
-                                num_fila = num_fila,
-                                //num_manif = (int)_reader.GetDouble(0),
-                                c_imo = Convert.ToDouble(Valor5.ToString().TrimStart().TrimEnd()),
-                                c_voyage = _reader.IsDBNull(2) ? "" : Valor3.ToString(),
-                                n_BL = _reader.IsDBNull(3) ? "" : Valor4.ToString(),
-                                n_contenedor = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
-                                c_tamaño = _reader.GetString(5),
-                                v_peso = _reader.IsDBNull(6) ? 0.00 : (double)_reader.GetDouble(6),
-                                b_estado = _reader.GetString(7),
-                                s_consignatario = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
-                                n_sello = _reader.IsDBNull(9) ? "" : Valor9.ToString(),
-                                c_pais_destino = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
-                                c_pais_origen = _reader.IsDBNull(11) ? "" : _reader.GetString(11),
-                                c_detalle_pais = _reader.IsDBNull(12) ? "" : _reader.GetString(12),
-                                s_comodity = _reader.IsDBNull(13) ? "" : _reader.GetString(13),
-                                s_prodmanifestado = _reader.IsDBNull(14) ? "" : _reader.GetString(14),
-                                v_tara = (double)_reader.GetDouble(15),
-                                b_reef = _reader.IsDBNull(16) ? "" : _reader.GetString(16),
-                                b_ret_dir = _reader.IsDBNull(17) ? "" : _reader.GetString(17),
-                                c_imo_imd = _reader.IsDBNull(18) ? "" : Valor.ToString().Replace(",", "."),
-                                c_un_number = _reader.IsDBNull(19) ? "" : Valor2.ToString(),
-                                b_transhipment = _reader.IsDBNull(20) ? "" : _reader.GetString(20),
-                                c_condicion = _reader.IsDBNull(21) ? "" : _reader.GetString(21),
-                                b_shipper = _reader.IsDBNull(22) ? "" : _reader.GetString(22),
-                                b_transferencia = _reader.IsDBNull(23) ? "" : _reader.GetString(23).Trim().TrimEnd().TrimStart(),
-                                b_manejo = _reader.IsDBNull(24) ? "" : _reader.GetString(24).Trim().TrimEnd().TrimStart(),
-                                b_despacho = _reader.IsDBNull(25) ? "" : _reader.GetString(25).Trim().TrimEnd().TrimStart()
-                            };
-                            listaArch.Add(_tmpArc);
-                            num_fila = num_fila + 1;
+                            else
+                                break;
                         }
-                        else
-                            break;
                     }
                 }
-
-                _reader.Close();
-                _conn.Close();
+                catch(Exception ex)
+                {
+                    throw new Exception(ex.Message + "Celda: " + celda + num_fila.ToString());
+                }
+                finally
+                {
+                    _reader.Close();
+                    _conn.Close();
+                }
+              
                 return listaArch;
             }
         }

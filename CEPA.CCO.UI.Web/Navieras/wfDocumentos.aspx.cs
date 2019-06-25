@@ -59,6 +59,10 @@ namespace CEPA.CCO.UI.Web.Navieras
           
             string c_factura = txtBuscar.Text;
             string c_cliente = Session["c_naviera"].ToString();
+
+            if (c_cliente == "1541")
+                c_cliente = "1515";
+
             int validar = EncaBuqueDAL.getDocValid(DBComun.Estado.verdadero, c_factura, c_cliente);
             
             if (validar > 0)
