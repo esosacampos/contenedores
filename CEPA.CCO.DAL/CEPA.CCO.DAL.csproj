@@ -118,6 +118,7 @@
     </Compile>
     <Compile Include="ResulNavieraDAL.cs" />
     <Compile Include="ResultadoValidacionDAL.cs" />
+    <Compile Include="SqlWhereIn.cs" />
     <Compile Include="TEUSAnaDAL.cs" />
     <Compile Include="TipoSolicitudDAL.cs" />
     <Compile Include="TrasnferXMLDAL.cs" />

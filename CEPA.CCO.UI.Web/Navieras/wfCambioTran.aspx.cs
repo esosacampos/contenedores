@@ -10,6 +10,10 @@ using CEPA.CCO.DAL;
 using System.Data.SqlClient;
 using CEPA.CCO.Linq;
 using System.Threading;
+using Newtonsoft.Json;
+using System.Net;
+using System.IO;
+using System.Data;
 
 namespace CEPA.CCO.UI.Web.Navieras
 {
@@ -91,7 +95,47 @@ namespace CEPA.CCO.UI.Web.Navieras
 
             }
         }
+        public static string getRetDir(int pIdDeta, int pTipo)
+        {
+            string _contenedores = "";
+            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            Procedure proceso = new Procedure
+            {
+                NBase = "CONTENEDORES",
+                Procedimiento = "Sqlretdir", // "contenedor_exp"; //"Sqlentllenos"; //contenedor_exp('NYKU3806160') //"lstsalidascarga";// ('NYKU3806160')
+                Parametros = new List<Parametros>()
+            };
+            proceso.Parametros.Add(new Parametros { nombre = "_IdDeta", valor = pIdDeta.ToString() });
+            proceso.Parametros.Add(new Parametros { nombre = "_pTipo", valor = pTipo.ToString() });
+            
+            string inputJson = JsonConvert.SerializeObject(proceso);
+            apiUrl = apiUrl + inputJson;
+            _contenedores = Conectar(_contenedores, apiUrl);
+            return _contenedores;
+        }
 
+        private static string Conectar(string _contenedores, string apiUrl)
+        {
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(apiUrl);
+            httpWebRequest.Method = WebRequestMethods.Http.Get;
+            httpWebRequest.Accept = "application/json; charset=utf-8";
+            string file = string.Empty;
+            var response = (HttpWebResponse)httpWebRequest.GetResponse();
+            //string idx = "{ "DBase":"CONTENEDORES","Servidor":null,"Procedimiento":"Sqlentllenos","Consulta":true,"Parametros":[{"nombre":"_dia","valor":"15-05-2019"}]}";
+            using (var sr = new StreamReader(response.GetResponseStream()))
+            {
+                file = sr.ReadToEnd();
+                DataTable tabla = JsonConvert.DeserializeObject<DataTable>(file) as DataTable;
+                if (tabla.Rows.Count > 0)
+                {
+                    if (!tabla.Rows[0][0].ToString().StartsWith("ERROR"))
+                    {
+                        _contenedores = tabla.Rows[0][0].ToString();
+                    }
+                }
+            }
+            return _contenedores;
+        }
         protected void btnCargar_Click(object sender, EventArgs e)
         {
             CargarArchivosLINQ _cargar = new CargarArchivosLINQ();
@@ -147,7 +191,18 @@ namespace CEPA.CCO.UI.Web.Navieras
                         
                                 
                         int _resultado = Convert.ToInt32(DetaNavieraDAL.ActualizarCambiosId(DBComun.Estado.verdadero, item.IdDeta, item.s_observaciones, User.Identity.Name, bc_cambio, dc, da, item.c_tamaño, item.b_reef));
-                        
+
+                        int pTipo = 0;
+                        if (bc_cambio == "")
+                        {
+                            pTipo = 2;
+                        }
+                        else
+                        {
+                            pTipo = 1;
+                        }
+
+                        string _reader1 = getRetDir(item.IdDeta, pTipo);
 
                         if (_resultado > 0)
                         {

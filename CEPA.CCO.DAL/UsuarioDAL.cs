@@ -249,6 +249,46 @@ namespace CEPA.CCO.DAL
 
             }
         }
+
+        public static string ActChagePass(string c_usuario, string c_naviera)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                SqlCommand _command = new SqlCommand("PA_ACT_ChangePass", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_usuario", c_usuario));                
+                _command.Parameters.Add(new SqlParameter("@c_navieras", c_naviera));
+                
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
+
+        public static string ValidChagePass(string c_usuario, string c_naviera)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                SqlCommand _command = new SqlCommand("PA_VALID_CHANGE", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_usuario", c_usuario));
+                _command.Parameters.Add(new SqlParameter("@c_naviera", c_naviera));
+
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
     }
 
     public class TipoRevisionesDAL

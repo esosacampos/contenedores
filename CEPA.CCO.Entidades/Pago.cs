@@ -13,8 +13,10 @@ namespace CEPA.CCO.Entidades
         public string ValDespacho { get; set; }
         public string ValManejo { get; set; }
         public string ValAlmacenaje { get; set; }
+
         public string b_dan { get; set; }
-        
+        public string tipoReten { get; set; }
+
 
         public string style_va  { get; set; }
         public string style_transfer{ get; set; }

@@ -145,6 +145,39 @@
             border-radius: 10px;
         }
 
+        .badgeR {
+            display: inline-block;
+            min-width: 10px;
+            padding: 3px 7px;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            background-color: #C60000;
+            border-radius: 10px;
+        }
+
+        .badgeRP {
+            display: inline-block;
+            min-width: 10px;
+            padding: 3px 6px;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            background-color: #AB0000;
+            border-radius: 10px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+
         .badgeV {
             display: inline-block;
             min-width: 10px;
@@ -176,8 +209,9 @@
             right: -186px;
             box-shadow: grey 0px 0px 5px;
         }
-        div.checkbox.checkbox-primary.checkbox-inline span label{
-            font-weight:bold;
+
+        div.checkbox.checkbox-primary.checkbox-inline span label {
+            font-weight: bold;
         }
         /*table#grvTracking tr td:nth-child(7), table#_grvTracking tr th:nth-child(7) {
             display: none;
@@ -297,7 +331,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="checkbox checkbox-primary checkbox-inline">
-                                            <asp:CheckBox runat="server" ID="radio3" Text="Sidunea World" style="font-weight:bold;"/>                                            
+                                            <asp:CheckBox runat="server" ID="radio3" Text="Sidunea World" Style="font-weight: bold;" />
                                         </div>
                                     </div>
                                 </div>
@@ -332,7 +366,6 @@
                                         <asp:Button ID="btnBuscar" runat="server" CssClass="btn btn-primary" Text="Consultar" OnClick="btnBuscar_Click" Style="display: none;" />
                                         <asp:Button ID="btnClrear" runat="server" CssClass="btn btn-success" Text="Limpiar" />
                                         <input type="button" id="exportpdf" value="Imprimir" class="btn btn-info">
-                                        
                                     </div>
                                 </div>
                             </div>
@@ -414,7 +447,14 @@
                                                                                         <asp:BoundField DataField="f_solic_ingreso" HeaderText="Asignación de Turno para Cargar en Patio CEPA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_auto_patio" HeaderText="Orden para Cargar en Patio CEPA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_puerta1" HeaderText="Salida del Transporte del Puerto" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
-                                                                                        <asp:BoundField DataField="ubicacion" HeaderText="Ubicacion en Patio CEPA" ReadOnly="True" HeaderStyle-Font-Bold="true"></asp:BoundField>
+                                                                                        <asp:TemplateField HeaderStyle-Font-Bold="true">
+                                                                                            <HeaderTemplate>
+                                                                                                <asp:Label Text="Ubicacion en Patio" ID="lblText" runat="server"></asp:Label>
+                                                                                            </HeaderTemplate>
+                                                                                            <ItemTemplate>
+                                                                                                <asp:Label Text="" ID="lblUbica" runat="server"></asp:Label>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
                                                                                         <asp:BoundField DataField="s_comentarios" HeaderText="Observaciones al Contenedor" ReadOnly="True" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:TemplateField HeaderStyle-Font-Bold="true">
                                                                                             <HeaderTemplate>
@@ -486,8 +526,8 @@
                                                     </asp:GridView>
                                                 </ContentTemplate>
                                                 <Triggers>
-                                                     <asp:AsyncPostBackTrigger ControlID="btnBuscar" EventName="Click" />
-                                                     <asp:PostBackTrigger ControlID="btnClrear" />
+                                                    <asp:AsyncPostBackTrigger ControlID="btnBuscar" EventName="Click" />
+                                                    <asp:PostBackTrigger ControlID="btnClrear" />
                                                 </Triggers>
                                             </asp:UpdatePanel>
                                         </div>
@@ -516,7 +556,7 @@
                     Para mayor información contactar: Gerente Portuario <a href="#">Roberto de Jesús Mendoza - 7070-8013 - roberto.mendoza@cepa.gob.sv</a> / Jefe Análisis de Gestión <a href="#">Omar Ivan Castillo - 7070-8243 - omar.castillo@cepa.gob.sv</a>
                 </p>
                 <p class="text-justify" style="font-size: 11px;">
-                    Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 22 de Marzo de 2019
+                    Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 15 de Julio de 2019
                 </p>
             </div>
         </footer>
@@ -582,7 +622,7 @@
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom: 5px;">
-                                <h4 class="modal-title" style="margin-bottom: 5px;">¿Se encuentra solvente con PNC-DAN?</h4>
+                                <h4 class="modal-title" style="margin-bottom: 5px;">¿Se encuentra solvente con PNC-DAN o UCC?</h4>
                                 <span id="MensajeModal" style="font-weight: bold; padding: 4px; line-height: 1.5em;"></span>
                             </div>
                             <div class="form-group" style="margin-bottom: 5px;">
@@ -812,14 +852,15 @@
                                         + '<th>Servicio</th>'
                                         + '<th>Detalle</th>'
                                         + '<th>Naviero</th>'
-                                        + '<th>Usuario</th>');
+                                        + '<th>Usuario</th>'
+                                        + '<th>Pendiente</th>');
 
                                     $("#myTableModal").append('<tbody>');
 
-                                    $("#myTableModal").append('<tr><td><img id="muelle" src="' + pagos[0].style_descripcion + '"/></td><td class="descri">' + pagos[0].descripcion + '</td><td style="text-align: left;">' + pagos[0].detalle + '</td><td>' + currencyFormat(pagos[0].style_naviero) + '</td><td>' + currencyFormat(pagos[0].style_cliente) + '</td></tr>'
-                                        + '<tr><td><img id="muelle" src="' + pagos[1].style_descripcion + '"/></td><td class="descri">' + pagos[1].descripcion + '</td><td style="text-align: left;">' + pagos[1].detalle + '</td><td>' + currencyFormat(pagos[1].style_naviero) + '</td><td>' + currencyFormat(pagos[1].style_cliente) + '</td></tr>'
-                                        + '<tr><td><img id="muelle" src="' + pagos[2].style_descripcion + '"/></td><td class="descri">' + pagos[2].descripcion + '</td><td style="text-align: left;">' + pagos[2].detalle + '</td><td>' + currencyFormat(pagos[2].style_naviero) + '</td><td>' + currencyFormat(pagos[2].style_cliente) + '</td></tr>'
-                                        + '<tr><td><img id="muelle" src="' + pagos[3].style_descripcion + '"/></td><td class="descri">' + pagos[3].descripcion + '</td><td style="text-align: left;">' + pagos[3].detalle + '</td><td>' + currencyFormat(pagos[3].style_naviero) + '</td><td>' + currencyFormat(pagos[3].style_cliente) + '</td></tr>');
+                                    $("#myTableModal").append('<tr><td><img id="muelle" src="' + pagos[0].style_descripcion + '"/></td><td class="descri">' + pagos[0].descripcion + '</td><td style="text-align: left;">' + pagos[0].detalle + '</td><td>' + currencyFormat(pagos[0].style_naviero) + '</td><td>' + currencyFormat(pagos[0].style_cliente) + '</td><td>' + currencyFormat(pagos[0].style_pendiente) + '</td></tr>'
+                                        + '<tr><td><img id="muelle" src="' + pagos[1].style_descripcion + '"/></td><td class="descri">' + pagos[1].descripcion + '</td><td style="text-align: left;">' + pagos[1].detalle + '</td><td>' + currencyFormat(pagos[1].style_naviero) + '</td><td>' + currencyFormat(pagos[1].style_cliente) + '</td><td>' + currencyFormat(pagos[1].style_pendiente) + '</td></tr>'
+                                        + '<tr><td><img id="muelle" src="' + pagos[2].style_descripcion + '"/></td><td class="descri">' + pagos[2].descripcion + '</td><td style="text-align: left;">' + pagos[2].detalle + '</td><td>' + currencyFormat(pagos[2].style_naviero) + '</td><td>' + currencyFormat(pagos[2].style_cliente) + '</td><td>' + currencyFormat(pagos[2].style_pendiente) + '</td></tr>'
+                                        + '<tr><td><img id="muelle" src="' + pagos[3].style_descripcion + '"/></td><td class="descri">' + pagos[3].descripcion + '</td><td style="text-align: left;">' + pagos[3].detalle + '</td><td>' + currencyFormat(pagos[3].style_naviero) + '</td><td>' + currencyFormat(pagos[3].style_cliente) + '</td><td>' + currencyFormat(pagos[3].style_pendiente) + '</td></tr>');
 
 
                                     $('#to_Tarjas').text(con_tarjas);
@@ -833,11 +874,16 @@
                                     var ivaCal1 = 0;
                                     var totalCal1 = 0;
 
+                                    var sumaPen = 0;
+                                    var ivaCalPen = 0;
+                                    var totalCalPen = 0;
+
 
 
                                     for (var i = 0; i < pagos.length; i++) {
                                         suma += parseFloat(pagos[i].style_naviero);
                                         suma1 += parseFloat(pagos[i].style_cliente);
+                                        sumaPen += parseFloat(pagos[i].style_pendiente);
                                     }
 
                                     ivaCal = (suma * 0.13).toFixed(2);
@@ -846,6 +892,9 @@
                                     ivaCal1 = (suma1 * 0.13).toFixed(2);
                                     totalCal1 = (parseFloat(suma1) + parseFloat(ivaCal1)).toFixed(2);
 
+                                    ivaCalPen = (sumaPen * 0.13).toFixed(2);
+                                    totalCalPen = (parseFloat(sumaPen) + parseFloat(ivaCalPen)).toFixed(2);
+
 
                                     //<p id="subTotal1"></p>
 
@@ -853,11 +902,11 @@
                                     $("#myTableModal").append('<tfoot>');
                                     $("#myTableModal").append('<tr><th></th><th></th>'
                                         + '<th style="text-align: right;">Subtotal</th>'
-                                        + '<th class="descri"><span class="badge"><p id="subTotal"></p></span></th><th class="descri"><span class="badge"><p id="subTotal1"></p></span></th></tr>');
+                                        + '<th class="descri"><span class="badge"><p id="subTotal"></p></span></th><th class="descri"><span class="badge"><p id="subTotal1"></p></span></th><th class="descri"><span class="badgeR"><p id="subTotalP"></p></span></th></tr>');
                                     $("#myTableModal").append('<tr><th></th><th></th><th style="text-align: right;">IVA</th>'
-                                        + '<th class="descri"><span class="badge"><p id="iva"></p></span></th><th class="descri"><span class="badge"><p id="iva1"></p></span></th></tr>');
+                                        + '<th class="descri"><span class="badge"><p id="iva"></p></span></th><th class="descri"><span class="badge"><p id="iva1"></p></span></th><th class="descri"><span class="badgeR"><p id="ivaP"></p></span></th></tr>');
                                     $("#myTableModal").append('<tr><th></th><th></th><th style="text-align: right;">Total</th>'
-                                        + '<th class="descri"><span class="badge"><p id="total"></p></span></th><th class="descri"><span class="badge"><p id="total1"></p></span></th></tr>');
+                                        + '<th class="descri"><span class="badge"><p id="total"></p></span></th><th class="descri"><span class="badge"><p id="total1"></p></span></th><th class="descri"><span class="badgeR"><p id="totalP"></p></span></th></tr>');
 
                                     $("#myTableModal").append('</tfoot>');
 
@@ -869,6 +918,10 @@
                                     $('#subTotal1').text(suma1.toFixed(2));
                                     $('#iva1').text(ivaCal1);
                                     $('#total1').text(totalCal1);
+
+                                    $('#subTotalP').text(sumaPen.toFixed(2));
+                                    $('#ivaP').text(ivaCalPen);
+                                    $('#totalP').text(totalCalPen);
 
                                     for (var b = 0; b < pagos.length; b++) {
                                         $("#MensajeModal").text(pagos[b].b_danc);
@@ -890,6 +943,7 @@
                                         $("#f_proxima").text(frp);
 
                                         var valDate = compaDate();
+
                                         if (valDate) {
                                             $("#f_leyenda").text("Ultima fecha libre de almacenaje fue:");
                                             if ($('#f_proxima').hasClass('label-warning') || $('#f_proxima').hasClass('label-danger')) {
@@ -919,7 +973,7 @@
                                         minDate: moment()
                                     });
 
-                                   
+
                                     $("#hTarja").val(tarja);
                                     $("#hContenedor").val(contenedor);
                                     $("#hLlegada").val(c_llegada);
@@ -951,9 +1005,6 @@
                                         $("#btnDetalle").show();
                                     else
                                         $("#btnDetalle").hide();
-
-
-
                                 }
 
 
@@ -971,8 +1022,6 @@
                                 bootbox.alert(pagos);
 
                             }
-
-
                         },
                         failure: function (response) {
                             bootbox.alert(response.d);
@@ -1014,7 +1063,7 @@
                 var date = new Date(tt[1] + '/' + tt[0] + '/' + tt[2]);
                 var newdate = new Date(date);
 
-                newdate.setDate((newdate.getDate() + 5) - 1);
+                newdate.setDate(newdate.getDate() + 4);
 
 
                 var dd = newdate.getDate();
@@ -1092,15 +1141,18 @@
                                         + '<th>Servicio</th>'
                                         + '<th>Detalle</th>'
                                         + '<th>Naviero</th>'
-                                        + '<th>Usuario</th>');
+                                        + '<th>Usuario</th>'
+                                        + '<th>Pendiente</th>');
 
                                     $("#myTableModal").append('<tbody>');
 
-                                    $("#myTableModal").append('<tr><td><img id="muelle" src="' + pagos[0].style_descripcion + '"/></td><td class="descri">' + pagos[0].descripcion + '</td><td style="text-align: left;">' + pagos[0].detalle + '</td><td>' + currencyFormat(pagos[0].style_naviero) + '</td><td>' + currencyFormat(pagos[0].style_cliente) + '</td></tr>'
-                                        + '<tr><td><img id="muelle" src="' + pagos[1].style_descripcion + '"/></td><td class="descri">' + pagos[1].descripcion + '</td><td style="text-align: left;">' + pagos[1].detalle + '</td><td>' + currencyFormat(pagos[1].style_naviero) + '</td><td>' + currencyFormat(pagos[1].style_cliente) + '</td></tr>'
-                                        + '<tr><td><img id="muelle" src="' + pagos[2].style_descripcion + '"/></td><td class="descri">' + pagos[2].descripcion + '</td><td style="text-align: left;">' + pagos[2].detalle + '</td><td>' + currencyFormat(pagos[2].style_naviero) + '</td><td>' + currencyFormat(pagos[2].style_cliente) + '</td></tr>'
-                                        + '<tr><td><img id="muelle" src="' + pagos[3].style_descripcion + '"/></td><td class="descri">' + pagos[3].descripcion + '</td><td style="text-align: left;">' + pagos[3].detalle + '</td><td>' + currencyFormat(pagos[3].style_naviero) + '</td><td>' + currencyFormat(pagos[3].style_cliente) + '</td></tr>');
+                                    $("#myTableModal").append('<tr><td><img id="muelle" src="' + pagos[0].style_descripcion + '"/></td><td class="descri">' + pagos[0].descripcion + '</td><td style="text-align: left;">' + pagos[0].detalle + '</td><td>' + currencyFormat(pagos[0].style_naviero) + '</td><td>' + currencyFormat(pagos[0].style_cliente) + '</td><td>' + currencyFormat(pagos[0].style_pendiente) + '</td></tr>'
+                                        + '<tr><td><img id="muelle" src="' + pagos[1].style_descripcion + '"/></td><td class="descri">' + pagos[1].descripcion + '</td><td style="text-align: left;">' + pagos[1].detalle + '</td><td>' + currencyFormat(pagos[1].style_naviero) + '</td><td>' + currencyFormat(pagos[1].style_cliente) + '</td><td>' + currencyFormat(pagos[1].style_pendiente) + '</td></tr>'
+                                        + '<tr><td><img id="muelle" src="' + pagos[2].style_descripcion + '"/></td><td class="descri">' + pagos[2].descripcion + '</td><td style="text-align: left;">' + pagos[2].detalle + '</td><td>' + currencyFormat(pagos[2].style_naviero) + '</td><td>' + currencyFormat(pagos[2].style_cliente) + '</td><td>' + currencyFormat(pagos[2].style_pendiente) + '</td></tr>'
+                                        + '<tr><td><img id="muelle" src="' + pagos[3].style_descripcion + '"/></td><td class="descri">' + pagos[3].descripcion + '</td><td style="text-align: left;">' + pagos[3].detalle + '</td><td>' + currencyFormat(pagos[3].style_naviero) + '</td><td>' + currencyFormat(pagos[3].style_cliente) + '</td><td>' + currencyFormat(pagos[3].style_pendiente) + '</td></tr>');
 
+                                    $('#to_Tarjas').text(con_tarjas);
+                                    $('#d_tarjas').text(hTarjas);
 
                                     var suma = 0;
                                     var ivaCal = 0;
@@ -1110,12 +1162,16 @@
                                     var ivaCal1 = 0;
                                     var totalCal1 = 0;
 
-                                    $('#to_Tarjas').text(con_tarjas);
-                                    $('#d_tarjas').text(hTarjas);
+                                    var sumaPen = 0;
+                                    var ivaCalPen = 0;
+                                    var totalCalPen = 0;
+
+
 
                                     for (var i = 0; i < pagos.length; i++) {
                                         suma += parseFloat(pagos[i].style_naviero);
                                         suma1 += parseFloat(pagos[i].style_cliente);
+                                        sumaPen += parseFloat(pagos[i].style_pendiente);
                                     }
 
                                     ivaCal = (suma * 0.13).toFixed(2);
@@ -1124,6 +1180,9 @@
                                     ivaCal1 = (suma1 * 0.13).toFixed(2);
                                     totalCal1 = (parseFloat(suma1) + parseFloat(ivaCal1)).toFixed(2);
 
+                                    ivaCalPen = (sumaPen * 0.13).toFixed(2);
+                                    totalCalPen = (parseFloat(sumaPen) + parseFloat(ivaCalPen)).toFixed(2);
+
 
                                     //<p id="subTotal1"></p>
 
@@ -1131,11 +1190,11 @@
                                     $("#myTableModal").append('<tfoot>');
                                     $("#myTableModal").append('<tr><th></th><th></th>'
                                         + '<th style="text-align: right;">Subtotal</th>'
-                                        + '<th class="descri"><span class="badge"><p id="subTotal"></p></span></th><th class="descri"><span class="badge"><p id="subTotal1"></p></span></th></tr>');
+                                        + '<th class="descri"><span class="badge"><p id="subTotal"></p></span></th><th class="descri"><span class="badge"><p id="subTotal1"></p></span></th><th class="descri"><span class="badgeR"><p id="subTotalP"></p></span></th></tr>');
                                     $("#myTableModal").append('<tr><th></th><th></th><th style="text-align: right;">IVA</th>'
-                                        + '<th class="descri"><span class="badge"><p id="iva"></p></span></th><th class="descri"><span class="badge"><p id="iva1"></p></span></th></tr>');
+                                        + '<th class="descri"><span class="badge"><p id="iva"></p></span></th><th class="descri"><span class="badge"><p id="iva1"></p></span></th><th class="descri"><span class="badgeR"><p id="ivaP"></p></span></th></tr>');
                                     $("#myTableModal").append('<tr><th></th><th></th><th style="text-align: right;">Total</th>'
-                                        + '<th class="descri"><span class="badge"><p id="total"></p></span></th><th class="descri"><span class="badge"><p id="total1"></p></span></th></tr>');
+                                        + '<th class="descri"><span class="badge"><p id="total"></p></span></th><th class="descri"><span class="badge"><p id="total1"></p></span></th><th class="descri"><span class="badgeR"><p id="totalP"></p></span></th></tr>');
 
                                     $("#myTableModal").append('</tfoot>');
 
@@ -1147,6 +1206,10 @@
                                     $('#subTotal1').text(suma1.toFixed(2));
                                     $('#iva1').text(ivaCal1);
                                     $('#total1').text(totalCal1);
+
+                                    $('#subTotalP').text(sumaPen.toFixed(2));
+                                    $('#ivaP').text(ivaCalPen);
+                                    $('#totalP').text(totalCalPen);
 
                                     for (var b = 0; b < pagos.length; b++) {
                                         $("#MensajeModal").text(pagos[b].b_danc);
@@ -1194,7 +1257,9 @@
                                         locale: 'es',
                                         format: 'DD/MM/YYYY',
                                         minDate: moment()
-                                    });                                   
+                                    });
+
+
 
                                     $("#hTarja").val(tarja);
                                     $("#hContenedor").val(contenedor);
@@ -1265,10 +1330,7 @@
                             else {
                                 $.unblockUI();
                                 bootbox.alert(pagos);
-
                             }
-
-
                         },
                         failure: function (response) {
                             bootbox.alert(response.d);
@@ -1644,7 +1706,7 @@
                     });
 
 
-                                                                          
+
                     CalculosTabla();
                     $("#grvTracking tbody > tr#rowF").css("display", "none");
 

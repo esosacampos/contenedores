@@ -15,41 +15,8 @@ namespace CEPA.CCO.DAL
 {
     public class ValidaTarjaDAL
     {
-        public static void InsertarValida(ValiadaTarja pValida) 
-        {
-            
-            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.VFP, DBComun.Estado.verdadero))
-            {
-                _conn.Open();
-                string _consulta = "INSERT INTO tab_valida_tarja(c_tarja, b_observa, user) VALUES(\"{0}\", \"{1}\", \"{2}\")";
-
-
-                OleDbCommand _command = new OleDbCommand(string.Format(_consulta, pValida.c_tarja, pValida.b_observa, pValida.c_usuario), _conn as OleDbConnection);
-                _command.CommandType = CommandType.Text;
-
-                _command.ExecuteNonQuery();
-                _conn.Close();                
-            }
-        }
-
-        public static void InsertarValida1(ValiadaTarja pValida) 
-        {
-            
-            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlLink, DBComun.Estado.verdadero))
-            {
-                _conn.Open();
-                string _consulta = @"INSERT INTO CONTENEDORES...tab_valida_tarja(a_manifiesto, n_manifiesto, n_contenedor, b_observa, [user], F_registra) 
-                                    VALUES({0}, {1}, '{2}', '{3}', '{4}', GETDATE())";
-
-
-                SqlCommand _command = new SqlCommand(string.Format(_consulta, pValida.a_manifiesto, pValida.n_manifiesto, pValida.n_contenedor, pValida.b_observa, pValida.c_usuario), _conn as SqlConnection);
-                _command.CommandType = CommandType.Text;
-
-                _command.ExecuteNonQuery();
-                _conn.Close();                
-            }
-        }
-
+       
+        
         public static List<Manifiesto> ObtenerContValida(string c_tarja)
         {
             List<Manifiesto> pLista = new List<Manifiesto>();
@@ -82,25 +49,6 @@ namespace CEPA.CCO.DAL
                 _conn.Close();
                 return pLista;
             }
-        }
-
-        public static int ValidaCantidad(string n_contenedor, int n_manifiesto, int a_manifiesto)
-        {
-            int valor = 0;
-            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlLink, DBComun.Estado.verdadero))
-            {
-                _conn.Open();
-                string _consulta = @"SELECT COUNT(*) FROM CONTENEDORES...tab_valida_tarja WHERE n_contenedor = '{0}' AND n_manifiesto = {1} AND a_manifiesto = {2} AND CONVERT(CHAR(10), f_registra, 103) = CONVERT(CHAR(10), GETDATE(), 103)";
-
-
-                SqlCommand _command = new SqlCommand(string.Format(_consulta, n_contenedor, n_manifiesto, a_manifiesto), _conn as SqlConnection);
-                _command.CommandType = CommandType.Text;
-
-               valor = (int) _command.ExecuteScalar();
-                _conn.Close();
-            }
-
-            return valor;
         }
 
         public static List<string> GetContenedor(string prefix, int n_manifiesto, int a_mani)
@@ -337,10 +285,10 @@ namespace CEPA.CCO.DAL
 
                 _conn.Close();
 
-                if (b_directo == "1")
-                {
-                    SaveVFPDirecto(pIdDeta);                    
-                }
+                //if (b_directo == "1")
+                //{
+                //    SaveVFPDirecto(pIdDeta);                    
+                //}
 
                 return _reader;
             }

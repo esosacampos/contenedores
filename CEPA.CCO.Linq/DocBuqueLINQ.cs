@@ -701,8 +701,22 @@ namespace CEPA.CCO.Linq
         {
             string _valor = "NULO";
 
-            var query = (from a in DetaNavieraDAL.GetAllOrdersByCustomer(n_contenedor, c_naviera, DBComun.TipoBD.SqlServer, _valor)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero, "atraque") on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+            List<TrackingEnca> pEncaT = new List<TrackingEnca>();
+            List<EncaBuque> pBuques = new List<EncaBuque>();
+            pEncaT = DetaNavieraDAL.GetAllOrdersByCustomer(n_contenedor, c_naviera, DBComun.TipoBD.SqlServer, _valor);
+
+            var lParam = new List<string>();
+
+            foreach (var cLlega in pEncaT)
+            {
+                //c_llegadas = c_llegadas + ("'" + cLlega.c_llegada + "'");
+                lParam.Add(cLlega.c_llegada);
+            }
+
+            pBuques = EncaBuqueDAL.ObtenerBuquesJoinIN(DBComun.Estado.verdadero, "atraque", lParam);
+
+            var query = (from a in pEncaT
+                         join b in pBuques on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                          select new TrackingEnca
                          {
                              IdDeta = a.IdDeta,
@@ -718,8 +732,8 @@ namespace CEPA.CCO.Linq
                              b_trafico = a.b_trafico,
                              n_manifiesto = a.n_manifiesto,
                              b_cancelado = a.b_cancelado,
-                             c_tarja = (from c in EncaBuqueDAL.TarjasLlegada(a.c_llegada)
-                                        where (c.d_marcas.Contains(a.n_contenedor) || c.c_contenedor == a.n_contenedor)
+                             c_tarja = (from c in EncaBuqueDAL.TarjasLlegada(a.c_llegada, a.n_contenedor, "b")
+                                        where c.c_contenedor == a.n_contenedor
                                         select new
                                         {
                                             c_tarja = (c.c_tarja == null ? string.Empty : c.c_tarja)
@@ -852,7 +866,6 @@ namespace CEPA.CCO.Linq
                                        c_llegada = a.c_llegada,
                                        n_contenedor = a.n_contenedor,
                                        c_naviera = a.c_naviera,
-                                       ubicacion = a.ubicacion,
                                        s_comentarios = a.s_comentarios,
                                        f_trans_aduana = a.f_trans_aduana,
                                        s_consignatario = a.s_consignatario,
@@ -875,11 +888,22 @@ namespace CEPA.CCO.Linq
                                        f_deta_ucc = a.f_deta_ucc
                                    }).ToList();
 
+                var teamTarjas = from tar in pTarjasDes
+                                 group tar by tar.c_llegada into tarjasGroup
+                                 select new
+                                 {
+                                     c_llegada = tarjasGroup.Key,
+                                     f_tarja = tarjasGroup.Max(x=> x.f_tarja),
+                                     s_descripcion = tarjasGroup.Max(x => x.s_descripcion),
+                                     con_tarjas = tarjasGroup.Max(x => x.con_tarjas),
+                                     c_tarjas = tarjasGroup.Max(x => x.c_tarja)
+                                 };
 
+                //var TeamTarjas = pTarjasDes.Max();
 
                 //i.c_llegada == pTarjasDes.Max( x => x.c_llegada) &&
                 var quer = (from a in pEnca
-                                //join b in pTarjasDes on a.c_llegada equals b.c_llegada
+                            join b in teamTarjas on a.c_llegada equals b.c_llegada
                             select new
                             {
                                 IdDeta = a.IdDeta,
@@ -895,32 +919,12 @@ namespace CEPA.CCO.Linq
                                 b_trafico = a.b_trafico,
                                 n_manifiesto = a.n_manifiesto,
                                 c_tarja = a.c_tarja,
-                                f_tarja = (from c in pTarjasDes
-                                           where c.c_llegada == a.c_llegada
-                                           select new
-                                           {
-                                               f_tarja = (c.f_tarja == null ? defaDate : c.f_tarja)
-                                           }).Max(t => t.f_tarja),
+                                f_tarja = b.f_tarja == null ? defaDate : b.f_tarja,                                           
                                 v_peso = 0.00,
-                                descripcion = (from c in pTarjasDes
-                                               where c.c_llegada == a.c_llegada
-                                               select new
-                                               {
-                                                   s_descripcion = (c.s_descripcion == null ? string.Empty : c.s_descripcion)
-                                               }).Max(t => t.s_descripcion),
+                                descripcion = b.s_descripcion == null ? string.Empty : b.s_descripcion,
                                 b_cancelado = a.b_cancelado,
-                                con_tarjas = (from c in pTarjasDes
-                                              where c.c_llegada == a.c_llegada
-                                              select new
-                                              {
-                                                  con_tarjas = (c.con_tarjas == 0 ? 0 : c.con_tarjas)
-                                              }).Max(t => t.con_tarjas),
-                                c_tarjasn = (from c in pTarjasDes
-                                             where c.c_llegada == a.c_llegada
-                                             select new
-                                             {
-                                                 c_tarjas = (c.c_tarja == "/" ? "SIN TARJAS" : c.c_tarja)
-                                             }).Max(t => t.c_tarjas),
+                                con_tarjas = b.con_tarjas == 0 ? 0 : b.con_tarjas,                               
+                                c_tarjasn = b.c_tarjas == "/" ? "SIN TARJAS" : b.c_tarjas,                              
                                 b_requiere = a.b_requiere
                             }).OrderByDescending(g => g.IdDeta).ToList();
 
@@ -948,7 +952,6 @@ namespace CEPA.CCO.Linq
                                        c_llegada = a.c_llegada,
                                        n_contenedor = a.n_contenedor,
                                        c_naviera = a.c_naviera,
-                                       ubicacion = a.ubicacion,
                                        s_comentarios = a.s_comentarios,
                                        f_trans_aduana = a.f_trans_aduana,
                                        s_consignatario = a.s_consignatario,
@@ -1006,10 +1009,25 @@ namespace CEPA.CCO.Linq
 
         public static List<TrackingEnca> ObtenerTracking_Cliente(string n_contenedor, string c_naviera, string n_mani, int a_dm, int s_dm, int c_dm)
         {
+            string _valor = "NULO";
 
-            var query = (from a in DetaNavieraDAL.GetAllOrdersByCustomer(n_contenedor, c_naviera, DBComun.TipoBD.SqlTracking, a_dm, s_dm, c_dm)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero, "atraque") on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
-                         where a.n_manifiesto == n_mani
+            List<TrackingEnca> pEncaT = new List<TrackingEnca>();
+            List<EncaBuque> pBuques = new List<EncaBuque>();
+            pEncaT = DetaNavieraDAL.GetAllOrdersByCustomer(n_contenedor, c_naviera, DBComun.TipoBD.SqlTracking, a_dm, s_dm, c_dm);
+
+
+            var lParam = new List<string>();
+
+            foreach (var cLlega in pEncaT)
+            {
+                //c_llegadas = c_llegadas + ("'" + cLlega.c_llegada + "'");
+                lParam.Add(cLlega.c_llegada);
+            }
+
+            pBuques = EncaBuqueDAL.ObtenerBuquesJoinIN(DBComun.Estado.verdadero, "atraque", lParam);
+
+            var query = (from a in pEncaT
+                         join b in pBuques on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                          select new TrackingEnca
                          {
                              IdDeta = a.IdDeta,
@@ -1025,13 +1043,13 @@ namespace CEPA.CCO.Linq
                              b_trafico = a.b_trafico,
                              n_manifiesto = a.n_manifiesto,
                              b_cancelado = a.b_cancelado,
-                             c_tarja = (from c in EncaBuqueDAL.TarjasLlegada(a.c_llegada)
-                                        where (c.d_marcas.Contains(a.n_contenedor) || c.c_contenedor == a.n_contenedor)
+                             c_tarja = (from c in EncaBuqueDAL.TarjasLlegada(a.c_llegada, a.n_contenedor, "b")
+                                        where c.c_contenedor == a.n_contenedor
                                         select new
                                         {
                                             c_tarja = (c.c_tarja == null ? string.Empty : c.c_tarja)
                                         }).Max(t => t.c_tarja),
-
+                             b_requiere = a.b_requiere
                          }).OrderByDescending(g => g.IdDeta).ToList();
 
             List<Tarjas> encaTarjas = new List<Tarjas>();
@@ -1187,11 +1205,19 @@ namespace CEPA.CCO.Linq
                                        f_deta_ucc = a.f_deta_ucc
                                    }).ToList();
 
-
-
-                //i.c_llegada == pTarjasDes.Max( x => x.c_llegada) &&
+                var teamTarjas = from tar in pTarjasDes
+                                 group tar by tar.c_llegada into tarjasGroup
+                                 select new
+                                 {
+                                     c_llegada = tarjasGroup.Key,
+                                     f_tarja = tarjasGroup.Max(x => x.f_tarja),
+                                     s_descripcion = tarjasGroup.Max(x => x.s_descripcion),
+                                     con_tarjas = tarjasGroup.Max(x => x.con_tarjas),
+                                     c_tarjas = tarjasGroup.Max(x => x.c_tarja)
+                                 };
+                             
                 var quer = (from a in pEnca
-                                //join b in pTarjasDes on a.c_llegada equals b.c_llegada
+                            join b in teamTarjas on a.c_llegada equals b.c_llegada
                             select new
                             {
                                 IdDeta = a.IdDeta,
@@ -1207,32 +1233,13 @@ namespace CEPA.CCO.Linq
                                 b_trafico = a.b_trafico,
                                 n_manifiesto = a.n_manifiesto,
                                 c_tarja = a.c_tarja,
-                                f_tarja = (from c in pTarjasDes
-                                           where c.c_llegada == a.c_llegada
-                                           select new
-                                           {
-                                               f_tarja = (c.f_tarja == null ? defaDate : c.f_tarja)
-                                           }).Max(t => t.f_tarja),
+                                f_tarja = b.f_tarja == null ? defaDate : b.f_tarja,
                                 v_peso = 0.00,
-                                descripcion = (from c in pTarjasDes
-                                               where c.c_llegada == a.c_llegada
-                                               select new
-                                               {
-                                                   s_descripcion = (c.s_descripcion == null ? string.Empty : c.s_descripcion)
-                                               }).Max(t => t.s_descripcion),
+                                descripcion = b.s_descripcion == null ? string.Empty : b.s_descripcion,
                                 b_cancelado = a.b_cancelado,
-                                con_tarjas = (from c in pTarjasDes
-                                              where c.c_llegada == a.c_llegada
-                                              select new
-                                              {
-                                                  con_tarjas = (c.con_tarjas == 0 ? 0 : c.con_tarjas)
-                                              }).Max(t => t.con_tarjas),
-                                c_tarjasn = (from c in pTarjasDes
-                                             where c.c_llegada == a.c_llegada
-                                             select new
-                                             {
-                                                 c_tarjas = (c.c_tarja == "/" ? "SIN TARJAS" : c.c_tarja)
-                                             }).Max(t => t.c_tarjas),
+                                con_tarjas = b.con_tarjas == 0 ? 0 : b.con_tarjas,
+                                c_tarjasn = b.c_tarjas == "/" ? "SIN TARJAS" : b.c_tarjas,
+                                b_requiere = a.b_requiere
                             }).OrderByDescending(g => g.IdDeta).ToList();
 
                 jConsult = Newtonsoft.Json.JsonConvert.SerializeObject(quer);

@@ -20,6 +20,9 @@ using NReco.PdfGenerator;
 
 using cxExcel = ClosedXML.Excel;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using System.Net;
+using System.Data;
 
 namespace CEPA.CCO.UI.Web
 {
@@ -68,7 +71,48 @@ namespace CEPA.CCO.UI.Web
 
               
         }
+        public static string getTrans(string c_llegada, string c_contenedor, string c_naviera)
+        {
+            string _contenedores = "";
+            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            Procedure proceso = new Procedure
+            {
+                NBase = "CONTENEDORES",
+                Procedimiento = "Sqlvprovitransp", // "contenedor_exp"; //"Sqlentllenos"; //contenedor_exp('NYKU3806160') //"lstsalidascarga";// ('NYKU3806160')
+                Parametros = new List<Parametros>()
+            };
+            proceso.Parametros.Add(new Parametros { nombre = "llegada", valor = c_llegada });
+            proceso.Parametros.Add(new Parametros { nombre = "_contenedor", valor = c_contenedor });
+            proceso.Parametros.Add(new Parametros { nombre = "navi", valor = c_naviera });
 
+            string inputJson = JsonConvert.SerializeObject(proceso);
+            apiUrl = apiUrl + inputJson;
+            _contenedores = Conectar(_contenedores, apiUrl);
+            return _contenedores;
+        }
+
+        private static string Conectar(string _contenedores, string apiUrl)
+        {
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(apiUrl);
+            httpWebRequest.Method = WebRequestMethods.Http.Get;
+            httpWebRequest.Accept = "application/json; charset=utf-8";
+            string file = string.Empty;
+            var response = (HttpWebResponse)httpWebRequest.GetResponse();
+            //string idx = "{ "DBase":"CONTENEDORES","Servidor":null,"Procedimiento":"Sqlentllenos","Consulta":true,"Parametros":[{"nombre":"_dia","valor":"15-05-2019"}]}";
+            using (var sr = new StreamReader(response.GetResponseStream()))
+            {
+                file = sr.ReadToEnd();
+                DataTable tabla = JsonConvert.DeserializeObject<DataTable>(file) as DataTable;
+                if (tabla.Rows.Count > 0)
+                {
+                    if (!tabla.Rows[0][0].ToString().StartsWith("ERROR"))
+                    {
+                        _contenedores = tabla.Rows[0][0].ToString();
+                    }
+                }
+            }
+            return _contenedores;
+        }
         public string ShowHtml()
         {
             string Html = null;
@@ -95,7 +139,7 @@ namespace CEPA.CCO.UI.Web
                                  f_liberacion = a.f_liberacion,
                                  ClaveP = a.ClaveP,
                                  ClaveQ = a.ClaveQ,
-                                 c_transporte = a.c_transporte,
+                                 c_transporte = getTrans(a.c_llegada, a.n_contenedor, a.c_naviera),
                                  f_salida = a.f_salida,
                                  f_confir_salida = a.f_confir_salida,
                                  tipo = a.tipo
@@ -110,9 +154,9 @@ namespace CEPA.CCO.UI.Web
                     Html = "<dir style=\"font-family: 'Arial'; font-size: 11px; line-height: 1.2em\">";
                     Html += "<h2 style='font-size:24px;margin-left: 1%;'>LISTADO DE CONTENEDORES REVISADOS Y LIBERADOS</h2><hr><br />";
 
-                    //Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1.8em;width: 100%;border: thin solid #4F81BD; border-collapse: separate; border-spacing:0px; text-align:center; \">";
-                    //Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1.8em;width: 100%;border: thin solid #4F81BD; border-collapse: separate; border-spacing:0px; text-align:center; \">";
-                    Html += "<table class=\"footable\" style=\"border-collapse:collapse;\">";
+                    Html += "<div class=\"form-group\" style=\"margin-left:15px;\"><label for=\"texto\">Buscar</label><input type=\"text\" class=\"form-control\" id=\"filter\" placeholder=\"Ingrese búsqueda rápida\" style=\"width: 99%;\"></div>";
+                    Html += "<br>";
+                    Html += "<table class=\"table\" data-page-size=\"10\" data-filter=\"#filter\" style=\"border-collapse:collapse;\">";
                     Html += "<thead><tr>";
                     Html += "<th data-class=\"expand\" scope=\"col\" class=\"footable-visible footable-first-column\">No.</th>";
                     Html += "<th scope=\"col\" class=\"footable-visible\">TIPO</th>";
@@ -145,7 +189,8 @@ namespace CEPA.CCO.UI.Web
 
                     }
                     Html += "</tbody>";
-                    Html += "<tfoot><tr style=\"border-top: 3px solid #1771F8;\"><td colspan=\"10\" style=\"border-right: 3px solid #1771F8;\">&nbsp;&nbsp;</td></tr></tfoot>";
+                    Html += "<tfoot><tr><td text-align=\"center\" colspan=\"10\" class=\"footable-visible\">" + "<ul class='pagination pagination-centered hide-if-no-paging'></ul><div class='divider' style='margin-bottom: 15px;'></div></div><span class='label label-default pie' style='background-color: #dff0d8;border-radius: 25px;font-family: sans-serif;font-size: 18px;color: #468847;border-color: #d6e9c6;margin-top: 18px;'></span>";
+                    Html += "</td></tr></tfoot>";
                     Html += "</table>";
 
                     Html += "<br /><br /><br />";
@@ -214,7 +259,7 @@ namespace CEPA.CCO.UI.Web
                                  f_liberacion = a.f_liberacion,
                                  ClaveP = a.ClaveP,
                                  ClaveQ = a.ClaveQ,
-                                 c_transporte = a.c_transporte,
+                                 c_transporte = getTrans(a.c_llegada, a.n_contenedor, a.c_naviera),
                                  f_salida = a.f_salida,
                                  f_confir_salida = a.f_confir_salida,
                                  tipo = a.tipo
@@ -229,9 +274,10 @@ namespace CEPA.CCO.UI.Web
                     Html = "<dir style=\"font-family: 'Arial'; font-size: 11px; line-height: 1.2em\">";
                     Html += "<h2 style='font-size:24px;margin-left: 1%;'>LISTADO DE CONTENEDORES REVISADOS Y LIBERADOS</h2><hr><br />";
 
+                    Html += "<div class=\"form-group\" style=\"margin-left:15px;\"><label for=\"texto\">Buscar</label><input type=\"text\" class=\"form-control\" id=\"filter\" placeholder=\"Ingrese búsqueda rápida\" style=\"width: 99%;\"></div>";
+                    Html += "<br>";
 
-                    //Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1.8em;width: 100%;border: thin solid #4F81BD; border-collapse: separate; border-spacing:0px; text-align:center; \">";
-                    Html += "<table class=\"footable\" style=\"border-collapse:collapse;\">";
+                    Html += "<table class=\"table\" data-page-size=\"10\" data-filter=\"#filter\" style=\"border-collapse:collapse;\">";
                     Html += "<thead><tr>";                    
                     Html += "<th data-class=\"expand\" scope=\"col\" class=\"footable-visible footable-first-column\">No.</th>";
                     Html += "<th scope=\"col\" class=\"footable-visible\">TIPO</th>";
@@ -264,7 +310,9 @@ namespace CEPA.CCO.UI.Web
                                             
                     }
                     Html += "</tbody>";
-                    Html += "<tfoot><tr style=\"border-top: 3px solid #1771F8;\"><td colspan=\"10\" style=\"border-right: 3px solid #1771F8;\">&nbsp;&nbsp;</td></tr></tfoot>";
+                    Html += "<tfoot><tr><td text-align=\"center\" colspan=\"10\" class=\"footable-visible\">" + "<ul class='pagination pagination-centered hide-if-no-paging'></ul><div class='divider' style='margin-bottom: 15px;'></div></div><span class='label label-default pie' style='background-color: #dff0d8;border-radius: 25px;font-family: sans-serif;font-size: 18px;color: #468847;border-color: #d6e9c6;margin-top: 18px;'></span>";
+                    Html +="</td></tr></tfoot>";
+                    
                     Html += "</table>";
 
                     Html += "<br /><br /><br />";
@@ -326,7 +374,7 @@ namespace CEPA.CCO.UI.Web
                              f_liberacion = a.f_liberacion,
                              ClaveP = a.ClaveP,
                              ClaveQ = a.ClaveQ,
-                             c_transporte = a.c_transporte,
+                             c_transporte = getTrans(a.c_llegada, a.n_contenedor, a.c_naviera),
                              f_salida = a.f_salida,
                              f_confir_salida = a.f_confir_salida,
                              tipo = a.tipo
@@ -346,7 +394,7 @@ namespace CEPA.CCO.UI.Web
                              f_liberacion = a.f_liberacion,
                              ClaveP = a.ClaveP,
                              ClaveQ = a.ClaveQ,
-                             c_transporte = a.c_transporte,
+                             c_transporte = getTrans(a.c_llegada, a.n_contenedor, a.c_naviera),
                              f_salida = a.f_salida,
                              f_confir_salida = a.f_confir_salida,
                              tipo = a.tipo

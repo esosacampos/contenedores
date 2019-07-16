@@ -10,8 +10,6 @@ namespace CEPA.CCO.DAL
 {
     public class DetaNavieraDAL
     {
-
-
         public static string AlmacenarDetaNaviera(DetaNaviera _Encanaviera)
         {
 
@@ -2890,7 +2888,7 @@ namespace CEPA.CCO.DAL
                 n_contenedor = Convert.ToString(reader["n_contenedor"]),
                 c_naviera = Convert.ToString(reader["c_naviera"])
             };
-            item.ubicacion = ObtenerUbicacion(item.c_llegada, item.n_contenedor, item.c_naviera);
+            //item.ubicacion = ObtenerUbicacion(item.c_llegada, item.n_contenedor, item.c_naviera);
             item.s_comentarios = Convert.ToString(reader["s_comentarios"]);
             item.f_trans_aduana = reader.IsDBNull(16) ? Convert.ToDateTime(reader["f_trasmision"]) : Convert.ToDateTime(reader["f_trasmision"]);
             item.s_consignatario = Convert.ToString(reader["s_consignatario"]);
@@ -2932,8 +2930,7 @@ namespace CEPA.CCO.DAL
                 c_llegada = Convert.ToString(reader["c_llegada"]),
                 n_contenedor = Convert.ToString(reader["n_contenedor"]),
                 c_naviera = Convert.ToString(reader["c_naviera"])
-            };
-            item.ubicacion = ObtenerUbicacion(item.c_llegada, item.n_contenedor, item.c_naviera);
+            };           
             item.s_comentarios = Convert.ToString(reader["s_comentarios"]);
             item.f_trans_aduana = Convert.ToDateTime(reader["f_trasmision"]);
             item.s_consignatario = Convert.ToString(reader["s_consignatario"]);
@@ -2956,28 +2953,7 @@ namespace CEPA.CCO.DAL
             //item.f_lib_mag = Convert.ToDateTime(reader["f_lib_mag"]);
             return item;
         }
-
-        public static string ObtenerUbicacion(string c_llegada, string n_contenedor, string c_naviera)
-        {
-            List<DetaNaviera> notiLista = new List<DetaNaviera>();
-
-            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlLink, DBComun.Estado.verdadero))
-            {
-                _conn.Open();
-                string consulta = "select return_value ubicacion from openquery(CONTENEDORES, 'EXEC Sqlzonas(\"{0}\", \"{1}\", \"{2}\")')";
-
-                SqlCommand _command = new SqlCommand(string.Format(consulta, c_llegada, n_contenedor, c_naviera), _conn as SqlConnection)
-                {
-                    CommandType = CommandType.Text
-                };
-
-                string resultado = _command.ExecuteScalar().ToString().Replace("\0", "");
-                _conn.Close();
-                return resultado;
-            }
-        }
-
-
+                      
         public static List<DetaNaviera> ObtenerDetaTrans(string c_llegada)
         {
             List<DetaNaviera> notiLista = new List<DetaNaviera>();
@@ -3024,124 +3000,7 @@ namespace CEPA.CCO.DAL
                 return notiLista;
             }
 
-        }
-
-        public static List<ProvisionalesEnca> GetProvisionales(int pId, string c_llegada, string n_contenedor, string c_naviera)
-        {
-            List<ProvisionalesEnca> list = new List<ProvisionalesEnca>();
-            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlLink, DBComun.Estado.verdadero))
-            {
-                _conn.Open();
-
-
-                //                    string sql = @"Declare @IdDetaT INT
-                //                                DECLARE @c_llegada VARCHAR(10)
-                //                                DECLARE @n_contenedor VARCHAR(11)
-                //
-                //                                SELECT @c_llegada = c_llegada,  @n_contenedor = n_contenedor, @IdDetaT = IdDeta  
-                //                                FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
-                //                                WHERE IdDeta = @IdDeta
-                //
-                //                                select 'Total Provisionales' Descripcion, COUNT(*) Total, isnull(c_llegada, '') c_llegada, isnull(contenedor, '') contenedor, @IdDetaT IdDeta   from contenedores...v_provisional where c_llegada = @c_llegada and contenedor = @n_contenedor
-                //                                group by c_llegada, contenedor";
-
-                //string sql = "SELECT descripcion, total, c_llegada, contenedor, iddeta FROM OPENQUERY(CONTENEDORES, 'EXEC Sqlprovisional(\"{0}\", \"{1}\", {2})')";
-
-                //    command = new SqlCommand(string.Format(sql, c_llegada, n_contenedor, pId), _conn as SqlConnection);
-
-
-                SqlCommand _command = new SqlCommand("exc_vfpProvisional", _conn as SqlConnection)
-                {
-                    CommandType = CommandType.StoredProcedure
-                };
-
-
-                _command.Parameters.Add(new SqlParameter("@c_llegada", c_llegada));
-                _command.Parameters.Add(new SqlParameter("@n_contenedor", n_contenedor));
-                _command.Parameters.Add(new SqlParameter("@IdDeta", pId));
-
-
-                SqlDataReader reader = _command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    list.Add(LoadProvi(reader, c_naviera));
-                }
-            }
-
-            return list;
-
-        }
-
-        private static ProvisionalesEnca LoadProvi(IDataReader reader, string c_naviera)
-        {
-            ProvisionalesEnca item = new ProvisionalesEnca
-            {
-                Descripcion = Convert.ToString(reader.IsDBNull(0) ? "Total Movimientos" : reader["Descripcion"]),
-                Total = Convert.ToInt32(reader.IsDBNull(1) ? 0 : reader["Total"]),
-                c_llegada = Convert.ToString(reader.IsDBNull(2) ? "" : reader["c_llegada"]),
-                n_contenedor = Convert.ToString(reader.IsDBNull(3) ? "" : reader["contenedor"]),
-                IdDeta = Convert.ToInt32(reader.IsDBNull(4) ? 0 : reader["IdDeta"])
-            };
-
-            if (item.Total > 0)
-            {
-                item.ProviList = GetDetailsProvi(item.c_llegada, item.n_contenedor, c_naviera);
-            }
-
-            return item;
-        }
-
-        public static List<ProvisionalesDeta> GetDetailsProvi(string c_llegada, string n_contenedor, string c_naviera)
-        {
-            List<ProvisionalesDeta> list = new List<ProvisionalesDeta>();
-
-            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlLink, DBComun.Estado.verdadero))
-            {
-                _conn.Open();
-
-                //string sql = "SELECT  c_llegada, fecha_prv, tipo, motorista_prv, transporte_prv, placa_prv, chasis_prv, fec_reserva, fec_valida FROM OPENQUERY(CONTENEDORES, 'EXEC Sqlvprovi(\"{0}\", \"{1}\", \"{2}\")')";
-
-                //SqlCommand command = new SqlCommand(string.Format(sql, c_llegada, n_contenedor, c_naviera), _conn as SqlConnection);
-
-                SqlCommand _command = new SqlCommand("exc_vfpDetaProvi", _conn as SqlConnection)
-                {
-                    CommandType = CommandType.StoredProcedure
-                };
-
-
-                _command.Parameters.Add(new SqlParameter("@c_llegada", c_llegada));
-                _command.Parameters.Add(new SqlParameter("@n_contenedor", n_contenedor));
-                _command.Parameters.Add(new SqlParameter("@c_naviera", c_naviera));
-
-                SqlDataReader reader = _command.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    list.Add(LoadDetailProvi(reader));
-                }
-            }
-
-            return list;
-
-        }
-
-        private static ProvisionalesDeta LoadDetailProvi(IDataReader reader)
-        {
-            ProvisionalesDeta item = new ProvisionalesDeta
-            {
-                c_llegada = Convert.ToString(reader["c_llegada"]),
-                fecha_prv = Convert.ToDateTime(reader["fecha_prv"]),
-                tipo = Convert.ToString(reader["tipo"]),
-                motorista_prv = Convert.ToString(reader["motorista_prv"]),
-                transporte_prv = Convert.ToString(reader["transporte_prv"]),
-                placa_prv = Convert.ToString(reader["placa_prv"]),
-                chasis_prv = Convert.ToString(reader["chasis_prv"]),
-                fec_reserva = Convert.ToDateTime(reader["fec_reserva"]),
-                fec_valida = Convert.ToDateTime(reader["fec_valida"])
-            };
-            return item;
-        }
+        }       
 
         public static string AlmacenarSADFI(DetaNaviera pDeta, DBComun.Estado pEstado)
         {
@@ -3672,42 +3531,10 @@ namespace CEPA.CCO.DAL
 
                 _conn.Close();
 
-                if (bc_cambio == "")
-                {
-                    pTipo = 2;
-                }
-                else
-                {
-                    pTipo = 1;
-                }
-
-                string _reader1 = ActRetVFP(pId, pTipo);
                 return _reader;
             }
 
         }
-
-        public static string ActRetVFP(int IdDeta, int pTipo)
-        {
-            List<DetaNaviera> notiLista = new List<DetaNaviera>();
-
-            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlLink, DBComun.Estado.verdadero))
-            {
-                _conn.Open();
-                SqlCommand _command = new SqlCommand("exc_vfpAct", _conn as SqlConnection)
-                {
-                    CommandType = CommandType.StoredProcedure
-                };
-
-                _command.Parameters.Add(new SqlParameter("@IdDeta", IdDeta));
-                _command.Parameters.Add(new SqlParameter("@Tipo", pTipo));
-
-                string resultado = _command.ExecuteScalar().ToString();
-                _conn.Close();
-                return resultado;
-            }
-        }
-
         public static string MaxOficio()
         {
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))

@@ -13,6 +13,10 @@ using CEPA.CCO.Linq;
 using System.Threading;
 using System.Text;
 using System.Web.Services;
+using Newtonsoft.Json;
+using System.Net;
+using System.Data;
+using System.IO;
 
 namespace CEPA.CCO.UI.Web
 {
@@ -39,7 +43,50 @@ namespace CEPA.CCO.UI.Web
         }
 
 
+        public static string inTarjaValid(ValiadaTarja pTarja)
+        {
+            string _contenedores = "";
+            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            Procedure proceso = new Procedure
+            {
+                NBase = "CONTENEDORES",
+                Procedimiento = "InsValTarje", // "contenedor_exp"; //"Sqlentllenos"; //contenedor_exp('NYKU3806160') //"lstsalidascarga";// ('NYKU3806160')
+                Parametros = new List<Parametros>()
+            };
+            proceso.Parametros.Add(new Parametros { nombre = "amanifiesto", valor = pTarja.Amanifiesto.ToString() });
+            proceso.Parametros.Add(new Parametros { nombre = "nmanifiesto", valor = pTarja.Nmanifiesto.ToString() });
+            proceso.Parametros.Add(new Parametros { nombre = "ncontenedor", valor = pTarja.Ncontenedor });
+            proceso.Parametros.Add(new Parametros { nombre = "observa", valor = pTarja.Observa });
+            proceso.Parametros.Add(new Parametros { nombre = "usuario", valor = pTarja.Usuario });           
 
+            string inputJson = JsonConvert.SerializeObject(proceso);
+            apiUrl = apiUrl + inputJson;
+            _contenedores = Conectar(_contenedores, apiUrl);
+            return _contenedores;
+        }
+
+        private static string Conectar(string _contenedores, string apiUrl)
+        {
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(apiUrl);
+            httpWebRequest.Method = WebRequestMethods.Http.Get;
+            httpWebRequest.Accept = "application/json; charset=utf-8";
+            string file = string.Empty;
+            var response = (HttpWebResponse)httpWebRequest.GetResponse();
+            //string idx = "{ "DBase":"CONTENEDORES","Servidor":null,"Procedimiento":"Sqlentllenos","Consulta":true,"Parametros":[{"nombre":"_dia","valor":"15-05-2019"}]}";
+            using (var sr = new StreamReader(response.GetResponseStream()))
+            {
+                file = sr.ReadToEnd();
+                DataTable tabla = JsonConvert.DeserializeObject<DataTable>(file) as DataTable;
+                if (tabla.Rows.Count > 0)
+                {
+                    if (!tabla.Rows[0][0].ToString().StartsWith("ERROR"))
+                    {
+                        _contenedores = tabla.Rows[0][0].ToString();
+                    }
+                }
+            }
+            return _contenedores;
+        }
         public static string RegValid(int n_manifiesto, int a_mani, string b_observa, string n_contenedor)
         {
             string respuesta = null;
@@ -61,27 +108,30 @@ namespace CEPA.CCO.UI.Web
 
                         if (valida == "VALIDO")
                         {
-                            int valor = ValidaTarjaDAL.ValidaCantidad(n_contenedor.TrimStart().TrimEnd(), n_manifiesto, a_mani);
-                            if (valor > 0)
+                            //int valor = ValidaTarjaDAL.ValidaCantidad(n_contenedor.TrimStart().TrimEnd(), n_manifiesto, a_mani);
+                            
+                                ValiadaTarja _valida = new ValiadaTarja()
+                                {
+                                    Observa = b_observa.ToUpper(),
+                                    Usuario = System.Web.HttpContext.Current.Session["d_usuario"].ToString().ToUpper(),
+                                    Amanifiesto = Convert.ToInt32(a_mani),
+                                    Nmanifiesto = Convert.ToInt32(n_manifiesto),
+                                    Ncontenedor = n_contenedor
+                                };
+
+                                string _resultado = inTarjaValid(_valida);
+                            if (_resultado.ToUpper().Contains("EXISTE"))
+                            {
+                                respuesta = "2|El número de contenedor " + n_contenedor + " ya se encuentra validado";
+                            }
+                            else if(_resultado.ToUpper().Contains("OK"))
                             {
 
-                                respuesta = "2|El número de contenedor " + n_contenedor + " ya se encuentra validado";
-
-
+                                respuesta = "0|Registrado Correctamente";
                             }
                             else
                             {
-                                ValiadaTarja _valida = new ValiadaTarja()
-                                {
-                                    b_observa = b_observa.ToUpper(),
-                                    c_usuario = System.Web.HttpContext.Current.Session["d_usuario"].ToString().ToUpper(),
-                                    a_manifiesto = Convert.ToInt32(a_mani),
-                                    n_manifiesto = Convert.ToInt32(n_manifiesto),
-                                    n_contenedor = n_contenedor
-                                };
-                                ValidaTarjaDAL.InsertarValida1(_valida);
-
-                                respuesta = "0|Registrado Correctamente";
+                                respuesta = "5|Verificar la información introducida, y volverlo a intentar.";
                             }
                         }
                         else

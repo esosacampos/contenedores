@@ -7,12 +7,18 @@ namespace CEPA.CCO.Entidades
 {
     public class ValiadaTarja
     {
-        public string c_tarja {get; set;}
-        public string b_observa { get; set; }
-        public string c_usuario { get; set; }
-        public int n_manifiesto { get; set; }
-        public int a_manifiesto { get; set; }
-        public string n_contenedor { get; set; }
+        public Int64 Amanifiesto { get; set; }
+        public Int64 Nmanifiesto { get; set; }
+        public string Ncontenedor { get; set; }
+        public string Observa { get; set; }
+        public DateTime Registra { get; set; }
+        public string Usuario { get; set; }
+        //public int a_manifiesto { get; set; }
+        //public int n_manifiesto { get; set; }
+        //public string n_contenedor { get; set; }
+        //public string b_observa { get; set; }
+        //public DateTime f_registra { get; set; }
+        //public string c_usuario { get; set; }
     }
 
     public class Manifiesto
@@ -30,7 +36,7 @@ namespace CEPA.CCO.Entidades
         public string c_llegada { get; set; }
         public string c_estado { get; set; }
         public string c_naviera { get; set; }
-        public string c_buque {get; set;}
+        public string c_buque { get; set; }
         public string c_cliente { get; set; }
         public string f_recepcion { get; set; }
         public string n_contenedor { get; set; }
@@ -47,8 +53,8 @@ namespace CEPA.CCO.Entidades
         public string s_comentarios { get; set; }
         public DateTime f_realrpatio { get; set; }
 
-        
-        
+
+
         public int c_marcacion { get; set; }
 
         public string b_aduana { get; set; }

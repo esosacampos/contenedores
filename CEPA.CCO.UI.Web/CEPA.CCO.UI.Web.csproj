@@ -279,6 +279,8 @@
     <Content Include="FileExport.ashx" />
     <Content Include="FileUploadHandlerBook.ashx" />
     <Content Include="FileUploadHandlerRees.ashx" />
+    <Content Include="wfLstValidFact.aspx" />
+    <Content Include="wfVencimiento.aspx" />
     <None Include="Properties\PublishProfiles\Perfil183.pubxml" />
     <None Include="Properties\PublishProfiles\PerfilLocal.pubxml" />
     <None Include="Service References\CEPAService\configuration91.svcinfo" />
@@ -790,6 +792,13 @@
     <Compile Include="wfCotecnaEnca.aspx.designer.cs">
       <DependentUpon>wfCotecnaEnca.aspx</DependentUpon>
     </Compile>
+    <Compile Include="wfLstValidFact.aspx.cs">
+      <DependentUpon>wfLstValidFact.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfLstValidFact.aspx.designer.cs">
+      <DependentUpon>wfLstValidFact.aspx</DependentUpon>
+    </Compile>
     <Compile Include="wfUCCEstadistica.aspx.cs">
       <DependentUpon>wfUCCEstadistica.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -960,6 +969,13 @@
     </Compile>
     <Compile Include="wfValidaTarja.aspx.designer.cs">
       <DependentUpon>wfValidaTarja.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfVencimiento.aspx.cs">
+      <DependentUpon>wfVencimiento.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfVencimiento.aspx.designer.cs">
+      <DependentUpon>wfVencimiento.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

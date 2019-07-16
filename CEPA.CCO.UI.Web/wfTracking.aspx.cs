@@ -34,6 +34,8 @@ using iTextSharp.tool.xml.pipeline.html;
 using System.Web.UI.HtmlControls;
 using HtmlAgilityPack;
 using System.Xml;
+using Newtonsoft.Json;
+using System.Data;
 
 namespace CEPA.CCO.UI.Web
 {
@@ -119,6 +121,135 @@ namespace CEPA.CCO.UI.Web
             }
         }
 
+        public static string getUbica(string c_contenedor, string c_llegada, string c_naviera)
+        {
+            string _contenedores = "";
+            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            Procedure proceso = new Procedure
+            {
+                NBase = "CONTENEDORES",
+                Procedimiento = "Sqlzonas", // "contenedor_exp"; //"Sqlentllenos"; //contenedor_exp('NYKU3806160') //"lstsalidascarga";// ('NYKU3806160')
+                Parametros = new List<Parametros>()
+            };
+            proceso.Parametros.Add(new Parametros { nombre = "llegada", valor = c_llegada });
+            proceso.Parametros.Add(new Parametros { nombre = "_contenedor", valor = c_contenedor });
+            proceso.Parametros.Add(new Parametros { nombre = "navi", valor = c_naviera });
+
+            string inputJson = JsonConvert.SerializeObject(proceso);
+            apiUrl = apiUrl + inputJson;
+            _contenedores = Conectar(_contenedores, apiUrl);
+            return _contenedores;
+        }
+
+        private static string Conectar(string _contenedores, string apiUrl)
+        {
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(apiUrl);
+            httpWebRequest.Method = WebRequestMethods.Http.Get;
+            httpWebRequest.Accept = "application/json; charset=utf-8";
+            string file = string.Empty;
+            var response = (HttpWebResponse)httpWebRequest.GetResponse();
+            //string idx = "{ "DBase":"CONTENEDORES","Servidor":null,"Procedimiento":"Sqlentllenos","Consulta":true,"Parametros":[{"nombre":"_dia","valor":"15-05-2019"}]}";
+            using (var sr = new StreamReader(response.GetResponseStream()))
+            {
+                file = sr.ReadToEnd();
+                DataTable tabla = JsonConvert.DeserializeObject<DataTable>(file) as DataTable;
+                if (tabla.Rows.Count > 0)
+                {
+                    if (!tabla.Rows[0][0].ToString().StartsWith("ERROR"))
+                    {
+                        _contenedores = tabla.Rows[0][0].ToString();
+                    }
+                }
+            }
+            return _contenedores;
+        }
+
+        public static List<ProvisionalesEnca> getEncProvi(string c_contenedor, string c_llegada, int IdDeta)
+        {
+            List<ProvisionalesEnca> _contenedores = new List<ProvisionalesEnca>();
+            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            Procedure proceso = new Procedure
+            {
+                NBase = "CONTENEDORES",
+                Procedimiento = "Sqlprovisional", // "contenedor_exp"; //"Sqlentllenos"; //contenedor_exp('NYKU3806160') //"lstsalidascarga";// ('NYKU3806160')
+                Parametros = new List<Parametros>()
+            };
+            proceso.Parametros.Add(new Parametros { nombre = "llegada", valor = c_llegada });
+            proceso.Parametros.Add(new Parametros { nombre = "_contenedor", valor = c_contenedor });
+            proceso.Parametros.Add(new Parametros { nombre = "deta", valor = IdDeta.ToString() });
+
+            string inputJson = JsonConvert.SerializeObject(proceso);
+            apiUrl = apiUrl + inputJson;
+            _contenedores = conEncProvi(_contenedores, apiUrl);
+            return _contenedores;
+        }
+
+        private static List<ProvisionalesEnca> conEncProvi(List<ProvisionalesEnca> _contenedores, string apiUrl)
+        {
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(apiUrl);
+            httpWebRequest.Method = WebRequestMethods.Http.Get;
+            httpWebRequest.Accept = "application/json; charset=utf-8";
+            string file = string.Empty;
+            var response = (HttpWebResponse)httpWebRequest.GetResponse();
+            //string idx = "{ "DBase":"CONTENEDORES","Servidor":null,"Procedimiento":"Sqlentllenos","Consulta":true,"Parametros":[{"nombre":"_dia","valor":"15-05-2019"}]}";
+            using (var sr = new StreamReader(response.GetResponseStream()))
+            {
+                file = sr.ReadToEnd();
+                DataTable tabla = JsonConvert.DeserializeObject<DataTable>(file) as DataTable;
+                if (tabla.Rows.Count > 0)
+                {
+                    if (!tabla.Rows[0][0].ToString().StartsWith("ERROR"))
+                    {
+                        _contenedores = tabla.ToList<ProvisionalesEnca>();
+                    }
+                }
+            }
+            return _contenedores;
+        }
+
+        public static List<ProvisionalesDeta> getDetaProvi(string c_contenedor, string c_llegada, string c_naviera)
+        {
+            List<ProvisionalesDeta> _contenedores = new List<ProvisionalesDeta>();
+            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            Procedure proceso = new Procedure
+            {
+                NBase = "CONTENEDORES",
+                Procedimiento = "Sqlvprovi", // "contenedor_exp"; //"Sqlentllenos"; //contenedor_exp('NYKU3806160') //"lstsalidascarga";// ('NYKU3806160')
+                Parametros = new List<Parametros>()
+            };
+            proceso.Parametros.Add(new Parametros { nombre = "llegada", valor = c_llegada });
+            proceso.Parametros.Add(new Parametros { nombre = "_contenedor", valor = c_contenedor });
+            proceso.Parametros.Add(new Parametros { nombre = "navi", valor = c_naviera });
+
+            string inputJson = JsonConvert.SerializeObject(proceso);
+            apiUrl = apiUrl + inputJson;
+            _contenedores = conDetaProvi(_contenedores, apiUrl);
+            return _contenedores;
+        }
+
+        private static List<ProvisionalesDeta> conDetaProvi(List<ProvisionalesDeta> _contenedores, string apiUrl)
+        {
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(apiUrl);
+            httpWebRequest.Method = WebRequestMethods.Http.Get;
+            httpWebRequest.Accept = "application/json; charset=utf-8";
+            string file = string.Empty;
+            var response = (HttpWebResponse)httpWebRequest.GetResponse();
+            //string idx = "{ "DBase":"CONTENEDORES","Servidor":null,"Procedimiento":"Sqlentllenos","Consulta":true,"Parametros":[{"nombre":"_dia","valor":"15-05-2019"}]}";
+            using (var sr = new StreamReader(response.GetResponseStream()))
+            {
+                file = sr.ReadToEnd();
+                DataTable tabla = JsonConvert.DeserializeObject<DataTable>(file) as DataTable;
+                if (tabla.Rows.Count > 0)
+                {
+                    if (!tabla.Rows[0][0].ToString().StartsWith("ERROR"))
+                    {
+                        _contenedores = tabla.ToList<ProvisionalesDeta>();
+                    }
+                }
+            }
+            return _contenedores;
+        }
+
         protected void grvTracking_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType != DataControlRowType.DataRow)
@@ -170,6 +301,12 @@ namespace CEPA.CCO.UI.Web
                     }
 
                 }
+                
+                Label lblUbica = (Label)gvDetails.FindControl("lblUbica") as Label;
+
+                if (lblUbica.Text == "")                    
+                    lblUbica.Text = getUbica(order.n_contenedor, order.c_llegada, order.c_naviera);
+
             }
 
 
@@ -178,7 +315,7 @@ namespace CEPA.CCO.UI.Web
             if (gvProvisionales != null)
             {
                 List<ProvisionalesEnca> pList = new List<ProvisionalesEnca>();
-                pList = DetaNavieraDAL.GetProvisionales(order.IdDeta, order.c_llegada, order.n_contenedor, order.c_naviera);
+                pList = getEncProvi(order.n_contenedor, order.c_llegada, order.IdDeta);                    
 
                 if (pList.Count > 0)
                 {
@@ -192,11 +329,7 @@ namespace CEPA.CCO.UI.Web
 
 
                     List<ProvisionalesDeta> pListD = new List<ProvisionalesDeta>();
-                    foreach (var itemC in pList)
-                    {
-                        pListD = itemC.ProviList;
-                        break;
-                    }
+                    pListD = getDetaProvi(order.n_contenedor, order.c_llegada, order.c_naviera);
 
                     if (pListD.Count > 0)
                     {
@@ -216,41 +349,65 @@ namespace CEPA.CCO.UI.Web
                                 gvDetaProvi.HeaderRow.Cells[5].Attributes["data-hide"] = "phone";
                                 gvDetaProvi.HeaderRow.Cells[6].Attributes["data-hide"] = "phone";
                                 gvDetaProvi.HeaderRow.Cells[7].Attributes["data-hide"] = "phone";
-
-                                for (int i = 0; i < gvDetaProvi.Rows.Count; i++)
+                                if (pListD.Count > 0)
                                 {
-
-                                    if (ArchivoBookingDAL.isFecha(gvDetaProvi.Rows[i].Cells[0].Text) == true)
+                                    DateTime fec_prv;
+                                    DateTime fec_reserva;
+                                    DateTime fec_valida;
+                                    for (int i = 0; i < gvDetaProvi.Rows.Count; i++)
                                     {
-                                        if (Convert.ToDateTime(gvDetaProvi.Rows[i].Cells[0].Text) > FIRST_GOOD_DATE)
-                                        { }
-                                        else
+
+                                        if (ArchivoBookingDAL.isFecha(gvDetaProvi.Rows[i].Cells[0].Text) == true)
                                         {
-                                            gvDetaProvi.Rows[i].Cells[0].Text = "";
+                                            if (gvDetaProvi.Rows[i].Cells[0].Text.Substring(0, 2) == "30")
+                                                fec_prv = DateTime.MinValue;
+                                            else
+                                                fec_prv = Convert.ToDateTime(gvDetaProvi.Rows[i].Cells[0].Text);
+
+                                            if (fec_prv == DateTime.MinValue)
+                                            {
+                                                gvDetaProvi.Rows[i].Cells[0].Text = "";
+                                            }
+                                            else
+                                            {
+
+                                            }                                           
                                         }
 
-                                    }
-
-                                    if (ArchivoBookingDAL.isFecha(gvDetaProvi.Rows[i].Cells[6].Text) == true)
-                                    {
-                                        if (Convert.ToDateTime(gvDetaProvi.Rows[i].Cells[6].Text) > FIRST_GOOD_DATE)
-                                        { }
-                                        else
+                                        if (ArchivoBookingDAL.isFecha(gvDetaProvi.Rows[i].Cells[6].Text) == true)
                                         {
-                                            gvDetaProvi.Rows[i].Cells[6].Text = "";
+                                            if (gvDetaProvi.Rows[i].Cells[6].Text.Substring(0, 2) == "30")
+                                                fec_reserva = DateTime.MinValue;
+                                            else
+                                                fec_reserva = Convert.ToDateTime(gvDetaProvi.Rows[i].Cells[6].Text);
+
+                                            if (fec_reserva == DateTime.MinValue)
+                                            {
+                                                gvDetaProvi.Rows[i].Cells[6].Text = "";
+                                            }
+                                            else
+                                            {
+
+                                            }
                                         }
 
-                                    }
-
-                                    if (ArchivoBookingDAL.isFecha(gvDetaProvi.Rows[i].Cells[7].Text) == true)
-                                    {
-                                        if (Convert.ToDateTime(gvDetaProvi.Rows[i].Cells[7].Text) > FIRST_GOOD_DATE)
-                                        { }
-                                        else
+                                        if (ArchivoBookingDAL.isFecha(gvDetaProvi.Rows[i].Cells[7].Text) == true)
                                         {
-                                            gvDetaProvi.Rows[i].Cells[7].Text = "";
-                                        }
+                                            if (gvDetaProvi.Rows[i].Cells[7].Text.Substring(0, 2) == "30")
+                                                fec_valida = DateTime.MinValue;
+                                            else
+                                                fec_valida = Convert.ToDateTime(gvDetaProvi.Rows[i].Cells[7].Text);
 
+                                            if (fec_valida == DateTime.MinValue)
+                                            {
+                                                gvDetaProvi.Rows[i].Cells[7].Text = "";
+                                            }
+                                            else
+                                            {
+
+                                            }
+
+                                        }
                                     }
                                 }
 
@@ -284,7 +441,7 @@ namespace CEPA.CCO.UI.Web
 
                 XmlWriter xml = XmlWriter.Create(memoryStream, xmlWriterSettings);
 
-                CEPAService.WSManifiestoCEPAClient _proxy = new CEPAService.WSManifiestoCEPAClient();
+                int b_sidunea = Convert.ToInt32(DetaNavieraDAL.obt_Sidunea(DBComun.Estado.verdadero, Convert.ToInt32(n_mani), Convert.ToInt32(a_mani), n_contenedor));
 
 
                 string _Aduana = null;
@@ -308,7 +465,25 @@ namespace CEPA.CCO.UI.Web
                 _Aduana = Encoding.UTF8.GetString(memoryStream.ToArray());
 
                 XmlDocument doc = new XmlDocument();
-                _resultado = _proxy.getDocumentoInfoDocumento(_Aduana);
+
+                if (b_sidunea == 0)
+                {
+                    //CEPAService.WSManifiestoCEPAClient _proxy = new CEPAService.WSManifiestoCEPAClient();
+
+                    _resultado = "0";
+                }
+                else
+                {
+                    CepaSW.WSManifiestoCEPAClient _proxySW = new CepaSW.WSManifiestoCEPAClient();
+
+                    string _usuario = ConfigurationManager.AppSettings["userSidunea"];
+                    string _pass = ConfigurationManager.AppSettings["pswSidunea"];
+
+                    _proxySW.ClientCredentials.UserName.UserName = _usuario;
+                    _proxySW.ClientCredentials.UserName.Password = _pass;
+
+                    _resultado = _proxySW.getDocumentoInfoDocumento(_Aduana);
+                }
 
                 if (_resultado.Contains("encuentran"))
                 {
@@ -318,35 +493,47 @@ namespace CEPA.CCO.UI.Web
                 else
                 {
 
-                    doc.LoadXml(_resultado);
-                    XmlNodeList listaCntres = doc.SelectNodes("MdsParts/MDS4");
-
-                    if (listaCntres.Count > 0)
+                    if (b_sidunea == 0)
                     {
-
-                        XmlNode _manifiestos;
-
-                        for (int i = 0; i < listaCntres.Count; i++)
-                        {
-                            _manifiestos = listaCntres.Item(i);
-
-                            _cadena = _manifiestos.SelectSingleNode("DESP_CEPA").InnerText;
-
-                            if (_cadena.Trim().TrimEnd().TrimStart() == "1")
-                                _mani = "AUTORIZADO";
-                            else
-                                _mani = "DENEGADO";
-
-
-                        }
+                        _mani = "NO SE ENCONTRARON DECLARACIONES ASOCIADAS";
                     }
                     else
                     {
-                        _mani = "DENEGADO";
+                        if (_resultado.Substring(0, 1) == "1")
+                        {
+                            string _cadenaM = _resultado.Remove(0, 2);
+                            doc.LoadXml(_cadenaM);
+                            XmlNodeList listaCntres = doc.SelectNodes("MdsParts/MDS4S/MDS4");
+
+                            if (listaCntres.Count > 0)
+                            {
+
+                                XmlNode _manifiestos;
+
+                                for (int i = 0; i < listaCntres.Count; i++)
+                                {
+                                    _manifiestos = listaCntres.Item(i);
+
+                                    _cadena = _manifiestos.SelectSingleNode("DESP_CEPA").InnerText;
+
+                                    if (_cadena.Trim().TrimEnd().TrimStart() == "1")
+                                        _mani = "AUTORIZADO";
+                                    else
+                                        _mani = "DENEGADO";
+
+
+                                }
+                            }
+                            else
+                            {
+                                _mani = "DENEGADO";
+                            }
+                        }
                     }
+
+
+
                 }
-
-
 
 
                 return _mani;
@@ -436,17 +623,39 @@ namespace CEPA.CCO.UI.Web
 
                 /* Consultando Retencion PNC - DAN */
 
-                string b_dan = (from b in PagoDAL.ConsultaDAN(c_llegada, n_contenedor, DBComun.TipoBD.SqlServer)
+                var lstReten = (from b in PagoDAL.ConsultaDAN(c_llegada, n_contenedor, DBComun.TipoBD.SqlServer)
                                 select new
                                 {
-                                    b_dan = (b.b_dan == null ? string.Empty : b.b_dan)
-                                }).Max(t => t.b_dan);
+                                    b_dan = (b.b_dan == null ? string.Empty : b.b_dan),
+                                    tipo = (b.tipoReten == null ? string.Empty : b.tipoReten)
+                                }).ToList();
 
+                int tipo = 0;
+                string cadenaReten = null, retenResult = null, tiReten = null;
 
+                foreach (var iReten in lstReten)
+                {
+                    if (iReten.b_dan != "LIBRE")
+                    {
+                        cadenaReten = iReten.b_dan + "/" + cadenaReten;
+                        tiReten = iReten.tipo;
+                    }
+                    else
+                        tipo += 1; 
+                }
+
+                if (tipo >= 2)
+                    retenResult = "LIBRE";
+                else
+                {
+                    retenResult = cadenaReten.Remove(cadenaReten.Length - 1);
+                    tiReten = tiReten == null ? string.Empty : tiReten;
+                }
+                
                 /* Validar Pagos Por Tarjas */
 
                 List<Pago> pLstDetalle = new List<Pago>();
-
+                string detaReten = tiReten == "DAN" ? "PNC - DAN" : "UCC";
 
 
                 pLstDetalle = DetaNavieraDAL.CalcPagos(n_contenedor, c_llegada, f_tar, DBComun.TipoBD.SqlServer, v_peso);
@@ -470,10 +679,9 @@ namespace CEPA.CCO.UI.Web
                             join b in pLstDetalle on a.n_contenedor equals b.n_contenedor
                             select new
                             {
-
                                 validacion = a.validacion == "Si" ? "Si, El contenedor esta libre de pagos con CEPA" : "No, El contenedor tiene pagos pendientes con CEPA",
-                                b_danc = b_dan == "LIBRE" ? "Si, El contenedor esta libre de revisiones con PNC - DAN" : "No, El contenedor tiene revisiones pendientes con PNC - DAN desde " + b_dan,
-                                b_aduana = valorADUANA == "AUTORIZADO" ? "Si, el contenedor esta autorizado por ADUANA" : "No, El contenedor no se encuentra autorizado por ADUANA para su retiro",
+                                b_danc = retenResult == "LIBRE" ? "Si, El contenedor esta libre de revisiones con PNC - DAN y UCC" : ("No, El contenedor tiene revisión pendiente con X desde ").Replace("X", detaReten) + retenResult,
+                                b_aduana = valorADUANA == "AUTORIZADO" ? "Si, el contenedor esta autorizado por ADUANA" : valorADUANA == "DENEGADO" ? "No, El contenedor no se encuentra autorizado por ADUANA para su retiro" : valorADUANA ,
 
 
 
@@ -482,7 +690,7 @@ namespace CEPA.CCO.UI.Web
                                 style_despac = a.ValDespacho == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
                                 style_manejo = a.ValManejo == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
                                 style_alma = a.ValAlmacenaje == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
-                                style_dan = b_dan == "LIBRE" ? "#18D318" : "#FF0000",
+                                style_dan = retenResult == "LIBRE" ? "#18D318" : "#FF0000",
                                 style_aduana = valorADUANA == "AUTORIZADO" ? "#18D318" : "#FF0000",
 
                                 style_naviero_transfer = b.descripcion == "Transferencia" && b.s_naviero == "Y" ? b.s_pagos : 0.00,
@@ -525,25 +733,25 @@ namespace CEPA.CCO.UI.Web
                         ValAlmacenaje = "No"
 
                     };
-
+                    
                     pLista.Add(_clPago);
 
                     query = from a in pLista
                             join b in pLstDetalle on a.n_contenedor equals b.n_contenedor
                             select new
                             {
-
+                                
                                 validacion = a.validacion == "Si" ? "Si, El contenedor esta libre de pagos con CEPA" : "No, El contenedor tiene pagos pendientes con CEPA",
 
-                                b_danc = b_dan == "LIBRE" ? "Si, El contenedor esta libre de revisiones con PNC - DAN" : "No, El contenedor tiene revisiones pendientes con PNC - DAN desde " + b_dan,
-                                b_aduana = valorADUANA == "AUTORIZADO" ? "Si, el contenedor esta autorizado por ADUANA" : "No, El contenedor no se encuentra autorizado por ADUANA para su retiro",
+                                b_danc = retenResult == "LIBRE" ? "Si, El contenedor esta libre de revisiones con PNC - DAN y UCC" : ("No, El contenedor tiene revisión pendiente con X desde ").Replace("X", detaReten)  + retenResult,
+                                b_aduana = valorADUANA == "AUTORIZADO" ? "Si, el contenedor esta autorizado por ADUANA" : valorADUANA == "DENEGADO" ? "No, El contenedor no se encuentra autorizado por ADUANA para su retiro" : valorADUANA,
 
                                 style_va = a.validacion == "Si" ? "#18D318" : "#FF0000",
                                 style_transfer = a.ValTransfer == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
                                 style_despac = a.ValDespacho == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
                                 style_manejo = a.ValManejo == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
                                 style_alma = a.ValAlmacenaje == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
-                                style_dan = b_dan == "LIBRE" ? "#18D318" : "#FF0000",
+                                style_dan = retenResult == "LIBRE" ? "#18D318" : "#FF0000",
                                 style_aduana = valorADUANA == "AUTORIZADO" ? "#18D318" : "#FF0000",
 
 
@@ -558,6 +766,8 @@ namespace CEPA.CCO.UI.Web
 
                                 style_naviero_despacho = b.descripcion == "Despacho" && b.s_naviero == "Y" ? b.s_pagos : 0.00,
                                 style_cliente_despacho = b.descripcion == "Despacho" && b.s_cliente == "Y" ? b.s_pagos : 0.00,
+
+                               
 
                                 /*p_tranfer =  b.descripcion == "Transferencia" ? b.s_pagos : 0.00,
                                 p_manejo =  b.descripcion == "Manejo" ? b.s_pagos : 0.00,
@@ -630,6 +840,10 @@ namespace CEPA.CCO.UI.Web
                                   style_naviero = g.Key.descripcion == "Transferencia" ? g.Key.style_naviero_transfer : g.Key.descripcion == "Despacho" ? g.Key.style_naviero_despacho : g.Key.descripcion == "Manejo" ? g.Key.style_naviero_manejo : g.Key.descripcion == "Almacenaje" ? g.Key.style_naviero_alma : 0.00,
                                   style_cliente = g.Key.descripcion == "Transferencia" ? g.Key.style_cliente_transfer : g.Key.descripcion == "Despacho" ? g.Key.style_cliente_despacho : g.Key.descripcion == "Manejo" ? g.Key.style_cliente_manejo : g.Key.descripcion == "Almacenaje" ? g.Key.style_cliente_alma : 0.00,
 
+                                  style_pendiente = g.Key.descripcion == "Transferencia" ? 
+                                                           !g.Key.style_transfer.Contains("correcto") ? 
+                                                                g.Key.style_naviero_transfer > 0.00 ? g.Key.style_naviero_transfer : g.Key.style_cliente_transfer 
+                                                           : 0.00 : g.Key.descripcion == "Despacho" ? !g.Key.style_despac.Contains("correcto") ?  g.Key.style_naviero_despacho > 0.00 ? g.Key.style_naviero_despacho : g.Key.style_cliente_despacho : 0.00 : g.Key.descripcion == "Manejo" ? !g.Key.style_manejo.Contains("correcto") ? g.Key.style_naviero_manejo > 0.00 ? g.Key.style_naviero_manejo : g.Key.style_cliente_manejo : 0.00 : g.Key.descripcion == "Almacenaje" ? !g.Key.style_alma.Contains("correcto") ? g.Key.style_naviero_alma > 0.00 ? g.Key.style_naviero_alma : g.Key.style_cliente_alma : 0.00 : 0.00 ,
 
                                   descripcion = g.Key.descripcion,
 
@@ -735,17 +949,41 @@ namespace CEPA.CCO.UI.Web
 
                 /* Consultando Retencion PNC - DAN */
 
-                string b_dan = (from b in PagoDAL.ConsultaDAN(c_llegada, n_contenedor, DBComun.TipoBD.SqlServer)
+                var lstReten = (from b in PagoDAL.ConsultaDAN(c_llegada, n_contenedor, DBComun.TipoBD.SqlServer)
                                 select new
                                 {
-                                    b_dan = (b.b_dan == null ? string.Empty : b.b_dan)
-                                }).Max(t => t.b_dan);
+                                    b_dan = (b.b_dan == null ? string.Empty : b.b_dan),
+                                    tipo = (b.tipoReten == null ? string.Empty : b.tipoReten)
+                                }).ToList();
+
+                int tipo = 0;
+                string cadenaReten = null, retenResult = null, tiReten = null;
+
+                foreach (var iReten in lstReten)
+                {
+                    if (iReten.b_dan != "LIBRE")
+                    {
+                        cadenaReten = iReten.b_dan + "/" + cadenaReten;
+                        tiReten = iReten.tipo;
+                    }
+                    else
+                        tipo += 1;
+                }
+
+                if (tipo >= 2)
+                    retenResult = "LIBRE";
+                else
+                {
+                    retenResult = cadenaReten.Remove(cadenaReten.Length - 1);
+                    tiReten = tiReten == null ? string.Empty : tiReten;
+                }
+
 
 
                 /* Validar Pagos Por Tarjas */
 
                 List<Pago> pLstDetalle = new List<Pago>();
-
+                string detaReten = tiReten == "DAN" ? "PNC - DAN" : "UCC";
 
 
                 pLstDetalle = DetaNavieraDAL.CalcPagos(n_contenedor, c_llegada, f_tar, f_re, DBComun.TipoBD.SqlServer, v_peso);
@@ -769,10 +1007,10 @@ namespace CEPA.CCO.UI.Web
                             join b in pLstDetalle on a.n_contenedor equals b.n_contenedor
                             select new
                             {
-
+                                
                                 validacion = a.validacion == "Si" ? "Si, El contenedor esta libre de pagos con CEPA" : "No, El contenedor tiene pagos pendientes con CEPA",
-                                b_danc = b_dan == "LIBRE" ? "Si, El contenedor esta libre de revisiones con PNC - DAN" : "No, El contenedor tiene revisiones pendientes con PNC - DAN desde " + b_dan,
-                                b_aduana = valorADUANA == "AUTORIZADO" ? "Si, el contenedor esta autorizado por ADUANA" : "No, El contenedor no se encuentra autorizado por ADUANA para su retiro",
+                                b_danc = retenResult == "LIBRE" ? "Si, El contenedor esta libre de revisiones con PNC - DAN" : ("No, El contenedor tiene revisión pendiente con X desde ").Replace("X", detaReten) + retenResult,
+                                b_aduana = valorADUANA == "AUTORIZADO" ? "Si, el contenedor esta autorizado por ADUANA" : valorADUANA == "DENEGADO" ? "No, El contenedor no se encuentra autorizado por ADUANA para su retiro" : valorADUANA,
 
 
 
@@ -781,7 +1019,7 @@ namespace CEPA.CCO.UI.Web
                                 style_despac = a.ValDespacho == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
                                 style_manejo = a.ValManejo == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
                                 style_alma = a.ValAlmacenaje == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
-                                style_dan = b_dan == "LIBRE" ? "#18D318" : "#FF0000",
+                                style_dan = retenResult == "LIBRE" ? "#18D318" : "#FF0000",
                                 style_aduana = valorADUANA == "AUTORIZADO" ? "#18D318" : "#FF0000",
 
                                 style_naviero_transfer = b.descripcion == "Transferencia" && b.s_naviero == "Y" ? b.s_pagos : 0.00,
@@ -831,18 +1069,18 @@ namespace CEPA.CCO.UI.Web
                             join b in pLstDetalle on a.n_contenedor equals b.n_contenedor
                             select new
                             {
-
+                                prueba = tiReten == "DAN" ? "PNC - DAN" : "UCC",
                                 validacion = a.validacion == "Si" ? "Si, El contenedor esta libre de pagos con CEPA" : "No, El contenedor tiene pagos pendientes con CEPA",
 
-                                b_danc = b_dan == "LIBRE" ? "Si, El contenedor esta libre de revisiones con PNC - DAN" : "No, El contenedor tiene revisiones pendientes con PNC - DAN desde " + b_dan,
-                                b_aduana = valorADUANA == "AUTORIZADO" ? "Si, el contenedor esta autorizado por ADUANA" : "No, El contenedor no se encuentra autorizado por ADUANA para su retiro",
+                                b_danc = retenResult == "LIBRE" ? "Si, El contenedor esta libre de revisiones con PNC - DAN" : ("No, El contenedor tiene revisión pendiente con X desde ").Replace("X", detaReten) + retenResult,
+                                b_aduana = valorADUANA == "AUTORIZADO" ? "Si, el contenedor esta autorizado por ADUANA" : valorADUANA == "DENEGADO" ? "No, El contenedor no se encuentra autorizado por ADUANA para su retiro" : valorADUANA,
 
                                 style_va = a.validacion == "Si" ? "#18D318" : "#FF0000",
                                 style_transfer = a.ValTransfer == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
                                 style_despac = a.ValDespacho == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
                                 style_manejo = a.ValManejo == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
                                 style_alma = a.ValAlmacenaje == "Si" ? "CSS/Img/icono_correcto.png" : "CSS/Img/ErrorIcon.png",
-                                style_dan = b_dan == "LIBRE" ? "#18D318" : "#FF0000",
+                                style_dan = retenResult == "LIBRE" ? "#18D318" : "#FF0000",
                                 style_aduana = valorADUANA == "AUTORIZADO" ? "#18D318" : "#FF0000",
 
 
@@ -929,6 +1167,10 @@ namespace CEPA.CCO.UI.Web
                                   style_naviero = g.Key.descripcion == "Transferencia" ? g.Key.style_naviero_transfer : g.Key.descripcion == "Despacho" ? g.Key.style_naviero_despacho : g.Key.descripcion == "Manejo" ? g.Key.style_naviero_manejo : g.Key.descripcion == "Almacenaje" ? g.Key.style_naviero_alma : 0.00,
                                   style_cliente = g.Key.descripcion == "Transferencia" ? g.Key.style_cliente_transfer : g.Key.descripcion == "Despacho" ? g.Key.style_cliente_despacho : g.Key.descripcion == "Manejo" ? g.Key.style_cliente_manejo : g.Key.descripcion == "Almacenaje" ? g.Key.style_cliente_alma : 0.00,
 
+                                  style_pendiente = g.Key.descripcion == "Transferencia" ?
+                                                           !g.Key.style_transfer.Contains("correcto") ?
+                                                                g.Key.style_naviero_transfer > 0.00 ? g.Key.style_naviero_transfer : g.Key.style_cliente_transfer
+                                                           : 0.00 : g.Key.descripcion == "Despacho" ? !g.Key.style_despac.Contains("correcto") ? g.Key.style_naviero_despacho > 0.00 ? g.Key.style_naviero_despacho : g.Key.style_cliente_despacho : 0.00 : g.Key.descripcion == "Manejo" ? !g.Key.style_manejo.Contains("correcto") ? g.Key.style_naviero_manejo > 0.00 ? g.Key.style_naviero_manejo : g.Key.style_cliente_manejo : 0.00 : g.Key.descripcion == "Almacenaje" ? !g.Key.style_alma.Contains("correcto") ? g.Key.style_naviero_alma > 0.00 ? g.Key.style_naviero_alma : g.Key.style_cliente_alma : 0.00 : 0.00,
 
                                   descripcion = g.Key.descripcion,
 

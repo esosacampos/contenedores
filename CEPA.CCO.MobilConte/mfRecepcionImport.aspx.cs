@@ -9,6 +9,11 @@ using System.Web.Services;
 using CEPA.CCO.Entidades;
 using CEPA.CCO.BL;
 using CEPA.CCO.DAL;
+using Newtonsoft.Json;
+using System.Net;
+using System.IO;
+using System.Data;
+using CEPA.CCO.Linq;
 
 namespace CEPA.CCO.MobilConte
 {
@@ -47,7 +52,49 @@ namespace CEPA.CCO.MobilConte
 
             return customers.ToArray();
         }
-        
+
+        public static string getRetDir(string IdDeta, string fecha)
+        {
+            string _contenedores = "";
+            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            Procedure proceso = new Procedure
+            {
+                NBase = "CONTENEDORES",
+                Procedimiento = "Sqloirsa", // "contenedor_exp"; //"Sqlentllenos"; //contenedor_exp('NYKU3806160') //"lstsalidascarga";// ('NYKU3806160')
+                Parametros = new List<Parametros>()
+            };
+            proceso.Parametros.Add(new Parametros { nombre = "IdDeta", valor = IdDeta });
+            proceso.Parametros.Add(new Parametros { nombre = "fecha", valor = fecha });            
+
+            string inputJson = JsonConvert.SerializeObject(proceso);
+            apiUrl = apiUrl + inputJson;
+            _contenedores = Conectar(_contenedores, apiUrl);
+            return _contenedores;
+        }
+
+        private static string Conectar(string _contenedores, string apiUrl)
+        {
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(apiUrl);
+            httpWebRequest.Method = WebRequestMethods.Http.Get;
+            httpWebRequest.Accept = "application/json; charset=utf-8";
+            string file = string.Empty;
+            var response = (HttpWebResponse)httpWebRequest.GetResponse();
+            //string idx = "{ "DBase":"CONTENEDORES","Servidor":null,"Procedimiento":"Sqlentllenos","Consulta":true,"Parametros":[{"nombre":"_dia","valor":"15-05-2019"}]}";
+            using (var sr = new StreamReader(response.GetResponseStream()))
+            {
+                file = sr.ReadToEnd();
+                DataTable tabla = JsonConvert.DeserializeObject<DataTable>(file) as DataTable;
+                if (tabla.Rows.Count > 0)
+                {
+                    if (!tabla.Rows[0][0].ToString().StartsWith("ERROR"))
+                    {
+                        _contenedores = tabla.Rows[0][0].ToString();
+                    }
+                }
+            }
+            return _contenedores;
+        }
+
         [WebMethod]
         [System.Web.Script.Services.ScriptMethod()]
         public static string GetConteInfo(string n_contenedor)
@@ -84,8 +131,12 @@ namespace CEPA.CCO.MobilConte
 
             string _valor = null;
             string _resultado = ValidaTarjaDAL.SaveConfirmacion(DBComun.Estado.verdadero, IdDeta, s_observaciones, c_marcacion, b_directo);
+            DateTime _fecha;
 
-            if(Convert.ToInt32(_resultado) > 0)
+            _fecha = DetaNavieraLINQ.FechaBD();
+            string _resulDir = getRetDir(IdDeta.ToString(), _fecha.ToString("dd-MM-yyyy hh:mm:ss"));
+
+            if (Convert.ToInt32(_resultado) > 0 && _resulDir == "1")
                 _valor = "Registro de recepcion exitoso";
             else
                 _valor = "Verificar información o reportar problemas en confirmación";

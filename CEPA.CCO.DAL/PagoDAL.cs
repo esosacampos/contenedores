@@ -20,7 +20,7 @@ namespace CEPA.CCO.DAL
             {
                 _conn.Open();
                 AseCommand _command = new AseCommand("sp_fport_muellaje_conte", _conn as AseConnection);
-                _command.CommandType = CommandType.StoredProcedure;
+                _command.CommandType = CommandType.StoredProcedure; 
 
                 
                 AseParameter p_tarja = _command.Parameters.Add("@as_c_tarja", AseDbType.VarChar);
@@ -62,11 +62,15 @@ namespace CEPA.CCO.DAL
             {
                 _conn.Open();
 
-                string _sql = @"SELECT CASE WHEN b_detenido = 1 THEN CONVERT(CHAR(10), f_reg_dan, 103) + ' ' + CONVERT(CHAR(10), f_reg_dan, 108) + ' #Oficio: ' + ISNULL(n_folio, '') ELSE 'LIBRE' END b_detenido
-                                FROM CCO_DETA_NAVIERAS WHERE n_contenedor = '{0}' 
-                                AND idreg IN(SELECT idreg FROM CCO_ENCA_NAVIERAS WHERE c_llegada = '{1}')";
+                string _sql = @"SELECT CASE WHEN b_detenido = 1 THEN CONVERT(CHAR(10), f_reg_dan, 103) + ' ' + CONVERT(CHAR(10), f_reg_dan, 108) + ' #Oficio: ' + ISNULL(n_folio, '') ELSE 'LIBRE' END b_detenido, 'DAN' tipo
+                                FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg WHERE n_contenedor = '{0}' 
+                                AND c_llegada = '{1}'
+                                UNION ALL
+                                SELECT CASE WHEN b_ucc = 1 THEN CONVERT(CHAR(10), f_retencion_ucc, 103) + ' ' + CONVERT(CHAR(10), f_retencion_ucc, 108) + ' #Oficio: ' + ISNULL(n_ofiucc, '') ELSE 'LIBRE' END b_detenido, 'UCC' tipo
+                                FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg WHERE n_contenedor = '{2}' 
+                                AND c_llegada = '{3}'";
 
-                SqlCommand command = new SqlCommand(string.Format(_sql, n_contenedor, c_llegada), _conn as SqlConnection);
+                SqlCommand command = new SqlCommand(string.Format(_sql, n_contenedor, c_llegada, n_contenedor, c_llegada), _conn as SqlConnection);
 
 
 
@@ -78,7 +82,8 @@ namespace CEPA.CCO.DAL
 
                     Pago _pago = new Pago
                     {
-                        b_dan = _reader.IsDBNull(0) ? "" : _reader.GetString(0)
+                        b_dan = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
+                        tipoReten = _reader.IsDBNull(1) ? "" : _reader.GetString(1)
                     };
                     pLista.Add(_pago);
                 }

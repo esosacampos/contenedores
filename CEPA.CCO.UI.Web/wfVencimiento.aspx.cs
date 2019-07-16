@@ -8,11 +8,13 @@ using System.Web.UI.WebControls;
 
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
+
 using CEPA.CCO.DAL;
+using CEPA.CCO.Entidades;
 
 namespace CEPA.CCO.UI.Web
 {
-    public partial class wfConfiguracion : System.Web.UI.Page
+    public partial class wfVencimiento : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -21,7 +23,7 @@ namespace CEPA.CCO.UI.Web
 
         protected void btnRegresar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("default.aspx");
+            Response.Redirect("~/Inicio.aspx", false);
         }
 
         [WebMethod]
@@ -44,20 +46,22 @@ namespace CEPA.CCO.UI.Web
                 if (user == null) return "Usuario no pertenece al dominio";
                 user.SetPassword(strNewPassword);
 
+                //ResetPassword(HttpContext.Current.Session["c_usuario"].ToString(), strNewPassword);
+
                 string _resulta = UsuarioDAL.ActChagePass(HttpContext.Current.Session["c_usuario"].ToString(), HttpContext.Current.Session["c_naviera"].ToString());
 
                 if (_resulta == "1")
                     resultado = "1|Cambio Efectuado!!!";
                 else
                     resultado = "0|Error: Vuelva a intentar ya que no genero cambios";
-                return resultado; 
+                return resultado;
             }
             catch (Exception ex)
             {
                 resultado = "0|Error: " + ex.Message;
                 return resultado;
             }
-       }
+        }
 
         [WebMethod]
         [System.Web.Script.Services.ScriptMethod()]
@@ -76,7 +80,16 @@ namespace CEPA.CCO.UI.Web
             }
 
             System.Web.Security.FormsAuthentication.SignOut();
-            
+
         }
-   }
+
+        public static void ResetPassword(string userDn, string password)
+        {
+            DirectoryEntry uEntry = new DirectoryEntry(userDn);
+            uEntry.Invoke("SetPassword", new object[] { password });
+            uEntry.Properties["LockOutTime"].Value = 0; //unlock account
+
+            uEntry.Close();
+        }
+    }
 }

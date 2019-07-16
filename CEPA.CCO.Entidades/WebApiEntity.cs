@@ -95,4 +95,13 @@ namespace CEPA.CCO.Entidades
         public string Leyenda { get; set; }
     }
 
+    public class EncProvi
+    {
+        public string Descripcion { get; set; }
+        public double Total { get; set; }
+        public string C_Llegada { get; set; }
+        public string Contenedor { get; set; }
+        public int IdDeta { get; set; }
+    }
+
 }

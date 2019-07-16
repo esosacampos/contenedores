@@ -250,26 +250,32 @@ namespace CEPA.CCO.Entidades
 
     public class ProvisionalesEnca
     {
-        public int IdDeta { get; set; }
+        public string Descripcion { get; set; }
+        public double Total { get; set; }
         public string c_llegada { get; set; }
         public string n_contenedor { get; set; }
-        public string Descripcion { get; set; }
-        public int Total { get; set; }
+        public int IdDeta { get; set; }       
+
         public List<ProvisionalesDeta> ProviList { get; set; }
     }
 
     public class ProvisionalesDeta
     {
-        public string c_llegada { get; set; }
-        public string contenedor { get; set; }
-        public string tipo { get; set; }
-        public DateTime fecha_prv { get; set; }
-        public string motorista_prv { get; set; }
-        public string transporte_prv { get; set; }
-        public string placa_prv { get; set; }
-        public string chasis_prv { get; set; }
-        public DateTime fec_reserva { get; set; }
-        public DateTime fec_valida { get; set; }
+        public string C_Llegada { get; set; }
+        public string Contenedor { get; set; }
+        public DateTime Fecha_Prv { get; set; }
+        public string Tipo { get; set; }        
+        public string Motorista_Prv { get; set; }
+        public string Transporte_Prv { get; set; }
+        public string Placa_Prv { get; set; }
+        public string Chasis_Prv { get; set; }
+        public DateTime Fec_Reserva { get; set; }
+        public DateTime Fec_Valida { get; set; }
+        public DateTime Fecha_Ing { get; set; }
+        public double Recno { get; set; }
+        public double Num_Prv { get; set; }
+        public double Num_Corr { get; set; }
+        public string Cod_Prv { get; set; }
     }
 
     public class Tarjas

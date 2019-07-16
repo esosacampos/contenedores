@@ -73,8 +73,11 @@ namespace CEPA.CCO.UI.Web
                         }
 
                         //string urlR = FormsAuthentication.GetRedirectUrl(inputTxtandPassw.Text, false);
-
-                        Response.Redirect(FormsAuthentication.GetRedirectUrl(inputTxtandPassw.Value, false), false);
+                        string b_validar = UsuarioDAL.ValidChagePass(Session["c_usuario"].ToString(), Session["c_naviera"].ToString());
+                        if (b_validar == "1" && Session["c_naviera"].ToString() != "289")
+                            Response.Redirect("~/wfVencimiento.aspx", false);
+                        else
+                            Response.Redirect(FormsAuthentication.GetRedirectUrl(inputTxtandPassw.Value, false), false);
 
                     }
                 }

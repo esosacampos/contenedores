@@ -176,7 +176,7 @@ namespace CEPA.CCO.UI.Web.Navieras
 
                     var oSheet = oWB.Worksheets.Add("Salidas");
 
-                    string _rango = "V";
+                    string _rango = "W";
 
                     oSheet.Range("A1", _rango + "1").Merge();
                     oSheet.Range("A1", _rango + "1").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
@@ -195,7 +195,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                     oSheet.Range("A2", _rango + "2").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
 
 
-                    oSheet.Cell("A2").Value = "FECHA DE INFORME: " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"); 
+                    oSheet.Cell("A2").Value = "FECHA GENERACIÓN DE INFORME: " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss"); 
                     oSheet.Cell("A2").Style.Font.Bold = true;
                     oSheet.Cell("A2").Style.Font.FontSize = 7.5;
                     oSheet.Cell("A2").Style.Font.FontName = "Arial";
@@ -224,6 +224,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                     oSheet.Cell(ROWS_START, 20).Value = "POLIZA(S)";
                     oSheet.Cell(ROWS_START, 21).Value = "PESO MERCAD ENTREGADA (Kgs)";
                     oSheet.Cell(ROWS_START, 22).Value = "UBICACION DE DESPACHO";
+                    oSheet.Cell(ROWS_START, 23).Value = "CONSIGNATARIO";
                     oSheet.Row(4).Height = 45;
 
                     //BORDES TABLA
@@ -264,6 +265,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                     oSheet.Column(20).Width = 14;
                     oSheet.Column(21).Width = 16;
                     oSheet.Column(22).Width = 20;
+                    oSheet.Column(23).Width = 45;
 
                     DateTime? f_despacho;
                     DateTime? f_Ing_Puerta1;
@@ -325,6 +327,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                         oSheet.Cell(iCurrent, 20).Value = SanitizeXmlString(item.Poliza);
                         oSheet.Cell(iCurrent, 21).Value = item.Peso_Entregado;
                         oSheet.Cell(iCurrent, 22).Value = SanitizeXmlString(item.Ubica);
+                        oSheet.Cell(iCurrent, 23).Value = SanitizeXmlString(item.Nom_Consigna);
 
                         iRow = iRow + 1;
                         c_correlativo = c_correlativo + 1;

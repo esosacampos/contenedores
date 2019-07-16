@@ -33,8 +33,7 @@ namespace CEPA.CCO.DAL
                         f_liberacion = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
                         ClaveP = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
                         ClaveQ = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
-                        c_llegada = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
-                        c_transporte = ObtenerTransporte(_reader.GetString(6), _reader.GetString(2), _reader.GetString(1), pTipo),
+                        c_llegada = _reader.IsDBNull(6) ? "" : _reader.GetString(6),                        
                         f_salida = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
                         f_confir_salida = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
                         tipo = _reader.IsDBNull(9) ? "" : _reader.GetString(9)
@@ -79,8 +78,7 @@ namespace CEPA.CCO.DAL
                         f_liberacion = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
                         ClaveP = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
                         ClaveQ = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
-                        c_llegada = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
-                        c_transporte = ObtenerTransporte(_reader.GetString(6), _reader.GetString(2), _reader.GetString(1), pTipo),
+                        c_llegada = _reader.IsDBNull(6) ? "" : _reader.GetString(6),                        
                         f_salida = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
                         f_confir_salida = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
                         tipo = _reader.IsDBNull(9) ? "" : _reader.GetString(9)
@@ -96,25 +94,7 @@ namespace CEPA.CCO.DAL
 
         }
 
-        public static string ObtenerTransporte(string c_llegada, string n_contenedor, string c_naviera, DBComun.Estado pTipo)
-        {
-            List<DetaNaviera> notiLista = new List<DetaNaviera>();
-
-            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlLink, pTipo))
-            {
-                _conn.Open();
-                string consulta = "select return_value transporte_prv from openquery(CONTENEDORES, 'EXEC Sqlvprovitransp(\"{0}\", \"{1}\", \"{2}\")')";
-
-                SqlCommand _command = new SqlCommand(string.Format(consulta, c_llegada, n_contenedor, c_naviera), _conn as SqlConnection)
-                {
-                    CommandType = CommandType.Text
-                };
-
-                string resultado = _command.ExecuteScalar().ToString();
-                _conn.Close();
-                return resultado;
-            }
-        }
+       
 
         public static List<DetaNaviera> ObtenerOIRSAO(DBComun.Estado pTipo, string c_llegada, int pList)
         {

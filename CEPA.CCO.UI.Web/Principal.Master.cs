@@ -36,7 +36,7 @@ namespace CEPA.CCO.UI.Web
                 }
 
                 bool valida = false;
-                if(menuLista.Count > 0)
+                if(menuLista.Count > 0 && !userUrl.Contains("Configuracion"))
                     valida = VerificarAutorizacion(userUrl, menuLista);
 
                 
@@ -113,7 +113,24 @@ namespace CEPA.CCO.UI.Web
             Session["c_navi_corto"] = null;
             Session["b_sidunea"] = null;
             Session["b_ibooking"] = null;
+            Session.Clear();
+
+            //foreach (var cookie in Request.Cookies.Keys)
+            //{
+            //    Request.Cookies.Remove(cookie.ToString());
+            //}
+            //Fetch the Cookie using its Key.
+            HttpCookie nameCookie = Request.Cookies["adAuthCookie"];
+
+            //Set the Expiry date to past date.
+            nameCookie.Expires = DateTime.Now.AddDays(-1);
+
+            //Update the Cookie in Browser.
+            Response.Cookies.Add(nameCookie);
+
+
             System.Web.Security.FormsAuthentication.SignOut();
+                    
             Response.Redirect("~/Inicio.aspx", false);
         }
 

@@ -478,7 +478,7 @@
             }
             function SetAutoComplete() {
                 $("#search").autocomplete({
-                    minLength: 1,
+                    minLength: 3,
                     source: function (request, response) {
                         var params = new Object();
                         params.prefix = request.term;
