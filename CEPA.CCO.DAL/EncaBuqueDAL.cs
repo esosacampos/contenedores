@@ -512,6 +512,49 @@ namespace CEPA.CCO.DAL
             }
         }
 
+        public static List<EncaBuque> getBuqueLleg(DBComun.Estado pEstado)
+        {
+            List<EncaBuque> _empleados = new List<EncaBuque>();
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SyBaseNET, pEstado))
+            {
+                _conn.Open();
+                string _consulta = null;
+                AseCommand _command = null;
+
+
+                _consulta = @" SELECT isnull(a.c_llegada, '')c_llegada, isnull(b.c_buque, '') c_buque, isnull(b.s_nom_buque, '') d_buque, ISNULL(b.c_imo, '') c_imo
+                        FROM fa_llegadas a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
+                        WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_llegada) >= 2016  ";
+
+
+                _command = new AseCommand(_consulta, _conn as AseConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                AseDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    EncaBuque _tmpEmpleado = new EncaBuque
+                    {
+                        c_llegada = _reader.GetString(0),
+                        c_buque = _reader.GetString(1),
+                        d_buque = _reader.GetString(2),                        
+                        c_imo = _reader.GetString(3)
+                    };
+
+                    _empleados.Add(_tmpEmpleado);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return _empleados;
+            }
+        }
+
         public static List<EncaBuque> ObtenerBuquesJoinOf(DBComun.Estado pEstado)
         {
             List<EncaBuque> _empleados = new List<EncaBuque>();

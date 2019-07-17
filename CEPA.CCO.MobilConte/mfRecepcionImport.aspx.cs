@@ -100,7 +100,7 @@ namespace CEPA.CCO.MobilConte
         public static string GetConteInfo(string n_contenedor)
         {
             var query = (from a in ValidaTarjaDAL.GetContenedorInfor(n_contenedor)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinC(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                         join b in EncaBuqueDAL.getBuqueLleg(DBComun.Estado.verdadero) on a.c_llegada equals b.c_llegada
                          select new InfOperaciones
                          {
                              c_tamaño = a.c_tamaño,

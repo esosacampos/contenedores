@@ -92,10 +92,9 @@
             font-family: 'trebuchet MS', 'Lucida sans', Arial;
         }
 
-        table#myTable.ui-responsive.ui-table.ui-table-reflow tbody tr td 
-        {
+        table#myTable.ui-responsive.ui-table.ui-table-reflow tbody tr td {
             /*text-align:center; */
-            vertical-align:middle;
+            vertical-align: middle;
             font-size: 19px;
             border-collapse: separate;
             border-spacing: 10px 5px;
@@ -130,7 +129,7 @@
                 <table data-role="table" class="ui-responsive" id="myTable">
                 </table>
 
-                <div class="ui-grid-b ui-responsive" style="margin:0 auto 0 auto;text-align:center">
+                <div class="ui-grid-b ui-responsive" style="margin: 0 auto 0 auto; text-align: center">
                     <button type="button" class="ui-shadow ui-btn ui-corner-all ui-btn-inline ui-icon-check ui-btn-icon-left ui-btn-a" id="btnAcceso">
                         Confirmar</button>
 
@@ -262,11 +261,10 @@
                                 trHTML += '<tr><td>' + recibidos[i].n_contenedor + '</td><td>' + recibidos[i].f_recepcion + '</td><td>' + recibidos[i].c_marcacion + '</td></tr>';
                             });
                         }
-                        else
-                        {
-                            
+                        else {
+
                             bootbox.alert("No hay información de recepcion que mostrar");
-                            
+
                         }
 
 
@@ -307,24 +305,23 @@
                                 contentType: "application/json; charset=utf-8",
                                 success: function (response) {
                                     var pagos = (typeof response.d) == "string" ? eval('(' + response.d + ')') : response.d;
-                                    
+
                                     $("#myTable").empty();
 
                                     if (pagos.length > 0) {
                                         for (var i = 0; pagos.length; i++) {
 
                                             $("#myTable").append('<tbody><tr><td style="font-weight: bold;" colspan="2">Buque: </td><td colspan="2"><input type="hidden" id="hIdDeta" />' + pagos[i].c_buque + '</td></tr>'
-                                            + '<tr><td style="font-weight: bold;" colspan="2">Naviera</td><td colspan="2">' + pagos[i].c_cliente + '</td></tr>'
-                                            + '<tr><td style="font-weight: bold;" colspan="2">Tara</td><td colspan="2">' + pagos[i].v_tara + '</td></tr>'
-                                            + '<tr><td style="font-weight: bold;" colspan="2">Tamaño</td><td colspan="2">' + pagos[i].c_tamaño + '</td></tr>'
-                                            + '<tr><td style="font-weight: bold;" colspan="2">Tráfico</td><td colspan="2"><input type="hidden" id="hDirecto" />' + pagos[i].c_trafico + '</td></tr>'
-                                            + '<tr><td style="font-weight: bold;" colspan="2">Estado</td><td colspan="2">' + pagos[i].c_estado + '</td></tr>'
-                                            + '<tr><td style="font-weight: bold;width:30%">Retenido Por La DAN</td><td style="color:' + pagos[i].b_style + ';font-weight: bold;width:5%">' + pagos[i].b_detenido + '</td><td style="font-weight: bold;;width:30%">Solicitado Por La DGA</td><td style="color:' + pagos[i].b_staduana + ';font-weight: bold;width:14%">' + pagos[i].b_aduana + '</td></tr>'
-                                            + '<tr><td style="font-weight: bold;" colspan="2" rowspan="2">Observaciones</td><td colspan="2" rowspan="2"><textarea name="addinfo" id="info" style="margin: 0;width: 90%;height: 209px;"></textarea></td></tr>'
-                                            + '</tbody>');
+                                                + '<tr><td style="font-weight: bold;" colspan="2">Naviera</td><td colspan="2">' + pagos[i].c_cliente + '</td></tr>'
+                                                + '<tr><td style="font-weight: bold;" colspan="2">Tara</td><td colspan="2">' + pagos[i].v_tara + '</td></tr>'
+                                                + '<tr><td style="font-weight: bold;" colspan="2">Tamaño</td><td colspan="2">' + pagos[i].c_tamaño + '</td></tr>'
+                                                + '<tr><td style="font-weight: bold;" colspan="2">Tráfico</td><td colspan="2"><input type="hidden" id="hDirecto" />' + pagos[i].c_trafico + '</td></tr>'
+                                                + '<tr><td style="font-weight: bold;" colspan="2">Estado</td><td colspan="2">' + pagos[i].c_estado + '</td></tr>'
+                                                + '<tr><td style="font-weight: bold;width:30%">Retenido Por La DAN</td><td style="color:' + pagos[i].b_style + ';font-weight: bold;width:5%">' + pagos[i].b_detenido + '</td><td style="font-weight: bold;;width:30%">Solicitado Por La DGA</td><td style="color:' + pagos[i].b_staduana + ';font-weight: bold;width:14%">' + pagos[i].b_aduana + '</td></tr>'
+                                                + '<tr><td style="font-weight: bold;" colspan="2" rowspan="2">Observaciones</td><td colspan="2" rowspan="2"><textarea name="addinfo" id="info" style="margin: 0;width: 90%;height: 209px;"></textarea></td></tr>'
+                                                + '</tbody>');
                                             $("#hIdDeta").val(pagos[i].IdDeta);
-                                            if (pagos[i].c_trafico.indexOf("DIRECTO") != -1)
-                                            {
+                                            if (pagos[i].c_trafico.indexOf("DIRECTO") != -1) {
                                                 $("#hDirecto").val("1");
                                             }
                                             else {
@@ -349,43 +346,43 @@
                 });
 
                 $("#btnAcceso").click(function () {
-                    if (confirm("¿Desea confirmar la recepción del contenedor #" + $("#search").val() + " ?")) {
-                        var params = new Object();
-                        params.IdDeta = $("#hIdDeta").val();
-                        params.s_observaciones = $("#info").val();
-                        params.c_marcacion = $("#hMarcacion").val();
-                        params.b_directo = $("#hDirecto").val();
-                        params = JSON.stringify(params);
-                        $.ajax({
-                            url: '<%=ResolveUrl("~/mfRecepcionImport.aspx/SaveConfir") %>',
-                            data: params,
-                            dataType: "json",
-                            type: "POST",
-                            contentType: "application/json; charset=utf-8",
-                            success: function (response) {
-                                alert(response.d);
-                            },
-                            error: function (response) {
-                                bootbox.alert("CEPA - Contenedores: Alerta!! Se ha producido un error vuelva a intertarlo o reporte a Informática");
-                            },
-                            failure: function (response) {
-                                bootbox.alert(response.responseText);
-                            }
-                        });
-                        $("#myTable").empty();
-                        $("#info").val('');
-                        $("#search").val('');
-                        $('#btnAcceso').attr("disabled", true);
-                    }
-                    else {
-                        $("#myTable").empty();
-                        $("#info").val('');
-                        $("#search").val('');
-                        $('#btnAcceso').attr("disabled", true);
-                    }
-                        
-
-                });
+                    bootbox.confirm("¿Desea confirmar la recepción del contenedor #" + $("#search").val() + " ?", function (result) {
+                        if (result) {
+                            var params = new Object();
+                            params.IdDeta = $("#hIdDeta").val();
+                            params.s_observaciones = $("#info").val();
+                            params.c_marcacion = $("#hMarcacion").val();
+                            params.b_directo = $("#hDirecto").val();
+                            params = JSON.stringify(params);
+                            $.ajax({
+                                url: '<%=ResolveUrl("~/mfRecepcionImport.aspx/SaveConfir") %>',
+                                data: params,
+                                dataType: "json",
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (response) {
+                                    bootbox.alert(response.d);
+                                },
+                                error: function (response) {
+                                    bootbox.alert("CEPA - Contenedores: Alerta!! Se ha producido un error vuelva a intertarlo o reporte a Informática");
+                                },
+                                failure: function (response) {
+                                    bootbox.alert(response.responseText);
+                                }
+                            });
+                            $("#myTable").empty();
+                            $("#info").val('');
+                            $("#search").val('');
+                            $('#btnAcceso').attr("disabled", true);
+                        }
+                        else {
+                            $("#myTable").empty();
+                            $("#info").val('');
+                            $("#search").val('');
+                            $('#btnAcceso').attr("disabled", true);
+                        }
+                    });
+                })
 
                 $("#btnCancelar").click(function () {
                     $("#myTable").empty();
@@ -430,43 +427,43 @@
 
                     $.ajax({
                         url: '<%=ResolveUrl("~/mfRecepcionImport.aspx/showSummary") %>',
-                        data: {},
-                        dataType: "json",
-                        type: "POST",
-                        contentType: "application/json; charset=utf-8",
-                        success: function (response) {
-                            var resumen = (typeof response.d) == "string" ? eval('(' + response.d + ')') : response.d;
-                            $("#myResumen").empty();
-                            if (resumen.length > 0) {
+                            data: {},
+                            dataType: "json",
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (response) {
+                                var resumen = (typeof response.d) == "string" ? eval('(' + response.d + ')') : response.d;
+                                $("#myResumen").empty();
+                                if (resumen.length > 0) {
 
-                                $("#myResumen").append('<thead><th>Llegada</th>'
-                                                                 + '<th>Buque</th>'
-                                                                 + '<th>Total</th>'
-                                                                 + '<th>Recepcionados</th>'
-                                                                 + '<th>Pendientes</th></thead>');
+                                    $("#myResumen").append('<thead><th>Llegada</th>'
+                                        + '<th>Buque</th>'
+                                        + '<th>Total</th>'
+                                        + '<th>Recepcionados</th>'
+                                        + '<th>Pendientes</th></thead>');
 
-                                $("#myResumen").append('<tbody>');
+                                    $("#myResumen").append('<tbody>');
 
 
-                                for (var b = 0; b < resumen.length; b++) {
-                                    $("#myResumen").append('<tr><td>' + resumen[b].c_llegada + '</td><td>' + resumen[b].c_buque + '</td><td>' + resumen[b].Total + '</td><td>' + resumen[b].OIRSA + '</td><td>' + resumen[b].PO + '</td></tr>');
+                                    for (var b = 0; b < resumen.length; b++) {
+                                        $("#myResumen").append('<tr><td>' + resumen[b].c_llegada + '</td><td>' + resumen[b].c_buque + '</td><td>' + resumen[b].Total + '</td><td>' + resumen[b].OIRSA + '</td><td>' + resumen[b].PO + '</td></tr>');
+                                    }
+
+                                    $("#myResumen").append('</tbody>');
                                 }
+                                else {
+                                    bootbox.alert("No existe buques pendientes");
+                                }
+                            },
+                            error: function (response) {
+                                bootbox.alert("CEPA - Contenedores: Alerta!! Se ha producido un error vuelva a intertarlo o reporte a Informática");
+                            },
+                            failure: function (response) {
+                                bootbox.alert(response.responseText);
+                            }
+                        });
 
-                                $("#myResumen").append('</tbody>');
-                            }
-                            else {
-                                bootbox.alert("No existe buques pendientes");
-                            }
-                        },
-                        error: function (response) {
-                            bootbox.alert("CEPA - Contenedores: Alerta!! Se ha producido un error vuelva a intertarlo o reporte a Informática");
-                        },
-                        failure: function (response) {
-                            bootbox.alert(response.responseText);
-                        }
                     });
-
-                });
 
             });
 
@@ -485,34 +482,33 @@
                         params = JSON.stringify(params);
                         $.ajax({
                             url: '<%=ResolveUrl("~/mfRecepcionImport.aspx/GetConte") %>',
-                            data: params,
-                            dataType: "json",
-                            type: "POST",
-                            contentType: "application/json; charset=utf-8",
-                            success: function (data) {
-                                var lista = (typeof data.d) == "string" ? eval('(' + data.d + ')') : data.d;
-                                if (lista.length > 0) {
-                                    response($.map(data.d, function (item) {
-                                        return {
-                                            label: item.split('-')[0],
-                                            val: item.split('-')[1]
-                                        }
-                                    }))
+                                data: params,
+                                dataType: "json",
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (data) {
+                                    var lista = (typeof data.d) == "string" ? eval('(' + data.d + ')') : data.d;
+                                    if (lista.length > 0) {
+                                        response($.map(data.d, function (item) {
+                                            return {
+                                                label: item.split('-')[0],
+                                                val: item.split('-')[1]
+                                            }
+                                        }))
+                                    }
+                                    else {
+                                        bootbox.alert("Busqueda no produce resultados");
+                                    }
+                                },
+                                error: function (response) {
+                                    bootbox.alert("CEPA - Contenedores: Alerta!! Se ha producido un error vuelva a intertarlo o reporte a Informática");
+                                },
+                                failure: function (response) {
+                                    bootbox.alert(response.responseText);
                                 }
-                                else
-                                {
-                                    bootbox.alert("Busqueda no produce resultados");
-                                }
-                            },
-                            error: function (response) {
-                                bootbox.alert("CEPA - Contenedores: Alerta!! Se ha producido un error vuelva a intertarlo o reporte a Informática");
-                            },
-                            failure: function (response) {
-                                bootbox.alert(response.responseText);
-                            }
-                        });
-                    }
-                });
+                            });
+                        }
+                    });
             }
         </script>
 
