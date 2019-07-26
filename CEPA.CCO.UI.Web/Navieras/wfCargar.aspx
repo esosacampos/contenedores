@@ -121,7 +121,7 @@
 
 
                     $.ajax({
-                        url: '<%= ResolveClientUrl("~/FileUploadHandler.ashx") %>' + '?d_buque=' + buque + '&c_imo=' + c_imo + '&c_llegada=' + c_llegada + '&f_llegada=' + f_llegada + '&susti=0' + '&aduana=0' + '&proceso=1' + '&sidunea=' + check + '&booking=' + b_booking,
+                        url: '<%= ResolveClientUrl("~/FileUploadHandler.ashx") %>' + '?d_buque=' + buque + '&c_imo=' + c_imo + '&c_llegada=' + c_llegada + '&f_llegada=' + f_llegada + '&susti=0' + '&aduana=0' + '&proceso=1' + '&sidunea=true' + '&booking=' + b_booking,
                         type: "POST",
                         data: data,
                         contentType: false,

@@ -198,10 +198,20 @@
     <h2>Tracking Contenedores Importacion
     </h2>
     <br />
-    <div class="col-lg-9">
-        <div class="input-group">
-            <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" placeholder="# de contenedor sin guiones" autocomplete="off"></asp:TextBox>
-            <span class="input-group-btn">
+    <div class="col-lg-12">
+        <div class="form-inline">
+            <div class="form-group" style="width:75%">
+                <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" placeholder="# de contenedor sin guiones" autocomplete="off" Width="100%"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <div runat="server" id="myRadio">
+                    <div>
+                        <asp:CheckBox class="label-success" runat="server" ID="radio3" />
+                        <label for="radio3">Shipper Own</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 <asp:Button ID="btnBuscar" runat="server" Text="Consultar" CssClass="btn btn-default"
                     OnClick="btnBuscar_Click" />
                 <%--<input type="button" id="exportpdf" value="Imprimir" class="btn btn-info">  OnClientClick="return confirmaSave(this.id);"--%>
@@ -209,7 +219,7 @@
                 <asp:HiddenField ID="txtPrint" runat="server" />
                 <asp:HiddenField ID="txtPrint1" runat="server" />
                 <asp:HiddenField ID="txtPrint2" runat="server" />
-            </span>
+            </div>
         </div>
     </div>
     <br />
@@ -257,7 +267,8 @@
                             <asp:TemplateField>
                                 <ItemTemplate>
                                     <tr id="rowF" iddeta="<%# Eval("IdDeta") %>">
-                                        <td colspan="100%"><div style="position: relative; padding-left: 30px;">
+                                        <td colspan="100%">
+                                            <div style="position: relative; padding-left: 30px;">
                                                 <asp:DetailsView ID="dtTracking" runat="server" AutoGenerateRows="False" DataKeyNames="IdDeta"
                                                     CssClass="footable" CellPadding="0" GridLines="None" Width="100%">
                                                     <Fields>
@@ -310,7 +321,7 @@
                                                             <ItemTemplate>
                                                                 <asp:Label Text="" ID="lblUbica" runat="server"></asp:Label>
                                                             </ItemTemplate>
-                                                        </asp:TemplateField>                                                        
+                                                        </asp:TemplateField>
                                                         <asp:BoundField DataField="s_comentarios" HeaderText="Observaciones" ReadOnly="True"></asp:BoundField>
                                                         <asp:TemplateField>
                                                             <HeaderTemplate>
@@ -373,7 +384,7 @@
                                     </span>
                                 </ItemTemplate>
                             </asp:TemplateField>
-</Columns>
+                        </Columns>
                         <EmptyDataTemplate>
                             <asp:Label ID="lblEmptyMessage" Text="Búsqueda no produjó resultados intentarlo de nuevo o llamar a Informática" runat="server" />
                         </EmptyDataTemplate>

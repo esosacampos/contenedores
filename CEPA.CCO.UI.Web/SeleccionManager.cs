@@ -205,6 +205,7 @@ namespace CEPA.CCO.UI.Web
                                                let t_revision = (HiddenField)item.FindControl("hRevision")
                                                let t_detalle = (HiddenField)item.FindControl("hDetalle")
                                                let size = Convert.ToString(item.Cells[4].Text ?? string.Empty)
+                                               let f_tramite_s = Convert.ToString(item.Cells[6].Text ?? string.Empty)
                                                where check.Checked
                                                select new DetaNaviera
                                                {
@@ -225,7 +226,8 @@ namespace CEPA.CCO.UI.Web
                                                    CalcDias = SqlMethods.DateDiffHour(Convert.ToDateTime(f_revision.Text), DateTime.Now),
                                                    c_navi = grid.DataKeys[item.RowIndex].Values[2].ToString(),
                                                    c_tipo_doc = grid.DataKeys[item.RowIndex].Values[3].ToString(),
-                                                   t_detalle = Convert.ToInt32(t_detalle.Value)
+                                                   t_detalle = Convert.ToInt32(t_detalle.Value),
+                                                   f_tramite_s = f_tramite_s
                                                }).ToList();
 
             HttpContext.Current.Session["Liberados"] = uncheckedProd;

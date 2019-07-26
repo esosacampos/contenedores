@@ -923,7 +923,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="&lt;p style='text-align:justify;line-height:15px;'&gt;ING. " + First(Fields!jefe_almacen.Value, "OficioSet") + "&lt;br/&gt; JEFE DE ALMACENES Y EQUIPOS CEPA ACAJUTLA &lt;br/&gt; PRESENTE &lt;/p&gt;"</Value>
+                                  <Value>="&lt;p style='text-align:justify;line-height:15px;'&gt;" + First(Fields!jefe_almacen.Value, "OficioSet") + "&lt;br/&gt; JEFE DE ALMACENES Y EQUIPOS CEPA ACAJUTLA &lt;br/&gt; PRESENTE &lt;/p&gt;"</Value>
                                   <MarkupType>HTML</MarkupType>
                                   <Style />
                                 </TextRun>
@@ -1016,7 +1016,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;p style='text-align:center;line-height:25px;'&gt;SUB. COMISIONADO " + First(Fields!sub_inspector.Value, "OficioSet") +"&lt;br/&gt;JEFE UCC ACAJUTLA &lt;/p&gt;"</Value>
+                                  <Value>="&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;p style='text-align:center;line-height:25px;'&gt;" + First(Fields!sub_inspector.Value, "OficioSet") +"&lt;br/&gt;JEFE UCC ACAJUTLA &lt;/p&gt;"</Value>
                                   <MarkupType>HTML</MarkupType>
                                   <Style />
                                 </TextRun>

@@ -779,7 +779,7 @@
                           </SortExpressions>
                           <Top>4.31349cm</Top>
                           <Left>0.41852cm</Left>
-                          <Height>1.29103cm</Height>
+                          <Height>1.29104cm</Height>
                           <Width>18.1517cm</Width>
                           <Style>
                             <Border>
@@ -923,7 +923,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="&lt;p style='text-align:justify;line-height:15px;'&gt;ING. " + First(Fields!jefe_almacen.Value, "OficioSet") + "&lt;br/&gt; JEFE DE ALMACENES Y EQUIPOS CEPA ACAJUTLA &lt;br/&gt; PRESENTE &lt;/p&gt;"</Value>
+                                  <Value>="&lt;p style='text-align:justify;line-height:15px;'&gt;" + First(Fields!jefe_almacen.Value, "OficioSet") + "&lt;br/&gt; JEFE DE ALMACENES Y EQUIPOS CEPA ACAJUTLA &lt;br/&gt; PRESENTE &lt;/p&gt;"</Value>
                                   <MarkupType>HTML</MarkupType>
                                   <Style />
                                 </TextRun>
@@ -1009,37 +1009,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <Textbox Name="d_buque2">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>="&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;p style='text-align:center;line-height:25px;'&gt;SGTO. " + First(Fields!sub_inspector.Value, "OficioSet") +"&lt;br/&gt;PUESTO GOAN. DAN ACAJUTLA &lt;/p&gt;"</Value>
-                                  <MarkupType>HTML</MarkupType>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>d_buque</rd:DefaultName>
-                          <Top>6.93477cm</Top>
-                          <Left>0.45019cm</Left>
-                          <Height>1.0088cm</Height>
-                          <Width>18.1201cm</Width>
-                          <ZIndex>7</ZIndex>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
                         <Textbox Name="Textbox19">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -1062,7 +1031,7 @@
                           <Left>13.0595cm</Left>
                           <Height>1.06736cm</Height>
                           <Width>5.53053cm</Width>
-                          <ZIndex>8</ZIndex>
+                          <ZIndex>7</ZIndex>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -1527,6 +1496,37 @@
           </RightBorder>
         </Style>
       </Tablix>
+      <Textbox Name="d_buque2">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>="&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;br/&gt;&lt;p style='text-align:center;line-height:25px;'&gt;" + First(Fields!sub_inspector.Value, "OficioSet") +"&lt;br/&gt;PUESTO GOAN. DAN ACAJUTLA &lt;/p&gt;"</Value>
+                <MarkupType>HTML</MarkupType>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>d_buque</rd:DefaultName>
+        <Top>6.95731cm</Top>
+        <Left>0.6674cm</Left>
+        <Height>1.0088cm</Height>
+        <Width>18.1201cm</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>9.84341cm</Height>
     <Style />

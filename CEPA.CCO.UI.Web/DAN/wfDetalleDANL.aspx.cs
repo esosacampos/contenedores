@@ -310,9 +310,10 @@ namespace CEPA.CCO.UI.Web.DAN
                     Html += "<td width=\"10px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TIEMPO (Días)</font></th>";
                     Html += "</center>";
                     Html += "</tr>";
-
+                    DateTime f_tramite;
                     foreach (DetaNaviera item in pContenedores)
                     {
+                        f_tramite = Convert.ToDateTime(item.f_tramite_s);
                         Html += "<tr>";
                         Html += "<center>";
                         Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + item.n_folio + "</font></td>";
@@ -320,7 +321,7 @@ namespace CEPA.CCO.UI.Web.DAN
                         Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + item.c_tamaño + "</font></td>";
                         Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + item.f_recep_patio.ToString("dd/MM/yyyy HH:mm") + "</font></td>";
                         Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + item.f_retenido.ToString("dd/MM/yyyy HH:mm") + "</font></td>";
-                        Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + item.f_tramite.ToString("dd/MM/yyyy HH:mm") + "</font></td>";
+                        Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + f_tramite.ToString("dd/MM/yyyy HH:mm") + "</font></td>";
                         Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + item.f_revision.ToString("dd/MM/yyyy HH:mm") + "</font></td>";
                         Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + item.f_dan + "</font></td>";
                         Html += "<td height=\"25\"><font size=2 color=blue>" + Math.Round(item.CalcDias / 24, 2) + "</font></td>";

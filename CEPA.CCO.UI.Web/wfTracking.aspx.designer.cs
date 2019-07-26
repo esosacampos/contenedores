@@ -22,6 +22,24 @@ namespace CEPA.CCO.UI.Web {
         protected global::System.Web.UI.WebControls.TextBox txtBuscar;
         
         /// <summary>
+        /// Control myRadio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl myRadio;
+        
+        /// <summary>
+        /// Control radio3.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox radio3;
+        
+        /// <summary>
         /// Control btnBuscar.
         /// </summary>
         /// <remarks>

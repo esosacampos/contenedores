@@ -50,8 +50,8 @@ namespace CEPA.CCO.UI.Web
                     }
                     if(Convert.ToInt32(Session["b_sidunea"]) == 1)
                     {
-                        myRadio.Visible = true;
-                        ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + "ALERTA! Marcar casilla para indicar si el manifiesto fue generado en Sidunea World" + "');", true);
+                        //myRadio.Visible = true;
+                        //ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + "ALERTA! Marcar casilla para indicar si el manifiesto fue generado en Sidunea World" + "');", true);
                     }
                     else
                     {

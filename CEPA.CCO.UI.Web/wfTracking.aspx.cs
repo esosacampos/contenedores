@@ -58,11 +58,51 @@ namespace CEPA.CCO.UI.Web
                 ScriptManager.RegisterClientScriptBlock(btnBuscar, typeof(Button), "testscript1", "alertError();", true);
                 //System.Threading.Thread.Sleep(1000);
 
-                if (txtBuscar.Text.Length == 11)
+                if (radio3.Checked == false)
                 {
+                    if (txtBuscar.Text.Length == 11)
+                    {
+                        string valida = DetaNavieraDAL.ValidaContenedor(DBComun.Estado.verdadero, txtBuscar.Text.Trim().TrimEnd().TrimStart(), DBComun.TipoBD.SqlServer);
+
+                        if (valida == "VALIDO")
+                        {
+
+                            pLista = DocBuqueLINQ.ObtenerTracking(txtBuscar.Text, Session["c_naviera"].ToString());
 
 
 
+                            if (pLista.Count > 0)
+                            {
+                                grvTracking.DataSource = pLista;
+                                grvTracking.DataBind();
+
+                            }
+                            else
+                            {
+                                grvTracking.DataSource = null;
+                                grvTracking.DataBind();
+                                Label lblEmptyMessage = grvTracking.Controls[0].Controls[0].FindControl("lblEmptyMessage") as Label;
+                                lblEmptyMessage.Text = "No se poseen registros de este contenedor: " + txtBuscar.Text;
+                                throw new Exception(lblEmptyMessage.Text);
+                            }
+
+                        }
+                        else
+                        {
+
+                            throw new Exception("Número de contenedor no válido: " + txtBuscar.Text);
+                        }
+
+                    }
+                    else
+                    {
+                        grvTracking.DataSource = null;
+                        grvTracking.DataBind();
+                        throw new Exception("Este número no posee los 11 caracteres " + txtBuscar.Text);
+                    }
+                }
+                else
+                {
                     pLista = DocBuqueLINQ.ObtenerTracking(txtBuscar.Text, Session["c_naviera"].ToString());
 
 
@@ -79,17 +119,8 @@ namespace CEPA.CCO.UI.Web
                         grvTracking.DataBind();
                         Label lblEmptyMessage = grvTracking.Controls[0].Controls[0].FindControl("lblEmptyMessage") as Label;
                         lblEmptyMessage.Text = "No se poseen registros de este contenedor: " + txtBuscar.Text;
+                        throw new Exception(lblEmptyMessage.Text);
                     }
-                     
-
-
-                }
-                else
-                {
-                    grvTracking.DataSource = null;
-                    grvTracking.DataBind();
-                    Label lblEmptyMessage = grvTracking.Controls[0].Controls[0].FindControl("lblEmptyMessage") as Label;
-                    lblEmptyMessage.Text = "Este número no posee los 11 caracteres " + txtBuscar.Text;
                 }
 
                 grvTracking.HeaderRow.Cells[0].Attributes["data-class"] = "expand";
@@ -117,7 +148,7 @@ namespace CEPA.CCO.UI.Web
             }
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + "Error: Problemas en resolver su consulta intente de nuevo o consulte con Informática" + "');", true);
+                ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + ex.Message + "');", true);
             }
         }
 
