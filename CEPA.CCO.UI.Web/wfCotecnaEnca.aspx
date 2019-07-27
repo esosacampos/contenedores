@@ -130,7 +130,7 @@ function confirmaSave(controlID) {
                             setTimeout(function(){
                                 dialog.find('.bootbox-body').html('Su solicitud esta siendo procesada..');
                                 dialog.modal('hide');
-                            }, 10000);
+                            }, 120000);
                     });
                     
                                 // do something in the background

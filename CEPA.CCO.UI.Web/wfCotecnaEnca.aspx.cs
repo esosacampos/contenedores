@@ -89,12 +89,13 @@ namespace CEPA.CCO.UI.Web
                 string d_buque = Convert.ToString(commandArgs[2]);
                 string f_corto = f_llegada.ToString("ddMMyy");
                 try
-                {
+                {                   
                     ExportarExcel(c_llegada, f_lleg, d_buque, f_corto);
                 }
                 catch (Exception Ex)
                 {
-                    Response.Write("<script>bootbox.alert('GENERAR LISTADOS:" + Ex.Message + "');</script>");
+                    //Response.Write("<script>bootbox.alert('GENERAR LISTADOS: " + Ex.Message + "');</script>");
+                    ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('GENERAR LISTADOS: " + Ex.Message + "<br/><strong>INTENTE DE NUEVO</strong>');", true);
                 }
                 try
                 {
@@ -102,7 +103,7 @@ namespace CEPA.CCO.UI.Web
                 }
                 catch (Exception Ex)
                 {
-                    Response.Write("<script>bootbox.alert('CARGA PRINCIPAL:" + Ex.Message + "');</script>");
+                    ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('CARGA PRINCIPAL: " + Ex.Message + "<br/><strong>INTENTE DE NUEVO</strong>');", true);
                 }
             }         
             return;
@@ -110,44 +111,46 @@ namespace CEPA.CCO.UI.Web
 
         public void ExportarExcel(string c_llegada, string f_llegada, string d_buque, string f_corto)
         {
+
             List<string> pListaNo = new List<string>();
             List<string> pRespuesta = new List<string>();
             int _resulDeta = 0;            
             string _mensaje = null;
 
             List<ContenedoresAduana> pListManis = new List<ContenedoresAduana>();
-
+            
             pListManis = ResulNavieraDAL.ObtenerManiBuque(DBComun.Estado.verdadero, c_llegada);
-
-            if (pListManis.Count > 0)
-            {
-                //Actualizar manifiesto electronico
-                foreach (var iMani in pListManis)
+                
+                if (pListManis.Count > 0)
                 {
-                    insertMani(pListaNo, pRespuesta, ref _resulDeta, iMani.b_sidunea, ref _mensaje, iMani.n_manifiesto, iMani.a_manifiesto);
-                }
-
-                //Generar y almacenar listados
-                foreach (var iLst in pListManis)
-                {
-                    List<ArchivoAduana> pCotecna = new List<ArchivoAduana>();
-                    pCotecna = DetaNavieraDAL.getCotecnaLstWeb(iLst.a_manifiesto, iLst.n_manifiesto, DBComun.Estado.verdadero);
-
-                    if(pCotecna.Count > 0)
+                    
+                    //Actualizar manifiesto electronico
+                    foreach (var iMani in pListManis)
                     {
-                        //const int ROWS_FIRST = 1;
-                        const int ROWS_START = 1;
-                        int Filas = pCotecna.Count + ROWS_START;
-                        int iRow = 1;
+                        insertMani(pListaNo, pRespuesta, ref _resulDeta, iMani.b_sidunea, ref _mensaje, iMani.n_manifiesto, iMani.a_manifiesto);
+                    }
 
-                        var oWB = new cxExcel.XLWorkbook();
+                    //Generar y almacenar listados
+                    foreach (var iLst in pListManis)
+                    {
+                        List<ArchivoAduana> pCotecna = new List<ArchivoAduana>();
+                        pCotecna = DetaNavieraDAL.getCotecnaLstWeb(iLst.a_manifiesto, iLst.n_manifiesto, DBComun.Estado.verdadero);
 
-                        List<ArchivoAduana> _list = new List<ArchivoAduana>();
+                        if (pCotecna.Count > 0)
+                        {
+                            //const int ROWS_FIRST = 1;
+                            const int ROWS_START = 1;
+                            int Filas = pCotecna.Count + ROWS_START;
+                            int iRow = 1;
 
-                        string nombreSheet = null;
+                            var oWB = new cxExcel.XLWorkbook();
 
-                        
-                            nombreSheet ="MANI_" + iLst.a_manifiesto + iLst.n_manifiesto.ToString();
+                            List<ArchivoAduana> _list = new List<ArchivoAduana>();
+
+                            string nombreSheet = null;
+
+
+                            nombreSheet = "MANI_" + iLst.a_manifiesto + iLst.n_manifiesto.ToString();
 
                             var oSheet = oWB.Worksheets.Add(nombreSheet);
 
@@ -161,49 +164,49 @@ namespace CEPA.CCO.UI.Web
                             oSheet.Range("A1", string.Format("{0}1", _rango)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
                             oSheet.Range("A1", string.Format("{0}1", _rango)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Center);
 
-                        oSheet.Range("A2", string.Format("{0}", "E" + Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
-                        oSheet.Range("A2", string.Format("{0}", "E" + Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Center);
+                            oSheet.Range("A2", string.Format("{0}", "E" + Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
+                            oSheet.Range("A2", string.Format("{0}", "E" + Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Center);
 
-                        oSheet.Range("G2", string.Format("{0}", "H" + Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
-                        oSheet.Range("G2", string.Format("{0}", "H" + Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Center);
+                            oSheet.Range("G2", string.Format("{0}", "H" + Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
+                            oSheet.Range("G2", string.Format("{0}", "H" + Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Center);
 
-                        oSheet.Range("I2", string.Format("{0}", "I" + Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
-                        oSheet.Range("I2", string.Format("{0}", "I" + Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Right);
-
-
-                        oSheet.Range("J2", string.Format("{0}", "K" + Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
-                        oSheet.Range("J2", string.Format("{0}", "K" + Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Center);
-
-                        oSheet.Range("L2", string.Format("{0}", "M" + Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
-                        oSheet.Range("L2", string.Format("{0}", "M" + Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Left);
-
-                        oSheet.Range("N2", string.Format("{0}", "O" + Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
-                        oSheet.Range("N2", string.Format("{0}", "O" + Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Center);
-
-                        oSheet.Range("A1", string.Format("{0}", "O" + Filas)).Style.Font.FontSize = 8;
-
-                        oSheet.Range("A1", string.Format("{0}", "O" + Filas)).Style.Font.FontName = "Calibri";
-
-                        oSheet.Range("E2", string.Concat("E", Filas)).Style.NumberFormat.SetFormat("@");
-
-                        oSheet.Range("C2", string.Concat("C", Filas)).Style.NumberFormat.SetFormat("@");
-
-                        var oRng = oSheet.Range("A1", string.Concat(string.Format("{0}", _rango), Filas));
-
-                        oRng.Style.Border.DiagonalDown = false;
-                        oRng.Style.Border.DiagonalUp = false;
-                        oRng.Style.Border.InsideBorder = cxExcel.XLBorderStyleValues.Thin;
-                        oRng.Style.Border.OutsideBorder = cxExcel.XLBorderStyleValues.Medium;
+                            oSheet.Range("I2", string.Format("{0}", "I" + Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
+                            oSheet.Range("I2", string.Format("{0}", "I" + Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Right);
 
 
-                        oRng.Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
-                        oRng.Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Bottom;
-                        oRng.Style.Border.SetInsideBorderColor(cxExcel.XLColor.Black);
-                        oRng.Style.Border.SetOutsideBorderColor(cxExcel.XLColor.Black);
+                            oSheet.Range("J2", string.Format("{0}", "K" + Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
+                            oSheet.Range("J2", string.Format("{0}", "K" + Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Center);
+
+                            oSheet.Range("L2", string.Format("{0}", "M" + Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
+                            oSheet.Range("L2", string.Format("{0}", "M" + Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Left);
+
+                            oSheet.Range("N2", string.Format("{0}", "O" + Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
+                            oSheet.Range("N2", string.Format("{0}", "O" + Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Center);
+
+                            oSheet.Range("A1", string.Format("{0}", "O" + Filas)).Style.Font.FontSize = 8;
+
+                            oSheet.Range("A1", string.Format("{0}", "O" + Filas)).Style.Font.FontName = "Calibri";
+
+                            oSheet.Range("E2", string.Concat("E", Filas)).Style.NumberFormat.SetFormat("@");
+
+                            oSheet.Range("C2", string.Concat("C", Filas)).Style.NumberFormat.SetFormat("@");
+
+                            var oRng = oSheet.Range("A1", string.Concat(string.Format("{0}", _rango), Filas));
+
+                            oRng.Style.Border.DiagonalDown = false;
+                            oRng.Style.Border.DiagonalUp = false;
+                            oRng.Style.Border.InsideBorder = cxExcel.XLBorderStyleValues.Thin;
+                            oRng.Style.Border.OutsideBorder = cxExcel.XLBorderStyleValues.Medium;
 
 
-                        //Format A1:D1 as bold, vertical alignment = center.
-                        oSheet.Cell(ROWS_START, 1).Value = "No.";
+                            oRng.Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
+                            oRng.Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Bottom;
+                            oRng.Style.Border.SetInsideBorderColor(cxExcel.XLColor.Black);
+                            oRng.Style.Border.SetOutsideBorderColor(cxExcel.XLColor.Black);
+
+
+                            //Format A1:D1 as bold, vertical alignment = center.
+                            oSheet.Cell(ROWS_START, 1).Value = "No.";
                             oSheet.Cell(ROWS_START, 2).Value = "TIPO DECLARACION";
                             oSheet.Cell(ROWS_START, 3).Value = "MANIFIESTO";
                             oSheet.Cell(ROWS_START, 4).Value = "CONSIGNATARIO";
@@ -219,7 +222,7 @@ namespace CEPA.CCO.UI.Web
                             oSheet.Cell(ROWS_START, 14).Value = "CONDICION";
                             oSheet.Cell(ROWS_START, 15).Value = "TIPO BL";
 
-                            
+
 
                             oSheet.Column(1).Width = 6;
                             oSheet.Column(2).Width = 17;
@@ -260,70 +263,69 @@ namespace CEPA.CCO.UI.Web
                                 iRow = iRow + 1;
                             }
 
-                            
 
-                        string _nombre = string.Concat("COTEC_", d_buque.Replace(" ", "_"), "_", c_llegada, ".xlsx");
 
+                            string _nombre = string.Concat("COTEC_", d_buque.Replace(" ", "_"), "_", c_llegada, ".xlsx");
+
+                            string fullPathCO = ConfigurationManager.AppSettings["fullPathCO"];
+
+                            string _f7save = string.Format("{0}{1}", fullPathCO, "COTEC_" + d_buque + "_" + iLst.c_navi_corto + "_" + f_corto + ".xlsx");
+
+                            if (File.Exists(_f7save))
+                            {
+                                File.Delete(_f7save);
+                            }
+
+                            oWB.SaveAs(_f7save);
+                            //FileUpload FileUpload1 = new FileUpload();
+                            //FileUpload1.SaveAs(_f7save);
+
+
+
+                        }
+                    }
+
+                    // Crear zip para descarga
+                    using (ZipFile zip = new ZipFile())
+                    {
                         string fullPathCO = ConfigurationManager.AppSettings["fullPathCO"];
+                        string[] filePaths = Directory.GetFiles(fullPathCO);
 
-                        string _f7save = string.Format("{0}{1}", fullPathCO, "COTEC_" + d_buque + "_" + iLst.c_navi_corto + "_" + f_corto + ".xlsx");
-
-                        if (File.Exists(_f7save))
+                        foreach (string row in filePaths)
                         {
-                            File.Delete(_f7save);
+
+                            zip.AddFile(row);
                         }
 
-                        oWB.SaveAs(_f7save);
-                        //FileUpload FileUpload1 = new FileUpload();
-                        //FileUpload1.SaveAs(_f7save);
 
 
 
+                        Response.Clear();
+                        Response.BufferOutput = false;
+                        string zipName = String.Format("{0}.zip", d_buque + "_" + DateTime.Now.ToString("ddMMyy-HHmmss"));
+                        Response.ContentType = "application/zip";
+                        Response.AddHeader("content-disposition", "attachment; filename=" + zipName);
+                        zip.Save(Response.OutputStream);
+
+                        string[] filePaths1 = Directory.GetFiles(fullPathCO);
+
+                        foreach (string iDel in filePaths1)
+                        {
+                            if (File.Exists(iDel))
+                                File.Delete(iDel);
+                        }
+                        Response.End();
                     }
                 }
 
-                // Crear zip para descarga
-                using (ZipFile zip = new ZipFile())
-                {
-                    string fullPathCO = ConfigurationManager.AppSettings["fullPathCO"];
-                    string[] filePaths = Directory.GetFiles(fullPathCO);
-                    
-                    foreach (string row in filePaths)
-                    {
-
-                        zip.AddFile(row);
-                    }
-
-                    
-                    
-
-                    Response.Clear();
-                    Response.BufferOutput = false;
-                    string zipName = String.Format("{0}.zip", d_buque + "_" + DateTime.Now.ToString("ddMMyy-HHmmss"));
-                    Response.ContentType = "application/zip";
-                    Response.AddHeader("content-disposition", "attachment; filename=" + zipName);
-                    zip.Save(Response.OutputStream);
-
-                    string[] filePaths1 = Directory.GetFiles(fullPathCO);
-
-                    foreach (string iDel in filePaths1)
-                    {
-                        if (File.Exists(iDel))
-                            File.Delete(iDel);
-                    }
-                    Response.End();
-                }
-
-
-            }
-
+            
 
 
         }
 
         private void insertMani(List<string> pListaNo, List<string> pRespuesta, ref int _resulDeta, int b_sidunea, ref string _mensaje, int n_manifiesto, string a_manifiesto)
         {
-            string resul = ResulNavieraDAL.EliminarManifiesto(DBComun.Estado.verdadero, n_manifiesto, a_manifiesto, b_sidunea);
+            //string resul = ResulNavieraDAL.EliminarManifiesto(DBComun.Estado.verdadero, n_manifiesto, a_manifiesto, b_sidunea);
 
             MemoryStream memoryStream = new MemoryStream();
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
