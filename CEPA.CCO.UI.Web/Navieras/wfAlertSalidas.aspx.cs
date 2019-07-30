@@ -381,7 +381,7 @@ namespace CEPA.CCO.UI.Web.Navieras
             }
             else
             {
-                pList = getEntLLenos(c_contenedor, c_naviera, f_corta);
+                pList = getEntLLenos(c_contenedor, c_naviera, "ALL");
                 grvDatos.DataSource = pList;
                 grvDatos.DataBind();
                 

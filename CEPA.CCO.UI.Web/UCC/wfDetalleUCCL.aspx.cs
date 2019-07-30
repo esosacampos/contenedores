@@ -303,9 +303,10 @@ namespace CEPA.CCO.UI.Web.UCC
                     Html += "<td width=\"10px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TIEMPO (Días)</font></th>";
                     Html += "</center>";
                     Html += "</tr>";
-
+                    DateTime f_tramite;
                     foreach (DetaNaviera item in pContenedores)
                     {
+                        f_tramite = Convert.ToDateTime(item.f_tramite_s);
                         Html += "<tr>";
                         Html += "<center>";
                         Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + item.n_folio + "</font></td>";
