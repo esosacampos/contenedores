@@ -42,6 +42,8 @@ namespace CEPA.CCO.Entidades
         public string b_solidga { get; set; }
         public string c_voyage { get; set; }
         public int IdDoc { get; set; }
+
+        public string c_nul { get; set; }
     }
 
     public class EncaLiquid

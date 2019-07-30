@@ -1254,7 +1254,10 @@ namespace CEPA.CCO.AduanaService
                                         using (StreamWriter tw = new StreamWriter(Archivo, true))
                                         {
                                             tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ACTUALIZACION NO EFECTUADA IdDeta #: " + itemC + " # Contenedor: " + n_Container1.FirstOrDefault());
+
                                         }
+
+                                        EnvioServicio("MODULO TRANSMISION RECEPCION:<br/><br/>Detalle Error : <br/>Bloqueada transmisión Contenedor #" + itemC, "SERVICIO DE ADUANA BLOQUEO TRANSMISION");
                                     }
                                     else
                                     {
@@ -1263,8 +1266,10 @@ namespace CEPA.CCO.AduanaService
 
                                             using (StreamWriter tw = new StreamWriter(Archivo, true))
                                             {
-                                                tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": RESULTADO CAPTURADO: " + itemC);
+                                                tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": RESPUESTA DE LA DGA A LA TRANSMISION DE CEPA: " + itemC);
                                             }
+
+                                            
                                         }
 
                                     }
@@ -1312,6 +1317,7 @@ namespace CEPA.CCO.AduanaService
                                         {
                                             tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ACTUALIZACION NO EFECTUADA IdDeta #: " + itemC + " # Contenedor: " + n_Container1.FirstOrDefault());
                                         }
+                                        //EnvioServicio("MODULO TRANSMISION RECEPCION:<br/><br/>Detalle Error : <br/>Bloqueada transmisión Contenedor #" + itemC, "SERVICIO DE ADUANA BLOQUEO TRANSMISION");
                                     }
                                     else
                                     {
@@ -1320,7 +1326,7 @@ namespace CEPA.CCO.AduanaService
 
                                             using (StreamWriter tw = new StreamWriter(Archivo, true))
                                             {
-                                                tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": RESULTADO CAPTURADO: " + itemC);
+                                                tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": RESPUESTA DE LA DGA A LA TRANSMISION DE CEPA: " + itemC);
                                             }
                                         }
 
@@ -1641,6 +1647,7 @@ namespace CEPA.CCO.AduanaService
                                                         where a.c_llegada == item.c_llegada && b.f_atraque != null
                                                         select new CorteCOTECNA
                                                         {
+                                                            c_nul = b.c_nul,
                                                             c_llegada = a.c_llegada,
                                                             c_cliente = a.c_cliente,
                                                             d_buque = b.d_buque,
@@ -1659,6 +1666,7 @@ namespace CEPA.CCO.AduanaService
                             if (query.Count > 0)
                             {
                                 int c_total = 0, c_dan = 0, c_dga = 0;
+                                string cb_llegada = null, cb_nul = null;
 
                                 EnvioCorreo _correo = new EnvioCorreo();
 
@@ -1666,6 +1674,8 @@ namespace CEPA.CCO.AduanaService
                                 {
                                     barco = bitem.d_buque;
                                     f_atraque = bitem.f_atraque.ToString("dd/MM/yyyy HH:mm");
+                                    cb_llegada = bitem.c_llegada;
+                                    cb_nul = bitem.c_nul;
                                     break;
                                 }
 
@@ -1731,7 +1741,7 @@ namespace CEPA.CCO.AduanaService
 
                                 //_correo.ListaNoti = _ccList;
 
-                                string act = CorteCOTECNADAL.ActCOTECNA(item.c_llegada);
+                                string act = CorteCOTECNADAL.ActCOTECNA(cb_llegada, cb_nul);
 
                                 if (act != null)
                                 {

@@ -28,37 +28,37 @@
         "Entry"
         {
         "MsmKey" = "8:_07266AC79E3F466CE34633696916D635"
-        "OwnerKey" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
+        "OwnerKey" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
+        "MsmKey" = "8:_10719BA6D56751E70B8B358DE6AB26DC"
+        "OwnerKey" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_10719BA6D56751E70B8B358DE6AB26DC"
+        "OwnerKey" = "8:_ECCC6A949ED04F495CB76B7F4B190A03"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_167A258BE0AFD4622EA59D8046D4D9F8"
+        "OwnerKey" = "8:_ECCC6A949ED04F495CB76B7F4B190A03"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_167A258BE0AFD4622EA59D8046D4D9F8"
+        "OwnerKey" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_10719BA6D56751E70B8B358DE6AB26DC"
-        "OwnerKey" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_10719BA6D56751E70B8B358DE6AB26DC"
-        "OwnerKey" = "8:_ECCC6A949ED04F495CB76B7F4B190A03"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_167A258BE0AFD4622EA59D8046D4D9F8"
-        "OwnerKey" = "8:_ECCC6A949ED04F495CB76B7F4B190A03"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_167A258BE0AFD4622EA59D8046D4D9F8"
-        "OwnerKey" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -70,7 +70,7 @@
         "Entry"
         {
         "MsmKey" = "8:_41C5AD79DD75D16A4D7AC7280B6351CC"
-        "OwnerKey" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
+        "OwnerKey" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,7 +88,7 @@
         "Entry"
         {
         "MsmKey" = "8:_451D4247A2F4351281816938F426B6B4"
-        "OwnerKey" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
+        "OwnerKey" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -106,13 +106,13 @@
         "Entry"
         {
         "MsmKey" = "8:_63491EA8ADD187FF5E673860FEC04F29"
-        "OwnerKey" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
+        "OwnerKey" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_ECCC6A949ED04F495CB76B7F4B190A03"
-        "OwnerKey" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
+        "OwnerKey" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -130,7 +130,7 @@
         "Entry"
         {
         "MsmKey" = "8:_F3AFDB86348F19871989A6E1D9EE4883"
-        "OwnerKey" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
+        "OwnerKey" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -148,13 +148,19 @@
         "Entry"
         {
         "MsmKey" = "8:_FAF30344F94C9B48DC033B1A7EAE7A3E"
-        "OwnerKey" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
+        "OwnerKey" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
+        "OwnerKey" = "8:_451D4247A2F4351281816938F426B6B4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -203,12 +209,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_63491EA8ADD187FF5E673860FEC04F29"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_451D4247A2F4351281816938F426B6B4"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -278,61 +278,65 @@
     {
         "CustomAction"
         {
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_09046C6832934A62B46CC209ECA34370"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_10964B3801E844588E08BD3FD6F56B97"
             {
-            "Name" = "8:Primary output from CEPA.CCO.AduanaService (Debug x86)"
+            "Name" = "8:Resultado principal from CEPA.CCO.AduanaService (Active)"
             "Condition" = "8:"
-            "Object" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
-            "FileType" = "3:2"
-            "InstallAction" = "3:1"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_44E3B877_B4D3_48DE_8DBB_46E64B7A6EBF"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_0FD79A2133614BAAAE2D8E60DA13F723"
-            {
-            "Name" = "8:Primary output from CEPA.CCO.AduanaService (Debug x86)"
-            "Condition" = "8:"
-            "Object" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
-            "FileType" = "3:2"
-            "InstallAction" = "3:3"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_57983326_7FC7_4109_A718_4130BB07311A"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_B2BACA2AC1BF43A09ADCC1ECD5163CC2"
-            {
-            "Name" = "8:Primary output from CEPA.CCO.AduanaService (Debug x86)"
-            "Condition" = "8:"
-            "Object" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
-            "FileType" = "3:2"
-            "InstallAction" = "3:2"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_BABE5E9C_0166_4EA7_8BA6_CF316C650665"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_B509CB95B7BA4C6B85AE9D6F8438C05B"
-            {
-            "Name" = "8:Primary output from CEPA.CCO.AduanaService (Debug x86)"
-            "Condition" = "8:"
-            "Object" = "8:_07EE0EA366ED42EFAC89CBAB6C30D885"
+            "Object" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
             "FileType" = "3:2"
             "InstallAction" = "3:4"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_13025E17_6D54_4BAB_9545_D5E1DF98EFE3"
+            "Identifier" = "8:_3E53D28C_233B_45FF_9983_06A98B446293"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
+            "Run64Bit" = "11:TRUE"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_667DBEB616B44DF187A79FC510D8D986"
+            {
+            "Name" = "8:Resultado principal from CEPA.CCO.AduanaService (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
+            "FileType" = "3:2"
+            "InstallAction" = "3:2"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_BCA63A09_9BAA_49B1_9F1F_C8629414ADD9"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            "Run64Bit" = "11:TRUE"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_9573A6186B104E0FA436C67B03082AD0"
+            {
+            "Name" = "8:Resultado principal from CEPA.CCO.AduanaService (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
+            "FileType" = "3:2"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_F2C9BF91_3E28_4603_84D7_B8D28BEF5C34"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            "Run64Bit" = "11:TRUE"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_DD6A94E527454D34ACB9C6662BC58D41"
+            {
+            "Name" = "8:Resultado principal from CEPA.CCO.AduanaService (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
+            "FileType" = "3:2"
+            "InstallAction" = "3:3"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_5712E2A4_F0BB_45AB_B822_D7524168E000"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            "Run64Bit" = "11:TRUE"
             }
         }
         "DefaultFeature"
@@ -1243,9 +1247,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_07EE0EA366ED42EFAC89CBAB6C30D885"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_265C68CC0AC74AF7AD38D8FCDEE0000B"
             {
-            "SourcePath" = "8:..\\CEPA.CCO.AduanaService\\obj\\x86\\Debug\\CEPA.CCO.AduanaService.exe"
+            "SourcePath" = "8:..\\CEPA.CCO.AduanaService\\obj\\Debug\\CEPA.CCO.AduanaService.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_61C6732F7C0C4EE8A6AF033518D06DBF"
@@ -1263,7 +1267,7 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Debug|x86"
+            "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{C104EC06-8922-4DEC-9A38-BDC17ECDAA64}"
             "ShowKeyOutput" = "11:TRUE"

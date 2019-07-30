@@ -579,7 +579,7 @@ namespace CEPA.CCO.DAL
                 string _consulta = null;
                 AseCommand _command = null;
 
-                _consulta = @"SELECT a.c_llegada, b.s_nom_buque, d.c_cliente, c.s_razon_social, a.f_atraque
+                _consulta = @"SELECT a.c_nul, a.c_llegada, b.s_nom_buque, d.c_cliente, c.s_razon_social, a.f_atraque
                             FROM fa_llegadas a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
@@ -598,11 +598,13 @@ namespace CEPA.CCO.DAL
                 {
                     CorteCOTECNA _tmpEmpleado = new CorteCOTECNA
                     {
-                        c_llegada = _reader.GetString(0),
-                        d_buque = _reader.GetString(1),
-                        c_cliente = _reader.GetString(2),
-                        d_cliente = _reader.GetString(3),
-                        f_atraque = _reader.IsDBNull(4) ? Convert.ToDateTime(_reader.GetDateTime(4)) : _reader.GetDateTime(4)
+                        c_nul = _reader.GetString(0),
+                        c_llegada = _reader.GetString(1),
+                        d_buque = _reader.GetString(2),
+                        c_cliente = _reader.GetString(3),
+                        d_cliente = _reader.GetString(4),
+                        f_atraque = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5)
+                        
                     };
 
                     _empleados.Add(_tmpEmpleado);
@@ -664,18 +666,18 @@ namespace CEPA.CCO.DAL
 
         }
 
-        public static string ActCOTECNA(string c_llegada)
+        public static string ActCOTECNA(string c_llegada, string c_nul)
         {
 
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.falso))
             {
                 _conn.Open();
                 string _consulta = @"UPDATE CCO_ENCA_NAVIERAS
-                                    SET b_cotecna = 1, f_cotecna = GETDATE()
-                                    WHERE c_llegada = '{0}'
+                                    SET b_cotecna = 1, f_cotecna = GETDATE(), c_nul = '{0}'
+                                    WHERE c_llegada = '{1}'
                                     SELECT @@ROWCOUNT";
 
-                SqlCommand _command = new SqlCommand(string.Format(_consulta, c_llegada), _conn as SqlConnection)
+                SqlCommand _command = new SqlCommand(string.Format(_consulta, c_nul, c_llegada), _conn as SqlConnection)
                 {
                     CommandType = CommandType.Text
                 };
