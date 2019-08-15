@@ -194,7 +194,7 @@ namespace CEPA.CCO.UI.Web
             if (c_llegada.Length > 0)
             {
                 query = (from a in AlertaDANDAL.ObtenerOIRSAO(DBComun.Estado.verdadero, c_llegada, pListado)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinC(DBComun.Estado.verdadero) on new { c_llegada = a.c_llegada, c_cliente = a.c_navi } equals new { c_llegada = b.c_llegada, c_cliente = b.c_cliente }
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on new { c_llegada = a.c_llegada, c_cliente = a.c_navi } equals new { c_llegada = b.c_llegada, c_cliente = b.c_cliente }
                          select new DetaNaviera
                          {
                              c_correlativo = a.c_correlativo,

@@ -30,7 +30,7 @@ namespace CEPA.CCO.TareasProgram
                 tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ===>> INICIO DE ALERTA <<===");
 
                 var query = (from a in AlertaDANDAL.ObtenerAlerta(DBComun.Estado.falso, "")
-                             join b in EncaBuqueDAL.ObtenerBuquesJoinA(DBComun.Estado.falso) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                             join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.falso) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                              select new AlertaDAN
                              {
                                  c_numeral = a.c_numeral,

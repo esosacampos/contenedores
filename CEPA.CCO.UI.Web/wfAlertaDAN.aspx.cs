@@ -129,7 +129,7 @@ namespace CEPA.CCO.UI.Web
                     c_tipo = "CEP";
 
                 var query = (from a in AlertaDANDAL.ObtenerAlerta(DBComun.Estado.verdadero, c_tipo)
-                             join b in EncaBuqueDAL.ObtenerBuquesJoinC(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                             join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                              select new AlertaDAN
                              {
                                  c_numeral = a.c_numeral,
@@ -249,7 +249,7 @@ namespace CEPA.CCO.UI.Web
 
 
                 var query = (from a in AlertaDANDAL.ObtenerAlerta(DBComun.Estado.verdadero, fecha, c_tipo)
-                             join b in EncaBuqueDAL.ObtenerBuquesJoinC(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                             join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                              select new AlertaDAN
                              {
                                  c_numeral = a.c_numeral,
@@ -364,7 +364,7 @@ namespace CEPA.CCO.UI.Web
             if (txtDOB.Text.Trim().TrimEnd().TrimStart() == string.Empty || txtDOB.Text.Trim().TrimEnd().TrimStart().Length == 0)
             {
                 query = (from a in AlertaDANDAL.ObtenerAlerta(DBComun.Estado.verdadero, c_tipo)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinC(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                          select new AlertaDAN
                          {
                              c_numeral = a.c_numeral,
@@ -384,7 +384,7 @@ namespace CEPA.CCO.UI.Web
             {
                 string fecha = Convert.ToDateTime(txtDOB.Text).ToString("dd/MM/yyyy");
                 query = (from a in AlertaDANDAL.ObtenerAlerta(DBComun.Estado.verdadero, fecha, c_tipo)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinC(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                          select new AlertaDAN
                          {
                              c_numeral = a.c_numeral,

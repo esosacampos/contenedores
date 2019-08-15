@@ -129,7 +129,7 @@ namespace CEPA.CCO.Linq
             EncaBuqueBL _encaBL = new EncaBuqueBL();
 
             var query = (from a in EncaNavieraDAL.ObtenerCabecera(pTipo)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinA(pTipo) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(pTipo) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                          select new DocBuque
                          {
                              IdReg = a.IdReg,
@@ -157,7 +157,7 @@ namespace CEPA.CCO.Linq
             EncaBuqueBL _encaBL = new EncaBuqueBL();
 
             var query = (from a in EncaNavieraDAL.ObtenerCabeceraEx(pTipo)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinA(pTipo) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(pTipo) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                          select new DocBuque
                          {
                              IdReg = a.IdReg,
@@ -182,7 +182,7 @@ namespace CEPA.CCO.Linq
             EncaBuqueBL _encaBL = new EncaBuqueBL();
 
             var query = (from a in EncaNavieraDAL.ObtenerCancelados(pTipo)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinA(pTipo) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada, c_imo = a.c_imo } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada, c_imo = b.c_imo }
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(pTipo) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada, c_imo = a.c_imo } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada, c_imo = b.c_imo }
                          where a.c_naviera == c_naviera
                          select new DocBuque
                          {
@@ -208,7 +208,7 @@ namespace CEPA.CCO.Linq
             EncaBuqueBL _encaBL = new EncaBuqueBL();
 
             var query = (from a in EncaNavieraDAL.ObtenerCambiosRD(pTipo)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinA(pTipo) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada, c_imo = a.c_imo } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada, c_imo = b.c_imo }
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(pTipo) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada, c_imo = a.c_imo } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada, c_imo = b.c_imo }
                          where a.c_naviera == c_naviera
                          select new DocBuque
                          {
@@ -291,7 +291,7 @@ namespace CEPA.CCO.Linq
             EncaBuqueBL _encaBL = new EncaBuqueBL();
 
             var query = (from a in EncaNavieraDAL.ObtenerCabeceraCancel(DBComun.Estado.verdadero)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinC(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                          where a.c_naviera == c_naviera
                          select new DocBuque
                          {
@@ -315,7 +315,7 @@ namespace CEPA.CCO.Linq
             EncaBuqueBL _encaBL = new EncaBuqueBL();
 
             var query = (from a in EncaNavieraDAL.ObtenerCabeceraCancel(DBComun.Estado.verdadero)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinC(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                          where a.IdReg == pId
                          select new DocBuque
                          {
@@ -341,7 +341,7 @@ namespace CEPA.CCO.Linq
             EncaBuqueBL _encaBL = new EncaBuqueBL();
 
             var query = (from a in EncaNavieraDAL.ObtenerCabeceraDAN(DBComun.Estado.verdadero)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinC(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                          select new DocBuque
                          {
                              IdReg = a.IdReg,
@@ -432,7 +432,7 @@ namespace CEPA.CCO.Linq
             EncaBuqueBL _encaBL = new EncaBuqueBL();
 
             var query = (from a in EncaNavieraDAL.ObtenerCabeceraDANL(DBComun.Estado.verdadero)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinC(DBComun.Estado.verdadero) on new { c_llegada = a.c_llegada, c_imo = a.c_imo } equals new { c_llegada = b.c_llegada, c_imo = b.c_imo }
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on new { c_llegada = a.c_llegada, c_imo = a.c_imo } equals new { c_llegada = b.c_llegada, c_imo = b.c_imo }
                          select new DocBuque
                          {
                              c_imo = a.c_imo,
@@ -649,25 +649,7 @@ namespace CEPA.CCO.Linq
 
             return query;
         }
-
-        public static List<Facturacion> ObtenerFacturaTarja()
-        {
-
-            var query = (from a in DetaNavieraDAL.ObtenerTarja()
-                         join b in EncaBuqueDAL.ObtenerTarjas() on a.c_llegada.TrimEnd().TrimStart() equals b.c_llegada.TrimEnd().TrimStart()
-                         select new Facturacion
-                         {
-                             c_correlativo = a.c_correlativo,
-                             n_contenedor = a.n_contenedor,
-                             c_tarja = b.c_tarja,
-                             v_peso = a.v_peso,
-                             s_consignatario = a.s_consignatario,
-                             n_BL = a.n_BL
-                         }).OrderBy(g => g.c_correlativo).ToList();
-
-
-            return query;
-        }
+               
 
         public static List<DetaDAN> ObtenerOficioReport1(string n_oficio, int a_folio)
         {
@@ -720,7 +702,7 @@ namespace CEPA.CCO.Linq
                 pBuques = EncaBuqueDAL.ObtenerBuquesJoinIN(DBComun.Estado.verdadero, "atraque", lParam);
 
                 var query = (from a in pEncaT
-                             join b in pBuques on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                             join b in pBuques on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }                             
                              select new TrackingEnca
                              {
                                  IdDeta = a.IdDeta,
@@ -740,8 +722,8 @@ namespace CEPA.CCO.Linq
                                             where c.c_contenedor == a.n_contenedor
                                             select new
                                             {
-                                                c_tarja = (c.c_tarja == null ? string.Empty : c.c_tarja)
-                                            }).Max(t => t.c_tarja),
+                                               c_tarja = string.IsNullOrEmpty(c.c_tarja) ? "" : c.c_tarja 
+                                            }).Max(x => x.c_tarja),
                                  b_requiere = a.b_requiere
                              }).OrderByDescending(g => g.IdDeta).ToList();
 
@@ -785,7 +767,7 @@ namespace CEPA.CCO.Linq
                             foreach (var trjs in pEncaTemp)
                             {
                                 List<Tarjas> detalleTarjas = new List<Tarjas>();
-                                detalleTarjas = EncaBuqueDAL.TarjasDetalle(trjs.c_tarja, trjs.c_llegada);
+                                detalleTarjas = EncaBuqueDAL.TarjasDetalle(trjs.c_tarja);
                                 if (detalleTarjas.Count > 0)
                                 {
                                     foreach (var detTarja in detalleTarjas)
@@ -795,13 +777,9 @@ namespace CEPA.CCO.Linq
                                             s_descripcion = s_descripcion + (detTarja.s_descripcion + "/ ");
                                             f_regTarja = detTarja.f_tarja;
                                             c_llegada = detTarja.c_llegada;
-
                                         }
-
-
                                     }
                                 }
-
                                 c_tarjas = c_tarjas + (trjs.c_tarja + "/");
                                 con_tarjas = con_tarjas + 1;
                             }
@@ -1053,7 +1031,7 @@ namespace CEPA.CCO.Linq
                                         select new
                                         {
                                             c_tarja = (c.c_tarja == null ? string.Empty : c.c_tarja)
-                                        }).Max(t => t.c_tarja),
+                                        }).Max(x=> x.c_tarja),
                              b_requiere = a.b_requiere
                          }).OrderByDescending(g => g.IdDeta).ToList();
 
@@ -1097,7 +1075,7 @@ namespace CEPA.CCO.Linq
                         foreach (var trjs in pEncaTemp)
                         {
                             List<Tarjas> detalleTarjas = new List<Tarjas>();
-                            detalleTarjas = EncaBuqueDAL.TarjasDetalle(trjs.c_tarja, trjs.c_llegada);
+                            detalleTarjas = EncaBuqueDAL.TarjasDetalle(trjs.c_tarja);
                             if (detalleTarjas.Count > 0)
                             {
                                 foreach (var detTarja in detalleTarjas)
@@ -1371,7 +1349,7 @@ namespace CEPA.CCO.Linq
             EncaBuqueBL _encaBL = new EncaBuqueBL();
 
             var query = (from a in EncaNavieraDAL.ObtenerCabeceraAuto(DBComun.Estado.verdadero)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinC(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                          select new DocBuque
                          {
                              IdReg = a.IdReg,
@@ -1394,7 +1372,7 @@ namespace CEPA.CCO.Linq
             EncaBuqueBL _encaBL = new EncaBuqueBL();
 
             var query = (from a in EncaNavieraDAL.ObtenerIdTrans(DBComun.Estado.verdadero, c_llegada)
-                         join b in EncaBuqueDAL.ObtenerBuquesTransmi(DBComun.Estado.verdadero) on a.c_llegada equals b.c_llegada
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on a.c_llegada equals b.c_llegada
                          select new DocBuque
                          {
                              c_imo = a.c_imo,
@@ -1421,41 +1399,30 @@ namespace CEPA.CCO.Linq
 
             EncaBuqueBL _encaBL = new EncaBuqueBL();
 
-            List<Tarjas> pTarjas = EncaBuqueDAL.TarjasLlegada(c_llegada);
+           // List<Tarjas> pTarjas = EncaBuqueDAL.TarjasLlegada(c_llegada);
 
-            if (pTarjas == null)
+            
+            lista = (from a in DetaNavieraDAL.ObtenerDetaTrans(c_llegada)
+            orderby a.c_cliente,
+                a.c_correlativo
+            select new DetaNaviera
             {
-                pTarjas = new List<Tarjas>();
-            }
-
-            if (pTarjas.Count > 0)
-            {
-                lista = (from a in DetaNavieraDAL.ObtenerDetaTrans(c_llegada)
-                         orderby a.c_cliente,
-                                a.c_correlativo
-                         select new DetaNaviera
-                         {
-                             c_correlativo = a.c_correlativo,
-                             n_contenedor = a.n_contenedor,
-                             c_tamaño = a.c_tamaño,
-                             b_estado = a.b_estado,
-                             c_tarja = (from c in pTarjas
-                                        where (c.d_marcas.Contains(a.n_contenedor) || c.c_contenedor.Trim().TrimEnd().TrimStart() == a.n_contenedor)
-                                        select new { c_tarja = c.c_tarja == null ? "ST" : c.c_tarja }).Max(t => t.c_tarja),
-                             f_recep = a.f_recep,
-                             b_trans = a.b_trans,
-                             f_trans = a.f_trans,
-                             f_dan = a.f_dan,
-                             c_cliente = a.c_cliente,
-                             c_manifiesto = a.c_manifiesto,
-                             b_recepcion_c = a.b_recepcion_c,
-                             b_requiere = a.b_requiere
-                         }).ToList();
-            }
-            else
-            {
-                throw new Exception("1");
-            }
+                c_correlativo = a.c_correlativo,
+                n_contenedor = a.n_contenedor,
+                c_tamaño = a.c_tamaño,
+                b_estado = a.b_estado,
+                c_tarja = (from c in EncaBuqueDAL.TarjasLlegada(c_llegada, a.n_contenedor, "b")                                        
+                        select new { c_tarja = c.c_tarja == null ? "ST" : c.c_tarja }).Max(x=> x.c_tarja),
+                f_recep = a.f_recep,
+                b_trans = a.b_trans,
+                f_trans = a.f_trans,
+                f_dan = a.f_dan,
+                c_cliente = a.c_cliente,
+                c_manifiesto = a.c_manifiesto,
+                b_recepcion_c = a.b_recepcion_c,
+                b_requiere = a.b_requiere
+            }).ToList();
+            
 
             return lista;
         }
@@ -1519,7 +1486,7 @@ namespace CEPA.CCO.Linq
             EncaBuqueBL _encaBL = new EncaBuqueBL();
 
             var query = (from a in EncaNavieraDAL.obtCabeceraDGA(DBComun.Estado.verdadero)
-                         join b in EncaBuqueDAL.ObtenerBuquesJoinC(DBComun.Estado.verdadero) on new { c_cliente = a.c_cliente, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on new { c_cliente = a.c_cliente, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                          where b.f_llegada.Year >= 2017
                          select new CorteCOTECNA
                          {

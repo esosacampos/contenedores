@@ -64,6 +64,7 @@
     <Compile Include="ArchivoBooking.cs" />
     <Compile Include="ArchivoExcel.cs" />
     <Compile Include="Autorizacion.cs" />
+    <Compile Include="BL.cs" />
     <Compile Include="CorreoError.cs" />
     <Compile Include="DANEstadistica.cs" />
     <Compile Include="DetaBooking.cs" />

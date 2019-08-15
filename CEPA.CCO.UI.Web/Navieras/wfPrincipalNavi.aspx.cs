@@ -37,19 +37,36 @@ namespace CEPA.CCO.UI.Web
         private void Cargar()
         {
             EncaBuqueBL _encaBL = new EncaBuqueBL();
-            GridView1.DataSource = DocBuqueLINQ.ObtenerBuqueDoc(Session["c_naviera"].ToString());
-            GridView1.DataBind();
+            if (Session["c_naviera"].ToString() != "289")
+            {
+                List<DocBuque> pList = new List<DocBuque>();
+                pList = DocBuqueLINQ.ObtenerBuqueDoc(Session["c_naviera"].ToString());
+                if (pList.Count > 0)
+                {
+                    GridView1.DataSource = pList;
+                    GridView1.DataBind();
 
-            GridView1.HeaderRow.Cells[0].Attributes["data-class"] = "expand";
 
-            GridView1.HeaderRow.Cells[2].Attributes["data-hide"] = "phone";
-            GridView1.HeaderRow.Cells[3].Attributes["data-hide"] = "phone";
-            GridView1.HeaderRow.Cells[4].Attributes["data-hide"] = "phone";
-       
+                    GridView1.HeaderRow.Cells[0].Attributes["data-class"] = "expand";
 
-            GridView1.HeaderRow.TableSection = TableRowSection.TableHeader;
-            GridView1.FooterRow.Cells[0].Attributes["text-align"] = "center";
-            GridView1.FooterRow.TableSection = TableRowSection.TableFooter;
+                    GridView1.HeaderRow.Cells[2].Attributes["data-hide"] = "phone";
+                    GridView1.HeaderRow.Cells[3].Attributes["data-hide"] = "phone";
+                    GridView1.HeaderRow.Cells[4].Attributes["data-hide"] = "phone";
+
+
+                    GridView1.HeaderRow.TableSection = TableRowSection.TableHeader;
+                    GridView1.FooterRow.Cells[0].Attributes["text-align"] = "center";
+                    GridView1.FooterRow.TableSection = TableRowSection.TableFooter;
+                }
+                else
+                {
+                    throw new Exception("No se poseen buques anunciados asociados a su usuario");
+                }
+            }
+            else
+            {
+                throw new Exception("No se poseen buques anunciados asociados a su usuario");
+            }
         }
 
         protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)

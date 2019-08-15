@@ -886,7 +886,6 @@ namespace CEPA.CCO.UI.Web.Tracking
 
                     v_peso = v_peso + EncaBuqueDAL.TarjasPeso(listTarjas.c_tarja);
 
-
                     if (_lstPagos == null)
                         _lstPagos = new List<Pago>();
 

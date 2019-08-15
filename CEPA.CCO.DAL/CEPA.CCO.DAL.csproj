@@ -89,6 +89,7 @@
     <Compile Include="ArchivoBookingDAL.cs" />
     <Compile Include="ArchivoExcelDAL.cs" />
     <Compile Include="AutorizacionDAL.cs" />
+    <Compile Include="BlDAL.cs" />
     <Compile Include="ContenedorDAL.cs" />
     <Compile Include="CorreoErroresDAL.cs" />
     <Compile Include="DanEstadisticaDAL.cs" />

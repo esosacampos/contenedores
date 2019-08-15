@@ -279,6 +279,7 @@
     <Content Include="FileExport.ashx" />
     <Content Include="FileUploadHandlerBook.ashx" />
     <Content Include="FileUploadHandlerRees.ashx" />
+    <Content Include="wfConsulBL.aspx" />
     <Content Include="wfLstValidFact.aspx" />
     <Content Include="wfVencimiento.aspx" />
     <None Include="Properties\PublishProfiles\Perfil183.pubxml" />
@@ -749,6 +750,13 @@
     </Compile>
     <Compile Include="wfConfiguracion.aspx.designer.cs">
       <DependentUpon>wfConfiguracion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfConsulBL.aspx.cs">
+      <DependentUpon>wfConsulBL.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfConsulBL.aspx.designer.cs">
+      <DependentUpon>wfConsulBL.aspx</DependentUpon>
     </Compile>
     <Compile Include="wfConsulDecla.aspx.cs">
       <DependentUpon>wfConsulDecla.aspx</DependentUpon>

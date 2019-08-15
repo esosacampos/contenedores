@@ -22,7 +22,6 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Web;
 using System.Text.RegularExpressions;
 
 using iTextSharp.tool.xml;
@@ -560,6 +559,10 @@ namespace CEPA.CCO.UI.Web
                                 _mani = "DENEGADO";
                             }
                         }
+                        else
+                        {
+                            _mani = "NO SE ENCONTRARON DECLARACIONES ASOCIADAS";
+                        }
                     }
 
 
@@ -596,10 +599,8 @@ namespace CEPA.CCO.UI.Web
                 foreach (var listTarjas in encaTarjas)
                 {
                     List<Pago> _lstPagos = PagoDAL.ConsultarPago(listTarjas.c_tarja, n_contenedor);
-
-                    v_peso = v_peso + EncaBuqueDAL.TarjasPeso(listTarjas.c_tarja);                   
-                    
-
+                    v_peso = v_peso + EncaBuqueDAL.TarjasPeso(listTarjas.c_tarja);                
+ 
                     if (_lstPagos == null)
                         _lstPagos = new List<Pago>();
 
@@ -895,7 +896,7 @@ namespace CEPA.CCO.UI.Web
             }
             catch (Exception ex)
             {
-                string _mensaje = "Error: Tiempo de espera agotado, intentelo de nuevo, presione la tecla F5";
+                string _mensaje = "Error: Tiempo de espera agotado, intentelo de nuevo, presione la tecla F5: " + ex.Message;
 
                 return Newtonsoft.Json.JsonConvert.SerializeObject(_mensaje);
             }
@@ -1222,7 +1223,7 @@ namespace CEPA.CCO.UI.Web
             }
             catch (Exception ex)
             {
-                string _mensaje = "Error: Tiempo de espera agotado, intentelo de nuevo, presione la tecla F5";
+                string _mensaje = "Error: Tiempo de espera agotado, intentelo de nuevo, presione la tecla F5: " + ex.Message;
 
                 return Newtonsoft.Json.JsonConvert.SerializeObject(_mensaje);
             }
@@ -1235,7 +1236,7 @@ namespace CEPA.CCO.UI.Web
             try
             {
                 string _resultado = null;
-                string _mani = null;
+                string _mani = "";
                 List<Declaracion> pDecla = new List<Declaracion>();
 
                 MemoryStream memoryStream = new MemoryStream();
@@ -1346,8 +1347,6 @@ namespace CEPA.CCO.UI.Web
         public static string Imprime(string htmlOut, string n_contenedor)
         {
             string fileName = "Tracking_" + n_contenedor.ToUpper();
-            string linkCss = "~/bootstrap/csss/bootstrap-complete.css";
-            bool useChinaFont = false;
             HttpContext.Current.Response.Clear();
             HttpContext.Current.Response.ContentType = "application/pdf";
 
