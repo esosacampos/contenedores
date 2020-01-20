@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="9bfa0c61-44eb-4e56-bc28-0cc7b4e9523f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="3500bd2d-9eea-4ec2-af40-821cb419f831" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <EnableDataBinding>true</EnableDataBinding>
@@ -21,8 +21,8 @@
     <MetadataSource Address="https://siduneaworld.aduana.gob.sv/WSManifestCEPA/cepaService?WSDL" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="cepaService.xsd" MetadataType="Schema" ID="9b2c05b7-5e4f-4a8a-9c26-1be780c13955" SourceId="1" SourceUrl="https://siduneaworld.aduana.gob.sv/WSManifestCEPA/cepaService?xsd=1" />
-    <MetadataFile FileName="WSManifiestoCEPAService.wsdl" MetadataType="Wsdl" ID="dc049400-302f-421d-ab6d-9397a8ec2393" SourceId="1" SourceUrl="https://siduneaworld.aduana.gob.sv/WSManifestCEPA/cepaService?WSDL" />
+    <MetadataFile FileName="cepaService.xsd" MetadataType="Schema" ID="0d56da04-733d-4ba6-98e7-30441251806b" SourceId="1" SourceUrl="https://siduneaworld.aduana.gob.sv/WSManifestCEPA/cepaService?xsd=1" />
+    <MetadataFile FileName="WSManifiestoCEPAService.wsdl" MetadataType="Wsdl" ID="15ad6a89-b37d-4d42-9fe5-14eacfe613aa" SourceId="1" SourceUrl="https://siduneaworld.aduana.gob.sv/WSManifestCEPA/cepaService?WSDL" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

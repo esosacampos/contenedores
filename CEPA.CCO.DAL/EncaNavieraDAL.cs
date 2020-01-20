@@ -603,11 +603,11 @@ namespace CEPA.CCO.DAL
 									WHERE b_noti = 1 AND a.IdReg IN (SELECT IdReg FROM CCO_DETA_NAVIERAS WHERE b_autorizado = 1 AND b_cancelado = 0 AND b_detenido = 0)
 									GROUP BY a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera";*/
 
-                string consulta = @"SELECT a.c_llegada, a.c_imo, MAX(f_llegada) f_llegada
+                string consulta = @"SELECT a.c_llegada, a.c_imo, convert(char(10), a.f_llegada, 103) + ' 00:00:00'
                                     FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_DOC_NAVI b ON  a.IdReg = b.IdReg
-                                    INNER JOIN CCO_DETA_NAVIERAS z ON a.IdReg = z.IdReg
+                                    INNER JOIN CCO_DETA_NAVIERAS z ON b.IdReg = z.IdReg AND b.IdDoc = z.IdDoc
                                     WHERE b_noti = 1  AND b.b_estado = 1 AND b_autorizado = 1 AND b_cancelado = 0 --AND a.IdReg IN (SELECT IdReg FROM CCO_DETA_NAVIERAS WHERE b_autorizado = 1 AND b_cancelado = 0)
-                                    GROUP BY a.c_llegada, a.c_imo";
+                                    GROUP BY a.c_llegada, a.c_imo, convert(char(10), a.f_llegada, 103)";
 
                 SqlCommand _command = new SqlCommand(consulta, _conn as SqlConnection);
                 _command.CommandType = CommandType.Text;
@@ -621,7 +621,7 @@ namespace CEPA.CCO.DAL
                         
                         c_llegada = _reader.GetString(0),
                         c_imo = _reader.GetString(1),
-                        f_llegada = (DateTime)_reader.GetDateTime(2)                        
+                        f_llegada = Convert.ToDateTime(_reader.GetString(2))
                     };
 
                     notiLista.Add(_notificacion);

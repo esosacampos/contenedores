@@ -20,7 +20,7 @@ namespace CEPA.CCO.UI.Web
         {
             MultiFileUpload pControl = new MultiFileUpload();
             wfCargar pCargar = new wfCargar();
-            pControl.FileExtensionsEnabled = ".xls|.xlsx";
+            pControl.FileExtensionsEnabled = ".xlsx";
             
             try
             {
@@ -81,6 +81,10 @@ namespace CEPA.CCO.UI.Web
                                 context.Response.ContentType = "text/plain";
                                 context.Response.Write("Carga Exitosa!");
 
+                            }
+                            else
+                            {
+                                context.Response.Write("Cargar solo archivos de extensión .xlsx");
                             }
                         }
 

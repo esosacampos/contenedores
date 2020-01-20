@@ -80,6 +80,11 @@
                             <asp:HiddenField ID="hDetalle" runat="server" />
                         </ItemTemplate>
                     </asp:TemplateField>
+                    <%--<asp:TemplateField HeaderText="# MARCHAMO">
+                        <ItemTemplate>
+                          </span><asp:TextBox ID="txtMarchamo" runat="server" class="form-control"></asp:TextBox>
+                        </ItemTemplate>
+                    </asp:TemplateField>--%>
                     <asp:TemplateField HeaderText="LIBERAR">
                         <ItemTemplate>
                             <asp:HiddenField ID="hId" runat="server" Value='<%#Eval("IdDeta")%>' />
@@ -219,6 +224,16 @@
                     return false;
                 }
 
+                //var str4 = objRef.id.replace('CheckBox1', 'txtMarchamo');
+
+                //var txtAmountReceive = $("input#" + str4);
+                //if (txtAmountReceive[0].value == '') {
+                //    bootbox.alert("Indique # de marchamo");
+                //    objRef.checked = false;
+                //    row.style.backgroundColor = "#efefef";
+                //    return false;
+                //}
+
                 var conte = row.children[3].innerText + '/ ';
                 var _conte = $.session.get("_conteVar") + conte;
 
@@ -266,6 +281,11 @@
                 txtAmountReceive1.removeAttr('selected');
 
                 txtAmountReceive1.attr('selected', 'selected').trigger('change');
+
+                //var str4 = objRef.id.replace('CheckBox1', 'txtMarchamo');
+
+                //var txtAmountReceive = $("input#" + str4);
+                //txtAmountReceive[0].value = '';
 
 
 

@@ -195,6 +195,8 @@ namespace CEPA.CCO.UI.Web.Tracking
 
                 XmlDocument doc = new XmlDocument();
 
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+
                 if (b_sidunea == 0)
                 {
 
@@ -242,7 +244,7 @@ namespace CEPA.CCO.UI.Web.Tracking
             }
             catch (Exception e)
             {
-                throw new Exception("Favor intentar mas tarde, presentamos problemas de comunicación");
+                throw new Exception("Error: "+ e.Message + "<br><strong>Favor intentar mas tarde, presentamos problemas de comunicación o reportar a Informática ACAJUTLA 2405-3255 con Elsa Sosa</strong>");
             }
 
         }

@@ -14,6 +14,7 @@ using System.Threading;
 using System.Globalization;
 using System.Drawing;
 
+using Newtonsoft.Json;
 
 
 namespace CEPA.CCO.UI.Web
@@ -22,58 +23,76 @@ namespace CEPA.CCO.UI.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!Page.IsPostBack)
+            {
+                //divScrolls.Visible = false;
+            }
         }
 
-        protected void btnBuscar_Click(object sender, EventArgs e)
+        [System.Web.Services.WebMethod]
+        public static string getBLs(string buscar)
         {
             try
             {
-                if (string.IsNullOrEmpty(txtBuscar.Text))
+                if (string.IsNullOrEmpty(buscar))
                     throw new Exception("Debe indicar el # de BL a buscar");
-                else
+
+                List<Entidades.BL> pList = new List<Entidades.BL>();
+                List<Entidades.BL> pBL = new List<Entidades.BL>();
+                pBL = BlDAL.getBL(buscar, DBComun.Estado.verdadero);
+                string c_nul = "";
+
+                if (pBL.Count > 0)
                 {
-                    GridView1.DataSource = BlDAL.getBL(txtBuscar.Text, DBComun.Estado.verdadero);
-                    GridView1.DataBind();
+                    foreach (var item in pBL)
+                    {
+                        c_nul = item.c_nul;
+                    }
 
-                    GridView1.HeaderRow.Cells[0].Attributes["data-class"] = "phone";
+                    List<Tarjas> pTarjas = new List<Tarjas>();
+                    pTarjas = EncaBuqueDAL.getTarjaxNUL(c_nul);
 
-                    // GridView1.HeaderRow.Cells[1].Attributes["data-hide"] = "phone";
-                    GridView1.HeaderRow.Cells[3].Attributes["data-hide"] = "phone";
-                    GridView1.HeaderRow.Cells[4].Attributes["data-hide"] = "phone";
-                    GridView1.HeaderRow.Cells[5].Attributes["data-hide"] = "phone";
-
-                    //GridView1.HeaderRow.Cells[8].Attributes["data-hide"] = "phone";
-
-                    GridView1.HeaderRow.TableSection = TableRowSection.TableHeader;
-
-                    GridView1.FooterRow.Cells[0].Attributes["text-align"] = "center";
-                    GridView1.FooterRow.TableSection = TableRowSection.TableFooter;
-                    //  ViewState["EmployeeList"] = GridView1.DataSource;
+                    pList = (from a in pBL
+                             join b in pTarjas on new { c_llegada = a.c_llegada, n_contenedor = a.n_contenedor } equals new { c_llegada = b.c_llegada, n_contenedor = b.d_marcas }
+                             select new Entidades.BL
+                             {
+                                 c_nul = a.c_nul,
+                                 c_prefijo = a.c_prefijo,
+                                 c_llegada = a.c_llegada,
+                                 n_manifiesto = a.n_manifiesto,
+                                 n_BL = a.n_BL,
+                                 n_contenedor = a.n_contenedor,
+                                 c_tamaño = a.c_tamaño,
+                                 v_peso = a.v_peso,
+                                 v_teus = a.v_teus,
+                                 c_trafico = a.c_trafico,
+                                 f_salidas = a.f_salida.ToString("dd/MM/yy HH:mm"),
+                                 n_manejo = a.n_manejo,
+                                 c_manejo = a.c_manejo,
+                                 n_transfer = a.n_transfer,
+                                 c_transfer = a.c_transfer,
+                                 n_desp = a.n_desp,
+                                 c_desp = a.c_desp,
+                                 n_alm = a.n_alm,
+                                 c_alm = a.c_alm,
+                                 c_tarja = b.c_tarja,
+                                 f_tarja = b.f_tarja.ToString("dd/MM/yyyy")
+                             }).OrderBy(x => x.f_tarja).ToList();
                 }
+                else
+                    throw new Exception("La búsqueda no produjó resultados, verificar el # de BL consultado y volverlo a intentar");
+                
+                
+                var query = Newtonsoft.Json.JsonConvert.SerializeObject(pList);
+
+                return query;
+
+
             }
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + "Error: Durante la ejecución recomendamos volverlo intentar, o reportar a Informatica " + ex.Message + "');", true);
+                return Newtonsoft.Json.JsonConvert.SerializeObject(ex.Message);
             }
         }
-
-        protected void onRowCreate(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.Footer)
-            {
-                int colSpan = e.Row.Cells.Count;
-
-                for (int i = (e.Row.Cells.Count - 1); i >= 1; i -= 1)
-                {
-                    e.Row.Cells.RemoveAt(i);
-                    e.Row.Cells[0].ColumnSpan = colSpan;
-                }
-
-                e.Row.Cells[0].Controls.Add(new LiteralControl("<ul class='pagination pagination-centered hide-if-no-paging'></ul><div class='divider'  style='margin-bottom: 15px;'></div></div><span class='label label-default pie' style='background-color: #dff0d8;border-radius: 25px;font-family: sans-serif;font-size: 18px;color: #468847;border-color: #d6e9c6;margin-top: 18px;'></span>"));
-
-            }           
-        }
-       
     }
 }

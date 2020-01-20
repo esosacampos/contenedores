@@ -7,11 +7,13 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace CEPA.CCO.UI.Web {
-    
-    
-    public partial class wfValidaTarja {
-        
+namespace CEPA.CCO.UI.Web
+{
+
+
+    public partial class wfValidaTarja
+    {
+
         /// <summary>
         /// Control UpdatePanel1.
         /// </summary>
@@ -20,7 +22,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
+
         /// <summary>
         /// Control txtMani.
         /// </summary>
@@ -29,7 +31,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtMani;
-        
+
         /// <summary>
         /// Control Datepicker.
         /// </summary>
@@ -38,7 +40,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Datepicker;
-        
+
         /// <summary>
         /// Control txtContenedor.
         /// </summary>
@@ -47,7 +49,25 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtContenedor;
-        
+
+        /// <summary>
+        /// Control myRadio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl myRadio;
+
+        /// <summary>
+        /// Control radio3.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox radio3;
+
         /// <summary>
         /// Control txtObserva.
         /// </summary>
@@ -56,7 +76,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtObserva;
-        
+
         /// <summary>
         /// Control btnReg.
         /// </summary>
@@ -65,7 +85,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnReg;
-        
+
         /// <summary>
         /// Control btnRegresar.
         /// </summary>

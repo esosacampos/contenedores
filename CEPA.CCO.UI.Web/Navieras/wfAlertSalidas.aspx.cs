@@ -276,27 +276,27 @@ namespace CEPA.CCO.UI.Web.Navieras
                     foreach (var item in pList)
                     {
 
-                        if (item.Fec_Caseta_Ing?.ToString("dd/MM/yyyy").Substring(0, 2) == "30")
+                        if (item.Fec_Caseta_Ing?.ToString("dd/MM/yyyy").Substring(6, 4) == "1899")
                             f_Caseta_Ing = DateTime.MinValue;
                         else
                             f_Caseta_Ing = item.Fec_Caseta_Ing;
 
-                        if(item.Despacho?.ToString("dd/MM/yyyy").Substring(0, 2) == "30")
+                        if(item.Despacho?.ToString("dd/MM/yyyy").Substring(6, 4) == "1899")
                             f_despacho = DateTime.MinValue;
                         else
                             f_despacho = item.Despacho;
 
-                        if (item.Fec_Caseta_Sal?.ToString("dd/MM/yyyy").Substring(0, 2) == "30")
+                        if (item.Fec_Caseta_Sal?.ToString("dd/MM/yyyy").Substring(6, 4) == "1899")
                             f_Caseta_Sal = DateTime.MinValue;
                         else
                             f_Caseta_Sal = item.Fec_Caseta_Sal;
 
-                        if (item.Fec_Ing_Puerta1?.ToString("dd/MM/yyyy").Substring(0, 2) == "30")
+                        if (item.Fec_Ing_Puerta1?.ToString("dd/MM/yyyy").Substring(6, 4) == "1899")
                             f_Ing_Puerta1 = DateTime.MinValue;
                         else
                             f_Ing_Puerta1 = item.Fec_Ing_Puerta1;
 
-                        if (item.Fecha_Salidap1?.ToString("dd/MM/yyyy").Substring(0, 2) == "30")
+                        if (item.Fecha_Salidap1?.ToString("dd/MM/yyyy").Substring(6, 4) == "1899")
                             f_Salidap1 = DateTime.MinValue;
                         else
                             f_Salidap1 = item.Fecha_Salidap1;
@@ -445,7 +445,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                 
                 if (ArchivoBookingDAL.isFecha(e.Row.Cells[7].Text) == true)
                 {
-                    if (e.Row.Cells[7].Text.Substring(0, 2) == "30")
+                    if (e.Row.Cells[7].Text.Substring(6, 4) == "1899")
                         f_despacho = DateTime.MinValue;
                     else
                         f_despacho = Convert.ToDateTime(e.Row.Cells[7].Text);
@@ -461,7 +461,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                 }
                 if (ArchivoBookingDAL.isFecha(e.Row.Cells[8].Text) == true)
                 {
-                    if (e.Row.Cells[8].Text.Substring(0, 2) == "30")
+                    if (e.Row.Cells[8].Text.Substring(6, 4) == "1899")
                         f_Ing_Puerta1 = DateTime.MinValue;
                     else
                         f_Ing_Puerta1 = Convert.ToDateTime(e.Row.Cells[8].Text);
@@ -477,7 +477,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                 }
                 if (ArchivoBookingDAL.isFecha(e.Row.Cells[9].Text) == true)
                 {
-                    if (e.Row.Cells[9].Text.Substring(0, 2) == "30")
+                    if (e.Row.Cells[9].Text.Substring(6, 4) == "1899")
                         f_Caseta_Ing = DateTime.MinValue;
                     else
                         f_Caseta_Ing = Convert.ToDateTime(e.Row.Cells[9].Text);
@@ -493,7 +493,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                 }
                 if (ArchivoBookingDAL.isFecha(e.Row.Cells[11].Text) == true)
                 {
-                    if (e.Row.Cells[11].Text.Substring(0, 2) == "30")
+                    if (e.Row.Cells[11].Text.Substring(6, 4) == "1899")
                         f_Caseta_Sal = DateTime.MinValue;
                     else
                         f_Caseta_Sal = Convert.ToDateTime(e.Row.Cells[11].Text);
@@ -509,7 +509,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                 }
                 if (ArchivoBookingDAL.isFecha(e.Row.Cells[13].Text) == true)
                 {
-                    if (e.Row.Cells[13].Text.Substring(0, 2) == "30")
+                    if (e.Row.Cells[13].Text.Substring(6, 4) == "1899")
                         f_Salidap1 = DateTime.MinValue;
                     else
                         f_Salidap1 = Convert.ToDateTime(e.Row.Cells[13].Text);

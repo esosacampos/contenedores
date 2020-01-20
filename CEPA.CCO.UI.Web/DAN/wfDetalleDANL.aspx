@@ -7,38 +7,30 @@
         .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
             width: 140px;
         }
-
         .footable > tbody > tr > td {
             border-top: 1px solid #dddddd;
             padding: 7px;
             text-align: center;
             border-left: none;
         }
-
-
-
         .footable > tbody > tr > td {
             border-top: 1px solid #dddddd;
             padding: 4px;
             text-align: center;
             border-left: none;
         }
-
         .label-ft{
                background-color: #efefef;
                border: 0;
                color:#444444;
                padding: 1px 3px;
         }
-
         .label-ft:hover{
                background-color: #bce8f1;
                border: 0;
                color:#31708f;
                padding: 1px 3px;
-        }
-
-        
+        }        
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -102,6 +94,11 @@
                             <asp:HiddenField ID="hDetalle" runat="server" />
                         </ItemTemplate>
                     </asp:TemplateField>
+                   <%-- <asp:TemplateField HeaderText="# MARCHAMO">
+                        <ItemTemplate>
+                          </span><asp:TextBox ID="txtMarchamo" runat="server" class="form-control"></asp:TextBox>
+                        </ItemTemplate>
+                    </asp:TemplateField>--%>
                     <asp:TemplateField HeaderText="LIBERAR">
                         <ItemTemplate>
                             <asp:HiddenField ID="hId" runat="server" Value='<%#Eval("IdDeta")%>' />
@@ -240,6 +237,15 @@
                     return false;
                 }
 
+                //var str4 = objRef.id.replace('CheckBox1', 'txtMarchamo');
+
+                //var txtAmountReceive = $("input#" + str4);
+                //if (txtAmountReceive[0].value == '') {
+                //    bootbox.alert("Indique # de marchamo");
+                //    objRef.checked = false;
+                //    row.style.backgroundColor = "#efefef";
+                //    return false;
+                //}
 
 
                 var conte = row.children[3].innerText + '/ ';
@@ -288,6 +294,11 @@
                 txtAmountReceive1.removeAttr('selected');
 
                 txtAmountReceive1.attr('selected', 'selected').trigger('change');
+
+                //var str4 = objRef.id.replace('CheckBox1', 'txtMarchamo');
+
+                //var txtAmountReceive = $("input#" + str4);
+                //txtAmountReceive[0].value = '';
 
                 var conte = row.children[3].innerText + '/ ';
                 var _conte = $.session.get("_conteVar");

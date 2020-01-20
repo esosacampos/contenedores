@@ -30,5 +30,10 @@ namespace CEPA.CCO.Entidades
         public string n_alm { get; set; }
         public string c_alm { get; set; }
         public double v_alm { get; set; }
+
+        public string c_tarja { get; set; }
+        public string f_tarja { get; set; }
+
+        public string f_salidas { get; set; }
     }
 }

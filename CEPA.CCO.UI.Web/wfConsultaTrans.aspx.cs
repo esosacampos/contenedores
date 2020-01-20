@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using CEPA.CCO.Entidades;
-using CEPA.CCO.BL;
-using CEPA.CCO.DAL;
-using System.Data.SqlClient;
 using CEPA.CCO.Linq;
-using System.Threading;
-using System.Globalization;
 using System.Drawing;
 
 namespace CEPA.CCO.UI.Web

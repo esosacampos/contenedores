@@ -97,9 +97,7 @@
                         <span>Fecha: </span>
                     </div>
                     <div class="form-group" style="width: 82%;">
-                        <div class="input-group date" id="datetimepicker2" style="width: 100%;">
-                            <%--<input type="text" class="form-control">--%>
-
+                        <div class="input-group date" id="datetimepicker2" style="width: 100%;">                          
                             <asp:TextBox ID="txtDOB" runat="server" class="form-control"></asp:TextBox>
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                             </span>

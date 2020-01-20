@@ -206,6 +206,7 @@ namespace CEPA.CCO.UI.Web
                                                let t_detalle = (HiddenField)item.FindControl("hDetalle")
                                                let size = Convert.ToString(item.Cells[4].Text ?? string.Empty)
                                                let f_tramite_s = Convert.ToString(item.Cells[6].Text ?? string.Empty)
+                                               //let s_marchamo = (TextBox)item.FindControl("txtMarchamo")
                                                where check.Checked
                                                select new DetaNaviera
                                                {
@@ -228,6 +229,7 @@ namespace CEPA.CCO.UI.Web
                                                    c_tipo_doc = grid.DataKeys[item.RowIndex].Values[3].ToString(),
                                                    t_detalle = Convert.ToInt32(t_detalle.Value),
                                                    f_tramite_s = f_tramite_s
+                                                   //s_marchamo = s_marchamo.Text ?? string.Empty
                                                }).ToList();
 
             HttpContext.Current.Session["Liberados"] = uncheckedProd;

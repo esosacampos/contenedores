@@ -21,6 +21,7 @@ namespace CEPA.CCO.Entidades
         public DateTime f_llegada { get; set; }
         public string d_buque { get; set; }
         public int b_noti { get; set; }
+        public string f_llegadas { get; set; }
 
         public int Total_Imp { get; set; }
         public int Total_Trans { get; set; }

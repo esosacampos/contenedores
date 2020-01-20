@@ -514,7 +514,6 @@ namespace CEPA.CCO.AduanaService
 
                                     string _contenedor = unContenedor.SelectSingleNode("CAR_CTN_IDENT").InnerText;
 
-
                                     ArchivoAduanaValid validAduana = new ArchivoAduanaValid
                                     {
                                         IdValid = -1,
@@ -533,8 +532,10 @@ namespace CEPA.CCO.AduanaService
                                         c_pais_origen = unContenedor.SelectSingleNode("CARBOL_DEP_COD").InnerText.Substring(0, 2),
                                         d_puerto_origen = unContenedor.SelectSingleNode("CARBOL_DEP_COD").InnerText.Substring(2, 3),
                                         c_pais_destino = unContenedor.SelectSingleNode("CARBOL_DEST_COD").InnerText.Substring(0, 2),
-                                        d_puerto_destino = unContenedor.SelectSingleNode("CARBOL_DEST_COD").InnerText.Substring(2, 3)
-                                    };
+                                        d_puerto_destino = unContenedor.SelectSingleNode("CARBOL_DEST_COD").InnerText.Substring(2, 3),
+                                        s_nit = unContenedor.SelectSingleNode("CARBOL_CON_COD") != null ? unContenedor.SelectSingleNode("CARBOL_CON_COD").InnerText : "",
+                                        s_consignatario = unContenedor.SelectSingleNode("CARBOL_CON_NAM") != null ? unContenedor.SelectSingleNode("CARBOL_CON_NAM").InnerText : ""
+                                    };                                
 
                                     //Almacenar manifiesto devuelto por aduana
                                     _resulDeta = Convert.ToInt32(DetaNavieraDAL.AlmacenarValid(validAduana, DBComun.Estado.falso));
@@ -553,7 +554,6 @@ namespace CEPA.CCO.AduanaService
 
                                         pRespuesta.Add("PASO 3 de 4: Validación ADUANA: EL MANIFIESTO # " + string.Concat(iPendiente.a_manifiesto.ToString(), "-", iPendiente.num_manif.ToString()) + " PRODUJO UN ERROR EL SERVICIO VOLVERA A INTENTAR LA VALIDACIÓN");
                                     }
-
                                 }
 
                                 if (_validar == 0)
@@ -751,8 +751,6 @@ namespace CEPA.CCO.AduanaService
                     _notiAutorizados.a_manifiesto = an_manifiesto;
                     _notiAutorizados.GenerarAplicacionCX(_listaAOrdenar, iPendiente.c_cliente, iPendiente.d_cliente, iPendiente.c_llegada, (int)iPendiente.IdReg,
                      iPendiente.d_buque, iPendiente.f_llegada, valores, valores, null, iPendiente.b_sidunea);
-
-
 
                     pRespuesta.Add(string.Format("PASO 4 DE 4: GENERADO LISTADO BUQUE {0} NAVIERA {1} ", iPendiente.d_buque, iPendiente.d_cliente));
 

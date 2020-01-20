@@ -426,7 +426,7 @@ namespace CEPA.CCO.DAL
             {
                 _conn.Open();
 
-               
+
 
                 string consulta = @"UPDATE CCO_DETA_NAVIERAS 
 									SET b_autorizado = 1 
@@ -451,9 +451,9 @@ namespace CEPA.CCO.DAL
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
             {
                 _conn.Open();
-                               
+
                 string consulta = @"INSERT INTO CCO_ADUANA_VALID_AUTO 
-									SELECT n_manifiesto, n_contenedor, f_registro, n_BL, a_mani, c_tipo_bl, b_sidunea, c_tamaños, v_pesos, c_paquete, c_embalaje, d_embalaje, co_pais_origen, d_puerto_origen, co_pais_destino, d_puerto_destino, s_agencia
+									SELECT n_manifiesto, n_contenedor, f_registro, n_BL, a_mani, c_tipo_bl, b_sidunea, c_tamaños, v_pesos, c_paquete, c_embalaje, d_embalaje, co_pais_origen, d_puerto_origen, co_pais_destino, d_puerto_destino, s_agencia, s_nit, s_consignatarios
                                     FROM CCO_ADUANA_VALID
                                     WHERE a_mani = {0} AND n_manifiesto = {1}                                     
 									SELECT @@ROWCOUNT";
@@ -908,16 +908,16 @@ namespace CEPA.CCO.DAL
                         c_correlativo = _reader.GetInt32(0),
                         tipoDecla = _reader.GetString(1),
                         a_manifiesto = _reader.GetString(2),
-                        s_consignatario = _reader.GetString(3),                      
+                        s_consignatario = _reader.GetString(3),
                         n_BL = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
-                        s_comodity = _reader.IsDBNull(5) ? "" : _reader.GetString(5),      
+                        s_comodity = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
                         c_paquete = _reader.GetInt32(6),
                         c_embalaje = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
                         v_peso = _reader.IsDBNull(8) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(8)),
                         n_contenedor = _reader.IsDBNull(9) ? "" : _reader.GetString(9),
                         d_cliente = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
                         c_pais_origen = _reader.IsDBNull(11) ? "" : _reader.GetString(11),
-                        c_pais_destino = _reader.IsDBNull(12) ? "" : _reader.GetString(12), 
+                        c_pais_destino = _reader.IsDBNull(12) ? "" : _reader.GetString(12),
                         c_condicion = _reader.IsDBNull(13) ? "" : _reader.GetString(13),
                         c_tipo_bl = _reader.IsDBNull(14) ? "" : _reader.GetString(14)
                     };
@@ -1449,7 +1449,7 @@ namespace CEPA.CCO.DAL
 
         }
 
-        public static string ActualizarDANL(DBComun.Estado pEstado, int pId, string pUser, string f_revision, int IdRevision, int IdDetalle)
+        public static string ActualizarDANL(DBComun.Estado pEstado, int pId, string pUser, string f_revision, int IdRevision, int IdDetalle, string s_marchamo)
         {
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
             {
@@ -1459,7 +1459,7 @@ namespace CEPA.CCO.DAL
 
                 string consulta = @"SET DATEFORMAT DMY
                                     UPDATE CCO_DETA_NAVIERAS 
-									SET b_detenido = 0, f_reg_liberacion = GETDATE(), us_liberado = '{0}', f_ini_dan =  CAST('{1}' AS DATETIME), IdRevision = {2}, IdDetalle = {3}  
+									SET b_detenido = 0, f_reg_liberacion = GETDATE(), us_liberado = '{0}', f_ini_dan =  CAST('{1}' AS DATETIME), IdRevision = {2}, IdDetalle = {3} --, s_marchamo = '{4}'  
 									WHERE IdDeta = {4} AND b_autorizado = 1 AND b_cancelado = 0; 
 									SELECT @@ROWCOUNT";
 
@@ -1476,7 +1476,7 @@ namespace CEPA.CCO.DAL
 
         }
 
-        public static string ActualizarUCCL(DBComun.Estado pEstado, int pId, string pUser, string f_revision, int IdRevision, int IdDetalleUCC)
+        public static string ActualizarUCCL(DBComun.Estado pEstado, int pId, string pUser, string f_revision, int IdRevision, int IdDetalleUCC, string s_marchamo)
         {
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
             {
@@ -1484,8 +1484,8 @@ namespace CEPA.CCO.DAL
 
                 string consulta = @"SET DATEFORMAT DMY
                             UPDATE CCO_DETA_NAVIERAS 
-                            SET b_ucc = 0, f_lib_ucc = GETDATE(), us_lib_ucc = '{0}', f_ini_ucc =  CAST('{1}' AS DATETIME), IdRevisionUCC = {2}, IdDetalleUCC = {3}  
-                            WHERE IdDeta = {4} AND b_autorizado = 1 AND b_cancelado = 0; 
+                            SET b_ucc = 0, f_lib_ucc = GETDATE(), us_lib_ucc = '{0}', f_ini_ucc =  CAST('{1}' AS DATETIME), IdRevisionUCC = {2}, IdDetalleUCC = {3} --, s_marchamo = '{4}'  
+							WHERE IdDeta = {4} AND b_autorizado = 1 AND b_cancelado = 0;                              
                             SELECT @@ROWCOUNT";
 
 
@@ -1528,8 +1528,10 @@ namespace CEPA.CCO.DAL
                 _command.Parameters.Add(new SqlParameter("@c_paquete", _Encanaviera.c_paquete));
                 _command.Parameters.Add(new SqlParameter("@c_embalaje", _Encanaviera.c_embalaje));
                 _command.Parameters.Add(new SqlParameter("@d_embalaje", _Encanaviera.d_embalaje));
+                _command.Parameters.Add(new SqlParameter("@s_nit", _Encanaviera.s_nit));
+                _command.Parameters.Add(new SqlParameter("@s_consignatario", _Encanaviera.s_consignatario));
 
-                
+
                 string resultado = _command.ExecuteScalar().ToString();
                 _conn.Close();
                 return resultado;
@@ -1546,8 +1548,8 @@ namespace CEPA.CCO.DAL
                     CommandType = CommandType.StoredProcedure
                 };
 
-                _command.Parameters.Add(new SqlParameter("@n_manifiesto", _Encanaviera.n_manifiesto));               
-                _command.Parameters.Add(new SqlParameter("@a_mani", _Encanaviera.a_mani));             
+                _command.Parameters.Add(new SqlParameter("@n_manifiesto", _Encanaviera.n_manifiesto));
+                _command.Parameters.Add(new SqlParameter("@a_mani", _Encanaviera.a_mani));
 
 
                 string resultado = _command.ExecuteScalar().ToString();
@@ -2930,7 +2932,7 @@ namespace CEPA.CCO.DAL
                 c_llegada = Convert.ToString(reader["c_llegada"]),
                 n_contenedor = Convert.ToString(reader["n_contenedor"]),
                 c_naviera = Convert.ToString(reader["c_naviera"])
-            };           
+            };
             item.s_comentarios = Convert.ToString(reader["s_comentarios"]);
             item.f_trans_aduana = Convert.ToDateTime(reader["f_trasmision"]);
             item.s_consignatario = Convert.ToString(reader["s_consignatario"]);
@@ -2945,7 +2947,7 @@ namespace CEPA.CCO.DAL
             item.f_liberado_ucc = Convert.ToDateTime(reader["f_liberado_ucc"]);
             item.f_marchamo_ucc = Convert.ToString(reader["f_marchamo_ucc"]);
             item.f_deta_dan = Convert.ToString(reader["f_lib_Dan_det"]);
-            item.f_deta_ucc = Convert.ToString(reader["f_lib_UCC_det"]); 
+            item.f_deta_ucc = Convert.ToString(reader["f_lib_UCC_det"]);
             //item.f_reg_aduana = Convert.ToString(reader["f_reg_aduana"]);
             //item.f_reg_selectivo = Convert.ToString(reader["f_reg_selectivo"]);
             //item.f_lib_aduana = Convert.ToDateTime(reader["f_lib_aduana"]);
@@ -2953,7 +2955,7 @@ namespace CEPA.CCO.DAL
             //item.f_lib_mag = Convert.ToDateTime(reader["f_lib_mag"]);
             return item;
         }
-                      
+
         public static List<DetaNaviera> ObtenerDetaTrans(string c_llegada)
         {
             List<DetaNaviera> notiLista = new List<DetaNaviera>();
@@ -3000,7 +3002,7 @@ namespace CEPA.CCO.DAL
                 return notiLista;
             }
 
-        }       
+        }
 
         public static string AlmacenarSADFI(DetaNaviera pDeta, DBComun.Estado pEstado)
         {
@@ -3245,27 +3247,27 @@ namespace CEPA.CCO.DAL
             {
                 _conn.Open();
                 string resultado = null;
-                
-                    AseCommand _command = new AseCommand("sp_fport_confirma_conte_patio", _conn as AseConnection)
-                    {
-                        CommandType = CommandType.StoredProcedure,
-                        CommandTimeout = 120
-                    };
 
-                    AseParameter p_Contenedor = _command.Parameters.Add("@c_contenedor", AseDbType.VarChar);
-                    p_Contenedor.Value = n_contenedor.ToUpper();
+                AseCommand _command = new AseCommand("sp_fport_confirma_conte_patio", _conn as AseConnection)
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandTimeout = 120
+                };
 
-
-                    AseParameter p_Llegada = _command.Parameters.Add("@c_llegada", AseDbType.VarChar);
-                    p_Llegada.Value = c_llegada;
+                AseParameter p_Contenedor = _command.Parameters.Add("@c_contenedor", AseDbType.VarChar);
+                p_Contenedor.Value = n_contenedor.ToUpper();
 
 
-                    resultado = _command.ExecuteScalar().ToString();
+                AseParameter p_Llegada = _command.Parameters.Add("@c_llegada", AseDbType.VarChar);
+                p_Llegada.Value = c_llegada;
 
-                    string valorDe = ActSADFI_BD(pEstado, IdDeta, Convert.ToInt32(resultado));
+
+                resultado = _command.ExecuteScalar().ToString();
+
+                string valorDe = ActSADFI_BD(pEstado, IdDeta, Convert.ToInt32(resultado));
 
 
-                
+
                 _conn.Close();
                 return resultado;
             }
@@ -3334,6 +3336,27 @@ namespace CEPA.CCO.DAL
             {
                 _conn.Open();
                 SqlCommand _command = new SqlCommand("pa_validar_contenedor", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_contenedor", n_contenedor));
+
+
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
+
+        public static string ValidaContenedorShipper(DBComun.Estado pEstado, string n_contenedor, DBComun.TipoBD pDB)
+        {
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(pDB, pEstado))
+            {
+                _conn.Open();
+                SqlCommand _command = new SqlCommand("pa_validar_contenedor_shipper", _conn as SqlConnection)
                 {
                     CommandType = CommandType.StoredProcedure
                 };

@@ -32,7 +32,7 @@ namespace CEPA.CCO.DAL
                     _command.Parameters.Add(new SqlParameter("@IdEstado", _esta.IdEstado));
                     _command.Parameters.Add(new SqlParameter("@f_reg_aduana", _esta.f_reg_aduana));
                     _command.Parameters.Add(new SqlParameter("@IdSelectividad", _esta.IdSelectividad));
-                    _command.Parameters.Add(new SqlParameter("@n_nit", _esta.n_nit));
+                    _command.Parameters.Add(new SqlParameter("@n_nit", _esta.n_nit == "" ? (object)DBNull.Value : _esta.n_nit));
                     _command.Parameters.Add(new SqlParameter("@b_sidunea", _esta.b_siduneawd));
                     _command.Parameters.Add(new SqlParameter("@s_consignatario", _esta.s_consignatario));
                     _command.Parameters.Add(new SqlParameter("@n_bl", _esta.n_BL));

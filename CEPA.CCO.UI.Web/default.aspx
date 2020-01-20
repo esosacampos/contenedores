@@ -57,7 +57,7 @@
             background-color: #1E72BD;
             border: 1px solid #c2c2c2;
         }
-        
+
 
         .logo {
             /* background-color: #555299; */
@@ -84,7 +84,7 @@
             /* background-position: 49px 20px; */
         }
 
-              
+
 
         /* Remove the navbar's default margin-bottom and rounded borders */
         .navbar {
@@ -179,7 +179,7 @@
                 background-repeat: repeat-x;
             }
 
-         
+
         ul#mySetting.dropdown-menu > li > a {
             font-size: 1.3em;
         }
@@ -207,9 +207,9 @@
             box-shadow: 0 2px 4px rgba(0,0,0,.2);
         }
 
-        .nav{
-            font-size:1em;
-            font-family:sans-serif;
+        .nav {
+            font-size: 1em;
+            font-family: sans-serif;
         }
 
         /* On small screens, set height to 'auto' for sidenav and grid */
@@ -252,7 +252,7 @@
         </asp:ScriptManager>
         <nav class="navbar navbar-inverse">
             <div class="container-fluid" style="background-color: #1771F8; padding-bottom: 10px;">
-                <div class="navbar-header" style="margin-top:3px;">
+                <div class="navbar-header" style="margin-top: 3px;">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -343,9 +343,14 @@
             <div class="container">
                 <p class="text-muted">
                     © 2013 CEPA / Puerto de Acajutla, El Salvador v2.0 para Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv</a>
-                    <span id="siteseal" style="padding-left: 100px;">
-                        <script async type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=M3U1QZ69toEvGnm5vsHcmLOlgtC6rSd11HzwnBCF9eDXbwiU7WtfLrjr6st5"></script>
-                    </span>
+                    <table width="135" border="0" cellpadding="2" cellspacing="0" title="Click to Verify - This site chose GeoTrust SSL for secure e-commerce and confidential communications.">
+                        <tr>
+                            <td width="135" align="center" valign="top">
+                                <script type="text/javascript" src="https://seal.geotrust.com/getgeotrustsslseal?host_name=acajutlaweb.cepa.gob.sv&amp;size=S&amp;lang=en"></script>
+                                <br />
+                                <a href="http://www.geotrust.com/ssl/" target="_blank" style="color: #000000; text-decoration: none; font: bold 7px verdana,sans-serif; letter-spacing: .5px; text-align: center; margin: 0px; padding: 0px;"></a></td>
+                        </tr>
+                    </table>
                 </p>
             </div>
         </footer>

@@ -68,8 +68,8 @@ namespace CEPA.CCO.UI.Web
 
                 }
                 catch (Exception Ex)
-                {
-                    Response.Write("<script>bootbox.alert('" + Ex.Message + "');</script>");
+                {                    
+                    ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + "Error: " + Ex.Message + "');", true);
                 }
             }
 

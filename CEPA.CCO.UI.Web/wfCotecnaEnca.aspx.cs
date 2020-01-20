@@ -23,6 +23,7 @@ using System.Xml;
 using System.Configuration;
 
 using Ionic.Zip;
+using System.Net;
 
 namespace CEPA.CCO.UI.Web
 {
@@ -353,6 +354,8 @@ namespace CEPA.CCO.UI.Web
             _Aduana = Encoding.UTF8.GetString(memoryStream.ToArray());
 
             XmlDocument doc = new XmlDocument();
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls;
+
 
             if (b_sidunea == 0)
             {
@@ -425,7 +428,9 @@ namespace CEPA.CCO.UI.Web
                             c_pais_origen = unContenedor.SelectSingleNode("CARBOL_DEP_COD").InnerText.Substring(0, 2),
                             d_puerto_origen = unContenedor.SelectSingleNode("CARBOL_DEP_COD").InnerText.Substring(2, 3),
                             c_pais_destino = unContenedor.SelectSingleNode("CARBOL_DEST_COD").InnerText.Substring(0, 2),
-                            d_puerto_destino = unContenedor.SelectSingleNode("CARBOL_DEST_COD").InnerText.Substring(2, 3)
+                            d_puerto_destino = unContenedor.SelectSingleNode("CARBOL_DEST_COD").InnerText.Substring(2, 3),
+                            s_nit = unContenedor.SelectSingleNode("CARBOL_CON_COD") != null ? unContenedor.SelectSingleNode("CARBOL_CON_COD").InnerText : "",
+                            s_consignatario = unContenedor.SelectSingleNode("CARBOL_CON_NAM") != null ? unContenedor.SelectSingleNode("CARBOL_CON_NAM").InnerText : ""
                         };
 
                         //Almacenar manifiesto devuelto por aduana

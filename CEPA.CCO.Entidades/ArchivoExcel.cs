@@ -47,6 +47,8 @@ namespace CEPA.CCO.Entidades
 
         public string b_manejo { get; set; }
 
+        public string celdaTara { get; set; }
+
         public string celdaMan { get; set; }
         public string b_despacho { get; set; }
 
@@ -135,6 +137,8 @@ namespace CEPA.CCO.Entidades
         public string d_puerto_origen { get; set; }
         public string c_pais_destino { get; set; }
         public string d_puerto_destino { get; set; }
+        public string s_nit { get; set; }
+        public string s_consignatario { get; set; }
     }
 
 

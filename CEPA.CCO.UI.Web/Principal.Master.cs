@@ -36,13 +36,9 @@ namespace CEPA.CCO.UI.Web
                 }
 
                 bool valida = false;
-                if(menuLista.Count > 0 && !userUrl.Contains("Configuracion"))
+                if(menuLista.Count > 0)
                     valida = VerificarAutorizacion(userUrl, menuLista);
-
-                
-
-                
-
+           
                 string targetCtrl = Page.Request.Params.Get("__EVENTTARGET");
                 if (targetCtrl != null && targetCtrl != string.Empty)
                 {

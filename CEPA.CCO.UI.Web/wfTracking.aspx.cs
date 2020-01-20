@@ -6,21 +6,18 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using CEPA.CCO.Entidades;
-using CEPA.CCO.BL;
 using CEPA.CCO.DAL;
 using CEPA.CCO.Linq;
 using System.Drawing;
 
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using iTextSharp.text.html;
-using iTextSharp.text.html.simpleparser;
+
 
 
 using System.Configuration;
 using System.IO;
 using System.Net;
-using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -30,7 +27,6 @@ using iTextSharp.tool.xml.parser;
 using iTextSharp.tool.xml.pipeline.css;
 using iTextSharp.tool.xml.pipeline.end;
 using iTextSharp.tool.xml.pipeline.html;
-using System.Web.UI.HtmlControls;
 using HtmlAgilityPack;
 using System.Xml;
 using Newtonsoft.Json;

@@ -16,20 +16,8 @@ namespace CEPA.CCO.AduanaService.CepaSiduneaWorld {
     public interface WSManifiestoCEPA {
         
         // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento xmlData del espacio de nombres  no está marcado para aceptar valores nil.
-        [System.ServiceModel.OperationContractAttribute(Action="http://aduana.gob.sv/WSManifiestoCEPA/entradaBodegaRequest", ReplyAction="http://aduana.gob.sv/WSManifiestoCEPA/entradaBodegaResponse")]
-        CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaResponse entradaBodega(CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequest request);
-        
-        // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento xmlData del espacio de nombres  no está marcado para aceptar valores nil.
-        [System.ServiceModel.OperationContractAttribute(Action="http://aduana.gob.sv/WSManifiestoCEPA/consumeWsCepaRequest", ReplyAction="http://aduana.gob.sv/WSManifiestoCEPA/consumeWsCepaResponse")]
-        CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaResponse consumeWsCepa(CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequest request);
-        
-        // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento xmlData del espacio de nombres  no está marcado para aceptar valores nil.
-        [System.ServiceModel.OperationContractAttribute(Action="http://aduana.gob.sv/WSManifiestoCEPA/updateCepaDataRequest", ReplyAction="http://aduana.gob.sv/WSManifiestoCEPA/updateCepaDataResponse")]
-        CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataResponse updateCepaData(CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequest request);
-        
-        // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento xmlData del espacio de nombres  no está marcado para aceptar valores nil.
-        [System.ServiceModel.OperationContractAttribute(Action="http://aduana.gob.sv/WSManifiestoCEPA/getContenedorDataRequest", ReplyAction="http://aduana.gob.sv/WSManifiestoCEPA/getContenedorDataResponse")]
-        CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataResponse getContenedorData(CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://aduana.gob.sv/WSManifiestoCEPA/validaContenedorDeclaRequest", ReplyAction="http://aduana.gob.sv/WSManifiestoCEPA/validaContenedorDeclaResponse")]
+        CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaResponse validaContenedorDecla(CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequest request);
         
         // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento xmlData del espacio de nombres  no está marcado para aceptar valores nil.
         [System.ServiceModel.OperationContractAttribute(Action="http://aduana.gob.sv/WSManifiestoCEPA/getDocumentoInfoDocumentoRequest", ReplyAction="http://aduana.gob.sv/WSManifiestoCEPA/getDocumentoInfoDocumentoResponse")]
@@ -40,27 +28,39 @@ namespace CEPA.CCO.AduanaService.CepaSiduneaWorld {
         CEPA.CCO.AduanaService.CepaSiduneaWorld.insertContenedorDANResponse insertContenedorDAN(CEPA.CCO.AduanaService.CepaSiduneaWorld.insertContenedorDANRequest request);
         
         // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento xmlData del espacio de nombres  no está marcado para aceptar valores nil.
-        [System.ServiceModel.OperationContractAttribute(Action="http://aduana.gob.sv/WSManifiestoCEPA/validaContenedorDeclaRequest", ReplyAction="http://aduana.gob.sv/WSManifiestoCEPA/validaContenedorDeclaResponse")]
-        CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaResponse validaContenedorDecla(CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequest request);
-        
-        // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento xmlData del espacio de nombres  no está marcado para aceptar valores nil.
         [System.ServiceModel.OperationContractAttribute(Action="http://aduana.gob.sv/WSManifiestoCEPA/getCepaDataRequest", ReplyAction="http://aduana.gob.sv/WSManifiestoCEPA/getCepaDataResponse")]
         CEPA.CCO.AduanaService.CepaSiduneaWorld.getCepaDataResponse getCepaData(CEPA.CCO.AduanaService.CepaSiduneaWorld.getCepaDataRequest request);
+        
+        // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento xmlData del espacio de nombres  no está marcado para aceptar valores nil.
+        [System.ServiceModel.OperationContractAttribute(Action="http://aduana.gob.sv/WSManifiestoCEPA/consumeWsCepaRequest", ReplyAction="http://aduana.gob.sv/WSManifiestoCEPA/consumeWsCepaResponse")]
+        CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaResponse consumeWsCepa(CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequest request);
+        
+        // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento xmlData del espacio de nombres  no está marcado para aceptar valores nil.
+        [System.ServiceModel.OperationContractAttribute(Action="http://aduana.gob.sv/WSManifiestoCEPA/entradaBodegaRequest", ReplyAction="http://aduana.gob.sv/WSManifiestoCEPA/entradaBodegaResponse")]
+        CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaResponse entradaBodega(CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequest request);
+        
+        // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento xmlData del espacio de nombres  no está marcado para aceptar valores nil.
+        [System.ServiceModel.OperationContractAttribute(Action="http://aduana.gob.sv/WSManifiestoCEPA/updateCepaDataRequest", ReplyAction="http://aduana.gob.sv/WSManifiestoCEPA/updateCepaDataResponse")]
+        CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataResponse updateCepaData(CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequest request);
+        
+        // CODEGEN: Se está generando un contrato de mensaje, ya que el nombre de elemento xmlData del espacio de nombres  no está marcado para aceptar valores nil.
+        [System.ServiceModel.OperationContractAttribute(Action="http://aduana.gob.sv/WSManifiestoCEPA/getContenedorDataRequest", ReplyAction="http://aduana.gob.sv/WSManifiestoCEPA/getContenedorDataResponse")]
+        CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataResponse getContenedorData(CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class entradaBodegaRequest {
+    public partial class validaContenedorDeclaRequest {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="entradaBodega", Namespace="http://aduana.gob.sv/", Order=0)]
-        public CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequestBody Body;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="validaContenedorDecla", Namespace="http://aduana.gob.sv/", Order=0)]
+        public CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequestBody Body;
         
-        public entradaBodegaRequest() {
+        public validaContenedorDeclaRequest() {
         }
         
-        public entradaBodegaRequest(CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequestBody Body) {
+        public validaContenedorDeclaRequest(CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequestBody Body) {
             this.Body = Body;
         }
     }
@@ -69,15 +69,15 @@ namespace CEPA.CCO.AduanaService.CepaSiduneaWorld {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
-    public partial class entradaBodegaRequestBody {
+    public partial class validaContenedorDeclaRequestBody {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
         public string xmlData;
         
-        public entradaBodegaRequestBody() {
+        public validaContenedorDeclaRequestBody() {
         }
         
-        public entradaBodegaRequestBody(string xmlData) {
+        public validaContenedorDeclaRequestBody(string xmlData) {
             this.xmlData = xmlData;
         }
     }
@@ -86,15 +86,15 @@ namespace CEPA.CCO.AduanaService.CepaSiduneaWorld {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class entradaBodegaResponse {
+    public partial class validaContenedorDeclaResponse {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="entradaBodegaResponse", Namespace="http://aduana.gob.sv/", Order=0)]
-        public CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaResponseBody Body;
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="validaContenedorDeclaResponse", Namespace="http://aduana.gob.sv/", Order=0)]
+        public CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaResponseBody Body;
         
-        public entradaBodegaResponse() {
+        public validaContenedorDeclaResponse() {
         }
         
-        public entradaBodegaResponse(CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaResponseBody Body) {
+        public validaContenedorDeclaResponse(CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaResponseBody Body) {
             this.Body = Body;
         }
     }
@@ -103,219 +103,15 @@ namespace CEPA.CCO.AduanaService.CepaSiduneaWorld {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
-    public partial class entradaBodegaResponseBody {
+    public partial class validaContenedorDeclaResponseBody {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
         public string @return;
         
-        public entradaBodegaResponseBody() {
+        public validaContenedorDeclaResponseBody() {
         }
         
-        public entradaBodegaResponseBody(string @return) {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class consumeWsCepaRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="consumeWsCepa", Namespace="http://aduana.gob.sv/", Order=0)]
-        public CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequestBody Body;
-        
-        public consumeWsCepaRequest() {
-        }
-        
-        public consumeWsCepaRequest(CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequestBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
-    public partial class consumeWsCepaRequestBody {
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string xmlData;
-        
-        public consumeWsCepaRequestBody() {
-        }
-        
-        public consumeWsCepaRequestBody(string xmlData) {
-            this.xmlData = xmlData;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class consumeWsCepaResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="consumeWsCepaResponse", Namespace="http://aduana.gob.sv/", Order=0)]
-        public CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaResponseBody Body;
-        
-        public consumeWsCepaResponse() {
-        }
-        
-        public consumeWsCepaResponse(CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaResponseBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
-    public partial class consumeWsCepaResponseBody {
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string @return;
-        
-        public consumeWsCepaResponseBody() {
-        }
-        
-        public consumeWsCepaResponseBody(string @return) {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class updateCepaDataRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="updateCepaData", Namespace="http://aduana.gob.sv/", Order=0)]
-        public CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequestBody Body;
-        
-        public updateCepaDataRequest() {
-        }
-        
-        public updateCepaDataRequest(CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequestBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
-    public partial class updateCepaDataRequestBody {
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string xmlData;
-        
-        public updateCepaDataRequestBody() {
-        }
-        
-        public updateCepaDataRequestBody(string xmlData) {
-            this.xmlData = xmlData;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class updateCepaDataResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="updateCepaDataResponse", Namespace="http://aduana.gob.sv/", Order=0)]
-        public CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataResponseBody Body;
-        
-        public updateCepaDataResponse() {
-        }
-        
-        public updateCepaDataResponse(CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataResponseBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
-    public partial class updateCepaDataResponseBody {
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string @return;
-        
-        public updateCepaDataResponseBody() {
-        }
-        
-        public updateCepaDataResponseBody(string @return) {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class getContenedorDataRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="getContenedorData", Namespace="http://aduana.gob.sv/", Order=0)]
-        public CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequestBody Body;
-        
-        public getContenedorDataRequest() {
-        }
-        
-        public getContenedorDataRequest(CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequestBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
-    public partial class getContenedorDataRequestBody {
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string xmlData;
-        
-        public getContenedorDataRequestBody() {
-        }
-        
-        public getContenedorDataRequestBody(string xmlData) {
-            this.xmlData = xmlData;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class getContenedorDataResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="getContenedorDataResponse", Namespace="http://aduana.gob.sv/", Order=0)]
-        public CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataResponseBody Body;
-        
-        public getContenedorDataResponse() {
-        }
-        
-        public getContenedorDataResponse(CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataResponseBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
-    public partial class getContenedorDataResponseBody {
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string @return;
-        
-        public getContenedorDataResponseBody() {
-        }
-        
-        public getContenedorDataResponseBody(string @return) {
+        public validaContenedorDeclaResponseBody(string @return) {
             this.@return = @return;
         }
     }
@@ -460,74 +256,6 @@ namespace CEPA.CCO.AduanaService.CepaSiduneaWorld {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class validaContenedorDeclaRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="validaContenedorDecla", Namespace="http://aduana.gob.sv/", Order=0)]
-        public CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequestBody Body;
-        
-        public validaContenedorDeclaRequest() {
-        }
-        
-        public validaContenedorDeclaRequest(CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequestBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
-    public partial class validaContenedorDeclaRequestBody {
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string xmlData;
-        
-        public validaContenedorDeclaRequestBody() {
-        }
-        
-        public validaContenedorDeclaRequestBody(string xmlData) {
-            this.xmlData = xmlData;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class validaContenedorDeclaResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Name="validaContenedorDeclaResponse", Namespace="http://aduana.gob.sv/", Order=0)]
-        public CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaResponseBody Body;
-        
-        public validaContenedorDeclaResponse() {
-        }
-        
-        public validaContenedorDeclaResponse(CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaResponseBody Body) {
-            this.Body = Body;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
-    public partial class validaContenedorDeclaResponseBody {
-        
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
-        public string @return;
-        
-        public validaContenedorDeclaResponseBody() {
-        }
-        
-        public validaContenedorDeclaResponseBody(string @return) {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     public partial class getCepaDataRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="getCepaData", Namespace="http://aduana.gob.sv/", Order=0)]
@@ -592,6 +320,278 @@ namespace CEPA.CCO.AduanaService.CepaSiduneaWorld {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class consumeWsCepaRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="consumeWsCepa", Namespace="http://aduana.gob.sv/", Order=0)]
+        public CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequestBody Body;
+        
+        public consumeWsCepaRequest() {
+        }
+        
+        public consumeWsCepaRequest(CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
+    public partial class consumeWsCepaRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string xmlData;
+        
+        public consumeWsCepaRequestBody() {
+        }
+        
+        public consumeWsCepaRequestBody(string xmlData) {
+            this.xmlData = xmlData;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class consumeWsCepaResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="consumeWsCepaResponse", Namespace="http://aduana.gob.sv/", Order=0)]
+        public CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaResponseBody Body;
+        
+        public consumeWsCepaResponse() {
+        }
+        
+        public consumeWsCepaResponse(CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
+    public partial class consumeWsCepaResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string @return;
+        
+        public consumeWsCepaResponseBody() {
+        }
+        
+        public consumeWsCepaResponseBody(string @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class entradaBodegaRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="entradaBodega", Namespace="http://aduana.gob.sv/", Order=0)]
+        public CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequestBody Body;
+        
+        public entradaBodegaRequest() {
+        }
+        
+        public entradaBodegaRequest(CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
+    public partial class entradaBodegaRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string xmlData;
+        
+        public entradaBodegaRequestBody() {
+        }
+        
+        public entradaBodegaRequestBody(string xmlData) {
+            this.xmlData = xmlData;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class entradaBodegaResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="entradaBodegaResponse", Namespace="http://aduana.gob.sv/", Order=0)]
+        public CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaResponseBody Body;
+        
+        public entradaBodegaResponse() {
+        }
+        
+        public entradaBodegaResponse(CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
+    public partial class entradaBodegaResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string @return;
+        
+        public entradaBodegaResponseBody() {
+        }
+        
+        public entradaBodegaResponseBody(string @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class updateCepaDataRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="updateCepaData", Namespace="http://aduana.gob.sv/", Order=0)]
+        public CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequestBody Body;
+        
+        public updateCepaDataRequest() {
+        }
+        
+        public updateCepaDataRequest(CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
+    public partial class updateCepaDataRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string xmlData;
+        
+        public updateCepaDataRequestBody() {
+        }
+        
+        public updateCepaDataRequestBody(string xmlData) {
+            this.xmlData = xmlData;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class updateCepaDataResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="updateCepaDataResponse", Namespace="http://aduana.gob.sv/", Order=0)]
+        public CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataResponseBody Body;
+        
+        public updateCepaDataResponse() {
+        }
+        
+        public updateCepaDataResponse(CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
+    public partial class updateCepaDataResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string @return;
+        
+        public updateCepaDataResponseBody() {
+        }
+        
+        public updateCepaDataResponseBody(string @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class getContenedorDataRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="getContenedorData", Namespace="http://aduana.gob.sv/", Order=0)]
+        public CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequestBody Body;
+        
+        public getContenedorDataRequest() {
+        }
+        
+        public getContenedorDataRequest(CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
+    public partial class getContenedorDataRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string xmlData;
+        
+        public getContenedorDataRequestBody() {
+        }
+        
+        public getContenedorDataRequestBody(string xmlData) {
+            this.xmlData = xmlData;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class getContenedorDataResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="getContenedorDataResponse", Namespace="http://aduana.gob.sv/", Order=0)]
+        public CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataResponseBody Body;
+        
+        public getContenedorDataResponse() {
+        }
+        
+        public getContenedorDataResponse(CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="")]
+    public partial class getContenedorDataResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string @return;
+        
+        public getContenedorDataResponseBody() {
+        }
+        
+        public getContenedorDataResponseBody(string @return) {
+            this.@return = @return;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface WSManifiestoCEPAChannel : CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA, System.ServiceModel.IClientChannel {
     }
@@ -620,54 +620,15 @@ namespace CEPA.CCO.AduanaService.CepaSiduneaWorld {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaResponse CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA.entradaBodega(CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequest request) {
-            return base.Channel.entradaBodega(request);
+        CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaResponse CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA.validaContenedorDecla(CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequest request) {
+            return base.Channel.validaContenedorDecla(request);
         }
         
-        public string entradaBodega(string xmlData) {
-            CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequest inValue = new CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequest();
-            inValue.Body = new CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequestBody();
+        public string validaContenedorDecla(string xmlData) {
+            CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequest inValue = new CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequest();
+            inValue.Body = new CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequestBody();
             inValue.Body.xmlData = xmlData;
-            CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaResponse retVal = ((CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA)(this)).entradaBodega(inValue);
-            return retVal.Body.@return;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaResponse CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA.consumeWsCepa(CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequest request) {
-            return base.Channel.consumeWsCepa(request);
-        }
-        
-        public string consumeWsCepa(string xmlData) {
-            CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequest inValue = new CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequest();
-            inValue.Body = new CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequestBody();
-            inValue.Body.xmlData = xmlData;
-            CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaResponse retVal = ((CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA)(this)).consumeWsCepa(inValue);
-            return retVal.Body.@return;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataResponse CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA.updateCepaData(CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequest request) {
-            return base.Channel.updateCepaData(request);
-        }
-        
-        public string updateCepaData(string xmlData) {
-            CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequest inValue = new CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequest();
-            inValue.Body = new CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequestBody();
-            inValue.Body.xmlData = xmlData;
-            CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataResponse retVal = ((CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA)(this)).updateCepaData(inValue);
-            return retVal.Body.@return;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataResponse CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA.getContenedorData(CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequest request) {
-            return base.Channel.getContenedorData(request);
-        }
-        
-        public string getContenedorData(string xmlData) {
-            CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequest inValue = new CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequest();
-            inValue.Body = new CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequestBody();
-            inValue.Body.xmlData = xmlData;
-            CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataResponse retVal = ((CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA)(this)).getContenedorData(inValue);
+            CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaResponse retVal = ((CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA)(this)).validaContenedorDecla(inValue);
             return retVal.Body.@return;
         }
         
@@ -698,19 +659,6 @@ namespace CEPA.CCO.AduanaService.CepaSiduneaWorld {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaResponse CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA.validaContenedorDecla(CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequest request) {
-            return base.Channel.validaContenedorDecla(request);
-        }
-        
-        public string validaContenedorDecla(string xmlData) {
-            CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequest inValue = new CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequest();
-            inValue.Body = new CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaRequestBody();
-            inValue.Body.xmlData = xmlData;
-            CEPA.CCO.AduanaService.CepaSiduneaWorld.validaContenedorDeclaResponse retVal = ((CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA)(this)).validaContenedorDecla(inValue);
-            return retVal.Body.@return;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         CEPA.CCO.AduanaService.CepaSiduneaWorld.getCepaDataResponse CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA.getCepaData(CEPA.CCO.AduanaService.CepaSiduneaWorld.getCepaDataRequest request) {
             return base.Channel.getCepaData(request);
         }
@@ -720,6 +668,58 @@ namespace CEPA.CCO.AduanaService.CepaSiduneaWorld {
             inValue.Body = new CEPA.CCO.AduanaService.CepaSiduneaWorld.getCepaDataRequestBody();
             inValue.Body.xmlData = xmlData;
             CEPA.CCO.AduanaService.CepaSiduneaWorld.getCepaDataResponse retVal = ((CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA)(this)).getCepaData(inValue);
+            return retVal.Body.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaResponse CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA.consumeWsCepa(CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequest request) {
+            return base.Channel.consumeWsCepa(request);
+        }
+        
+        public string consumeWsCepa(string xmlData) {
+            CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequest inValue = new CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequest();
+            inValue.Body = new CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaRequestBody();
+            inValue.Body.xmlData = xmlData;
+            CEPA.CCO.AduanaService.CepaSiduneaWorld.consumeWsCepaResponse retVal = ((CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA)(this)).consumeWsCepa(inValue);
+            return retVal.Body.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaResponse CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA.entradaBodega(CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequest request) {
+            return base.Channel.entradaBodega(request);
+        }
+        
+        public string entradaBodega(string xmlData) {
+            CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequest inValue = new CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequest();
+            inValue.Body = new CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaRequestBody();
+            inValue.Body.xmlData = xmlData;
+            CEPA.CCO.AduanaService.CepaSiduneaWorld.entradaBodegaResponse retVal = ((CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA)(this)).entradaBodega(inValue);
+            return retVal.Body.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataResponse CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA.updateCepaData(CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequest request) {
+            return base.Channel.updateCepaData(request);
+        }
+        
+        public string updateCepaData(string xmlData) {
+            CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequest inValue = new CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequest();
+            inValue.Body = new CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataRequestBody();
+            inValue.Body.xmlData = xmlData;
+            CEPA.CCO.AduanaService.CepaSiduneaWorld.updateCepaDataResponse retVal = ((CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA)(this)).updateCepaData(inValue);
+            return retVal.Body.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataResponse CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA.getContenedorData(CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequest request) {
+            return base.Channel.getContenedorData(request);
+        }
+        
+        public string getContenedorData(string xmlData) {
+            CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequest inValue = new CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequest();
+            inValue.Body = new CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataRequestBody();
+            inValue.Body.xmlData = xmlData;
+            CEPA.CCO.AduanaService.CepaSiduneaWorld.getContenedorDataResponse retVal = ((CEPA.CCO.AduanaService.CepaSiduneaWorld.WSManifiestoCEPA)(this)).getContenedorData(inValue);
             return retVal.Body.@return;
         }
     }

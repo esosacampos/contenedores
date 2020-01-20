@@ -20,9 +20,7 @@ namespace CEPA.CCO.Srv.Web
     // Para permitir que se llame a este servicio web desde un script, usando ASP.NET AJAX, quite la marca de comentario de la línea siguiente. 
     [System.Web.Script.Services.ScriptService]
     public class wsCEPA : System.Web.Services.WebService
-    {
-
-        
+    {           
         [WebMethod(Description="Metodo para registrar los estados de las declaraciones transmitido por ADUANA")]
         public string InsertRegAduana(string xmlDoc)
         {
@@ -124,7 +122,7 @@ namespace CEPA.CCO.Srv.Web
                                 IdEstado = Convert.ToInt32(unContenedor.SelectSingleNode("ESTADO_ADUANA").InnerText),
                                 f_reg_aduana = Convert.ToDateTime(unContenedor.SelectSingleNode("FEC_REG_ESTADO").InnerText),
                                 IdSelectividad = Convert.ToInt32(unContenedor.SelectSingleNode("SELECTIVIDAD").InnerText),
-                                n_nit = unContenedor.SelectSingleNode("N_NIT").InnerText.Replace("-", "").ToUpper(),
+                                n_nit = unContenedor.SelectSingleNode("N_NIT") != null ? unContenedor.SelectSingleNode("N_NIT").InnerText.Replace("-", "").ToUpper() : "",
                                 b_siduneawd = b_sidu,
                                 s_consignatario = unContenedor.SelectSingleNode("CONSIGNATARIO").InnerText.ToUpper(),
                                 n_BL = unContenedor.SelectSingleNode("BL").InnerText.ToUpper(),
@@ -147,7 +145,7 @@ namespace CEPA.CCO.Srv.Web
                                 IdEstado = Convert.ToInt32(unContenedor.SelectSingleNode("ESTADO_ADUANA").InnerText),
                                 f_reg_aduana = Convert.ToDateTime(unContenedor.SelectSingleNode("FEC_REG_ESTADO").InnerText),
                                 IdSelectividad = Convert.ToInt32(unContenedor.SelectSingleNode("SELECTIVIDAD").InnerText),
-                                n_nit = unContenedor.SelectSingleNode("N_NIT").InnerText.Replace("-", "").ToUpper(),
+                                n_nit = unContenedor.SelectSingleNode("N_NIT") != null ? unContenedor.SelectSingleNode("N_NIT").InnerText.Replace("-", "").ToUpper() : "",
                                 b_siduneawd = b_sidu,
                                 s_consignatario = unContenedor.SelectSingleNode("CONSIGNATARIO").InnerText.ToUpper(),
                                 n_BL = unContenedor.SelectSingleNode("BL").InnerText.ToUpper(),

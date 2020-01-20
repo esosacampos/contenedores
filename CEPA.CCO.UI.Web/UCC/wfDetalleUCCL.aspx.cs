@@ -58,6 +58,9 @@ namespace CEPA.CCO.UI.Web.UCC
 
                 DropDownList lnkFull1 = row.FindControl("ddlDetalle") as DropDownList;
                 ScriptManager.GetCurrent(this).RegisterPostBackControl(lnkFull1);
+
+                //TextBox txtMarchamo = row.FindControl("txtMarchamo") as TextBox;
+                //ScriptManager.GetCurrent(this).RegisterPostBackControl(txtMarchamo);
             }
 
             DropDownList lnkFull2 = ddlYear as DropDownList;
@@ -162,7 +165,7 @@ namespace CEPA.CCO.UI.Web.UCC
 
                         if (item.t_revision > 0 && item.f_revision != null)
                         {
-                            _resultado = Convert.ToInt32(DetaNavieraDAL.ActualizarUCCL(DBComun.Estado.verdadero, item.IdDeta, User.Identity.Name, item.f_revision.ToString("dd/MM/yyyy HH:mm"), item.t_revision, item.t_detalle));
+                            _resultado = Convert.ToInt32(DetaNavieraDAL.ActualizarUCCL(DBComun.Estado.verdadero, item.IdDeta, User.Identity.Name, item.f_revision.ToString("dd/MM/yyyy HH:mm"), item.t_revision, item.t_detalle, item.s_marchamo));
 
                         }
                         else
@@ -414,13 +417,13 @@ namespace CEPA.CCO.UI.Web.UCC
                 }
 
 
-                if (ArchivoBookingDAL.isFecha(e.Row.Cells[12].Text) == true)
+                if (ArchivoBookingDAL.isFecha(e.Row.Cells[11].Text) == true)
                 {
-                    if (Convert.ToDateTime(e.Row.Cells[12].Text) > FIRST_GOOD_DATE)
+                    if (Convert.ToDateTime(e.Row.Cells[11].Text) > FIRST_GOOD_DATE)
                     { }
                     else
                     {
-                        e.Row.Cells[12].Text = "";
+                        e.Row.Cells[11].Text = "";
                     }
 
                 }

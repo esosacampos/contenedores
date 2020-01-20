@@ -134,6 +134,8 @@ namespace CEPA.CCO.Entidades
 
         public string TipoRe { get; set; }
         public string f_salidas { get; set; }
+
+        public string s_marchamo { get; set; }
     }
 
     public class EnvioAuto

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Xml;
@@ -236,6 +237,8 @@ namespace CEPA.CCO.Linq
                 //Generar XML para enviar parametros al servicio.
                 _Aduana = Encoding.UTF8.GetString(memoryStream.ToArray());
 
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls;
+
                 CepaSW.WSManifiestoCEPAClient _proxy = new CepaSW.WSManifiestoCEPAClient();
 
 
@@ -248,7 +251,7 @@ namespace CEPA.CCO.Linq
                 _mensaje = _proxy.getContenedorData(_Aduana);
                 if (_mensaje.Substring(0, 1) == "0")
                 {
-                    throw new Exception("El manifiesto # " + string.Concat(a_manif, "-", manif) + " no produjó resultados, por favor verificar que la información es correcta ");
+                    //throw new Exception("El manifiesto # " + string.Concat(a_manif, "-", manif) + " no produjó resultados, por favor verificar que la información es correcta ");
                 }
 
 

@@ -8,8 +8,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Consulta Tracking Importacion">
+    <meta name="author" content="CEPA Puerto de Acajutla">
     <link rel="shortcut icon" type="image/x-icon" href="vendor/bootstrap/Images/favicon.ico">
     <title>Tracking Contenedores</title>
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -265,8 +265,8 @@
                 <ul class="nav navbar-top-links navbar-right list">
                     <li>
                         <center>
-                            <a href="http://www.websmultimedia.com/contador-de-visitas-gratis" title="">
-                            <img style="border: 0px solid; display: inline; width:120px; height:25px;" alt="" src="http://www.websmultimedia.com/contador-de-visitas.php?id=258647"></a><br><a href='http://www.websmultimedia.com/registro-de-marcas-y-logotipos' style="color: #777;font-size: 20px;font-weight: bold;">Visitantes</a></center>
+                            <a href="https://www.websmultimedia.com/contador-de-visitas-gratis" title="">
+                            <img style="border: 0px solid; display: inline; width:120px; height:25px;" alt="" src="https://www.websmultimedia.com/contador-de-visitas.php?id=258647"></a><br><a href='http://www.websmultimedia.com/registro-de-marcas-y-logotipos' style="color: #777;font-size: 20px;font-weight: bold;">Visitantes</a></center>
                     </li>
                 </ul>
                 <div class="navbar-default sidebar hidden-xs" role="navigation">
@@ -356,14 +356,14 @@
                                                 clickButton.click();
                                             };
 
-
+                                           
                                         </script>
                                         <!-- Optional noscript fallback. -->
                                         <!-- END: ReCAPTCHA implementation example. -->
                                     </div>
                                     <div class="form-group">
                                         <asp:Button CssClass="btn btn-primary" runat="server" ID="recaptcha_demo_submit" Text="Consultar" OnClick="recaptcha_demo_submit_Click" />
-                                        <asp:Button ID="btnBuscar" runat="server" CssClass="btn btn-primary" Text="Consultar" OnClick="btnBuscar_Click" Style="display: none;" />
+                                        <asp:Button ID="btnBuscar" runat="server" CssClass="btn btn-primary" Text="Consultar" OnClick="btnBuscar_Click"  Style="display: none;" />
                                         <asp:Button ID="btnClrear" runat="server" CssClass="btn btn-success" Text="Limpiar" />
                                         <input type="button" id="exportpdf" value="Imprimir" class="btn btn-info">
                                     </div>
@@ -556,7 +556,7 @@
                     Para mayor información contactar: Gerente Portuario <a href="#">Roberto de Jesús Mendoza - 7070-8013 - roberto.mendoza@cepa.gob.sv</a> / Jefe Análisis de Gestión <a href="#">Omar Ivan Castillo - 7070-8243 - omar.castillo@cepa.gob.sv</a>
                 </p>
                 <p class="text-justify" style="font-size: 11px;">
-                    Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 15 de Julio de 2019
+                    Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 23 de Octubre de 2019
                 </p>
             </div>
         </footer>
@@ -1522,15 +1522,15 @@
 
             function pageLoad() {
                 $(document).ready(function () {
-
-                    var x = window.location.href;
-                    var z = x.indexOf("acajutla");
-                    if (z > 0) {
-                        $("#recaptcha-demo").attr("data-sitekey", "6LeIrTEUAAAAAGus82oGe3gWnVijwzM3S7t6I1H8");
-                    }
-                    else {
-                        $("#recaptcha-demo").attr("data-sitekey", "6LfrpzEUAAAAAE7ID9J6bhWi26WXJuKFKGHRpE81");
-                    }
+                    //6LfrpzEUAAAAAE7ID9J6bhWi26WXJuKFKGHRpE81, 6LeIrTEUAAAAAGus82oGe3gWnVijwzM3S7t6I1H8
+                    //var x = window.location.href;
+                    //var z = x.indexOf("acajutla");
+                    //if (z > 0) {
+                    //    $("#recaptcha-demo").attr("data-sitekey", "6LeIrTEUAAAAAGus82oGe3gWnVijwzM3S7t6I1H8");
+                    //}
+                    //else {
+                    //    $("#recaptcha-demo").attr("data-sitekey", "6LfrpzEUAAAAAE7ID9J6bhWi26WXJuKFKGHRpE81");
+                    //}
 
                     $("#myOK").click(function () {
                         $("#myModal").modal('hide');

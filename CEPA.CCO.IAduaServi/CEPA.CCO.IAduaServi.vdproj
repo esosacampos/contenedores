@@ -154,12 +154,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_451D4247A2F4351281816938F426B6B4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_265C68CC0AC74AF7AD38D8FCDEE0000B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -209,6 +203,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_63491EA8ADD187FF5E673860FEC04F29"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_451D4247A2F4351281816938F426B6B4"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -355,7 +355,7 @@
                 "Message" = "8:[VSDNETMSG]"
                 "FrameworkVersion" = "8:.NETFramework,Version=v4.0"
                 "AllowLaterVersions" = "11:FALSE"
-                "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=395269"
+                "InstallUrl" = "8:http://msdn.microsoft.com/en-us/netframework/aa569263.aspx"
                 }
             }
         }
@@ -728,7 +728,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:CEPA.CCO.IAduaServi"
         "ProductCode" = "8:{7FFE852E-E5E6-40D3-A4FC-F8F21AF2298C}"
-        "PackageCode" = "8:{04CDC017-0C3A-45DE-89D7-76BB11B8C9C0}"
+        "PackageCode" = "8:{516AB0A4-7E6A-48E3-9551-00F21C825886}"
         "UpgradeCode" = "8:{DE49F73F-86FF-4173-BD8A-F6EFA24BC763}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

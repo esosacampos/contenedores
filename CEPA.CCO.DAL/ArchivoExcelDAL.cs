@@ -305,6 +305,7 @@ namespace CEPA.CCO.DAL
                 string celda = "";
                 string celdaSello = "";
                 string celdaPel = "";
+                string celdaTara = "";
                 object Valor = null;
                 object Valor2 = null;
                 object Valor3 = null;
@@ -396,7 +397,7 @@ namespace CEPA.CCO.DAL
                                     v_peso = _reader.IsDBNull(6) ? 0.00 : (double)_reader.GetDouble(6),
                                     b_estado = _reader.GetString(7),
                                     s_consignatario = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
-                                    celdaSello = "J",
+                                    celdaSello = "J",                                                                        
                                     n_sello = _reader.IsDBNull(9) ? "" : Valor9.ToString(),
                                     c_pais_destino = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
                                     c_pais_origen = _reader.IsDBNull(11) ? "" : _reader.GetString(11),
@@ -404,6 +405,7 @@ namespace CEPA.CCO.DAL
                                     s_comodity = _reader.IsDBNull(13) ? "" : _reader.GetString(13),
                                     s_prodmanifestado = _reader.IsDBNull(14) ? "" : _reader.GetString(14),
                                     v_tara = (double)_reader.GetDouble(15),
+                                    celdaTara = "P",
                                     b_reef = _reader.IsDBNull(16) ? "" : _reader.GetString(16),
                                     b_ret_dir = _reader.IsDBNull(17) ? "" : _reader.GetString(17),
                                     celdaPel = "S",
@@ -430,6 +432,7 @@ namespace CEPA.CCO.DAL
                                 celda = _tmpArc.celdaTrans;
                                 celda = _tmpArc.celdaMan;
                                 celda = _tmpArc.celdaDes;
+                                celda = _tmpArc.celdaTara;
                                     
 
                             }

@@ -136,7 +136,7 @@ namespace CEPA.CCO.DAL
                 _conn.Open();
                 string _consulta = @"DECLARE @i AS INT
                                     SET @i = (SELECT MAX(LEFT(RIGHT(s_archivo, 7),2)) FROM CCO_DETA_DOC_NAVI WHERE IdReg = {0} AND IdTipoMov = {1})
-                                    SELECT @i";
+                                    SELECT LTRIM(RTRIM(@i))";
 
                 SqlCommand _command = new SqlCommand(string.Format(_consulta, pId, pIdTipoMov), _conn as SqlConnection);
                 _command.CommandType = CommandType.Text;

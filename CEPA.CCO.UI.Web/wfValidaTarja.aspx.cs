@@ -87,29 +87,29 @@ namespace CEPA.CCO.UI.Web
             }
             return _contenedores;
         }
-        public static string RegValid(int n_manifiesto, int a_mani, string b_observa, string n_contenedor)
+        public static string RegValid(int n_manifiesto, int a_mani, string b_observa, string n_contenedor, int radio3)
         {
             string respuesta = null;
             string valida = null;
 
             try
-            {
-                
-
-                if (n_contenedor.TrimStart().TrimEnd() == "" || (b_observa.TrimStart().TrimEnd() == ""))
+            {                
+                if (radio3 == 0)
                 {
-                    respuesta = "1|Ingrese el número de contenedor a validar y sus observaciones";
-                }
-                else if (n_contenedor.Trim().TrimEnd().TrimStart().Length == 11)
-                {
-                    if(b_observa.Length <= 254)
-                    { 
-                    valida = DetaNavieraDAL.ValidaContenedor(DBComun.Estado.verdadero, n_contenedor.Trim().TrimEnd().TrimStart(), DBComun.TipoBD.SqlTracking);
-
-                        if (valida == "VALIDO")
+                    if (n_contenedor.TrimStart().TrimEnd() == "" || (b_observa.TrimStart().TrimEnd() == ""))
+                    {
+                        respuesta = "1|Ingrese el número de contenedor a validar y sus observaciones";
+                    }
+                    else if (n_contenedor.Trim().TrimEnd().TrimStart().Length == 11)
+                    {
+                        if (b_observa.Length <= 254)
                         {
-                            //int valor = ValidaTarjaDAL.ValidaCantidad(n_contenedor.TrimStart().TrimEnd(), n_manifiesto, a_mani);
-                            
+                            valida = DetaNavieraDAL.ValidaContenedor(DBComun.Estado.verdadero, n_contenedor.Trim().TrimEnd().TrimStart(), DBComun.TipoBD.SqlTracking);
+
+                            if (valida == "VALIDO")
+                            {
+                                //int valor = ValidaTarjaDAL.ValidaCantidad(n_contenedor.TrimStart().TrimEnd(), n_manifiesto, a_mani);
+
                                 ValiadaTarja _valida = new ValiadaTarja()
                                 {
                                     Observa = b_observa.ToUpper(),
@@ -120,18 +120,24 @@ namespace CEPA.CCO.UI.Web
                                 };
 
                                 string _resultado = inTarjaValid(_valida);
-                            if (_resultado.ToUpper().Contains("EXISTE"))
-                            {
-                                respuesta = "2|El número de contenedor " + n_contenedor + " ya se encuentra validado";
-                            }
-                            else if(_resultado.ToUpper().Contains("OK"))
-                            {
+                                if (_resultado.ToUpper().Contains("EXISTE"))
+                                {
+                                    respuesta = "2|El número de contenedor " + n_contenedor + " ya se encuentra validado";
+                                }
+                                else if (_resultado.ToUpper().Contains("OK"))
+                                {
 
-                                respuesta = "0|Registrado Correctamente";
+                                    respuesta = "0|Registrado Correctamente";
+                                }
+                                else
+                                {
+                                    respuesta = "5|Verificar la información introducida, y volverlo a intentar.";
+                                }
                             }
                             else
                             {
-                                respuesta = "5|Verificar la información introducida, y volverlo a intentar.";
+                                
+                                respuesta = "4|El número de contenedor " + n_contenedor + " no cumple con el estandar de validación Ej. XXXU9999999";
                             }
                         }
                         else
@@ -141,12 +147,58 @@ namespace CEPA.CCO.UI.Web
                     }
                     else
                     {
-                        respuesta = "4|El número de contenedor " + n_contenedor + " no cumple con el estandar de validación Ej. XXXU9999999";
+                        respuesta = "3|El número de contenedor " + n_contenedor + " no es válido debe poseer 11 caracteres Ej. XXXU9999999";
                     }
                 }
                 else
                 {
-                    respuesta = "3|El número de contenedor " + n_contenedor + " no es válido debe poseer 11 caracteres Ej. XXXU9999999";
+                    if (n_contenedor.TrimStart().TrimEnd() == "" || (b_observa.TrimStart().TrimEnd() == ""))
+                    {
+                        respuesta = "1|Ingrese el número de contenedor a validar y sus observaciones";
+                    }
+                    else if (b_observa.Length <= 254)
+                     {
+                            valida = DetaNavieraDAL.ValidaContenedorShipper(DBComun.Estado.verdadero, n_contenedor.Trim().TrimEnd().TrimStart(), DBComun.TipoBD.SqlServer);
+
+
+                            if (valida == "VALIDO")
+                            {
+                                //int valor = ValidaTarjaDAL.ValidaCantidad(n_contenedor.TrimStart().TrimEnd(), n_manifiesto, a_mani);
+
+                                ValiadaTarja _valida = new ValiadaTarja()
+                                {
+                                    Observa = b_observa.ToUpper(),
+                                    Usuario = System.Web.HttpContext.Current.Session["d_usuario"].ToString().ToUpper(),
+                                    Amanifiesto = Convert.ToInt32(a_mani),
+                                    Nmanifiesto = Convert.ToInt32(n_manifiesto),
+                                    Ncontenedor = n_contenedor
+                                };
+
+                                string _resultado = inTarjaValid(_valida);
+                                if (_resultado.ToUpper().Contains("EXISTE"))
+                                {
+                                    respuesta = "2|El número de contenedor " + n_contenedor + " ya se encuentra validado";
+                                }
+                                else if (_resultado.ToUpper().Contains("OK"))
+                                {
+
+                                    respuesta = "0|Registrado Correctamente";
+                                }
+                                else
+                                {
+                                    respuesta = "5|Verificar la información introducida, y volverlo a intentar.";
+                                }
+                            }
+                            else
+                            {
+                            respuesta = "4|El número de contenedor " + n_contenedor + " no cumple con el estandar de validación Ej. XXXU9999999";
+                        }
+                        }
+                    else
+                    {
+                        
+                        respuesta = "4|El máximo de caracteres permitidos en las observaciones es 254 ";
+                    }
                 }
                 return respuesta;
             }
@@ -174,10 +226,10 @@ namespace CEPA.CCO.UI.Web
 
         [WebMethod]
         [System.Web.Script.Services.ScriptMethod()]
-        public static string SaveValid(int n_manifiesto, int a_mani, string b_observa, string n_contenedor)
+        public static string SaveValid(int n_manifiesto, int a_mani, string b_observa, string n_contenedor, int radio3)
         {
 
-            string resultado = RegValid(n_manifiesto, a_mani, b_observa, n_contenedor);
+            string resultado = RegValid(n_manifiesto, a_mani, b_observa, n_contenedor, radio3);
 
             return resultado;
 

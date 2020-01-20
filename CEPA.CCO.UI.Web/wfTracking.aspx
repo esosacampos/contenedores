@@ -288,7 +288,7 @@
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_trans_aduana" HeaderText="F. Transmision ADUANA" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
-                                                        <asp:BoundField DataField="f_ret_dan" HeaderText="F. Retención DAN" ReadOnly="True"
+                                                        <asp:BoundField DataField="f_ret_dan" HeaderText="F. Orden de Retención DAN" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_tramite_dan" HeaderText="F. Tramite DAN" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
@@ -296,7 +296,7 @@
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_deta_dan" HeaderText="F. Liberación DAN" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
-                                                        <asp:BoundField DataField="f_ret_ucc" HeaderText="F. Retención UCC" ReadOnly="True"
+                                                        <asp:BoundField DataField="f_ret_ucc" HeaderText="F. Orden de Retención UCC" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_tramite_ucc" HeaderText="F. Tramite UCC" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
