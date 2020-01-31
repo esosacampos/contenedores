@@ -263,6 +263,7 @@ namespace CEPA.CCO.Entidades
 
     public class ProvisionalesDeta
     {
+        public int IdDeta { get; set; }
         public string C_Llegada { get; set; }
         public string Contenedor { get; set; }
         public DateTime Fecha_Prv { get; set; }

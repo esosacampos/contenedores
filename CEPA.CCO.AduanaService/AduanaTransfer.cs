@@ -517,24 +517,24 @@ namespace CEPA.CCO.AduanaService
                                     ArchivoAduanaValid validAduana = new ArchivoAduanaValid
                                     {
                                         IdValid = -1,
-                                        n_contenedor = unContenedor.SelectSingleNode("CAR_CTN_IDENT").InnerText.Replace("-", ""),
+                                        n_contenedor = unContenedor.SelectSingleNode("CAR_CTN_IDENT").InnerText.Replace("-", "").Replace(" ", ""),
                                         n_manifiesto = iPendiente.num_manif,
-                                        n_BL = unContenedor.SelectSingleNode("KEY_BOL_REF").InnerText,
+                                        n_BL = unContenedor.SelectSingleNode("KEY_BOL_REF").InnerText.Trim(),
                                         a_mani = iPendiente.a_manifiesto,
-                                        c_tipo_bl = unContenedor.SelectSingleNode("CARBOL_TYP_COD").InnerText,
+                                        c_tipo_bl = unContenedor.SelectSingleNode("CARBOL_TYP_COD").InnerText.Trim(),
                                         b_sidunea = iPendiente.b_sidunea,
-                                        c_tamaño = unContenedor.SelectSingleNode("CAR_CTN_TYP").InnerText,
-                                        s_agencia = unContenedor.SelectSingleNode("CAR_CAR_NAM").InnerText,
-                                        v_peso = Convert.ToDouble(unContenedor.SelectSingleNode("CAR_CTN_GWG").InnerText),
-                                        c_paquete = Convert.ToInt32(unContenedor.SelectSingleNode("CAR_CTN_NBR").InnerText),
-                                        c_embalaje = unContenedor.SelectSingleNode("CARBOL_PCK_COD").InnerText,
-                                        d_embalaje = unContenedor.SelectSingleNode("CARBOL_PCK_NAM").InnerText,
-                                        c_pais_origen = unContenedor.SelectSingleNode("CARBOL_DEP_COD").InnerText.Substring(0, 2),
-                                        d_puerto_origen = unContenedor.SelectSingleNode("CARBOL_DEP_COD").InnerText.Substring(2, 3),
-                                        c_pais_destino = unContenedor.SelectSingleNode("CARBOL_DEST_COD").InnerText.Substring(0, 2),
-                                        d_puerto_destino = unContenedor.SelectSingleNode("CARBOL_DEST_COD").InnerText.Substring(2, 3),
-                                        s_nit = unContenedor.SelectSingleNode("CARBOL_CON_COD") != null ? unContenedor.SelectSingleNode("CARBOL_CON_COD").InnerText : "",
-                                        s_consignatario = unContenedor.SelectSingleNode("CARBOL_CON_NAM") != null ? unContenedor.SelectSingleNode("CARBOL_CON_NAM").InnerText : ""
+                                        c_tamaño = unContenedor.SelectSingleNode("CAR_CTN_TYP").InnerText.Trim(),
+                                        s_agencia = unContenedor.SelectSingleNode("CAR_CAR_NAM").InnerText.Trim(),
+                                        v_peso = Convert.ToDouble(unContenedor.SelectSingleNode("CAR_CTN_GWG").InnerText.Trim()),
+                                        c_paquete = Convert.ToInt32(unContenedor.SelectSingleNode("CAR_CTN_NBR").InnerText.Trim()),
+                                        c_embalaje = unContenedor.SelectSingleNode("CARBOL_PCK_COD").InnerText.Trim(),
+                                        d_embalaje = unContenedor.SelectSingleNode("CARBOL_PCK_NAM").InnerText.Trim(),
+                                        c_pais_origen = unContenedor.SelectSingleNode("CARBOL_DEP_COD").InnerText.Substring(0, 2).Trim(),
+                                        d_puerto_origen = unContenedor.SelectSingleNode("CARBOL_DEP_COD").InnerText.Substring(2, 3).Trim(),
+                                        c_pais_destino = unContenedor.SelectSingleNode("CARBOL_DEST_COD").InnerText.Substring(0, 2).Trim(),
+                                        d_puerto_destino = unContenedor.SelectSingleNode("CARBOL_DEST_COD").InnerText.Substring(2, 3).Trim(),
+                                        s_nit = unContenedor.SelectSingleNode("CARBOL_CON_COD") != null ? unContenedor.SelectSingleNode("CARBOL_CON_COD").InnerText.Trim() : "",
+                                        s_consignatario = unContenedor.SelectSingleNode("CARBOL_CON_NAM") != null ? unContenedor.SelectSingleNode("CARBOL_CON_NAM").InnerText.Trim() : ""
                                     };                                
 
                                     //Almacenar manifiesto devuelto por aduana

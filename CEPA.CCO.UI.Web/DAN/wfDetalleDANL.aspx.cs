@@ -220,7 +220,7 @@ namespace CEPA.CCO.UI.Web.DAN
                                 break;
                             }
 
-                           // EnviarCorreo(quen, _detaValores.d_buque, quen.Count(), Total, "11", _detaValores.c_tipo_doc, _detaValores.c_manifiesto, _detaValores.c_navi, _detaValores.c_cliente);
+                           EnviarCorreo(quen, _detaValores.d_buque, quen.Count(), Total, "11", _detaValores.c_tipo_doc, _detaValores.c_manifiesto, _detaValores.c_navi, _detaValores.c_cliente);
 
                         }
 

@@ -341,7 +341,7 @@ namespace CEPA.CCO.UI.Web
             if (gvProvisionales != null)
             {
                 List<ProvisionalesEnca> pList = new List<ProvisionalesEnca>();
-                pList = getEncProvi(order.n_contenedor, order.c_llegada, order.IdDeta);                    
+                pList = DetaNavieraDAL.getEncaProvi(order.IdDeta);                   
 
                 if (pList.Count > 0)
                 {
@@ -355,7 +355,7 @@ namespace CEPA.CCO.UI.Web
 
 
                     List<ProvisionalesDeta> pListD = new List<ProvisionalesDeta>();
-                    pListD = getDetaProvi(order.n_contenedor, order.c_llegada, order.c_naviera);
+                    pListD = DetaNavieraDAL.getDetaProvi(order.IdDeta);                        
 
                     if (pListD.Count > 0)
                     {
@@ -385,7 +385,7 @@ namespace CEPA.CCO.UI.Web
 
                                         if (ArchivoBookingDAL.isFecha(gvDetaProvi.Rows[i].Cells[0].Text) == true)
                                         {
-                                            if (gvDetaProvi.Rows[i].Cells[0].Text.Substring(0, 2) == "30")
+                                            if (gvDetaProvi.Rows[i].Cells[0].Text == "01/01/1900 00:00:00")
                                                 fec_prv = DateTime.MinValue;
                                             else
                                                 fec_prv = Convert.ToDateTime(gvDetaProvi.Rows[i].Cells[0].Text);
@@ -402,7 +402,7 @@ namespace CEPA.CCO.UI.Web
 
                                         if (ArchivoBookingDAL.isFecha(gvDetaProvi.Rows[i].Cells[6].Text) == true)
                                         {
-                                            if (gvDetaProvi.Rows[i].Cells[6].Text.Substring(0, 2) == "30")
+                                            if (gvDetaProvi.Rows[i].Cells[6].Text == "01/01/1900 00:00:00")
                                                 fec_reserva = DateTime.MinValue;
                                             else
                                                 fec_reserva = Convert.ToDateTime(gvDetaProvi.Rows[i].Cells[6].Text);
@@ -419,7 +419,7 @@ namespace CEPA.CCO.UI.Web
 
                                         if (ArchivoBookingDAL.isFecha(gvDetaProvi.Rows[i].Cells[7].Text) == true)
                                         {
-                                            if (gvDetaProvi.Rows[i].Cells[7].Text.Substring(0, 2) == "30")
+                                            if (gvDetaProvi.Rows[i].Cells[7].Text == "01/01/1900 00:00:00")
                                                 fec_valida = DateTime.MinValue;
                                             else
                                                 fec_valida = Convert.ToDateTime(gvDetaProvi.Rows[i].Cells[7].Text);

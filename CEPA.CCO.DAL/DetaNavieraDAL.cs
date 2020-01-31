@@ -3923,5 +3923,86 @@ namespace CEPA.CCO.DAL
             }
 
         }
+
+        public static List<ProvisionalesEnca> getEncaProvi(int pId)
+        {
+            List<ProvisionalesEnca> notiLista = new List<ProvisionalesEnca>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+
+                SqlCommand _command = new SqlCommand("PA_RESUMEN_PROVI", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@IdDeta", pId));
+                
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    ProvisionalesEnca _notificacion = new ProvisionalesEnca
+                    {
+                        IdDeta = _reader.IsDBNull(0) ? 0 : _reader.GetInt32(0),
+                        Descripcion = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        Total = _reader.IsDBNull(2) ? 0 : _reader.GetInt32(2)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+            }
+            return notiLista;
+
+        }
+        public static List<ProvisionalesDeta> getDetaProvi(int pId)
+        {
+            List<ProvisionalesDeta> notiLista = new List<ProvisionalesDeta>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+
+                SqlCommand _command = new SqlCommand("PA_DETALLE_PROVI", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@IdDeta", pId));
+
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    ProvisionalesDeta _notificacion = new ProvisionalesDeta
+                    {
+                        IdDeta = _reader.IsDBNull(0) ? 0 : _reader.GetInt32(0),
+                        C_Llegada = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        Fecha_Prv = _reader.IsDBNull(2) ? Convert.ToDateTime(_reader.GetDateTime(2)) : _reader.GetDateTime(2),
+                        Tipo = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        Motorista_Prv = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                        Transporte_Prv = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
+                        Placa_Prv = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
+                        Chasis_Prv = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        Fec_Reserva = _reader.IsDBNull(8) ? Convert.ToDateTime(_reader.GetDateTime(8)) : _reader.GetDateTime(8),
+                        Fec_Valida = _reader.IsDBNull(9) ? Convert.ToDateTime(_reader.GetDateTime(9)) : _reader.GetDateTime(9)
+
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+            }
+            return notiLista;
+
+        }
     }
 }
