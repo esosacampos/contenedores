@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Web.Configuration;
 using System.Web.UI.WebControls;
 using cxExcel = ClosedXML.Excel;
 
@@ -69,7 +70,7 @@ namespace CEPA.CCO.UI.Web.Navieras
         public static List<EntLlenos> getEntLLenos(string c_contenedor, string c_naviera, string f_corta)
         {
             List<EntLlenos> _contenedores = new List<EntLlenos>();
-            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            string apiUrl = WebConfigurationManager.AppSettings["apiFox"].ToString();
             Procedure proceso = new Procedure
             {
                 NBase = "CONTENEDORES",

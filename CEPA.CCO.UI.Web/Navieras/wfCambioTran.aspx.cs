@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.IO;
 using System.Data;
+using System.Web.Configuration;
 
 namespace CEPA.CCO.UI.Web.Navieras
 {
@@ -98,7 +99,7 @@ namespace CEPA.CCO.UI.Web.Navieras
         public static string getRetDir(int pIdDeta, int pTipo)
         {
             string _contenedores = "";
-            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            string apiUrl = WebConfigurationManager.AppSettings["apiFox"].ToString();
             Procedure proceso = new Procedure
             {
                 NBase = "CONTENEDORES",

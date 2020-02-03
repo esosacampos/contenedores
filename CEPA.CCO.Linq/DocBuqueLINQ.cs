@@ -947,7 +947,8 @@ namespace CEPA.CCO.Linq
                                            f_liberado_ucc = a.f_liberado_ucc,
                                            f_marchamo_ucc = a.f_marchamo_ucc,
                                            f_deta_dan = a.f_deta_dan,
-                                           f_deta_ucc = a.f_deta_ucc
+                                           f_deta_ucc = a.f_deta_ucc,
+                                           f_ret_ucc = a.f_ret_ucc
                                        }).ToList();
 
 

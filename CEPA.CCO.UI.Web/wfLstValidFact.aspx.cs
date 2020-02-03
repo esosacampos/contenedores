@@ -7,6 +7,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Web.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -25,7 +26,7 @@ namespace CEPA.CCO.UI.Web
         public static List<ValiadaTarja> getValidaciones(string f_corta)
         {
             List<ValiadaTarja> _contenedores = new List<ValiadaTarja>();
-            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            string apiUrl = WebConfigurationManager.AppSettings["apiFox"].ToString();
             Procedure proceso = new Procedure
             {
                 NBase = "CONTENEDORES",

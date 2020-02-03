@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Data;
 using System.IO;
+using System.Web.Configuration;
 
 namespace CEPA.CCO.UI.Web
 {
@@ -46,7 +47,7 @@ namespace CEPA.CCO.UI.Web
         public static string inTarjaValid(ValiadaTarja pTarja)
         {
             string _contenedores = "";
-            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            string apiUrl = WebConfigurationManager.AppSettings["apiFox"].ToString();
             Procedure proceso = new Procedure
             {
                 NBase = "CONTENEDORES",

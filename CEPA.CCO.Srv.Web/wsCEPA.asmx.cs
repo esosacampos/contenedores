@@ -14,7 +14,7 @@ namespace CEPA.CCO.Srv.Web
     /// <summary>
     /// Descripción breve de Service1
     /// </summary>
-    [WebService(Namespace = "http://138.219.156.214:6044/", Description="Servicio de Transferencia de Informacion ADUANA - CEPA")]
+    [WebService(Namespace = "http://190.86.214.193:6044/", Description="Servicio de Transferencia de Informacion ADUANA - CEPA")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // Para permitir que se llame a este servicio web desde un script, usando ASP.NET AJAX, quite la marca de comentario de la línea siguiente. 

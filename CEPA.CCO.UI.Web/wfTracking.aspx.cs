@@ -31,6 +31,7 @@ using HtmlAgilityPack;
 using System.Xml;
 using Newtonsoft.Json;
 using System.Data;
+using System.Web.Configuration;
 
 namespace CEPA.CCO.UI.Web
 {
@@ -150,7 +151,7 @@ namespace CEPA.CCO.UI.Web
         public static string getUbica(string c_contenedor, string c_llegada, string c_naviera)
         {
             string _contenedores = "";
-            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            string apiUrl = WebConfigurationManager.AppSettings["apiFox"].ToString(); 
             Procedure proceso = new Procedure
             {
                 NBase = "CONTENEDORES",
@@ -236,7 +237,7 @@ namespace CEPA.CCO.UI.Web
         public static List<ProvisionalesDeta> getDetaProvi(string c_contenedor, string c_llegada, string c_naviera)
         {
             List<ProvisionalesDeta> _contenedores = new List<ProvisionalesDeta>();
-            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            string apiUrl = WebConfigurationManager.AppSettings["apiFox"].ToString();
             Procedure proceso = new Procedure
             {
                 NBase = "CONTENEDORES",

@@ -11,6 +11,7 @@ using cxExcel = ClosedXML.Excel;
 using System.Text;
 using System.Web.UI.WebControls;
 using System.Web.UI;
+using System.Web.Configuration;
 
 namespace CEPA.CCO.UI.Web.Navieras
 {
@@ -371,7 +372,7 @@ namespace CEPA.CCO.UI.Web.Navieras
         public static List<EstadiaConte> GetContenedor(string c_contenedor, string c_naviera)
         {
             List<EstadiaConte> _contenedores = new List<EstadiaConte>();
-            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
+            string apiUrl = WebConfigurationManager.AppSettings["apiFox"].ToString();
             Procedure proceso = new Procedure();
             proceso.NBase = "CONTENEDORES";
             proceso.Procedimiento = "sqlconteubica"; // "contenedor_exp"; //"Sqlentllenos"; //contenedor_exp('NYKU3806160') //"lstsalidascarga";// ('NYKU3806160')
