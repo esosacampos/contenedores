@@ -235,10 +235,12 @@
     <Content Include="vendor\bootstrap\js\moment-with-locales.min.js" />
     <Content Include="vendor\bootstrap\js\moment.min.js" />
     <Content Include="vendor\bootstrap\logo\cepa_logo.png" />
+    <Content Include="vendor\bootstrap\logo\cepa_logo1.png" />
     <Content Include="vendor\bootstrap\logo\CEPA_LOGOs.png" />
     <Content Include="vendor\bootstrap\logo\dga_lo.png" />
     <Content Include="vendor\bootstrap\logo\logo.png" />
     <Content Include="vendor\bootstrap\logo\logosn.png" />
+    <Content Include="vendor\bootstrap\logo\MAG_Logo.png" />
     <Content Include="vendor\bootstrap\logo\manual_icons.png" />
     <Content Include="vendor\bootstrap\logo\pncsv.png" />
     <Content Include="vendor\datatables-plugins\dataTables.bootstrap.css" />

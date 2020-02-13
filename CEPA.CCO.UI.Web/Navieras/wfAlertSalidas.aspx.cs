@@ -375,7 +375,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                 else
                 {
 
-                     System.Web.UI.ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('Los datos ingresados no devuelven resultados, verifique la información e intente nuevamente.');", true);
+                     System.Web.UI.ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('La fecha consultada no devuelve resultados.');", true);
                      return;                    
                 }
 

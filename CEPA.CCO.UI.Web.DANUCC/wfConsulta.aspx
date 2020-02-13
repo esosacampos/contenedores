@@ -141,7 +141,7 @@
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
                             <li>
-                                <img src="vendor/bootstrap/Images/CEPA_LOGO.gif" id="img1" class="img-responsive" />
+                                <img src="vendor/bootstrap/Images/cepa_logo.png" id="img1" class="img-responsive" />
                             </li>
                             <li>
                                 <br />

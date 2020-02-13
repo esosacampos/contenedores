@@ -283,6 +283,12 @@
     <Content Include="FileExport.ashx" />
     <Content Include="FileUploadHandlerBook.ashx" />
     <Content Include="FileUploadHandlerRees.ashx" />
+    <Content Include="Fonts\Bembo-Std.ttf" />
+    <Content Include="Fonts\BemboStd-Bold.otf" />
+    <Content Include="Fonts\BemboStd-SemiboldItalic.otf" />
+    <Content Include="Fonts\MuseoSans-300[1].otf" />
+    <Content Include="Fonts\MuseoSans_500.otf" />
+    <Content Include="Fonts\MuseoSans_900.otf" />
     <None Include="Service References\CepaSW\configuration91.svcinfo" />
     <None Include="Service References\CepaSW\configuration.svcinfo" />
     <None Include="Service References\CepaSW\Reference.svcmap">
@@ -291,6 +297,7 @@
     </None>
     <Content Include="wfConsulBL.aspx" />
     <Content Include="wfLstValidFact.aspx" />
+    <Content Include="wfRetDGA.aspx" />
     <Content Include="wfVencimiento.aspx" />
     <None Include="Properties\PublishProfiles\Perfil183.pubxml" />
     <None Include="Properties\PublishProfiles\PerfilLocal.pubxml" />
@@ -974,6 +981,13 @@
     </Compile>
     <Compile Include="wfUsuarios.aspx.designer.cs">
       <DependentUpon>wfUsuarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfRetDGA.aspx.cs">
+      <DependentUpon>wfRetDGA.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfRetDGA.aspx.designer.cs">
+      <DependentUpon>wfRetDGA.aspx</DependentUpon>
     </Compile>
     <Compile Include="wfValidaTarja.aspx.cs">
       <DependentUpon>wfValidaTarja.aspx</DependentUpon>

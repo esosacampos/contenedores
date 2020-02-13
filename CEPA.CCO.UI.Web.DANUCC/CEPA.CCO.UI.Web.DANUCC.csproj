@@ -108,7 +108,7 @@
     <Content Include="vendor\bootstrap\Images\calender.png" />
     <Content Include="vendor\bootstrap\Images\cepastart.png" />
     <Content Include="vendor\bootstrap\Images\cepastart1.png" />
-    <Content Include="vendor\bootstrap\Images\CEPA_LOGO.gif" />
+    <Content Include="vendor\bootstrap\Images\cepa_logo.png" />
     <Content Include="vendor\bootstrap\Images\cross.png" />
     <Content Include="vendor\bootstrap\Images\cs_print.gif" />
     <Content Include="vendor\bootstrap\Images\dan_logo.png" />

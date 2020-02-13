@@ -4004,5 +4004,43 @@ namespace CEPA.CCO.DAL
             return notiLista;
 
         }
+
+        public static List<Declaracion> getValidConten(string n_contenedor, string a_decla, string c_serie, string c_correlativo)
+        {
+            List<Declaracion> notiLista = new List<Declaracion>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+
+                SqlCommand _command = new SqlCommand("pa_valid_conten_track", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@n_contenedor", n_contenedor));
+                _command.Parameters.Add(new SqlParameter("@a_decla", a_decla));
+                _command.Parameters.Add(new SqlParameter("@s_decla", c_serie));
+                _command.Parameters.Add(new SqlParameter("@c_decla", c_correlativo));
+
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    Declaracion _notificacion = new Declaracion
+                    {
+                        n_manifiesto = _reader.IsDBNull(0) ? "" : _reader.GetString(0)                      
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+            }
+            return notiLista;
+
+        }
     }
 }

@@ -106,7 +106,7 @@
 
         /* Set gray background color and 100% height */
         .sidenav {
-            padding-top: 20px;
+            padding-top: 5px;
             background-color: #f1f1f1;
             height: 100%;
             min-height: 1200px;
@@ -318,10 +318,10 @@
         </nav>
         <!-- main <%--style="padding-right: 97px;"--%>-->
         <div class="container-fluid text-left">
-            <div class="row content">
+            <div class="row content">                
                 <div class="col-sm-2 sidenav navegacion" id="mySideNav">
                     <%--<img class="logo" src="CSS/Imag/cepa.png" alt="CEPA Puerto de Acajutla">--%>
-                    <div style="background-color: #f1f1f1; opacity: 0.6; background-image: url(/CSS/Imag/cepa.png); background-repeat: no-repeat; /* background-color: white; */background-size: 100% auto; height: 96px; width: 200px;"></div>
+                    <div style="background-color: #f1f1f1; opacity: 0.75; background-image: url(CSS/Imag/cepa.png); no-repeat; /* background-color: white; */background-size: 100% auto; height: 85px; width: 180px;"></div>
                     <asp:Menu ID="MenuPrincipal" MaximumDynamicDisplayLevels="20" CssClass="nav nav-list"
                         IncludeStyleBlock="false" StaticMenuStyle-CssClass="nav" StaticSelectedStyle-CssClass="active"
                         DynamicMenuStyle-CssClass="dropdown-menu" runat="server" Orientation="Vertical"

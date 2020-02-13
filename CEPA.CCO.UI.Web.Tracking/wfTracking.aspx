@@ -274,20 +274,26 @@
                         <ul class="nav" id="side-menu">
                             <li></li>
                             <li>
-                                <img src="vendor/bootstrap/logo/dga_lo.png" alt="" style="margin-bottom: 15%; margin-left: 20%; margin-top: 20%;" class="img-responsive" />
+                                <img src="vendor/bootstrap/logo/dga_lo.png" alt="" style="margin-bottom: 5%; margin-left: 20%; margin-top: 20%;" class="img-responsive" />
                             </li>
                             <li>
-                                <br />
+                               
                             </li>
                             <li>
-                                <img src="vendor/bootstrap/logo/pncsv.png" alt="" style="margin-bottom: 15%; margin-left: 15%" class="img-responsive" />
+                                <img src="vendor/bootstrap/logo/pncsv.png" alt="" style="margin-bottom: 5%; margin-left: 15%" class="img-responsive" />
                             </li>
                             <li>
-                                <br />
+                               
+                            </li>
+                            <li>
+                                <img src="vendor/bootstrap/logo/MAG_Logo.png" alt="" style="margin-bottom:5%; margin-left: 8%" class="img-responsive" />
+                            </li>
+                            <li>
+                                
                             </li>
                             <li>
                                 <a href="wfAyuda.aspx" alt="Manual de Usuario">
-                                    <img src="vendor/bootstrap/logo/manual_icons.png" alt="" style="margin-bottom: 15%; margin-left: 15%" class="img-responsive" />
+                                    <img src="vendor/bootstrap/logo/manual_icons.png" alt="" style="margin-bottom: 5%; margin-left: 10%" class="img-responsive" />
                                 </a>
                             </li>
                         </ul>

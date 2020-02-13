@@ -163,82 +163,99 @@ namespace CEPA.CCO.UI.Web.Tracking
                     throw new Exception("Correlativo declaración no posee mas que 6 dígitos");
                 }
 
+                List<Declaracion> pValidCon = new List<Declaracion>();
 
-                MemoryStream memoryStream = new MemoryStream();
-                XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
-                xmlWriterSettings.Encoding = new UTF8Encoding(false);
-                xmlWriterSettings.ConformanceLevel = ConformanceLevel.Document;
-                xmlWriterSettings.Indent = true;
+                pValidCon = DetaNavieraDAL.getValidConten(n_contenedor, a_decla, c_serie, c_correlativo);
 
-                XmlWriter xml = XmlWriter.Create(memoryStream, xmlWriterSettings);
-
-                //CEPAService.WSManifiestoCEPAClient _proxy = new CEPAService.WSManifiestoCEPAClient();
-
-
-                string _Aduana = null;
-
-                xml.WriteStartDocument();
-
-                xml.WriteStartElement("MDS4");
-
-                xml.WriteElementString("SAD_REG_YEAR", a_declaracion.ToString());
-                xml.WriteElementString("KEY_CUO", "02");
-                xml.WriteElementString("SAD_REG_SERIAL", s_declaracion.ToString());
-                xml.WriteElementString("SAD_REG_NBER", c_declaracion.ToString());
-                xml.WriteElementString("CAR_CTN_IDENT", n_contenedor.Trim().TrimEnd().TrimStart());
-
-                xml.WriteEndDocument();
-                xml.Flush();
-                xml.Close();
-
-                //Generar XML para enviar parametros al servicio.
-                _Aduana = Encoding.UTF8.GetString(memoryStream.ToArray());
-
-                XmlDocument doc = new XmlDocument();
-
-                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-
-                if (b_sidunea == 0)
+                if (pValidCon.Count > 0)
                 {
-
-                    //_resultado = _proxy.validaContenedorDecla(_Aduana);
-                    _resultado = "0";
-                }
-                else
-                 {
-                    CepaSW.WSManifiestoCEPAClient _proxySW = new CepaSW.WSManifiestoCEPAClient();
-
-                    string _usuario = ConfigurationManager.AppSettings["userSidunea"];
-                    string _pass = ConfigurationManager.AppSettings["pswSidunea"];
-
-                    _proxySW.ClientCredentials.UserName.UserName = _usuario;
-                    _proxySW.ClientCredentials.UserName.Password = _pass;
-
-                    _resultado = _proxySW.validaContenedorDecla(_Aduana);
-                }
-
-                if (_resultado.Substring(0, 1) == "1")
-                {
-                    _cadena = _resultado.Remove(0, 2);
-                    doc.LoadXml(_cadena);
-                    XmlNodeList listaCntres = doc.SelectNodes("MdsParts/MDS4");
-
-                    XmlNode _manifiestos;
-
-                    for (int i = 0; i < listaCntres.Count; i++)
+                    foreach (var decla in pValidCon)
                     {
-                        _manifiestos = listaCntres.Item(i);
+                        if (decla.n_manifiesto != "0-0")
+                            _mani = decla.n_manifiesto;
+                        else
+                        {
+                            MemoryStream memoryStream = new MemoryStream();
+                            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
+                            xmlWriterSettings.Encoding = new UTF8Encoding(false);
+                            xmlWriterSettings.ConformanceLevel = ConformanceLevel.Document;
+                            xmlWriterSettings.Indent = true;
 
-                        _mani = _manifiestos.SelectSingleNode("MANIFIESTO").InnerText;
+                            XmlWriter xml = XmlWriter.Create(memoryStream, xmlWriterSettings);
 
+                            //CEPAService.WSManifiestoCEPAClient _proxy = new CEPAService.WSManifiestoCEPAClient();
+
+
+                            string _Aduana = null;
+
+                            xml.WriteStartDocument();
+
+                            xml.WriteStartElement("MDS4");
+
+                            xml.WriteElementString("SAD_REG_YEAR", a_declaracion.ToString());
+                            xml.WriteElementString("KEY_CUO", "02");
+                            xml.WriteElementString("SAD_REG_SERIAL", s_declaracion.ToString());
+                            xml.WriteElementString("SAD_REG_NBER", c_declaracion.ToString());
+                            xml.WriteElementString("CAR_CTN_IDENT", n_contenedor.Trim().TrimEnd().TrimStart());
+
+                            xml.WriteEndDocument();
+                            xml.Flush();
+                            xml.Close();
+
+                            //Generar XML para enviar parametros al servicio.
+                            _Aduana = Encoding.UTF8.GetString(memoryStream.ToArray());
+
+                            ServicePointManager.Expect100Continue = true;
+                            System.Net.ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072 | SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls;
+ 
+
+                            XmlDocument doc = new XmlDocument();
+
+                            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+
+                            if (b_sidunea == 0)
+                            {
+
+                                //_resultado = _proxy.validaContenedorDecla(_Aduana);
+                                _resultado = "0";
+                            }
+                            else
+                            {
+                                CepaSW.WSManifiestoCEPAClient _proxySW = new CepaSW.WSManifiestoCEPAClient();
+
+                                string _usuario = ConfigurationManager.AppSettings["userSidunea"];
+                                string _pass = ConfigurationManager.AppSettings["pswSidunea"];
+
+                                _proxySW.ClientCredentials.UserName.UserName = _usuario;
+                                _proxySW.ClientCredentials.UserName.Password = _pass;
+
+                                _resultado = _proxySW.validaContenedorDecla(_Aduana);
+                            }
+
+                            if (_resultado.Substring(0, 1) == "1")
+                            {
+                                _cadena = _resultado.Remove(0, 2);
+                                doc.LoadXml(_cadena);
+                                XmlNodeList listaCntres = doc.SelectNodes("MdsParts/MDS4");
+
+                                XmlNode _manifiestos;
+
+                                for (int i = 0; i < listaCntres.Count; i++)
+                                {
+                                    _manifiestos = listaCntres.Item(i);
+
+                                    _mani = _manifiestos.SelectSingleNode("MANIFIESTO").InnerText;
+
+                                }
+                            }
+                            else
+                            {
+                                _mani = "0";
+                            }
+                        }
                     }
                 }
-                else
-                {
-                    _mani = "0";
-                }
-
-
+                
 
 
                 return _mani;
@@ -408,92 +425,7 @@ namespace CEPA.CCO.UI.Web.Tracking
             return _contenedores;
         }
 
-        public static List<ProvisionalesEnca> getEncProvi(string c_contenedor, string c_llegada, int IdDeta)
-        {
-            List<ProvisionalesEnca> _contenedores = new List<ProvisionalesEnca>();
-            string apiUrl = WebConfigurationManager.AppSettings["apiFox"].ToString();
-            Procedure proceso = new Procedure
-            {
-                NBase = "CONTENEDORES",
-                Procedimiento = "Sqlprovisional", // "contenedor_exp"; //"Sqlentllenos"; //contenedor_exp('NYKU3806160') //"lstsalidascarga";// ('NYKU3806160')
-                Parametros = new List<Parametros>()
-            };
-            proceso.Parametros.Add(new Parametros { nombre = "llegada", valor = c_llegada });
-            proceso.Parametros.Add(new Parametros { nombre = "_contenedor", valor = c_contenedor });
-            proceso.Parametros.Add(new Parametros { nombre = "deta", valor = IdDeta.ToString() });
-
-            string inputJson = JsonConvert.SerializeObject(proceso);
-            apiUrl = apiUrl + inputJson;
-            _contenedores = conEncProvi(_contenedores, apiUrl);
-            return _contenedores;
-        }
-
-        private static List<ProvisionalesEnca> conEncProvi(List<ProvisionalesEnca> _contenedores, string apiUrl)
-        {
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(apiUrl);
-            httpWebRequest.Method = WebRequestMethods.Http.Get;
-            httpWebRequest.Accept = "application/json; charset=utf-8";
-            string file = string.Empty;
-            var response = (HttpWebResponse)httpWebRequest.GetResponse();
-            //string idx = "{ "DBase":"CONTENEDORES","Servidor":null,"Procedimiento":"Sqlentllenos","Consulta":true,"Parametros":[{"nombre":"_dia","valor":"15-05-2019"}]}";
-            using (var sr = new StreamReader(response.GetResponseStream()))
-            {
-                file = sr.ReadToEnd();
-                DataTable tabla = JsonConvert.DeserializeObject<DataTable>(file) as DataTable;
-                if (tabla.Rows.Count > 0)
-                {
-                    if (!tabla.Rows[0][0].ToString().StartsWith("ERROR"))
-                    {
-                        _contenedores = tabla.ToList<ProvisionalesEnca>();
-                    }
-                }
-            }
-            return _contenedores;
-        }
-
-        public static List<ProvisionalesDeta> getDetaProvi(string c_contenedor, string c_llegada, string c_naviera)
-        {
-            List<ProvisionalesDeta> _contenedores = new List<ProvisionalesDeta>();
-            string apiUrl = WebConfigurationManager.AppSettings["apiFox"].ToString();
-            Procedure proceso = new Procedure
-            {
-                NBase = "CONTENEDORES",
-                Procedimiento = "Sqlvprovi", // "contenedor_exp"; //"Sqlentllenos"; //contenedor_exp('NYKU3806160') //"lstsalidascarga";// ('NYKU3806160')
-                Parametros = new List<Parametros>()
-            };
-            proceso.Parametros.Add(new Parametros { nombre = "llegada", valor = c_llegada });
-            proceso.Parametros.Add(new Parametros { nombre = "_contenedor", valor = c_contenedor });
-            proceso.Parametros.Add(new Parametros { nombre = "navi", valor = c_naviera });
-
-            string inputJson = JsonConvert.SerializeObject(proceso);
-            apiUrl = apiUrl + inputJson;
-            _contenedores = conDetaProvi(_contenedores, apiUrl);
-            return _contenedores;
-        }
-
-        private static List<ProvisionalesDeta> conDetaProvi(List<ProvisionalesDeta> _contenedores, string apiUrl)
-        {
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(apiUrl);
-            httpWebRequest.Method = WebRequestMethods.Http.Get;
-            httpWebRequest.Accept = "application/json; charset=utf-8";
-            string file = string.Empty;
-            var response = (HttpWebResponse)httpWebRequest.GetResponse();
-            //string idx = "{ "DBase":"CONTENEDORES","Servidor":null,"Procedimiento":"Sqlentllenos","Consulta":true,"Parametros":[{"nombre":"_dia","valor":"15-05-2019"}]}";
-            using (var sr = new StreamReader(response.GetResponseStream()))
-            {
-                file = sr.ReadToEnd();
-                DataTable tabla = JsonConvert.DeserializeObject<DataTable>(file) as DataTable;
-                if (tabla.Rows.Count > 0)
-                {
-                    if (!tabla.Rows[0][0].ToString().StartsWith("ERROR"))
-                    {
-                        _contenedores = tabla.ToList<ProvisionalesDeta>();
-                    }
-                }
-            }
-            return _contenedores;
-        }
-
+        
         protected void grvTracking_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             try
@@ -758,6 +690,9 @@ namespace CEPA.CCO.UI.Web.Tracking
 
                 //Generar XML para enviar parametros al servicio.
                 _Aduana = Encoding.UTF8.GetString(memoryStream.ToArray());
+
+                ServicePointManager.Expect100Continue = true;
+                System.Net.ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072 | SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls;
 
                 XmlDocument doc = new XmlDocument();
 
@@ -1184,7 +1119,7 @@ namespace CEPA.CCO.UI.Web.Tracking
             }
             catch (Exception ex)
             {
-                string _mensaje = "Error: Tiempo de espera agotado, intentelo de nuevo, presione la tecla F5";
+                string _mensaje = "Error: Tiempo de espera agotado, intentelo de nuevo, presione la tecla F5 : Error detectado: " + ex.Message.ToString();
 
                 return Newtonsoft.Json.JsonConvert.SerializeObject(_mensaje);
             }
