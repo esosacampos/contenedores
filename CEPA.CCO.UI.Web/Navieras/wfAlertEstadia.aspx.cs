@@ -12,6 +12,7 @@ using System.Text;
 using System.Web.UI.WebControls;
 using System.Web.UI;
 using System.Web.Configuration;
+using System.Configuration;
 
 namespace CEPA.CCO.UI.Web.Navieras
 {
@@ -82,7 +83,7 @@ namespace CEPA.CCO.UI.Web.Navieras
 
             string c_contenedor = txtBuscar.Text.Trim().TrimStart().TrimEnd().ToUpper().Replace("-", "");
 
-            
+
 
             if (string.IsNullOrEmpty(c_contenedor))
                 c_contenedor = "ALL";
@@ -120,10 +121,47 @@ namespace CEPA.CCO.UI.Web.Navieras
 
                 if (pList.Count > 0)
                 {
+
+                    //from c in categories
+                    //join p in products on c.Category equals p.Category into ps
+                    //from p in ps.DefaultIfEmpty()
+                    //select new { Category = c, ProductName = p == null ? "(No products)" : p.ProductName };
+
+                    List<DetaNaviera> pDescripcion = DetaNavieraDAL.getDescripcion();
+
+                    if (pDescripcion == null)
+                        pDescripcion = new List<DetaNaviera>();
+
+                    var que = from c in pList
+                              join p in pDescripcion on c.Iddeta equals p.IdDeta into ps
+                              from p in ps.DefaultIfEmpty()
+                              select new EstadiaConte
+                              {
+                                  Categoria = c.Categoria,
+                                  Cod_agen = c.Cod_agen,
+                                  Corto = c.Corto,
+                                  Agencia = c.Agencia,
+                                  Contenedor = c.Contenedor,
+                                  Manifiesto = c.Manifiesto,
+                                  Tipo = c.Tipo,
+                                  Condicion = c.Condicion,
+                                  Ingreso = c.Ingreso,
+                                  Fec_vacio = c.Fec_vacio,
+                                  Estadia = c.Estadia,
+                                  Sitio = c.Sitio,
+                                  Observa = c.Observa,
+                                  Cliente = c.Cliente,
+                                  Estb3 = c.Estb3,
+                                  Iddeta = c.Iddeta,
+                                  Cllegada = c.Cllegada,
+                                  s_descripcion = p == null ? "" : p.s_comodity
+                              };
+                    List<EstadiaConte> seleCollec = que.ToList();
+
                     foreach (var iTipo in Enum.GetNames(typeof(Tipo)))
                     {
                         int c_correlativo = 1;
-                        var query = pList.Where(x => x.Categoria.Trim().TrimEnd().TrimStart() == iTipo);
+                        var query = seleCollec.Where(x => x.Categoria.Trim().TrimEnd().TrimStart() == iTipo);
                         int d_lineas = 0;
                         if (query.Count() > 0)
                         {
@@ -136,9 +174,11 @@ namespace CEPA.CCO.UI.Web.Navieras
                             string _rango = null;
 
                             if (iTipo.ToString() == "VACIO")
-                                _rango = "M";
-                            else
                                 _rango = "L";
+                            else if(iTipo == "IMPORTACION")
+                                _rango = "M";
+                            else if(iTipo == "EXPORTACION")
+                                _rango = "K";
 
                             oSheet.Range("A1", _rango + "1").Merge();
                             oSheet.Range("A1", _rango + "1").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
@@ -157,6 +197,10 @@ namespace CEPA.CCO.UI.Web.Navieras
                             oSheet.Range("A5", _rango + "5").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
                             oSheet.Range("A5", _rango + "5").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
 
+                            
+                            oSheet.Range("G7", _rango + "7").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+                            oSheet.Range("G7", _rango + "7").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+
                             oSheet.Cell("A5").Value = "CONTENEDORES " + iTipo.ToString();
                             oSheet.Cell("A5").Style.Font.Bold = true;
                             oSheet.Cell("A5").Style.Font.FontSize = 7.5;
@@ -165,29 +209,51 @@ namespace CEPA.CCO.UI.Web.Navieras
                             oSheet.Row(5).Height = 25;
 
 
-                            oSheet.Cell(ROWS_START, 1).Value = "No.";
-                            oSheet.Cell(ROWS_START, 2).Value = "AGENCIA";
-                            oSheet.Cell(ROWS_START, 3).Value = "MANIFIESTO";
-                            oSheet.Cell(ROWS_START, 4).Value = "CONTENEDOR";
-                            oSheet.Cell(ROWS_START, 5).Value = "TAMAÑO/TIPO";
-                            oSheet.Cell(ROWS_START, 6).Value = "CONDICION";
-                            oSheet.Cell(ROWS_START, 7).Value = "INGRESO";
-                            if (iTipo == "VACIO")
+                            if (iTipo == "IMPORTACION")
                             {
-                                oSheet.Cell(ROWS_START, 8).Value = "F. VACIADO";
+                                oSheet.Cell(ROWS_START, 1).Value = "No.";
+                                oSheet.Cell(ROWS_START, 2).Value = "AGENCIA";
+                                oSheet.Cell(ROWS_START, 3).Value = "MANIFIESTO";
+                                oSheet.Cell(ROWS_START, 4).Value = "CONTENEDOR";
+                                oSheet.Cell(ROWS_START, 5).Value = "TAMAÑO/TIPO";
+                                oSheet.Cell(ROWS_START, 6).Value = "CONDICION";
+                                oSheet.Cell(ROWS_START, 7).Value = "DESCRIPCION DE LA MERCADERIA, SEGÚN LISTADO ELECTRONICO DE LA NAVIERA";
+                                oSheet.Cell(ROWS_START, 8).Value = "INGRESO";
                                 oSheet.Cell(ROWS_START, 9).Value = "ESTADIA (Días)";
                                 oSheet.Cell(ROWS_START, 10).Value = "UBICACION";
                                 oSheet.Cell(ROWS_START, 11).Value = "OBSERVACIONES";
                                 oSheet.Cell(ROWS_START, 12).Value = "CONSIGNATARIO";
                                 oSheet.Cell(ROWS_START, 13).Value = "ESTADIA BODEGA #3";
                             }
-                            else
+                            else if (iTipo == "VACIO")
                             {
+                                oSheet.Cell(ROWS_START, 1).Value = "No.";
+                                oSheet.Cell(ROWS_START, 2).Value = "AGENCIA";                                
+                                oSheet.Cell(ROWS_START, 3).Value = "CONTENEDOR";
+                                oSheet.Cell(ROWS_START, 4).Value = "TAMAÑO/TIPO";
+                                oSheet.Cell(ROWS_START, 5).Value = "CONDICION";                              
+                                oSheet.Cell(ROWS_START, 6).Value = "INGRESO";
+                                oSheet.Cell(ROWS_START, 7).Value = "F. VACIADO";
                                 oSheet.Cell(ROWS_START, 8).Value = "ESTADIA (Días)";
                                 oSheet.Cell(ROWS_START, 9).Value = "UBICACION";
                                 oSheet.Cell(ROWS_START, 10).Value = "OBSERVACIONES";
                                 oSheet.Cell(ROWS_START, 11).Value = "CONSIGNATARIO";
                                 oSheet.Cell(ROWS_START, 12).Value = "ESTADIA BODEGA #3";
+
+                            }                           
+                            else if(iTipo == "EXPORTACION")
+                            {
+                                oSheet.Cell(ROWS_START, 1).Value = "No.";
+                                oSheet.Cell(ROWS_START, 2).Value = "AGENCIA";
+                                oSheet.Cell(ROWS_START, 3).Value = "CONTENEDOR";
+                                oSheet.Cell(ROWS_START, 4).Value = "TAMAÑO/TIPO";
+                                oSheet.Cell(ROWS_START, 5).Value = "CONDICION";
+                                oSheet.Cell(ROWS_START, 6).Value = "INGRESO";
+                                oSheet.Cell(ROWS_START, 7).Value = "ESTADIA (Días)";
+                                oSheet.Cell(ROWS_START, 8).Value = "UBICACION";
+                                oSheet.Cell(ROWS_START, 9).Value = "OBSERVACIONES";
+                                oSheet.Cell(ROWS_START, 10).Value = "CONSIGNATARIO";
+                                oSheet.Cell(ROWS_START, 11).Value = "ESTADIA BODEGA #3";
                             }
 
                             //BORDES TABLA
@@ -208,38 +274,66 @@ namespace CEPA.CCO.UI.Web.Navieras
 
                             if (iTipo.ToString() == "VACIO")
                             {
-                                oSheet.Range("J7", string.Concat(_rango, d_lineas + ROWS_START)).Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
-                                oSheet.Range("J7", string.Concat(_rango, d_lineas + ROWS_START)).Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
-                            }
-                            else
-                            {
                                 oSheet.Range("I7", string.Concat(_rango, d_lineas + ROWS_START)).Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
                                 oSheet.Range("I7", string.Concat(_rango, d_lineas + ROWS_START)).Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
                             }
-
-                            oSheet.Column(1).Width = 3;
-                            oSheet.Column(2).Width = 30;
-                            oSheet.Column(3).Width = 14;
-                            oSheet.Column(4).Width = 13;
-                            oSheet.Column(5).Width = 12;
-                            oSheet.Column(6).Width = 12;
-                            oSheet.Column(7).Width = 15;
-                            if (iTipo == "VACIO")
+                            else if(iTipo == "IMPORTACION")
                             {
+                                oSheet.Range("J7", string.Concat(_rango, d_lineas + ROWS_START)).Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+                                oSheet.Range("J7", string.Concat(_rango, d_lineas + ROWS_START)).Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;                                
+                            }
+                            else if (iTipo == "EXPORTACION")
+                            {
+                                oSheet.Range("H7", string.Concat(_rango, d_lineas + ROWS_START)).Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+                                oSheet.Range("H7", string.Concat(_rango, d_lineas + ROWS_START)).Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+                            }
+
+
+                            if (iTipo == "IMPORTACION")
+                            {
+                                oSheet.Column(1).Width = 4;
+                                oSheet.Column(2).Width = 30;
+                                oSheet.Column(3).Width = 14;
+                                oSheet.Column(4).Width = 13;
+                                oSheet.Column(5).Width = 12;
+                                oSheet.Column(6).Width = 12;
+                                oSheet.Column(7).Width = 35;
                                 oSheet.Column(8).Width = 15;
                                 oSheet.Column(9).Width = 13;
                                 oSheet.Column(10).Width = 35;
                                 oSheet.Column(11).Width = 57;
                                 oSheet.Column(12).Width = 40;
                                 oSheet.Column(13).Width = 20;
+
                             }
-                            else
+                            if (iTipo == "VACIO")
                             {
+                                oSheet.Column(1).Width = 4;
+                                oSheet.Column(2).Width = 30;                               
+                                oSheet.Column(3).Width = 13;
+                                oSheet.Column(4).Width = 12;
+                                oSheet.Column(5).Width = 12;
+                                oSheet.Column(6).Width = 15;
+                                oSheet.Column(7).Width = 15;
                                 oSheet.Column(8).Width = 13;
                                 oSheet.Column(9).Width = 35;
                                 oSheet.Column(10).Width = 57;
                                 oSheet.Column(11).Width = 40;
                                 oSheet.Column(12).Width = 20;
+                            }
+                            else if(iTipo =="EXPORTACION")
+                            {
+                                oSheet.Column(1).Width = 4;
+                                oSheet.Column(2).Width = 30;
+                                oSheet.Column(3).Width = 13;
+                                oSheet.Column(4).Width = 12;
+                                oSheet.Column(5).Width = 12;
+                                oSheet.Column(6).Width = 15;                               
+                                oSheet.Column(7).Width = 13;
+                                oSheet.Column(8).Width = 35;
+                                oSheet.Column(9).Width = 57;
+                                oSheet.Column(10).Width = 41;
+                                oSheet.Column(11).Width = 20;
                             }
 
                             foreach (var item in query)
@@ -247,44 +341,68 @@ namespace CEPA.CCO.UI.Web.Navieras
 
                                 int iCurrent = ROWS_START + iRow;
                                 oSheet.Row(iCurrent).Height = 40;
-                                oSheet.Cell(iCurrent, 1).Value = c_correlativo;
-                                oSheet.Cell(iCurrent, 2).Value = SanitizeXmlString(item.Agencia);
-                                oSheet.Cell(iCurrent, 3).Value = SanitizeXmlString(item.Manifiesto);
-                                oSheet.Cell(iCurrent, 4).Value = SanitizeXmlString(item.Contenedor);
-                                oSheet.Cell(iCurrent, 5).Value = SanitizeXmlString(item.Tipo);
-                                oSheet.Cell(iCurrent, 6).Value = SanitizeXmlString(item.Condicion);
-                                oSheet.Cell(iCurrent, 7).Value = item.Ingreso == DateTime.MinValue ? "/ / : : " : item.Ingreso.ToString("dd/MM/yyyy hh:mm");
-                                if (iTipo.ToString() == "VACIO")
+                                if (iTipo == "IMPORTACION")
                                 {
-                                    oSheet.Cell(iCurrent, 8).Value = item.Fec_vacio == DateTime.MinValue ? "/ / : : " : item.Fec_vacio.ToString("dd/MM/yyyy hh:mm");
+                                    oSheet.Cell(iCurrent, 1).Value = c_correlativo;
+                                    oSheet.Cell(iCurrent, 2).Value = SanitizeXmlString(item.Agencia);
+                                    oSheet.Cell(iCurrent, 3).Value = SanitizeXmlString(item.Manifiesto);
+                                    oSheet.Cell(iCurrent, 4).Value = SanitizeXmlString(item.Contenedor);
+                                    oSheet.Cell(iCurrent, 5).Value = SanitizeXmlString(item.Tipo);
+                                    oSheet.Cell(iCurrent, 6).Value = SanitizeXmlString(item.Condicion);
+                                    oSheet.Cell(iCurrent, 7).Value = SanitizeXmlString(item.s_descripcion);
+                                    oSheet.Cell(iCurrent, 8).Value = item.Ingreso == DateTime.MinValue ? "/ / : : " : item.Ingreso.ToString("dd/MM/yyyy hh:mm");
                                     oSheet.Cell(iCurrent, 9).Value = item.Estadia;
                                     oSheet.Cell(iCurrent, 10).Value = SanitizeXmlString(item.Sitio);
                                     oSheet.Cell(iCurrent, 11).Value = string.IsNullOrEmpty(item.Observa) ? "" : SanitizeXmlString(item.Observa);
                                     oSheet.Cell(iCurrent, 12).Value = string.IsNullOrEmpty(item.Cliente) ? "" : SanitizeXmlString(item.Cliente);
                                     oSheet.Cell(iCurrent, 13).Value = string.IsNullOrEmpty(item.Estb3) ? "" : SanitizeXmlString(item.Estb3);
                                 }
-                                else
+                                else if (iTipo == "VACIO")
                                 {
+                                    oSheet.Cell(iCurrent, 1).Value = c_correlativo;
+                                    oSheet.Cell(iCurrent, 2).Value = SanitizeXmlString(item.Agencia);                  
+                                    oSheet.Cell(iCurrent, 3).Value = SanitizeXmlString(item.Contenedor);
+                                    oSheet.Cell(iCurrent, 4).Value = SanitizeXmlString(item.Tipo);
+                                    oSheet.Cell(iCurrent, 5).Value = SanitizeXmlString(item.Condicion);                                    
+                                    oSheet.Cell(iCurrent, 6).Value = item.Ingreso == DateTime.MinValue ? "/ / : : " : item.Ingreso.ToString("dd/MM/yyyy hh:mm");
+                                    oSheet.Cell(iCurrent, 7).Value = item.Fec_vacio == DateTime.MinValue ? "/ / : : " : item.Fec_vacio.ToString("dd/MM/yyyy hh:mm");
                                     oSheet.Cell(iCurrent, 8).Value = item.Estadia;
                                     oSheet.Cell(iCurrent, 9).Value = SanitizeXmlString(item.Sitio);
                                     oSheet.Cell(iCurrent, 10).Value = string.IsNullOrEmpty(item.Observa) ? "" : SanitizeXmlString(item.Observa);
                                     oSheet.Cell(iCurrent, 11).Value = string.IsNullOrEmpty(item.Cliente) ? "" : SanitizeXmlString(item.Cliente);
                                     oSheet.Cell(iCurrent, 12).Value = string.IsNullOrEmpty(item.Estb3) ? "" : SanitizeXmlString(item.Estb3);
                                 }
-
-
+                                if (iTipo.ToString() == "EXPORTACION")
+                                {
+                                    oSheet.Cell(iCurrent, 1).Value = c_correlativo;
+                                    oSheet.Cell(iCurrent, 2).Value = SanitizeXmlString(item.Agencia);
+                                    oSheet.Cell(iCurrent, 3).Value = SanitizeXmlString(item.Contenedor);
+                                    oSheet.Cell(iCurrent, 4).Value = SanitizeXmlString(item.Tipo);
+                                    oSheet.Cell(iCurrent, 5).Value = SanitizeXmlString(item.Condicion);
+                                    oSheet.Cell(iCurrent, 6).Value = item.Ingreso == DateTime.MinValue ? "/ / : : " : item.Ingreso.ToString("dd/MM/yyyy hh:mm");                                    
+                                    oSheet.Cell(iCurrent, 7).Value = item.Estadia;
+                                    oSheet.Cell(iCurrent, 8).Value = SanitizeXmlString(item.Sitio);
+                                    oSheet.Cell(iCurrent, 9).Value = string.IsNullOrEmpty(item.Observa) ? "" : SanitizeXmlString(item.Observa);
+                                    oSheet.Cell(iCurrent, 10).Value = string.IsNullOrEmpty(item.Cliente) ? "" : SanitizeXmlString(item.Cliente);
+                                    oSheet.Cell(iCurrent, 11).Value = string.IsNullOrEmpty(item.Estb3) ? "" : SanitizeXmlString(item.Estb3);
+                                }                              
                                 iRow = iRow + 1;
                                 c_correlativo = c_correlativo + 1;
                             }
 
                             int _pie = (d_lineas + ROWS_START);
 
-                            oSheet.Range("G7", string.Concat("G", _pie.ToString())).Style.NumberFormat.SetFormat("dd/mm/yyyy hh:mm");
+                            if(iTipo == "IMPORTACION")
+                                oSheet.Range("H7", string.Concat("H", _pie.ToString())).Style.NumberFormat.SetFormat("dd/mm/yyyy hh:mm");
 
                             if (iTipo.ToString() == "VACIO")
                             {
-                                oSheet.Range("H7", string.Concat("H", _pie.ToString())).Style.NumberFormat.SetFormat("dd/mm/yyyy hh:mm");
+                                oSheet.Range("F7", string.Concat("F", _pie.ToString())).Style.NumberFormat.SetFormat("dd/mm/yyyy hh:mm");
+                                oSheet.Range("G7", string.Concat("G", _pie.ToString())).Style.NumberFormat.SetFormat("dd/mm/yyyy hh:mm");
                             }
+
+                            if(iTipo== "EXPORTACION")
+                                oSheet.Range("F7", string.Concat("F", _pie.ToString())).Style.NumberFormat.SetFormat("dd/mm/yyyy hh:mm");
 
                             _pie = (d_lineas + ROWS_START) + 2;
 
@@ -299,18 +417,26 @@ namespace CEPA.CCO.UI.Web.Navieras
                             oSheet.Cell("A" + _pie.ToString()).Style.Font.SetFontColor(cxExcel.XLColor.FromArgb(0, 0, 128));
 
 
-
                             if (iTipo.ToString() == "VACIO")
                             {
-                                oSheet.Column(13).AdjustToContents();
+                                
                             }
-                            else
+                            else if(iTipo == "IMPORTACION")
                             {
-                                oSheet.Column(12).AdjustToContents();
+                                oSheet.Column(7).AdjustToContents();                                
                             }
 
+                            else if (iTipo == "EXPORTACION")
+                            {
+                                
+                            }
+
+
                             oSheet.Range("A7", _rango + d_lineas.ToString()).Style.Alignment.WrapText = true;
+                            
+
                         }
+
                     }
                     string f_actual = DateTime.Now.ToString("ddMMyyhhmm");
                     string _nombre = string.Format("ESTADIA_{0}.xlsx", f_actual);
@@ -340,7 +466,8 @@ namespace CEPA.CCO.UI.Web.Navieras
                     System.Web.UI.ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('Revisar información ya que no devuelve resultados su búsqueda');", true);
                 }
             }
-            else{
+            else
+            {
                 pList = GetContenedor(c_contenedor, c_naviera);
                 grvDatos.DataSource = pList;
                 grvDatos.DataBind();

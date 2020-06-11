@@ -191,48 +191,7 @@ namespace CEPA.CCO.UI.Web
             return _contenedores;
         }
 
-        public static List<ProvisionalesEnca> getEncProvi(string c_contenedor, string c_llegada, int IdDeta)
-        {
-            List<ProvisionalesEnca> _contenedores = new List<ProvisionalesEnca>();
-            string apiUrl = "http://138.219.156.210:83/api/Ejecutar/?Consulta=";
-            Procedure proceso = new Procedure
-            {
-                NBase = "CONTENEDORES",
-                Procedimiento = "Sqlprovisional", // "contenedor_exp"; //"Sqlentllenos"; //contenedor_exp('NYKU3806160') //"lstsalidascarga";// ('NYKU3806160')
-                Parametros = new List<Parametros>()
-            };
-            proceso.Parametros.Add(new Parametros { nombre = "llegada", valor = c_llegada });
-            proceso.Parametros.Add(new Parametros { nombre = "_contenedor", valor = c_contenedor });
-            proceso.Parametros.Add(new Parametros { nombre = "deta", valor = IdDeta.ToString() });
-
-            string inputJson = JsonConvert.SerializeObject(proceso);
-            apiUrl = apiUrl + inputJson;
-            _contenedores = conEncProvi(_contenedores, apiUrl);
-            return _contenedores;
-        }
-
-        private static List<ProvisionalesEnca> conEncProvi(List<ProvisionalesEnca> _contenedores, string apiUrl)
-        {
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(apiUrl);
-            httpWebRequest.Method = WebRequestMethods.Http.Get;
-            httpWebRequest.Accept = "application/json; charset=utf-8";
-            string file = string.Empty;
-            var response = (HttpWebResponse)httpWebRequest.GetResponse();
-            //string idx = "{ "DBase":"CONTENEDORES","Servidor":null,"Procedimiento":"Sqlentllenos","Consulta":true,"Parametros":[{"nombre":"_dia","valor":"15-05-2019"}]}";
-            using (var sr = new StreamReader(response.GetResponseStream()))
-            {
-                file = sr.ReadToEnd();
-                DataTable tabla = JsonConvert.DeserializeObject<DataTable>(file) as DataTable;
-                if (tabla.Rows.Count > 0)
-                {
-                    if (!tabla.Rows[0][0].ToString().StartsWith("ERROR"))
-                    {
-                        _contenedores = tabla.ToList<ProvisionalesEnca>();
-                    }
-                }
-            }
-            return _contenedores;
-        }
+      
 
         public static List<ProvisionalesDeta> getDetaProvi(string c_contenedor, string c_llegada, string c_naviera)
         {
@@ -337,7 +296,7 @@ namespace CEPA.CCO.UI.Web
             }
 
 
-            GridView gvProvisionales = (GridView)gvDetails.Rows[24].Cells[1].FindControl("grvProv");
+            GridView gvProvisionales = (GridView)gvDetails.Rows[26].Cells[1].FindControl("grvProv");
 
             if (gvProvisionales != null)
             {
@@ -515,11 +474,9 @@ namespace CEPA.CCO.UI.Web
                 if (_resultado.Contains("encuentran"))
                 {
                     _mani = "DENEGADO";
-
                 }
                 else
                 {
-
                     if (b_sidunea == 0)
                     {
                         _mani = "NO SE ENCONTRARON DECLARACIONES ASOCIADAS";
@@ -547,8 +504,6 @@ namespace CEPA.CCO.UI.Web
                                         _mani = "AUTORIZADO";
                                     else
                                         _mani = "DENEGADO";
-
-
                                 }
                             }
                             else
@@ -561,31 +516,22 @@ namespace CEPA.CCO.UI.Web
                             _mani = "NO SE ENCONTRARON DECLARACIONES ASOCIADAS";
                         }
                     }
-
-
-
                 }
-
-
                 return _mani;
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
-
         }
 
         [System.Web.Services.WebMethod]
         public static string ValidacionTarja(string c_tarja, string n_contenedor, string c_llegada, string f_tarja, string n_manifiesto, double v_peso)
         {
-
             v_peso = 0.00;
-
             try
             {
                 //Validar que el contenedor sea cancelado y enviar mensaje.
-
 
                 List<Tarjas> encaTarjas = new List<Tarjas>();
 
@@ -611,26 +557,18 @@ namespace CEPA.CCO.UI.Web
                 string _Transfer = "Si", _Despacho = "Si", _Manejo = "Si", _Almacenaje = "Si", _Validacion = "Si";
                 
 
-
                 foreach (var iEvaPagos in pLista)
-                {                  
-                    
+                {                 
                    if (iEvaPagos.ValTransfer == "No")
                         _Transfer = "No";                   
-
                     if (iEvaPagos.ValDespacho == "No")                    
                         _Despacho = "No";                   
-
                     if (iEvaPagos.ValManejo == "No")
                         _Manejo = "No";                   
-
                     if (iEvaPagos.ValAlmacenaje == "No")
                         _Almacenaje = "No";                   
-
                     if (iEvaPagos.validacion == "No")
-                        _Validacion = "No";                   
-                    
-                    
+                        _Validacion = "No";                                      
                 }
 
                 Pago _clsPago = new Pago()
@@ -673,7 +611,7 @@ namespace CEPA.CCO.UI.Web
                         tipo += 1; 
                 }
 
-                if (tipo >= 2)
+                if (tipo >= 3)
                     retenResult = "LIBRE";
                 else
                 {
@@ -684,10 +622,20 @@ namespace CEPA.CCO.UI.Web
                 /* Validar Pagos Por Tarjas */
 
                 List<Pago> pLstDetalle = new List<Pago>();
-                string detaReten = tiReten == "DAN" ? "PNC - DAN" : "UCC";
+
+                string detaReten = null;
+                if (tiReten == "DAN")
+                    detaReten = "PNC - DAN";
+                else if (tiReten == "UCC")
+                    detaReten = "UCC";
+                else if (tiReten == "DGA")
+                    detaReten = "ADUANA";
+                else
+                    detaReten = "";
 
 
-                pLstDetalle = DetaNavieraDAL.CalcPagos(n_contenedor, c_llegada, f_tar, DBComun.TipoBD.SqlServer, v_peso);
+
+                    pLstDetalle = DetaNavieraDAL.CalcPagos(n_contenedor, c_llegada, f_tar, DBComun.TipoBD.SqlServer, v_peso);
 
 
 
@@ -999,7 +947,7 @@ namespace CEPA.CCO.UI.Web
                         tipo += 1;
                 }
 
-                if (tipo >= 2)
+                if (tipo >= 3)
                     retenResult = "LIBRE";
                 else
                 {
@@ -1007,12 +955,19 @@ namespace CEPA.CCO.UI.Web
                     tiReten = tiReten == null ? string.Empty : tiReten;
                 }
 
-
-
                 /* Validar Pagos Por Tarjas */
 
                 List<Pago> pLstDetalle = new List<Pago>();
-                string detaReten = tiReten == "DAN" ? "PNC - DAN" : "UCC";
+
+                string detaReten = null;
+                if (tiReten == "DAN")
+                    detaReten = "PNC - DAN";
+                else if (tiReten == "UCC")
+                    detaReten = "UCC";
+                else if (tiReten == "DGA")
+                    detaReten = "ADUANA";
+                else
+                    detaReten = "";
 
 
                 pLstDetalle = DetaNavieraDAL.CalcPagos(n_contenedor, c_llegada, f_tar, f_re, DBComun.TipoBD.SqlServer, v_peso);

@@ -391,6 +391,41 @@ namespace CEPA.CCO.Linq
             return query_modi;
         }
 
+
+        public static List<DocBuque> ObtenerTrans_Auto()
+        {
+            List<DocBuque> lista = new List<DocBuque>();
+
+            EncaBuqueBL _encaBL = new EncaBuqueBL();
+
+            var query = (from a in EncaNavieraDAL.ObtenerCabeceraTransAuto(DBComun.Estado.verdadero)
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on new { c_imo = a.c_imo, c_llegada = a.c_llegada } equals new { c_imo = b.c_imo, c_llegada = b.c_llegada }
+                         select new DocBuque
+                         {
+
+                             c_imo = a.c_imo,
+                             c_llegada = a.c_llegada,
+                             d_buque = b.d_buque,
+                             f_llegada = a.f_llegada
+                         }).OrderByDescending(g => g.f_llegada).ToList();
+
+
+
+
+            var query_modi = (from t in query
+                              group t by new { c_imo = t.c_imo, c_llegada = t.c_llegada, d_buque = t.d_buque } into g
+                              select new DocBuque
+                              {
+                                  c_imo = g.Key.c_imo,
+                                  c_llegada = g.Key.c_llegada,
+                                  d_buque = g.Key.d_buque,
+                                  f_llegada = g.Max(y => y.f_llegada)
+                              }).ToList();
+
+
+            return query_modi;
+        }
+
         public static List<DocBuque> getCotecnaHeader()
         {
             List<DocBuque> lista = new List<DocBuque>();
@@ -527,6 +562,24 @@ namespace CEPA.CCO.Linq
                              num_manif = a.num_manif,
                              c_cliente = a.c_naviera,
                              a_manifiesto = a.a_manifiesto
+                         }).OrderBy(g => g.c_cliente).ToList();
+
+
+            return query;
+        }
+
+        public static List<DocBuque> ObtEncDGA(string c_llegada, string c_naviera)
+        {
+            List<DocBuque> lista = new List<DocBuque>();
+
+            EncaBuqueBL _encaBL = new EncaBuqueBL();
+
+            var query = (from b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero)
+                         where b.c_llegada == c_llegada && b.c_cliente == c_naviera
+                         select new DocBuque
+                         {                             
+                             d_cliente = b.d_cliente,                           
+                             d_buque = b.d_buque                            
                          }).OrderBy(g => g.c_cliente).ToList();
 
 
@@ -867,7 +920,9 @@ namespace CEPA.CCO.Linq
                                            f_liberado_ucc = a.f_liberado_ucc,
                                            f_marchamo_ucc = a.f_marchamo_ucc,
                                            f_deta_dan = a.f_deta_dan,
-                                           f_deta_ucc = a.f_deta_ucc
+                                           f_deta_ucc = a.f_deta_ucc,
+                                           f_retencion_dga = a.f_retencion_dga,
+                                           f_lib_dga = a.f_lib_dga
                                        }).ToList();
 
                     var teamTarjas = from tar in pTarjasDes
@@ -948,7 +1003,9 @@ namespace CEPA.CCO.Linq
                                            f_marchamo_ucc = a.f_marchamo_ucc,
                                            f_deta_dan = a.f_deta_dan,
                                            f_deta_ucc = a.f_deta_ucc,
-                                           f_ret_ucc = a.f_ret_ucc
+                                           f_ret_ucc = a.f_ret_ucc,
+                                           f_retencion_dga = a.f_retencion_dga,
+                                           f_lib_dga = a.f_lib_dga
                                        }).ToList();
 
 
@@ -997,7 +1054,7 @@ namespace CEPA.CCO.Linq
 
             List<TrackingEnca> pEncaT = new List<TrackingEnca>();
             List<EncaBuque> pBuques = new List<EncaBuque>();
-            pEncaT = DetaNavieraDAL.GetAllOrdersByCustomer(n_contenedor, c_naviera, DBComun.TipoBD.SqlTracking, a_dm, s_dm, c_dm);
+            pEncaT = DetaNavieraDAL.GetAllOrdersByCustomer(n_contenedor, c_naviera, DBComun.TipoBD.SqlTracking, a_dm, s_dm, c_dm, n_mani);
 
 
             var lParam = new List<string>();
@@ -1186,7 +1243,9 @@ namespace CEPA.CCO.Linq
                                        f_liberado_ucc = a.f_liberado_ucc,
                                        f_marchamo_ucc = a.f_marchamo_ucc,
                                        f_deta_dan = a.f_deta_dan,
-                                       f_deta_ucc = a.f_deta_ucc
+                                       f_deta_ucc = a.f_deta_ucc,
+                                       f_retencion_dga = a.f_retencion_dga,
+                                       f_lib_dga = a.f_lib_dga
                                    }).ToList();
 
                 var teamTarjas = from tar in pTarjasDes
@@ -1270,7 +1329,9 @@ namespace CEPA.CCO.Linq
                                        f_liberado_ucc = a.f_liberado_ucc,
                                        f_marchamo_ucc = a.f_marchamo_ucc,
                                        f_deta_dan = a.f_deta_dan,
-                                       f_deta_ucc = a.f_deta_ucc
+                                       f_deta_ucc = a.f_deta_ucc,
+                                       f_retencion_dga = a.f_retencion_dga,
+                                       f_lib_dga = a.f_lib_dga
                                    }).ToList();
 
 
@@ -1392,6 +1453,26 @@ namespace CEPA.CCO.Linq
             return query;
         }
 
+        public static List<DocBuque> ObtenerTransmiAuto(string c_llegada)
+        {
+            List<DocBuque> lista = new List<DocBuque>();
+
+            EncaBuqueBL _encaBL = new EncaBuqueBL();
+
+            var query = (from a in EncaNavieraDAL.ObtenerIdTransAuto(DBComun.Estado.verdadero, c_llegada)
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on a.c_llegada equals b.c_llegada
+                         select new DocBuque
+                         {
+                             c_imo = a.c_imo,
+                             c_llegada = a.c_llegada,
+                             d_buque = b.d_buque,
+                             f_llegada = b.f_llegada                             
+                         }).OrderBy(g => g.c_llegada).ToList();
+
+
+            return query;
+        }
+
         public static List<DetaNaviera> ObtenerTransmiConsul(string c_llegada)
         {
             List<DetaNaviera> lista = new List<DetaNaviera>();
@@ -1424,6 +1505,76 @@ namespace CEPA.CCO.Linq
                 b_requiere = a.b_requiere
             }).ToList();
             
+
+            return lista;
+        }
+
+        public static List<DetaNaviera> ObtenerTransmiConsulAuto(string c_llegada)
+        {
+            List<DetaNaviera> lista = new List<DetaNaviera>();
+
+         
+
+            // List<Tarjas> pTarjas = EncaBuqueDAL.TarjasLlegada(c_llegada);
+
+
+            lista = (from a in DetaNavieraDAL.ObtenerDetaTransAuto(c_llegada)
+                     orderby a.c_cliente,
+                         a.c_correlativo
+                     select new DetaNaviera
+                     {
+                         IdDeta = a.IdDeta,
+                         c_correlativo = a.c_correlativo,
+                         n_contenedor = a.n_contenedor,
+                         c_tamaño = a.c_tamaño,
+                         b_estado = a.b_estado,
+                         c_cliente = a.c_cliente,
+                         c_manifiesto = a.c_manifiesto,
+                         b_despacho = a.b_despacho,
+                         b_manejo = a.b_manejo,
+                         b_transferencia = a.b_transferencia,
+                         s_consignatario = a.s_consignatario,
+                         v_peso = a.v_peso,
+                         c_llegada = a.c_llegada                      
+
+
+                     }).ToList();
+
+
+            return lista;
+        }
+
+        public static List<DetaNaviera> ObtenerTransmiConsulAutoSrv(string c_llegada)
+        {
+            List<DetaNaviera> lista = new List<DetaNaviera>();
+
+
+
+            // List<Tarjas> pTarjas = EncaBuqueDAL.TarjasLlegada(c_llegada);
+
+
+            lista = (from a in DetaNavieraDAL.ObtenerDetaTransAutoSrv(c_llegada)
+                     orderby a.c_cliente,
+                         a.c_correlativo
+                     select new DetaNaviera
+                     {
+                         IdDeta = a.IdDeta,
+                         c_correlativo = a.c_correlativo,
+                         n_contenedor = a.n_contenedor,
+                         c_tamaño = a.c_tamaño,
+                         b_estado = a.b_estado,
+                         c_cliente = a.c_cliente,
+                         c_manifiesto = a.c_manifiesto,
+                         b_despacho = a.b_despacho,
+                         b_manejo = a.b_manejo,
+                         b_transferencia = a.b_transferencia,
+                         s_consignatario = a.s_consignatario,
+                         v_peso = a.v_peso,
+                         c_llegada = a.c_llegada,
+                         f_recep = a.f_recep,
+                         f_tramite_s = a.f_tramite_s
+                     }).ToList();
+
 
             return lista;
         }

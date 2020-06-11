@@ -36,7 +36,8 @@ namespace CEPA.CCO.DAL
                         c_llegada = _reader.IsDBNull(6) ? "" : _reader.GetString(6),                        
                         f_salida = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
                         f_confir_salida = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
-                        tipo = _reader.IsDBNull(9) ? "" : _reader.GetString(9)
+                        tipo = _reader.IsDBNull(9) ? "" : _reader.GetString(9),
+                        PaisOrigen = _reader.IsDBNull(10) ? "" : _reader.GetString(10)
                     };
 
                     notiLista.Add(_notificacion);
@@ -81,7 +82,8 @@ namespace CEPA.CCO.DAL
                         c_llegada = _reader.IsDBNull(6) ? "" : _reader.GetString(6),                        
                         f_salida = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
                         f_confir_salida = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
-                        tipo = _reader.IsDBNull(9) ? "" : _reader.GetString(9)
+                        tipo = _reader.IsDBNull(9) ? "" : _reader.GetString(9),
+                        PaisOrigen = _reader.IsDBNull(10) ? "" : _reader.GetString(10)
                     };
 
                     notiLista.Add(_notificacion);

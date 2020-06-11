@@ -13,5 +13,6 @@ namespace CEPA.CCO.Entidades
         public int liberados { get; set; }
         public int pendientes { get; set; }
         public int ayear { get; set; }
+        public int libmes { get; set; }
     }
 }

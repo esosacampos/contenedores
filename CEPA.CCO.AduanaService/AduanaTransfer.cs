@@ -138,7 +138,7 @@ namespace CEPA.CCO.AduanaService
                 getExcepcion(ex, out detalleExcep, out Mensaje, out tipoExcepcion);
 
                 string _cadena = "<b>MENSAJE: </b>" + Mensaje + "<br/>" + "<b>TIPO EXCEPCION: </b>" + tipoExcepcion + "<br/>" + "<b>DETALLE ERROR: </b>" + detalleExcep;
-                
+
                 using (StreamWriter tw = new StreamWriter(Archivo, true))
                 {
                     tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ERROR: NO SE PUEDE EJECUTAR ALERTA COTECNA (" + ex.Message + ")");
@@ -204,8 +204,33 @@ namespace CEPA.CCO.AduanaService
 
                 //this.Stop();
                 //return;
-                ValiMani();
+                TransmisionAuto();
 
+            }
+
+            try
+            {
+                TransmisionAuto();
+            }
+            catch (Exception ex)
+            {
+                string detalleExcep;
+                string Mensaje;
+                string tipoExcepcion;
+
+                getExcepcion(ex, out detalleExcep, out Mensaje, out tipoExcepcion);
+
+                string _cadena = "<b>MENSAJE: </b>" + Mensaje + "<br/>" + "<b>TIPO EXCEPCION: </b>" + tipoExcepcion + "<br/>" + "<b>DETALLE ERROR: </b>" + detalleExcep;
+
+                using (StreamWriter tw = new StreamWriter(Archivo, true))
+                {
+                    tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ERROR: NO SE PUEDE EJECUTAR ALERTA TRANSMISION AUTOMATICA (" + ex.Message + ")");
+                }
+                EnvioServicio("MODULO TRANSMISION AUTOMATICA:<br/><br/>Detalle Error : <br/>" + _cadena, "SERVICIO DE ADUANA ERROR");
+
+                //this.Stop();
+                //return;
+                ValiMani();
             }
 
             try
@@ -423,7 +448,7 @@ namespace CEPA.CCO.AduanaService
             {
 
                 #region "cod"
-                
+
 
                 if (pLstPendientes.Count > 0)
                 {
@@ -535,7 +560,7 @@ namespace CEPA.CCO.AduanaService
                                         d_puerto_destino = unContenedor.SelectSingleNode("CARBOL_DEST_COD").InnerText.Substring(2, 3).Trim(),
                                         s_nit = unContenedor.SelectSingleNode("CARBOL_CON_COD") != null ? unContenedor.SelectSingleNode("CARBOL_CON_COD").InnerText.Trim() : "",
                                         s_consignatario = unContenedor.SelectSingleNode("CARBOL_CON_NAM") != null ? unContenedor.SelectSingleNode("CARBOL_CON_NAM").InnerText.Trim() : ""
-                                    };                                
+                                    };
 
                                     //Almacenar manifiesto devuelto por aduana
                                     _resulDeta = Convert.ToInt32(DetaNavieraDAL.AlmacenarValid(validAduana, DBComun.Estado.falso));
@@ -545,11 +570,11 @@ namespace CEPA.CCO.AduanaService
                                         pListaNo.Add(validAduana.n_contenedor);
                                     }
 
-                                    if(_resulDeta == 0)
+                                    if (_resulDeta == 0)
                                     {
                                         _validar = 1;
                                         _resulDel = Convert.ToInt32(DetaNavieraDAL.delMani(validAduana, DBComun.Estado.falso));
-                                        if(_resulDel == 0)
+                                        if (_resulDel == 0)
                                             _resulDel = Convert.ToInt32(DetaNavieraDAL.delMani(validAduana, DBComun.Estado.falso));
 
                                         pRespuesta.Add("PASO 3 de 4: Validación ADUANA: EL MANIFIESTO # " + string.Concat(iPendiente.a_manifiesto.ToString(), "-", iPendiente.num_manif.ToString()) + " PRODUJO UN ERROR EL SERVICIO VOLVERA A INTENTAR LA VALIDACIÓN");
@@ -614,7 +639,7 @@ namespace CEPA.CCO.AduanaService
                                         _autoAduana = false;
                                     }
 
-                                    
+
                                     //Paso 4 de 4
                                     if (mAuto == true)
                                     {
@@ -667,7 +692,7 @@ namespace CEPA.CCO.AduanaService
             {
                 int _resulManiAuto = Convert.ToInt32(DetaNavieraDAL.ManifiestoAuto(DBComun.Estado.falso, iPendiente.a_manifiesto, iPendiente.num_manif));
                 int _resultado = Convert.ToInt32(DetaNavieraDAL.ActualizarDeta(DBComun.Estado.falso, (int)iPendiente.IdReg, iPendiente.IdDoc));
-                
+
                 if (_resultado > 0)
                 {
                     valores = _resultado;
@@ -1077,7 +1102,7 @@ namespace CEPA.CCO.AduanaService
         public List<string> ObtenerResultados(out int b_sid)
         {
             //string ruta = Application.StartupPath +  "\\ArchivoXML.TXT";
-            
+
 
             try
             {
@@ -1096,8 +1121,8 @@ namespace CEPA.CCO.AduanaService
 
                     //    break;
                     //}
-                    
-                    
+
+
 
                     foreach (var item in _pListM)
                     {
@@ -1154,12 +1179,12 @@ namespace CEPA.CCO.AduanaService
 
                         xml.WriteEndElement();
                         xml.WriteEndElement();
-                        
+
                         xml.WriteEndElement();
                         xml.WriteEndElement();
                         xml.WriteEndElement();
                         xml.WriteEndDocument();
-                       
+
                         xml.Flush();
                         xml.Close();
                         string resultado = null;
@@ -1167,7 +1192,7 @@ namespace CEPA.CCO.AduanaService
 
                         if (_resultado.Count >= 1)
                         {
-                                                       
+
                             _Aduana = Encoding.UTF8.GetString(memoryStream.ToArray());
                             b_sid = item.b_sidunea;
 
@@ -1189,7 +1214,7 @@ namespace CEPA.CCO.AduanaService
                                 _proxySidunea.ClientCredentials.UserName.Password = _pass;
 
                                 resultado = _proxySidunea.updateCepaData(_Aduana);
-                               
+
 
 
                             }
@@ -1267,7 +1292,7 @@ namespace CEPA.CCO.AduanaService
                                                 tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": RESPUESTA DE LA DGA A LA TRANSMISION DE CEPA: " + itemC);
                                             }
 
-                                            
+
                                         }
 
                                     }
@@ -1350,7 +1375,7 @@ namespace CEPA.CCO.AduanaService
                 }
 
                 return _resultado;
-                
+
             }
             catch (Exception ex)
             {
@@ -1371,7 +1396,7 @@ namespace CEPA.CCO.AduanaService
             {
                 foreach (var itemTipo in pTipos)
                 {
-                    
+
                     string resultado = null;
 
                     try
@@ -1446,7 +1471,7 @@ namespace CEPA.CCO.AduanaService
                                     string act = TransmiDANDAL.ActTrasmision(item.IdDeta, "b_transdanr = 1, f_transdanr = GETDATE()");
                                     using (StreamWriter tw = new StreamWriter(Archivo, true))
                                     {
-                                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": TRANSMISION RETENIDO " + itemTipo + " Contenedor #: " + item.contenedor + " - " +item.IdDeta);
+                                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": TRANSMISION RETENIDO " + itemTipo + " Contenedor #: " + item.contenedor + " - " + item.IdDeta);
                                     }
 
                                 }
@@ -1460,7 +1485,7 @@ namespace CEPA.CCO.AduanaService
 
                                     using (StreamWriter tw = new StreamWriter(Archivo, true))
                                     {
-                                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": TRANSMISION RETENIDO "+ itemTipo + " PRESENTO PROBLEMAS: "+ item.contenedor + " : ERROR: " + resultado.Replace("0|", ""));
+                                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": TRANSMISION RETENIDO " + itemTipo + " PRESENTO PROBLEMAS: " + item.contenedor + " : ERROR: " + resultado.Replace("0|", ""));
                                     }
 
                                 }
@@ -1470,7 +1495,7 @@ namespace CEPA.CCO.AduanaService
                         {
                             using (StreamWriter tw = new StreamWriter(Archivo, true))
                             {
-                                tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": NO HAY CONTENEDORES RETENIDOS " + itemTipo +" PENDIENTES ");
+                                tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": NO HAY CONTENEDORES RETENIDOS " + itemTipo + " PENDIENTES ");
                             }
 
                         }
@@ -1571,7 +1596,7 @@ namespace CEPA.CCO.AduanaService
                                     string act = TransmiDANDAL.ActTrasmision(item.IdDeta, "b_transdanl = 1, f_transdanl = GETDATE()");
                                     using (StreamWriter tw = new StreamWriter(Archivo, true))
                                     {
-                                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": TRANSMISION LIBERADO "+ itemTipo +" Contenedor #: " + item.contenedor + " - "  + item.IdDeta);
+                                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": TRANSMISION LIBERADO " + itemTipo + " Contenedor #: " + item.contenedor + " - " + item.IdDeta);
                                     }
 
                                 }
@@ -1580,7 +1605,7 @@ namespace CEPA.CCO.AduanaService
                                     string act = TransmiDANDAL.ActTrasmision(item.IdDeta, "b_transdanl = 1, f_transdanl = NULL");
                                     using (StreamWriter tw = new StreamWriter(Archivo, true))
                                     {
-                                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": TRANSMISION LIBERADO "+ itemTipo + " PRESENTO PROBLEMAS: " + item.contenedor + " : ERROR: " + resultado.Replace("0|", ""));
+                                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": TRANSMISION LIBERADO " + itemTipo + " PRESENTO PROBLEMAS: " + item.contenedor + " : ERROR: " + resultado.Replace("0|", ""));
                                     }
 
                                 }
@@ -1788,6 +1813,201 @@ namespace CEPA.CCO.AduanaService
                     using (StreamWriter tw = new StreamWriter(Archivo, true))
                     {
                         tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + " COTECNA : NO HAY BUQUES PENDIENTES DE ALERTAR");
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+        private void TransmisionAuto()
+        {
+            List<DetaNaviera> pCortePendiente = new List<DetaNaviera>();
+
+
+            try
+            {
+                pCortePendiente = CorteCOTECNADAL.CodLlegadasGroupAuto(DBComun.Estado.falso);
+
+                if (pCortePendiente.Count > 0)
+                {
+                    //List<CorteCOTECNA> pGrupo = pCortePendiente.GroupBy(p => p.c_llegada).Select(g => g.First()).ToList();
+
+                    foreach (DetaNaviera item in pCortePendiente)
+                    {
+                        string barco = null;
+                        string Html = "";
+                        List<CorteCOTECNA> pBuquesCorte = new List<CorteCOTECNA>();
+                        List<CorteCOTECNA> pCorteConte = new List<CorteCOTECNA>();
+
+                        //pCortePendiente = CorteCOTECNADAL.CorteLlegadas(DBComun.Estado.falso, item.c_llegada);
+
+
+                        pBuquesCorte = CorteCOTECNADAL.BuquesCorte(DBComun.Estado.falso, item.c_llegada);
+
+
+                        if (pBuquesCorte.Count > 0)
+                        {
+
+                            string f_atraque = null;
+
+                            
+                            string cb_llegada = null, cb_nul = null;
+                            DateTime _fecha;
+
+
+
+                            EnvioCorreo _correo = new EnvioCorreo();
+
+                            foreach (var bitem in pBuquesCorte)
+                            {
+                                barco = bitem.d_buque;
+                                f_atraque = bitem.f_atraque.ToString("dd/MM/yyyy HH:mm");
+                                cb_llegada = bitem.c_llegada;
+                                cb_nul = bitem.c_nul;
+                                break;
+                            }
+
+                            List<DetaNaviera> pLstAuto = new List<DetaNaviera>();
+
+                            pLstAuto = DocBuqueLINQ.ObtenerTransmiConsulAutoSrv(cb_llegada);
+
+                            Html = "<dir style=\"font-family: 'Arial'; font-size: 11px; line-height: 1.2em\">";
+                            Html += "<b><u> TRANSMISIÓN AUTOMÁTICA  </b></u><br />";
+                            Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1em;\">";
+                            Html += "<tr>";
+                            _fecha = DetaNavieraLINQ.FechaBDS();
+                            Html += "<td style=\"text-align: left;\"><font size=2>Fecha/Hora&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</font></td>";
+                            Html += "<td style=\"text-align: left;\"><font size = 2>&nbsp&nbsp;" + _fecha.ToString() + "</font></td>";
+                            Html += "</tr>";
+                            Html += "<tr>";
+                            Html += "<td style=\"text-align: left;\" ><font size = 2>Usuario&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</font></td>";
+                            Html += "<td style=\"text-align: left;\"><font size = 2>&nbsp;&nbsp;" + "servicio.contenedores" + "</font></td>";
+                            Html += "</tr>";
+                            Html += "</table>";
+                            Html += "<br />";
+
+
+
+                            Html += "MÓDULO : RECEPCION DE CONTENEDORES EN PUERTO Y TRANSMISION AUTOMATICA A LA DGA  <br />";
+                            Html += "TIPO DE MENSAJE : RECEPCION DE CONTENEDORES EN PUERTO Y TRANSMISION AUTOMATICA A LA DGA <br /><br />";
+                            Html += string.Format("El presente listado de contenedores correspondientes al buque {0},  han sido recepcionado en puerto y transmitidos automáticamente a la DGA.-", barco);
+                            Html += "<br /><br/>";
+
+
+                            Html += "Los siguientes contenedores que se detallan a continuación fueron recepcionado en puerto y transmitidos automáticamente a la DGA: ";
+                            Html += "<br /><br/>";
+
+                            if (pLstAuto == null)
+                            {
+                                pLstAuto = new List<DetaNaviera>();
+                            }
+
+                            if (pLstAuto.Count > 0)
+                            {
+                                Html += "<table style=\"font-family: 'Arial' ; font-size: 12px;  line-height: 1em;width: 100%;border: thin solid #4F81BD; border-collapse: separate; border-spacing:0px; \">";
+                                Html += "<tr>";
+                                Html += "<center>";
+                                Html += "<td width=\"15px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>AGENCIA</font></th>";
+                                Html += "<td width=\"15px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>MANIFIESTO</font></th>";
+                                Html += "<td width=\"15px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>CONTENEDOR</font></th>";
+                                Html += "<td width=\"10px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TAMAÑO</font></th>";
+                                Html += "<td width=\"10px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>PESO</font></th>";
+                                Html += "<td width=\"10px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>ESTADO</font></th>";
+                                Html += "<td width=\"10px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>CLIENTE</font></th>";
+                                Html += "<td width=\"10px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>DESPACHO</font></th>";
+                                Html += "<td width=\"10px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>MANEJO</font></th>";
+                                Html += "<td width=\"10px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TRANSFERENCIA</font></th>";
+                                Html += "<td width=\"10px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>F. RECEPCION</font></th>";
+                                Html += "<td width=\"10px\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>F. TRANSMISION AUTO</font></th>";
+                                Html += "</center>";
+                                Html += "</tr>";
+
+                                foreach (DetaNaviera itemt in pLstAuto)
+                                {
+                                    Html += "<tr>";
+                                    Html += "<center>";
+                                    Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + itemt.c_cliente + "</font></td>";
+                                    Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + itemt.c_manifiesto + "</font></td>";
+                                    Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + itemt.n_contenedor + "</font></td>";
+                                    Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + itemt.c_tamaño + "</font></td>";
+                                    Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + string.Format("{0:0.00}", itemt.v_peso) + "</font></td>";
+                                    Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + itemt.b_estado + "</font></td>";
+                                    Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + itemt.s_consignatario + "</font></td>";
+                                    Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + itemt.b_despacho + "</font></td>";
+                                    Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + itemt.b_manejo + "</font></td>";
+                                    Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + itemt.b_transferencia + "</font></td>";
+                                    Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=2 color=blue>" + itemt.f_recep + "</font></td>";
+                                    Html += "<td height=\"25\"><font size=2 color=blue>" + itemt.f_tramite_s + "</font></td>";
+                                    Html += "<center>";
+                                    Html += "</tr>";
+                                    Html += "</font>";
+                                }
+                                Html += "</table><br /><br/>";
+
+
+                                _correo.Subject = string.Format("CEPA : Recepción de contenedores en Puerto y transmisión automática a la DGA del buque {0}", barco);
+                                _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_trans_auto", DBComun.Estado.falso, "0");
+                                //List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_detenido", DBComun.Estado.verdadero, c_naviera);
+
+                                //if (_listaCC == null)
+                                //{
+                                //    _listaCC = new List<Notificaciones>();
+                                //}
+
+                                //_listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_detenido", DBComun.Estado.verdadero, c_cliente));
+                                //_correo.ListaCC = _listaCC;
+
+                                //Notificaciones noti = new Notificaciones
+                                //{
+                                //    sMail = "elsa.sosa@cepa.gob.sv",
+                                //    dMail = "Elsa Sosa"
+                                //};
+
+                                //List<Notificaciones> pLisN = new List<Notificaciones>();
+
+                                //pLisN.Add(noti);
+
+                                //_correo.ListaNoti = pLisN;
+
+                                _correo.Asunto = Html;
+
+
+                                _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.falso, "servicio");
+
+                                EnvioErrorCorreo(_correo.Subject, "MODULO RECEPCION AUTO:");
+
+                                string actNoti = CorteCOTECNADAL.ActNotiAUTO(item.c_llegada, DBComun.Estado.falso);
+
+                                if (actNoti != null)
+                                {
+                                    using (StreamWriter tw = new StreamWriter(Archivo, true))
+                                    {
+                                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": TRANSMISION AUTOMATICA A DGA: SE NOTIFICO SATISFACTORIAMENTE EL " + item.c_llegada + " - " + barco.ToString());
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                using (StreamWriter tw = new StreamWriter(Archivo, true))
+                                {
+                                    tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + " TRANSMISION AUTOMATICA A DGA : NO HAY CONTENEDORES PENDIENTES DE ALERTAR");
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    using (StreamWriter tw = new StreamWriter(Archivo, true))
+                    {
+                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + " TRANSMISION AUTOMATICA A DGA : NO HAY BUQUES PENDIENTES DE ALERTAR");
                     }
 
                 }

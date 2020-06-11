@@ -52,6 +52,7 @@
         .ui-bar-a, .ui-page-theme-a .ui-bar-inherit {
             background: none;
         }
+        [data-role=footer]{bottom:0; position:absolute !important; top: auto !important; width:100%;} 
     </style>
 </head>
 <body>
@@ -67,10 +68,11 @@
             </div>
             <div data-role="page" id="page2" data-theme="b">
                 <div data-role="header">
-                    <h1>Contenedores Movil</h1>
+                   <%-- <img src="images/cepa_logo_blanco.png" style="width: 100px;height: 30px;left: 13%;top: 5px;" />
+                    <h1>Contenedores Movil</h1>--%>
                 </div>
                 <div data-role="content">
-                    <div class="ui-field-contain">
+                    <div class="ui-field-contain" style="margin-top: 15%;">
                         <label for="txtCodigo">Codigo de Marcacion</label>
                         <input type="password" name="txtCodigo" data-clear-btn="true" id="txtCodigo">
                     </div>                    

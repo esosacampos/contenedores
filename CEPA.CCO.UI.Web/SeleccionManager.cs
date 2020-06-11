@@ -236,6 +236,97 @@ namespace CEPA.CCO.UI.Web
 
         }
 
+        public static void LiberadosDGA(GridView grid)
+        {
+
+            List<DetaNaviera> _listaContenedores = new List<DetaNaviera>();
+            //
+            // se obtienen los id de producto checkeados de la pagina actual
+            //
+
+
+
+
+            List<DetaNaviera> uncheckedProd = (from item in grid.Rows.Cast<GridViewRow>()
+                                               let check = (CheckBox)item.FindControl("CheckBox1")
+                                               let Id = (HiddenField)item.FindControl("hId")                                               
+                                               let c_cliente = Convert.ToString(item.Cells[1].Text ?? string.Empty)
+                                               let c_llegada = (HiddenField)item.FindControl("hLlegada")
+                                               let d_buque = Convert.ToString(item.Cells[2].Text ?? string.Empty)
+                                               let contenedor = Convert.ToString(item.Cells[3].Text ?? string.Empty)                                               
+                                               let size = Convert.ToString(item.Cells[4].Text ?? string.Empty)                                               
+                                               //let s_marchamo = (TextBox)item.FindControl("txtMarchamo")
+                                               where check.Checked
+                                               select new DetaNaviera
+                                               {
+                                                   IdDeta = Convert.ToInt32(Id.Value),
+                                                   n_contenedor = contenedor,                                                  
+                                                   c_tamaño = size,
+                                                   c_cliente = c_cliente,
+                                                   c_llegada = Convert.ToString(c_llegada.Value),
+                                                   d_buque = d_buque,
+                                                   c_manifiesto = grid.DataKeys[item.RowIndex].Values[4].ToString(),
+                                                   f_retenido = Convert.ToDateTime(grid.DataKeys[item.RowIndex].Values[0].ToString()),
+                                                   f_recep_patio = Convert.ToDateTime(grid.DataKeys[item.RowIndex].Values[1].ToString()),
+                                                   f_dan = DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
+                                                   //f_tramite = Convert.ToDateTime(f_tramite.Text),                                                 
+                                                   CalcDias = SqlMethods.DateDiffHour(Convert.ToDateTime(grid.DataKeys[item.RowIndex].Values[0].ToString()), DateTime.Now),
+                                                   c_navi = grid.DataKeys[item.RowIndex].Values[2].ToString(),
+                                                   c_tipo_doc = grid.DataKeys[item.RowIndex].Values[3].ToString(),
+                                                
+                                                   //s_marchamo = s_marchamo.Text ?? string.Empty
+                                               }).ToList();
+
+            HttpContext.Current.Session["Liberados"] = uncheckedProd;
+
+        }
+
+        public static void TransmiAuto(GridView grid)
+        {
+
+            List<DetaNaviera> _listaContenedores = new List<DetaNaviera>();
+            //
+            // se obtienen los id de producto checkeados de la pagina actual
+            //
+
+
+
+
+            List<DetaNaviera> uncheckedProd = (from item in grid.Rows.Cast<GridViewRow>()
+                                               let check = (CheckBox)item.FindControl("CheckBox1")
+                                               let Id = (HiddenField)item.FindControl("hId")
+                                               let c_cliente = Convert.ToString(item.Cells[0].Text ?? string.Empty)
+                                               let c_llegada = (HiddenField)item.FindControl("hLlegada")
+                                               let manifiesto = Convert.ToString(item.Cells[1].Text ?? string.Empty)                                               
+                                               let contenedor = Convert.ToString(item.Cells[3].Text ?? string.Empty)
+                                               let size = Convert.ToString(item.Cells[4].Text ?? string.Empty)
+                                               let peso = Convert.ToString(item.Cells[5].Text ?? string.Empty)
+                                               let estado = Convert.ToString(item.Cells[6].Text ?? string.Empty)
+                                               let consignatario = Convert.ToString(item.Cells[7].Text ?? string.Empty)
+                                               let despacho = Convert.ToString(item.Cells[8].Text ?? string.Empty)
+                                               let manejo = Convert.ToString(item.Cells[9].Text ?? string.Empty)
+                                               let transferencia = Convert.ToString(item.Cells[10].Text ?? string.Empty)
+                                               where check.Checked
+                                               select new DetaNaviera
+                                               {
+                                                   IdDeta = Convert.ToInt32(Id.Value),
+                                                   c_llegada = c_llegada.Value,
+                                                   c_cliente = c_cliente,
+                                                   n_manifiesto = manifiesto,
+                                                   n_contenedor = contenedor,
+                                                   c_tamaño = size,
+                                                   v_peso = Convert.ToDouble(peso),
+                                                   b_estado = estado,
+                                                   s_consignatario = consignatario,
+                                                   b_despacho = despacho,
+                                                   b_manejo = manejo,
+                                                   b_transferencia = transferencia
+                                               }).ToList();
+
+            HttpContext.Current.Session["Transmi"] = uncheckedProd;
+
+        }
+
         public static void AutoExport(GridView grid)
         {
 

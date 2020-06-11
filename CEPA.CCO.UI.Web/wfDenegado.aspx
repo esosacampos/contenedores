@@ -324,9 +324,9 @@
                     </div>
 
                     <div style="width: 55%;">
-                        <div class="lead alert-danger" role="alert" style="font-size:35px;">
+                        <div class="lead alert-danger" role="alert" style="font-size: 35px;">
                             <p>
-                               <strong><span class="glyphicon glyphicon-warning-sign" style="margin-right: 15px;"></span>ACCESO DENEGADO</strong>
+                                <strong><span class="glyphicon glyphicon-warning-sign" style="margin-right: 15px;"></span>ACCESO DENEGADO</strong>
                             </p>
                         </div>
 
@@ -336,13 +336,13 @@
                             </p>
                             <br />
                             <p>
-                                Para obtener permisos debe ponerse en contacto con la <strong>Sección Informática CEPA / Puerto de Acajulta</strong>  <a href="#">soporte.acajutla@cepa.gob.sv</a>
+                                Para obtener permisos debe ponerse en contacto con la <strong>Sección Informática CEPA / Puerto de Acajulta</strong>  <a href="#">informatica.acajutla@cepa.gob.sv</a>
                             </p>
                         </div>
                         <%--<button type="button" class="btn btn-primary btn-lg lead" id="button">
                             <span class="glyphicon glyphicon-home"></span>Volver Pagina Principal
                         </button>--%>
-                        <a href="default.aspx" class="btn btn-warning btn-lg lead"> <span class="glyphicon glyphicon-home"></span> Volver Pagina Principal</a>
+                        <a href="default.aspx" class="btn btn-warning btn-lg lead"><span class="glyphicon glyphicon-home"></span>Volver Pagina Principal</a>
 
                     </div>
                     <hr />
@@ -355,10 +355,15 @@
             <div class="container">
                 <p class="text-muted">
                     © 2013 CEPA / Puerto de Acajutla, El Salvador v3.0 para Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv</a>
-                    <span id="siteseal" style="padding-left: 100px;">
-                        <script async type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=M3U1QZ69toEvGnm5vsHcmLOlgtC6rSd11HzwnBCF9eDXbwiU7WtfLrjr6st5"></script>
-                    </span>
                 </p>
+                <table width="135" border="0" cellpadding="2" cellspacing="0" title="Click to Verify - This site chose GeoTrust SSL for secure e-commerce and confidential communications.">
+                    <tr>
+                        <td width="135" align="center" valign="top">
+                            <script type="text/javascript" src="https://seal.geotrust.com/getgeotrustsslseal?host_name=acajutlaweb.cepa.gob.sv&amp;size=S&amp;lang=en"></script>
+                            <br />
+                            <a href="http://www.geotrust.com/ssl/" target="_blank" style="color: #000000; text-decoration: none; font: bold 7px verdana,sans-serif; letter-spacing: .5px; text-align: center; margin: 0px; padding: 0px;"></a></td>
+                    </tr>
+                </table>
             </div>
         </footer>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

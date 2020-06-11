@@ -304,6 +304,10 @@
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_deta_ucc" HeaderText="F. Liberación UCC" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
+                                                         <asp:BoundField DataField="f_retencion_dga" HeaderText="F. Orden de Retención DGA" ReadOnly="True"
+                                                            DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
+                                                         <asp:BoundField DataField="f_lib_dga" HeaderText="F. Liberación DGA" ReadOnly="True"
+                                                            DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_salida_carga" HeaderText="F. Salida de Carga" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_caseta" HeaderText="F. Solicitud Ingreso Puerta #1" ReadOnly="True"
@@ -469,7 +473,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <h4 class="modal-title">¿Se encuentra solvente con PNC-DAN o UCC?</h4>
+                            <h4 class="modal-title">¿Se encuentra solvente con PNC-DAN, UCC y ADUANA ?</h4>
                             <br />
                             <span id="MensajeModal" style="font-weight: bold; padding: 4px; line-height: 1.5em;"></span>
                         </div>

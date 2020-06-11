@@ -52,6 +52,7 @@
         .ui-bar-a, .ui-page-theme-a .ui-bar-inherit {
             background: none;
         }
+         [data-role=footer]{bottom:0; position:absolute !important; top: auto !important; width:100%;} 
     </style>
 </head>
 <body>
@@ -60,10 +61,10 @@
         <div data-role="page" id="page1" data-theme="b">
             <div data-role="header" id="headerA" data-position="fixed">
                 <%--<a href="#" class="ui-btn ui-btn-left ui-corner-all ui-shadow ui-icon-home ui-btn-icon-left">Home</a>--%>
-                <h1>Contenedores Movil</h1>
+             <%--   <h1>Contenedores Movil</h1>--%>
             </div>
             <div data-role="content" id="content">
-                <h2>Menu Principal</h2>
+                <h2 style="margin-top:10%;font-weight:800;color:#313945;">Menu Principal</h2>
                 <div data-role="collapsible" data-inset="false">
                     <h4>Importación Contenedores</h4>
                     <ul data-role="listview" data-theme="c">

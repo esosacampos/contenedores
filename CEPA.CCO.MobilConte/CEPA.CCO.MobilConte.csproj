@@ -19,6 +19,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -213,9 +215,12 @@
     <Content Include="css\mobilCEPA.css" />
     <Content Include="css\mobilCEPA.min.css" />
     <Content Include="DATA\xmlConfig.xml" />
+    <Content Include="images\cepa_logo_blanco.png" />
     <Content Include="images\fondo.png" />
     <Content Include="images\fondo_principal.png" />
     <Content Include="images\fond_cepa.png" />
+    <Content Include="images\fondo_principal1.png" />
+    <Content Include="images\fond_cepa11.png" />
     <Content Include="js\jquery-1.11.1.min.js" />
     <Content Include="js\jquery.mobile-1.4.5.min.js" />
     <Content Include="mfDefault.aspx" />
@@ -265,6 +270,12 @@
     <Content Include="bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="css\fonts\Bembo-Std.ttf" />
+    <Content Include="css\fonts\BemboStd-Bold.otf" />
+    <Content Include="css\fonts\BemboStd-SemiboldItalic.otf" />
+    <Content Include="css\fonts\MuseoSans-300[1].otf" />
+    <Content Include="css\fonts\MuseoSans_500.otf" />
+    <Content Include="css\fonts\MuseoSans_900.otf" />
     <None Include="Properties\PublishProfiles\MobilLocal.pubxml" />
     <None Include="Properties\PublishProfiles\MobilWeb.pubxml" />
     <None Include="Web.Debug.config">

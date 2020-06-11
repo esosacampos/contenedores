@@ -525,7 +525,7 @@ namespace CEPA.CCO.UI.Web.Tracking
                 }
 
 
-                GridView gvProvisionales = (GridView)gvDetails.Rows[29].Cells[1].FindControl("grvProv");
+                GridView gvProvisionales = (GridView)gvDetails.Rows[31].Cells[1].FindControl("grvProv");
 
                 if (gvProvisionales != null)
                 {
@@ -899,7 +899,7 @@ namespace CEPA.CCO.UI.Web.Tracking
                         tipo += 1;
                 }
 
-                if (tipo >= 2)
+                if (tipo >= 3)
                     retenResult = "LIBRE";
                 else
                 {
@@ -907,11 +907,19 @@ namespace CEPA.CCO.UI.Web.Tracking
                     tiReten = tiReten == null ? string.Empty : tiReten;
                 }
 
-
                 /* Validar Pagos Por Tarjas */
 
                 List<Pago> pLstDetalle = new List<Pago>();
-                string detaReten = tiReten == "DAN" ? "PNC - DAN" : "UCC";
+
+                string detaReten = null;
+                if (tiReten == "DAN")
+                    detaReten = "PNC - DAN";
+                else if (tiReten == "UCC")
+                    detaReten = "UCC";
+                else if (tiReten == "DGA")
+                    detaReten = "ADUANA";
+                else
+                    detaReten = "";
 
 
                 pLstDetalle = DetaNavieraDAL.CalcPagos(n_contenedor, c_llegada, f_tar, DBComun.TipoBD.SqlTracking, v_peso);
@@ -1206,7 +1214,7 @@ namespace CEPA.CCO.UI.Web.Tracking
 
                 /* Consultando Retencion PNC - DAN */
 
-                var lstReten = (from b in PagoDAL.ConsultaDAN(c_llegada, n_contenedor, DBComun.TipoBD.SqlServer)
+                var lstReten = (from b in PagoDAL.ConsultaDAN(c_llegada, n_contenedor, DBComun.TipoBD.SqlTracking)
                                 select new
                                 {
                                     b_dan = (b.b_dan == null ? string.Empty : b.b_dan),
@@ -1227,7 +1235,7 @@ namespace CEPA.CCO.UI.Web.Tracking
                         tipo += 1;
                 }
 
-                if (tipo >= 2)
+                if (tipo >= 3)
                     retenResult = "LIBRE";
                 else
                 {
@@ -1235,11 +1243,20 @@ namespace CEPA.CCO.UI.Web.Tracking
                     tiReten = tiReten == null ? string.Empty : tiReten;
                 }
 
-
                 /* Validar Pagos Por Tarjas */
 
                 List<Pago> pLstDetalle = new List<Pago>();
-                string detaReten = tiReten == "DAN" ? "PNC - DAN" : "UCC";
+
+                string detaReten = null;
+                if (tiReten == "DAN")
+                    detaReten = "PNC - DAN";
+                else if (tiReten == "UCC")
+                    detaReten = "UCC";
+                else if (tiReten == "DGA")
+                    detaReten = "ADUANA";
+                else
+                    detaReten = "";
+
 
 
                 pLstDetalle = DetaNavieraDAL.CalcPagos(n_contenedor, c_llegada, f_tar, f_re, DBComun.TipoBD.SqlTracking, v_peso);

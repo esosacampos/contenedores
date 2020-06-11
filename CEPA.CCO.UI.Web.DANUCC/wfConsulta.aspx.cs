@@ -46,8 +46,8 @@ namespace CEPA.CCO.UI.Web.DANUCC
 
                 if (hEstado.Value == "CANCELADO")
                 {
-                    e.Row.BackColor = Color.FromName("#EB7A7A");
-                    e.Row.ForeColor = Color.White;
+                    e.Row.BackColor = Color.FromName("#f8d7da");
+                    e.Row.ForeColor = Color.FromName("#721c24");
                 }
 
                 if (TipoRevisa == "NAD")
@@ -56,10 +56,15 @@ namespace CEPA.CCO.UI.Web.DANUCC
                 }
 
                 if (f_liberados > FIRST_GOOD_DATE)
-                { }
+                {
+                    e.Row.BackColor = Color.FromName("#dff0d8");
+                    e.Row.ForeColor = Color.FromName("#155724");
+                }
                 else
                 {
                     e.Row.Cells[11].Text = "";
+                    e.Row.BackColor = Color.FromName("#fcf8e3");
+                    e.Row.ForeColor = Color.FromName("#8a6d3b");
                 }
 
                 if (f_tramite > FIRST_GOOD_DATE)
@@ -126,6 +131,9 @@ namespace CEPA.CCO.UI.Web.DANUCC
                 string label = null;
                 string valida = null;
 
+                string v_mensaje = null;
+                string v_label = null;
+
                 b_retenido.Text = "";
                 grvRetenciones.DataSource = null;
                 grvRetenciones.DataBind();
@@ -168,56 +176,59 @@ namespace CEPA.CCO.UI.Web.DANUCC
 
                     if (pLista.Count > 0)
                     {
-                        if (pLista.Count == 1)
+                        foreach (var item in pLista)
                         {
-                            foreach (var item in pLista)
+                            b_valido = item.b_retenido;
+                            b_cancel = item.b_estado;
+                            if (b_cancel == "CANCELADO")
                             {
+                                mensaje = "El contenedor " + txtContenedor.Text + " se encuentra cancelado";
+                                label = "El contenedor " + txtContenedor.Text.ToUpper() + " se encuentra " + " <strong><u><font color='red'>CANCELADO" + "</font></u></strong>";
 
-                                b_valido = item.b_retenido;
-                                b_cancel = item.b_estado;
-                                if (b_cancel == "CANCELADO")
+                                ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + mensaje + "');", true);
+                                grvRetenciones.DataSource = pLista;
+                                grvRetenciones.DataBind();
+                            }
+                            else
+                            {
+                                if (item.b_estadoV == "1" && (item.TipoRe == "DAN" || item.TipoRe == "UCC" || item.TipoRe == "DGA"))
                                 {
-                                    mensaje = "El contenedor " + txtContenedor.Text + " se encuentra cancelado";
-                                    label = "El contenedor " + txtContenedor.Text.ToUpper() + " se encuentra " + " <strong><u><font color='red'>CANCELADO" + "</font></u></strong>";
-
-                                    ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + mensaje + "');", true);
-                                    grvRetenciones.DataSource = pLista;
-                                    grvRetenciones.DataBind();
-                                }
-                                else
-                                {
-                                    if (item.b_estadoV == "1" && (item.TipoRe == "DAN" || item.TipoRe == "UCC"))
+                                    if (b_valido == "0")
                                     {
-                                        if (b_valido == "0")
-                                        {
-                                            mensaje = "El contenedor " + txtContenedor.Text + " se encuentra liberado";
-                                            label = "El contenedor " + txtContenedor.Text.ToUpper() + " se encuentra " + " <strong><u><font color='green'>LIBERADO" + "</font></u></strong>";
-                                        }
-                                        else
-                                        {
-                                            mensaje = "El contenedor " + txtContenedor.Text + " se encuentra retenido";
-                                            label = "El contenedor " + txtContenedor.Text.ToUpper() + " se encuentra " + " <strong><u><font color='red'>RETENIDO" + "</font></u></strong>";
-                                        }
-
-                                        ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + mensaje + "');", true);
-                                        grvRetenciones.DataSource = pLista;
-                                        grvRetenciones.DataBind();
+                                        mensaje = "El contenedor " + txtContenedor.Text + " se encuentra liberado por " + item.TipoRe + "/ ";
+                                        label = "El contenedor " + txtContenedor.Text.ToUpper() + " se encuentra " + " <strong><u><font color='green'>LIBERADO POR " + item.TipoRe + "/ " + "</font></u></strong>" ;
                                     }
                                     else
                                     {
-                                        if (item.TipoRe == "NAD")
-                                        {
-                                            mensaje = "El contenedor " + txtContenedor.Text + " no se encuentra retenido";
-                                            label = "El contenedor " + txtContenedor.Text.ToUpper() + " no se encuentra retenido";
-                                        }
-
-                                        ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + mensaje + "');", true);
-                                        grvRetenciones.DataSource = pLista;
-                                        grvRetenciones.DataBind();
-                                        // Label lblEmptyMessage = GridView1.Controls[0].Controls[0].FindControl("lblEmptyMessage") as Label;
-                                        //throw new Exception("Este contenedor no se encuentra retenido: " + txtBuscar.Text);
-                                    }
+                                        mensaje = mensaje + "El contenedor " + txtContenedor.Text + " se encuentra retenido por " + item.TipoRe + "/ ";
+                                        label = label + ("El contenedor " + txtContenedor.Text.ToUpper() + " se encuentra " + " <strong><u><font color='red'>RETENIDO POR " + item.TipoRe +  "/ " + "</font></u></strong>");
+                                    }                                    
                                 }
+                                else
+                                {
+                                    if (item.TipoRe == "NAD")
+                                    {
+                                        mensaje = "El contenedor " + txtContenedor.Text + " no se encuentra retenido";
+                                        label = "El contenedor " + txtContenedor.Text.ToUpper() + " no se encuentra retenido";
+                                    }
+
+                                    //ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + mensaje + "');", true);
+                                    //grvRetenciones.DataSource = pLista;
+                                    //grvRetenciones.DataBind();
+                                    // Label lblEmptyMessage = GridView1.Controls[0].Controls[0].FindControl("lblEmptyMessage") as Label;
+                                    //throw new Exception("Este contenedor no se encuentra retenido: " + txtBuscar.Text);
+                                }                                                                              
+                            }
+
+                            if (mensaje.Contains("retenido"))
+                            {
+                                v_mensaje = mensaje;
+                                v_label = label;
+                            }
+                            else
+                            {
+                                v_mensaje = "El contenedor " + txtContenedor.Text + " se encuentra liberado";
+                                v_label = "El contenedor " + txtContenedor.Text.ToUpper() + " se encuentra " + " <strong><u><font color='green'>LIBERADO "  + "</font></u></strong>";
                             }
                         }
                     }
@@ -229,6 +240,41 @@ namespace CEPA.CCO.UI.Web.DANUCC
                         label = "No se poseen registros de información para el contenedor: " + txtContenedor.Text.ToUpper();
                         ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + label + "');", true);
                     }
+
+                    //string[] cadena = v_mensaje.Split('/');
+
+
+                    //if(cadena != null && cadena.Length > 0)
+                    //{
+                    //    cadena = cadena.Where(x => !x.Contains("retenido")).ToArray();
+                    //}
+
+                    //if(cadena.Length == 0)
+                    //{
+                    //    mensaje = "El contenedor " + txtContenedor.Text + " se encuentra liberado";
+                    //    label = "El contenedor " + txtContenedor.Text.ToUpper() + " se encuentra " + " <strong><u><font color='green'>LIBERADO " + "</font></u></strong>";
+                    //}
+                    //else if(cadena.Length >= 1)
+                    //{
+                    //    for (int i = 0; i < cadena.Length; i++)
+                    //    {
+                    //        mensaje += cadena[i];
+                    //        label = v_label;
+                    //    }
+                    //}
+
+                    if (v_mensaje.Length > 0)
+                    {
+                        //if (v_mensaje.Contains("retenido"))
+                        //{
+                        mensaje = v_mensaje.Remove(v_mensaje.Length - 1);
+                        label = v_label.Remove(v_label.Length - 1);
+                        //}
+                    }
+
+                    ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + mensaje + "');", true);
+                    grvRetenciones.DataSource = pLista;
+                    grvRetenciones.DataBind();
 
                     b_retenido.Text = label;
                 }

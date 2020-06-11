@@ -53,7 +53,7 @@ namespace CEPA.CCO.UI.Web
             }
         }
 
-        private int t_retenidos = 0, t_liberados = 0, t_pendientes = 0;
+        private int t_retenidos = 0, t_liberados = 0, t_pendientes = 0, t_liberadosmes = 0;
            
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -62,6 +62,7 @@ namespace CEPA.CCO.UI.Web
                 t_retenidos += Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "retenidos"));
                 t_liberados += Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "liberados"));
                 t_pendientes += Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "pendientes"));
+                t_liberadosmes += Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "libmes"));
             }
             else if (e.Row.RowType == DataControlRowType.Footer)
             {
@@ -72,6 +73,8 @@ namespace CEPA.CCO.UI.Web
                 e.Row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
                 e.Row.Cells[3].Text = t_pendientes.ToString();
                 e.Row.Cells[3].HorizontalAlign = HorizontalAlign.Right;
+                e.Row.Cells[4].Text = t_liberadosmes.ToString();
+                e.Row.Cells[4].HorizontalAlign = HorizontalAlign.Right;
                 e.Row.Font.Bold = true;
 
             }

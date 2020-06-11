@@ -253,10 +253,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <br />
+                            <br />
+                            <div class="alert alert-danger" style="margin-bottom: 1%; font-weight: bold;" role="alert">* Los contenedores marcados en ROJO son <strong>CANCELADOS</strong></div>
+                            <div class="alert alert-warning" style="margin-bottom: 1%; font-weight: bold;" role="alert">* Los contenedores marcados en AMARILLO se encuentran pendientes de <strong>LIBERACION.</strong></div>
+                            <div class="alert alert-success" style="margin-bottom: 1%; font-weight: bold;" role="alert">* Los contenedores en VERDE se encuentran <strong>LIBERADOS.</strong></div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
         </div>
     </form>
 
@@ -279,7 +287,7 @@
                     color: '#fff'
                 }
 
-            });            
+            });
         }
 
         function endRequest(sender, args) {
@@ -288,20 +296,20 @@
 
         }
 
-        $(document).ready(function() {            
-            $('#grvRetenciones').DataTable({   
-                responsive:true,             
-                paging:false,
-                ordering:false,
-                searching:false,
-                info:false,
-                autoWidth:false
+        $(document).ready(function () {
+            $('#grvRetenciones').DataTable({
+                responsive: true,
+                paging: false,
+                ordering: false,
+                searching: false,
+                info: false,
+                autoWidth: false
             });
 
-            
-            
+
+
         });
-        
+
     </script>
 
 

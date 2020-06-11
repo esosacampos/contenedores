@@ -6,7 +6,7 @@
     <link href="bootstrap/csss/autocompleteText.css" rel="stylesheet">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <h2>Autorización Manual Para Despacho De Contenedor</h2>
+    <h2>Retención De Contenedor</h2>
     <hr />
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
@@ -242,7 +242,7 @@
                     params = JSON.stringify(params);
 
                     $.ajax({
-                        url: '<%=ResolveUrl("~/wfValidaTarja.aspx/SaveValid") %>',
+                        url: '<%=ResolveUrl("~/wfRetDGA.aspx/SaveValid") %>',
                         data: params,
                         dataType: "json",
                         type: "POST",

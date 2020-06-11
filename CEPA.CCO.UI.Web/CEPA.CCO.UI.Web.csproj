@@ -295,7 +295,10 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="wfTransmisionAutoD.aspx" />
+    <Content Include="wfTransmisionAutoP.aspx" />
     <Content Include="wfConsulBL.aspx" />
+    <Content Include="wfLibDGA.aspx" />
     <Content Include="wfLstValidFact.aspx" />
     <Content Include="wfRetDGA.aspx" />
     <Content Include="wfVencimiento.aspx" />
@@ -748,6 +751,20 @@
     <Compile Include="wfAlertaDAN.aspx.designer.cs">
       <DependentUpon>wfAlertaDAN.aspx</DependentUpon>
     </Compile>
+    <Compile Include="wfTransmisionAutoD.aspx.cs">
+      <DependentUpon>wfTransmisionAutoD.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfTransmisionAutoD.aspx.designer.cs">
+      <DependentUpon>wfTransmisionAutoD.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfTransmisionAutoP.aspx.cs">
+      <DependentUpon>wfTransmisionAutoP.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfTransmisionAutoP.aspx.designer.cs">
+      <DependentUpon>wfTransmisionAutoP.aspx</DependentUpon>
+    </Compile>
     <Compile Include="wfBuquesTrans.aspx.cs">
       <DependentUpon>wfBuquesTrans.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -810,6 +827,13 @@
     </Compile>
     <Compile Include="wfCotecnaEnca.aspx.designer.cs">
       <DependentUpon>wfCotecnaEnca.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfLibDGA.aspx.cs">
+      <DependentUpon>wfLibDGA.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfLibDGA.aspx.designer.cs">
+      <DependentUpon>wfLibDGA.aspx</DependentUpon>
     </Compile>
     <Compile Include="wfLstValidFact.aspx.cs">
       <DependentUpon>wfLstValidFact.aspx</DependentUpon>

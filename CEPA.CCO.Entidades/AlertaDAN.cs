@@ -20,6 +20,8 @@ namespace CEPA.CCO.Entidades
         public string f_salida { get; set; }
         public string f_confir_salida { get; set; }
         public string tipo { get; set; }
+        public string d_buque { get; set; }
+        public string PaisOrigen { get; set; }
 
     }
 }

@@ -45,11 +45,20 @@ namespace CEPA.CCO.UI.Web
                     Ldap.LDAPRoleProvider _ldap = new Ldap.LDAPRoleProvider();
                     string[] groups = _ldap.GetGruposLDAP(inputTxtandPassw.Value);
 
-                    System.Web.Security.FormsAuthenticationTicket AuthTicket = new System.Web.Security.FormsAuthenticationTicket(1, inputTxtandPassw.Value, DateTime.Now, DateTime.Now.AddHours(12), false, groups.ToString());
+                    System.Web.Security.FormsAuthenticationTicket AuthTicket = new System.Web.Security.FormsAuthenticationTicket(1, inputTxtandPassw.Value, DateTime.Now, DateTime.Now.AddHours(2), false, groups.ToString());
+
+                    string hash = FormsAuthentication.Encrypt(AuthTicket);
+                    HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName,// Name of auth cookie
+                           hash); //Hashed ticket
+                                  // Set the cookie's expiration time to the tickets expiration time
+                    if (AuthTicket.IsPersistent) cookie.Expires = AuthTicket.Expiration;
+
+                    // Add the cookie to the list for outgoing response
+
+                    HttpContext.Current.Response.Cookies.Add(cookie);
 
 
-
-                    Response.Cookies.Add(new HttpCookie(System.Web.Security.FormsAuthentication.FormsCookieName, System.Web.Security.FormsAuthentication.Encrypt(AuthTicket)));
+                    //Response.Cookies.Add(new HttpCookie(System.Web.Security.FormsAuthentication.FormsCookieName, System.Web.Security.FormsAuthentication.Encrypt(AuthTicket)));
                     //Session["nombre"] = FullName(inputTxtandPassw.Text);
 
                     List<Usuario> _usuList = new List<Usuario>();

@@ -32,6 +32,7 @@
                     <asp:BoundField DataField="retenidos" HeaderText="CONT. RETENIDOS"></asp:BoundField>
                     <asp:BoundField DataField="liberados" HeaderText="CONT. LIBERADOS"></asp:BoundField>
                     <asp:BoundField DataField="pendientes" HeaderText="CONT. PENDIENTES *"></asp:BoundField>
+                    <asp:BoundField DataField="libmes" HeaderText="CONT. LIBERADOS MES *"></asp:BoundField>
                     <%--<asp:TemplateField>
                         <ItemTemplate>
                             <asp:HiddenField ID="hMes" runat="server" Value='<%#Eval("nmes")%>' />

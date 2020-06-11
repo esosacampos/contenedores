@@ -68,9 +68,13 @@ namespace CEPA.CCO.DAL
                                 UNION ALL
                                 SELECT CASE WHEN b_ucc = 1 THEN CONVERT(CHAR(10), f_retencion_ucc, 103) + ' ' + CONVERT(CHAR(10), f_retencion_ucc, 108) + ' #Oficio: ' + ISNULL(n_ofiucc, '') ELSE 'LIBRE' END b_detenido, 'UCC' tipo
                                 FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg WHERE n_contenedor = '{2}' 
-                                AND c_llegada = '{3}'";
+                                AND c_llegada = '{3}'
+                                UNION ALL
+                                SELECT CASE WHEN b_dga = 1 THEN CONVERT(CHAR(10), f_retencion_dga, 103) + ' ' + CONVERT(CHAR(10), f_retencion_dga, 108)  ELSE 'LIBRE' END b_detenido, 'DGA' tipo
+                                FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg WHERE n_contenedor = '{4}' 
+                                AND c_llegada = '{5}'";
 
-                SqlCommand command = new SqlCommand(string.Format(_sql, n_contenedor, c_llegada, n_contenedor, c_llegada), _conn as SqlConnection);
+                SqlCommand command = new SqlCommand(string.Format(_sql, n_contenedor, c_llegada, n_contenedor, c_llegada, n_contenedor, c_llegada), _conn as SqlConnection);
 
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -49,6 +50,8 @@ namespace CEPA.CCO.Entidades
         public string Tiempoba { get; set; }
         public string Tiempocb { get; set; }
         public string Tiempoda { get; set; }
+
+        
     }
 
     public class EstadiaConte
@@ -68,6 +71,12 @@ namespace CEPA.CCO.Entidades
         public string Observa { get; set; }
         public string Cliente { get; set; }
         public string Estb3 { get; set; }
+
+        public Int64 Iddeta { get; set; }
+
+        public string Cllegada { get; set; }
+
+        public string s_descripcion { get; set; }
     }
 
     public class Procedure

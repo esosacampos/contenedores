@@ -143,7 +143,9 @@ namespace CEPA.CCO.UI.Web
                                  c_transporte = getTrans(a.c_llegada, a.n_contenedor, a.c_naviera),
                                  f_salida = a.f_salida,
                                  f_confir_salida = a.f_confir_salida,
-                                 tipo = a.tipo
+                                 tipo = a.tipo,
+                                 d_buque = b.d_buque,
+                                 PaisOrigen = a.PaisOrigen
                              }).ToList();
 
                 _fecha = DetaNavieraLINQ.FechaBD();
@@ -162,12 +164,14 @@ namespace CEPA.CCO.UI.Web
                     Html += "<th data-class=\"expand\" scope=\"col\" class=\"footable-visible footable-first-column\">No.</th>";
                     Html += "<th scope=\"col\" class=\"footable-visible\">TIPO</th>";
                     Html += "<th scope=\"col\" class=\"footable-visible\">CONTENEDOR</th>";
+                    Html += "<th data-hide=\"phone\" scope=\"col\" class=\"footable-visible\">BUQUE</th>";
+                    Html += "<th data-hide=\"phone\" scope=\"col\" class=\"footable-visible\">P. ORIGEN</th>";
                     Html += "<th data-hide=\"phone\" scope=\"col\" class=\"footable-visible\">F/H LIBERACION</th>";
                     Html += "<th data-hide=\"phone\" scope=\"col\" class=\"footable-visible\">P</th>";
                     Html += "<th data-hide=\"phone\" scope=\"col\" class=\"footable-visible\">Q</th>";
                     Html += "<th data-hide=\"phone\" scope=\"col\" class=\"footable-visible\">TRANSPORTE</th>";
                     Html += "<th data-hide=\"phone\" scope=\"col\" class=\"footable-visible\">AGENCIA NAVIERA</th>";
-                    Html += "<th data-hide=\"phone\" scope=\"col\" class=\"footable-visible\">F/H SALIDA</th>";
+                    Html += "<th data-hide=\"phone\" scope=\"col\" class=\"footable-visible\">F/H SALIDA</th>";                    
                     Html += "<th scope=\"col\" class=\"footable-visible footable-last-column\">F/H PUERTA #1</th>";
                     Html += "</tr></thead>";
 
@@ -179,6 +183,8 @@ namespace CEPA.CCO.UI.Web
                         Html += "<td class=\"expand footable-visible footable-first-column\">" + itemC.c_numeral + "</td>";
                         Html += "<td class=\"footable-visible\">" + itemC.tipo + "</td>";
                         Html += "<td class=\"footable-visible\">" + itemC.n_contenedor + "</td>";
+                        Html += "<td class=\"footable-visible\">" + itemC.d_buque + "</td>";
+                        Html += "<td class=\"footable-visible\">" + itemC.PaisOrigen.ToUpper() + "</td>";
                         Html += "<td class=\"footable-visible\">" + itemC.f_liberacion + "</td>";
                         Html += "<td class=\"footable-visible\">" + itemC.ClaveP + "</td>";
                         Html += "<td class=\"footable-visible\">" + itemC.ClaveQ + "</td>";
@@ -190,7 +196,7 @@ namespace CEPA.CCO.UI.Web
 
                     }
                     Html += "</tbody>";
-                    Html += "<tfoot><tr><td text-align=\"center\" colspan=\"10\" class=\"footable-visible\">" + "<ul class='pagination pagination-centered hide-if-no-paging'></ul><div class='divider' style='margin-bottom: 15px;'></div></div><span class='label label-default pie' style='background-color: #dff0d8;border-radius: 25px;font-family: sans-serif;font-size: 18px;color: #468847;border-color: #d6e9c6;margin-top: 18px;'></span>";
+                    Html += "<tfoot><tr><td text-align=\"center\" colspan=\"12\" class=\"footable-visible\">" + "<ul class='pagination pagination-centered hide-if-no-paging'></ul><div class='divider' style='margin-bottom: 15px;'></div></div><span class='label label-default pie' style='background-color: #dff0d8;border-radius: 25px;font-family: sans-serif;font-size: 18px;color: #468847;border-color: #d6e9c6;margin-top: 18px;'></span>";
                     Html += "</td></tr></tfoot>";
                     Html += "</table>";
 
@@ -263,7 +269,9 @@ namespace CEPA.CCO.UI.Web
                                  c_transporte = getTrans(a.c_llegada, a.n_contenedor, a.c_naviera),
                                  f_salida = a.f_salida,
                                  f_confir_salida = a.f_confir_salida,
-                                 tipo = a.tipo
+                                 tipo = a.tipo,
+                                 d_buque = b.d_buque,
+                                 PaisOrigen = a.PaisOrigen
                              }).ToList();
 
                 _fecha = DetaNavieraLINQ.FechaBD();
@@ -283,6 +291,8 @@ namespace CEPA.CCO.UI.Web
                     Html += "<th data-class=\"expand\" scope=\"col\" class=\"footable-visible footable-first-column\">No.</th>";
                     Html += "<th scope=\"col\" class=\"footable-visible\">TIPO</th>";
                     Html += "<th scope=\"col\" class=\"footable-visible\">CONTENEDOR</th>";
+                    Html += "<th scope=\"col\" class=\"footable-visible\">BUQUE</th>";
+                    Html += "<th scope=\"col\" class=\"footable-visible\">P. ORIGEN</th>";
                     Html += "<th data-hide=\"phone\" scope=\"col\" class=\"footable-visible\">F/H LIBERACION</th>";
                     Html += "<th data-hide=\"phone\" scope=\"col\" class=\"footable-visible\">P</th>";
                     Html += "<th data-hide=\"phone\" scope=\"col\" class=\"footable-visible\">Q</th>";
@@ -300,6 +310,8 @@ namespace CEPA.CCO.UI.Web
                         Html += "<td class=\"expand footable-visible footable-first-column\">" + itemC.c_numeral + "</td>";
                         Html += "<td class=\"footable-visible\">" + itemC.tipo + "</td>";
                         Html += "<td class=\"footable-visible\">" + itemC.n_contenedor + "</td>";
+                        Html += "<td class=\"footable-visible\">" + itemC.d_buque + "</td>";
+                        Html += "<td class=\"footable-visible\">" + itemC.PaisOrigen.ToUpper() + "</td>";
                         Html += "<td class=\"footable-visible\">" + itemC.f_liberacion + "</td>";
                         Html += "<td class=\"footable-visible\">" + itemC.ClaveP + "</td>";
                         Html += "<td class=\"footable-visible\">" + itemC.ClaveQ + "</td>";
@@ -311,7 +323,7 @@ namespace CEPA.CCO.UI.Web
                                             
                     }
                     Html += "</tbody>";
-                    Html += "<tfoot><tr><td text-align=\"center\" colspan=\"10\" class=\"footable-visible\">" + "<ul class='pagination pagination-centered hide-if-no-paging'></ul><div class='divider' style='margin-bottom: 15px;'></div></div><span class='label label-default pie' style='background-color: #dff0d8;border-radius: 25px;font-family: sans-serif;font-size: 18px;color: #468847;border-color: #d6e9c6;margin-top: 18px;'></span>";
+                    Html += "<tfoot><tr><td text-align=\"center\" colspan=\"12\" class=\"footable-visible\">" + "<ul class='pagination pagination-centered hide-if-no-paging'></ul><div class='divider' style='margin-bottom: 15px;'></div></div><span class='label label-default pie' style='background-color: #dff0d8;border-radius: 25px;font-family: sans-serif;font-size: 18px;color: #468847;border-color: #d6e9c6;margin-top: 18px;'></span>";
                     Html +="</td></tr></tfoot>";
                     
                     Html += "</table>";
@@ -378,7 +390,9 @@ namespace CEPA.CCO.UI.Web
                              c_transporte = getTrans(a.c_llegada, a.n_contenedor, a.c_naviera),
                              f_salida = a.f_salida,
                              f_confir_salida = a.f_confir_salida,
-                             tipo = a.tipo
+                             tipo = a.tipo,
+                             d_buque = b.d_buque,
+                             PaisOrigen = a.PaisOrigen
                          }).ToList();
             }
             else
@@ -398,7 +412,9 @@ namespace CEPA.CCO.UI.Web
                              c_transporte = getTrans(a.c_llegada, a.n_contenedor, a.c_naviera),
                              f_salida = a.f_salida,
                              f_confir_salida = a.f_confir_salida,
-                             tipo = a.tipo
+                             tipo = a.tipo,
+                             d_buque = b.d_buque,
+                             PaisOrigen = a.PaisOrigen
                          }).ToList();
             }
 
@@ -415,10 +431,10 @@ namespace CEPA.CCO.UI.Web
                 // Crear hoja de trabajo
                 var oSheet = oWB.Worksheets.Add("ALERTA DAN");
 
-                oSheet.Range("A2", "J2").Merge();
-                oSheet.Range("A2", "J2").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
-                oSheet.Range("A2", "J2").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
-                oSheet.Range("A2", "J2").Style.Font.FontSize = 16;
+                oSheet.Range("A2", "L2").Merge();
+                oSheet.Range("A2", "L2").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+                oSheet.Range("A2", "L2").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
+                oSheet.Range("A2", "L2").Style.Font.FontSize = 16;
 
                 oSheet.Cell("A2").Value = "LISTADO DE CONTENEDORES REVISADOS Y LIBERADOS";
              
@@ -431,48 +447,52 @@ namespace CEPA.CCO.UI.Web
                 oSheet.Cell(5, 1).Value = "No.";
                 oSheet.Cell(5, 2).Value = "TIPO";
                 oSheet.Cell(5, 3).Value = "CONTENEDOR";
-                oSheet.Cell(5, 4).Value = "F/H LIBERACION";
-                oSheet.Cell(5, 5).Value = "P";
-                oSheet.Cell(5, 6).Value = "Q";
-                oSheet.Cell(5, 7).Value = "TRANSPORTE";
-                oSheet.Cell(5, 8).Value = "AGENCIA NAVIERA";
-                oSheet.Cell(5, 9).Value = "F/H SALIDA";
-                oSheet.Cell(5, 10).Value = "F/H PUERTA #1";
+                oSheet.Cell(5, 4).Value = "BUQUE";
+                oSheet.Cell(5, 5).Value = "P. ORIGEN";
+                oSheet.Cell(5, 6).Value = "F/H LIBERACION";
+                oSheet.Cell(5, 7).Value = "P";
+                oSheet.Cell(5, 8).Value = "Q";
+                oSheet.Cell(5, 9).Value = "TRANSPORTE";
+                oSheet.Cell(5, 10).Value = "AGENCIA NAVIERA";
+                oSheet.Cell(5, 11).Value = "F/H SALIDA";
+                oSheet.Cell(5, 12).Value = "F/H PUERTA #1";
 
 
                 oSheet.Column(1).Width = 11;
                 oSheet.Column(2).Width = 8;
                 oSheet.Column(3).Width = 22;
-                oSheet.Column(4).Width = 25;
-                oSheet.Column(5).Width = 2;
-                oSheet.Column(6).Width = 2;
-                oSheet.Column(7).Width = 38;
-                oSheet.Column(8).Width = 60;
-                oSheet.Column(9).Width = 25;
-                oSheet.Column(10).Width = 25;
+                oSheet.Column(4).Width = 22;
+                oSheet.Column(5).Width = 25;
+                oSheet.Column(6).Width = 25;
+                oSheet.Column(7).Width = 2;
+                oSheet.Column(8).Width = 2;
+                oSheet.Column(9).Width = 38;
+                oSheet.Column(10).Width = 60;
+                oSheet.Column(11).Width = 25;
+                oSheet.Column(12).Width = 25;
 
-                oSheet.Range("A5:J5").Style.Font.Bold = true;
-                oSheet.Range("A5:J5").Style.Font.FontColor = cxExcel.XLColor.White;
-                oSheet.Range("A5:J5").Style.Fill.BackgroundColor = cxExcel.XLColor.FromArgb(21, 132, 206);
-                oSheet.Range("A5:J5").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
-                oSheet.Range("A5:J5").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
+                oSheet.Range("A5:L5").Style.Font.Bold = true;
+                oSheet.Range("A5:L5").Style.Font.FontColor = cxExcel.XLColor.White;
+                oSheet.Range("A5:L5").Style.Fill.BackgroundColor = cxExcel.XLColor.FromArgb(21, 132, 206);
+                oSheet.Range("A5:L5").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+                oSheet.Range("A5:L5").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
                                
-                oSheet.Range("A5", string.Concat("J", ROWS_START + d_lineas)).Style.Border.InsideBorder = cxExcel.XLBorderStyleValues.Thin;
-                oSheet.Range("A5", string.Concat("J", ROWS_START + d_lineas)).Style.Border.OutsideBorder = cxExcel.XLBorderStyleValues.Medium;
+                oSheet.Range("A5", string.Concat("L", ROWS_START + d_lineas)).Style.Border.InsideBorder = cxExcel.XLBorderStyleValues.Thin;
+                oSheet.Range("A5", string.Concat("L", ROWS_START + d_lineas)).Style.Border.OutsideBorder = cxExcel.XLBorderStyleValues.Medium;
                                                            
-                oSheet.Range("A5", string.Concat("J", ROWS_START + d_lineas)).Style.Border.SetInsideBorderColor(cxExcel.XLColor.FromArgb(79, 129, 189));
-                oSheet.Range("A5", string.Concat("J", ROWS_START + d_lineas)).Style.Border.SetOutsideBorderColor(cxExcel.XLColor.FromArgb(79, 129, 189));
+                oSheet.Range("A5", string.Concat("L", ROWS_START + d_lineas)).Style.Border.SetInsideBorderColor(cxExcel.XLColor.FromArgb(79, 129, 189));
+                oSheet.Range("A5", string.Concat("L", ROWS_START + d_lineas)).Style.Border.SetOutsideBorderColor(cxExcel.XLColor.FromArgb(79, 129, 189));
                                                            
-                oSheet.Range("A6", string.Concat("J", ROWS_START + d_lineas)).Style.Font.FontColor = cxExcel.XLColor.FromArgb(0, 0, 255);
-                oSheet.Range("A6", string.Concat("J", ROWS_START + d_lineas)).Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
-                oSheet.Range("A6", string.Concat("J", ROWS_START + d_lineas)).Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
+                oSheet.Range("A6", string.Concat("L", ROWS_START + d_lineas)).Style.Font.FontColor = cxExcel.XLColor.FromArgb(0, 0, 255);
+                oSheet.Range("A6", string.Concat("L", ROWS_START + d_lineas)).Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+                oSheet.Range("A6", string.Concat("L", ROWS_START + d_lineas)).Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
 
                
 
-                oSheet.Range("J6", string.Concat("J", ROWS_START + d_lineas)).Style.Alignment.SetWrapText(true);
+                oSheet.Range("L6", string.Concat("L", ROWS_START + d_lineas)).Style.Alignment.SetWrapText(true);
+                oSheet.Range("K6", string.Concat("K", ROWS_START + d_lineas)).Style.Alignment.SetWrapText(true);
                 oSheet.Range("I6", string.Concat("I", ROWS_START + d_lineas)).Style.Alignment.SetWrapText(true);
-                oSheet.Range("G6", string.Concat("G", ROWS_START + d_lineas)).Style.Alignment.SetWrapText(true);
-                oSheet.Range("H6", string.Concat("H", ROWS_START + d_lineas)).Style.Alignment.SetWrapText(true);
+                oSheet.Range("J6", string.Concat("J", ROWS_START + d_lineas)).Style.Alignment.SetWrapText(true);
 
                 foreach (var item in query)
                 {
@@ -481,13 +501,15 @@ namespace CEPA.CCO.UI.Web
                     oSheet.Cell(iCurrent, 1).Value = item.c_numeral;
                     oSheet.Cell(iCurrent, 2).Value = item.tipo;
                     oSheet.Cell(iCurrent, 3).Value = item.n_contenedor;
-                    oSheet.Cell(iCurrent, 4).Value = item.f_liberacion;
-                    oSheet.Cell(iCurrent, 5).Value = item.ClaveP;
-                    oSheet.Cell(iCurrent, 6).Value = item.ClaveQ;
-                    oSheet.Cell(iCurrent, 7).Value = SanitizeXmlString(item.c_transporte);
-                    oSheet.Cell(iCurrent, 8).Value = SanitizeXmlString(item.d_naviera);
-                    oSheet.Cell(iCurrent, 9).Value = item.f_salida;
-                    oSheet.Cell(iCurrent, 10).Value = item.f_confir_salida;
+                    oSheet.Cell(iCurrent, 4).Value = item.d_buque;
+                    oSheet.Cell(iCurrent, 5).Value = item.PaisOrigen.ToUpper();
+                    oSheet.Cell(iCurrent, 6).Value = item.f_liberacion;
+                    oSheet.Cell(iCurrent, 7).Value = item.ClaveP;
+                    oSheet.Cell(iCurrent, 8).Value = item.ClaveQ;
+                    oSheet.Cell(iCurrent, 9).Value = SanitizeXmlString(item.c_transporte);
+                    oSheet.Cell(iCurrent, 10).Value = SanitizeXmlString(item.d_naviera);
+                    oSheet.Cell(iCurrent, 11).Value = item.f_salida;
+                    oSheet.Cell(iCurrent, 12).Value = item.f_confir_salida;
                     iRow = iRow + 1;
                 }
 
@@ -500,16 +522,16 @@ namespace CEPA.CCO.UI.Web
                 oSheet.Cell(string.Concat("A", ((ROWS_START+d_lineas) + 2))).Style.Font.FontColor = cxExcel.XLColor.FromArgb(0, 0, 255);
 
 
-                oSheet.Range(string.Concat("A", ((ROWS_START + d_lineas) + 3)), string.Concat("I", ((ROWS_START + d_lineas) + 7))).Merge();
+                oSheet.Range(string.Concat("A", ((ROWS_START + d_lineas) + 3)), string.Concat("L", ((ROWS_START + d_lineas) + 7))).Merge();
 
-                oSheet.Range(string.Concat("A", ((ROWS_START + d_lineas) + 3)), string.Concat("I", ((ROWS_START+d_lineas) + 7))).Value = "Favor gestionar con quien corresponda la movilización inmediata de los contenedores listados con el propósito de liberar espacios para el registro de otros contenedores CEPA se reserva el derecho de movilizarlos con sus equipos y facturar el arrendamiento de estos";
+                oSheet.Range(string.Concat("A", ((ROWS_START + d_lineas) + 3)), string.Concat("L", ((ROWS_START+d_lineas) + 7))).Value = "Favor gestionar con quien corresponda la movilización inmediata de los contenedores listados con el propósito de liberar espacios para el registro de otros contenedores CEPA se reserva el derecho de movilizarlos con sus equipos y facturar el arrendamiento de estos";
 
-                oSheet.Range(string.Concat("A", ((ROWS_START+d_lineas) + 3)), string.Concat("I", ((ROWS_START+d_lineas) + 7))).Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
-                oSheet.Range(string.Concat("A", ((ROWS_START+d_lineas) + 3)), string.Concat("I", ((ROWS_START+d_lineas) + 7))).Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
-                oSheet.Range(string.Concat("A", ((ROWS_START+d_lineas) + 3)), string.Concat("I", ((ROWS_START+d_lineas) + 7))).Style.Font.FontColor = cxExcel.XLColor.FromArgb(0, 0, 255);
-                oSheet.Range(string.Concat("A", ((ROWS_START+d_lineas) + 3)), string.Concat("I", ((ROWS_START+d_lineas) + 7))).Style.Font.Italic = true;
-                oSheet.Range(string.Concat("A", ((ROWS_START + d_lineas) + 3)), string.Concat("I", ((ROWS_START + d_lineas) + 7))).Style.Font.FontSize = 14;
-                oSheet.Range(string.Concat("A", ((ROWS_START+d_lineas) + 3)), string.Concat("I", ((ROWS_START+d_lineas) + 7))).Style.Alignment.SetWrapText(true);
+                oSheet.Range(string.Concat("A", ((ROWS_START+d_lineas) + 3)), string.Concat("L", ((ROWS_START+d_lineas) + 7))).Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+                oSheet.Range(string.Concat("A", ((ROWS_START+d_lineas) + 3)), string.Concat("L", ((ROWS_START+d_lineas) + 7))).Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+                oSheet.Range(string.Concat("A", ((ROWS_START+d_lineas) + 3)), string.Concat("L", ((ROWS_START+d_lineas) + 7))).Style.Font.FontColor = cxExcel.XLColor.FromArgb(0, 0, 255);
+                oSheet.Range(string.Concat("A", ((ROWS_START+d_lineas) + 3)), string.Concat("L", ((ROWS_START+d_lineas) + 7))).Style.Font.Italic = true;
+                oSheet.Range(string.Concat("A", ((ROWS_START + d_lineas) + 3)), string.Concat("L", ((ROWS_START + d_lineas) + 7))).Style.Font.FontSize = 14;
+                oSheet.Range(string.Concat("A", ((ROWS_START+d_lineas) + 3)), string.Concat("L", ((ROWS_START+d_lineas) + 7))).Style.Alignment.SetWrapText(true);
 
 
                 string _nombre = null;

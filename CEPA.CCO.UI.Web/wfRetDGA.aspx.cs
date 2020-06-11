@@ -93,6 +93,8 @@ namespace CEPA.CCO.UI.Web
             string respuesta = null;
             string valida = null;
 
+            string c_llegada = null, c_naviera = null;
+
             try
             {                
                 if (radio3 == 0)
@@ -105,45 +107,81 @@ namespace CEPA.CCO.UI.Web
                     {
                         if (b_observa.Length <= 254)
                         {
-                            valida = DetaNavieraDAL.ValidaContenedor(DBComun.Estado.verdadero, n_contenedor.Trim().TrimEnd().TrimStart(), DBComun.TipoBD.SqlTracking);
+                            valida = DetaNavieraDAL.ValidaContenedor(DBComun.Estado.verdadero, n_contenedor.Trim().TrimEnd().TrimStart(), DBComun.TipoBD.SqlServer);
 
                             if (valida == "VALIDO")
                             {
                                 //int valor = ValidaTarjaDAL.ValidaCantidad(n_contenedor.TrimStart().TrimEnd(), n_manifiesto, a_mani);
 
-                                ValiadaTarja _valida = new ValiadaTarja()
-                                {
-                                    Observa = b_observa.ToUpper(),
-                                    Usuario = System.Web.HttpContext.Current.Session["d_usuario"].ToString().ToUpper(),
-                                    Amanifiesto = Convert.ToInt32(a_mani),
-                                    Nmanifiesto = Convert.ToInt32(n_manifiesto),
-                                    Ncontenedor = n_contenedor
-                                };
+                                string valRet = DetaNavieraDAL.ValidRetDGA(DBComun.Estado.verdadero, n_contenedor.Trim().TrimEnd().TrimStart(), a_mani.ToString(), n_manifiesto, DBComun.TipoBD.SqlServer);
 
-                                string _resultado = inTarjaValid(_valida);
-                                if (_resultado.ToUpper().Contains("EXISTE"))
+                                if (valRet == "SIN COINCIDENCIAS")
                                 {
-                                    respuesta = "2|El número de contenedor " + n_contenedor + " ya se encuentra validado";
+                                    respuesta = "2|El contenedor especifico que no produce resultados verificar si número de manifiesto es correcto";
                                 }
-                                else if (_resultado.ToUpper().Contains("OK"))
+                                else if (valRet == "NO VALIDO")
                                 {
+                                    respuesta = "3| El contenedor ya no se encuentra en el recinto portuario";
+                                }
+                                else if(valRet == "CANCELADO")
+                                {
+                                    respuesta = "6| El contenedor fue cancelado a solicitud de la naviera";
+                                }
+                                else if (valRet == "VALIDO")
+                                {
+                                    List<EncaNaviera> pEnca = new List<EncaNaviera>();
 
-                                    respuesta = "0|Registrado Correctamente";
-                                }
-                                else
-                                {
-                                    respuesta = "5|Verificar la información introducida, y volverlo a intentar.";
+                                    pEnca = DetaNavieraDAL.getEncaContenedor(n_contenedor, a_mani.ToString(), n_manifiesto, DBComun.Estado.verdadero);
+
+                                    string ubica = null;
+                                    if (pEnca.Count > 0)
+                                    {
+                                        foreach (var item in pEnca)
+                                        {
+                                            ubica = getUbica(n_contenedor, item.c_llegada, item.c_naviera);
+                                            c_llegada = item.c_llegada;
+                                            c_naviera = item.c_naviera;
+                                            break;
+                                        }
+                                    }
+
+                                    if (ubica.Contains("Exportado"))
+                                    {
+                                        respuesta = "4| " + ubica;
+                                    }
+                                    else
+                                    {
+                                        int _resul = Convert.ToInt32(DetaNavieraDAL.upRetDGA(DBComun.Estado.verdadero, n_contenedor, a_mani.ToString(), n_manifiesto, HttpContext.Current.User.Identity.Name, b_observa));
+
+                                        if (_resul == 1)
+                                        {
+                                            string buque = null;
+                                            string cliente = null;
+                                            List<DocBuque> pDoc = new List<DocBuque>();
+                                            pDoc = DocBuqueLINQ.ObtEncDGA(c_llegada, c_naviera);
+
+                                            if (pDoc.Count > 0)
+                                            {
+                                                foreach (var item in pDoc)
+                                                {
+                                                    buque = item.d_buque;
+                                                    cliente = item.d_cliente;
+                                                    break;
+                                                }
+                                            }
+                                            EnviarCorreo(n_contenedor, buque, cliente, string.Concat(a_mani, "-", n_manifiesto), c_naviera, b_observa);
+
+                                            respuesta = "0|Registrado Correctamente";
+
+                                        }
+                                        else
+                                        {
+                                            respuesta = "5|Verificar la información introducida, y volverlo a intentar.";
+                                        }
+                                    }
+
                                 }
                             }
-                            else
-                            {
-                                
-                                respuesta = "4|El número de contenedor " + n_contenedor + " no cumple con el estandar de validación Ej. XXXU9999999";
-                            }
-                        }
-                        else
-                        {
-                            respuesta = "4|El máximo de caracteres permitidos en las observaciones es 254 ";
                         }
                     }
                     else
@@ -153,53 +191,7 @@ namespace CEPA.CCO.UI.Web
                 }
                 else
                 {
-                    if (n_contenedor.TrimStart().TrimEnd() == "" || (b_observa.TrimStart().TrimEnd() == ""))
-                    {
-                        respuesta = "1|Ingrese el número de contenedor a validar y sus observaciones";
-                    }
-                    else if (b_observa.Length <= 254)
-                     {
-                            valida = DetaNavieraDAL.ValidaContenedorShipper(DBComun.Estado.verdadero, n_contenedor.Trim().TrimEnd().TrimStart(), DBComun.TipoBD.SqlServer);
-
-
-                            if (valida == "VALIDO")
-                            {
-                                //int valor = ValidaTarjaDAL.ValidaCantidad(n_contenedor.TrimStart().TrimEnd(), n_manifiesto, a_mani);
-
-                                ValiadaTarja _valida = new ValiadaTarja()
-                                {
-                                    Observa = b_observa.ToUpper(),
-                                    Usuario = System.Web.HttpContext.Current.Session["d_usuario"].ToString().ToUpper(),
-                                    Amanifiesto = Convert.ToInt32(a_mani),
-                                    Nmanifiesto = Convert.ToInt32(n_manifiesto),
-                                    Ncontenedor = n_contenedor
-                                };
-
-                                string _resultado = inTarjaValid(_valida);
-                                if (_resultado.ToUpper().Contains("EXISTE"))
-                                {
-                                    respuesta = "2|El número de contenedor " + n_contenedor + " ya se encuentra validado";
-                                }
-                                else if (_resultado.ToUpper().Contains("OK"))
-                                {
-
-                                    respuesta = "0|Registrado Correctamente";
-                                }
-                                else
-                                {
-                                    respuesta = "5|Verificar la información introducida, y volverlo a intentar.";
-                                }
-                            }
-                            else
-                            {
-                            respuesta = "4|El número de contenedor " + n_contenedor + " no cumple con el estandar de validación Ej. XXXU9999999";
-                        }
-                        }
-                    else
-                    {
-                        
-                        respuesta = "4|El máximo de caracteres permitidos en las observaciones es 254 ";
-                    }
+                    
                 }
                 return respuesta;
             }
@@ -211,7 +203,48 @@ namespace CEPA.CCO.UI.Web
            
         }
 
-      
+        public static string getUbica(string c_contenedor, string c_llegada, string c_naviera)
+        {
+            string _contenedores = "";
+            string apiUrl = WebConfigurationManager.AppSettings["apiFox"].ToString();
+            Procedure proceso = new Procedure
+            {
+                NBase = "CONTENEDORES",
+                Procedimiento = "Sqlzonas", // "contenedor_exp"; //"Sqlentllenos"; //contenedor_exp('NYKU3806160') //"lstsalidascarga";// ('NYKU3806160')
+                Parametros = new List<Parametros>()
+            };
+            proceso.Parametros.Add(new Parametros { nombre = "llegada", valor = c_llegada });
+            proceso.Parametros.Add(new Parametros { nombre = "_contenedor", valor = c_contenedor });
+            proceso.Parametros.Add(new Parametros { nombre = "navi", valor = c_naviera });
+
+            string inputJson = JsonConvert.SerializeObject(proceso);
+            apiUrl = apiUrl + inputJson;
+            _contenedores = ConectarUb(_contenedores, apiUrl);
+            return _contenedores;
+        }
+
+        private static string ConectarUb(string _contenedores, string apiUrl)
+        {
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(apiUrl);
+            httpWebRequest.Method = WebRequestMethods.Http.Get;
+            httpWebRequest.Accept = "application/json; charset=utf-8";
+            string file = string.Empty;
+            var response = (HttpWebResponse)httpWebRequest.GetResponse();
+            //string idx = "{ "DBase":"CONTENEDORES","Servidor":null,"Procedimiento":"Sqlentllenos","Consulta":true,"Parametros":[{"nombre":"_dia","valor":"15-05-2019"}]}";
+            using (var sr = new StreamReader(response.GetResponseStream()))
+            {
+                file = sr.ReadToEnd();
+                DataTable tabla = JsonConvert.DeserializeObject<DataTable>(file) as DataTable;
+                if (tabla.Rows.Count > 0)
+                {
+                    if (!tabla.Rows[0][0].ToString().StartsWith("ERROR"))
+                    {
+                        _contenedores = tabla.Rows[0][0].ToString();
+                    }
+                }
+            }
+            return _contenedores;
+        }
 
         [WebMethod]
         [System.Web.Script.Services.ScriptMethod()]
@@ -237,6 +270,84 @@ namespace CEPA.CCO.UI.Web
             
         }
 
+        public static void EnviarCorreo(string n_contenedor, string d_buque, string c_cliente, string nmani, string c_naviera, string comentarios)
+        {
+            string Html;
+
+            EnvioCorreo _correo = new EnvioCorreo();
+            string c_prefijo = string.Empty;
+            DateTime _fecha;
+            try
+            {
+                List<UsuarioNaviera> pUser = UsuarioDAL.ObtenerUsuNavi(c_naviera);
+
+                if (pUser == null)
+                    pUser = new List<UsuarioNaviera>();
+
+
+                foreach (var itemU in pUser)
+                {
+                    c_prefijo = itemU.c_navi_corto;
+                    break;
+                }
+
+
+                Html = "<dir style=\"font-family: 'Arial'; font-size: 11px; line-height: 1.2em\">";
+                Html += "<b><u> RETENCIÓN  DE CONTENEDORES ADUANA </b></u><br />";
+                Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1em;\">";
+                Html += "<tr>";
+                _fecha = DetaNavieraLINQ.FechaBD();
+                Html += "<td style=\"text-align: left;\"><font size=2>Fecha/Hora&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</font></td>";
+                Html += "<td style=\"text-align: left;\"><font size = 2>&nbsp&nbsp;" + _fecha.ToString() + "</font></td>";
+                Html += "</tr>";
+                Html += "<tr>";
+                Html += "<td style=\"text-align: left;\" ><font size = 2>Usuario&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</font></td>";
+                Html += "<td style=\"text-align: left;\"><font size = 2>&nbsp;&nbsp;" + HttpContext.Current.User.Identity.Name + "</font></td>";
+                Html += "</tr>";
+                Html += "</table>";
+                Html += "<br />";
+
+                Html += "MÓDULO : CONTENEDOR RETENIDO POR ADUANA <br />";
+                Html += "TIPO DE MENSAJE : NOTIFICACIÓN DE CONTENEDOR RETENIDO POR ADUANA <br /><br />";
+                Html += string.Format("El contenedor {0} correspondientes al buque {1}, del manifiesto de ADUANA # {2} ha sido solicitado por ADUANA justificando que la retención es debido a: {3}", n_contenedor, d_buque, nmani, comentarios);
+                Html += "<br /><br/>";
+
+
+                
+
+                _correo.Subject = string.Format("ADUANA : Contenedor Retenido para {0} del buque {1}, Manifiesto de Aduana # {2}", c_prefijo, d_buque, nmani);
+                //_correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_detenido", DBComun.Estado.verdadero, c_naviera);
+                //List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_detenido", DBComun.Estado.verdadero, c_cliente);
+
+                //if (_listaCC == null)
+                //    _listaCC = new List<Notificaciones>();
+
+                //_listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_detenido", DBComun.Estado.verdadero, c_naviera));
+                //_listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_detenido", DBComun.Estado.verdadero, "219"));
+                //_correo.ListaCC = _listaCC;
+
+                Notificaciones noti = new Notificaciones
+                {
+                    sMail = "elsa.sosa@cepa.gob.sv",
+                    dMail = "Elsa Sosa"
+                };
+
+                List<Notificaciones> pLisN = new List<Notificaciones>();
+
+                pLisN.Add(noti);
+
+                _correo.ListaNoti = pLisN;
+
+
+                _correo.Asunto = Html;
+                _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);
+                _correo = null;
+            }
+            catch (Exception Ex)
+            {
+                throw new Exception(Ex.Message);
+            }
+        }
         protected void txtObserva_Load(object sender, EventArgs e)
         {
             txtObserva.Attributes.Add("onkeypress", " ValidarCaracteres(this, 254);");

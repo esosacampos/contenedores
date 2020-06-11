@@ -35,9 +35,10 @@ namespace CEPA.CCO.DAL
                         mes = _reader.GetString(0),
                         nmes = (int)_reader.GetInt32(1),
                         retenidos = (int)_reader.GetInt32(2),
-                        liberados = (int)_reader.GetInt32(3),
-                        pendientes = (int)_reader.GetInt32(4),
-                        ayear = (int)_reader.GetInt32(5)
+                        pendientes = (int)_reader.GetInt32(3),
+                        libmes = (int)_reader.GetInt32(4),
+                        ayear = (int)_reader.GetInt32(5),
+                        liberados = (int)_reader.GetInt32(7)
                     };
 
                     notiLista.Add(_notificacion);

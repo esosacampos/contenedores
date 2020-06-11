@@ -102,7 +102,8 @@
             padding-top: 5px;
             background-color: #f1f1f1;
             height: 100%;
-            min-height: 560px;
+            min-height: 1200px;
+
         }
 
         #anim {

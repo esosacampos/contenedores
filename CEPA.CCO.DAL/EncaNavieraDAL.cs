@@ -634,6 +634,51 @@ namespace CEPA.CCO.DAL
 
         }
 
+        public static List<EncaNaviera> ObtenerCabeceraTransAuto(DBComun.Estado pEstado)
+        {
+            List<EncaNaviera> notiLista = new List<EncaNaviera>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+                /*string consulta = @"SELECT COUNT(b.IdDoc) CantArch, a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera, ISNULL(n_manifiesto, 0)
+									FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_DOC_NAVI b ON  a.IdReg = b.IdReg
+									WHERE b_noti = 1 AND a.IdReg IN (SELECT IdReg FROM CCO_DETA_NAVIERAS WHERE b_autorizado = 1 AND b_cancelado = 0 AND b_detenido = 0)
+									GROUP BY a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera";*/
+
+                string consulta = @"SELECT a.c_llegada, a.c_imo, convert(char(10), a.f_llegada, 103) + ' 00:00:00' f_llegada
+                                    FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_DOC_NAVI b ON  a.IdReg = b.IdReg
+                                    INNER JOIN CCO_DETA_NAVIERAS z ON b.IdReg = z.IdReg AND b.IdDoc = z.IdDoc
+                                    WHERE b_noti = 1  AND b.b_estado = 1 AND b_autorizado = 1 AND b_cancelado = 0
+                                    AND c_nul IS NULL and YEAR(f_llegada) >= 2020 AND a.c_llegada <> '4.13840'
+                                    GROUP BY a.c_llegada, a.c_imo, convert(char(10), a.f_llegada, 103)
+                                    ORDER BY 3";
+
+                SqlCommand _command = new SqlCommand(consulta, _conn as SqlConnection);
+                _command.CommandType = CommandType.Text;
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    EncaNaviera _notificacion = new EncaNaviera
+                    {
+
+                        c_llegada = _reader.GetString(0),
+                        c_imo = _reader.GetString(1),
+                        f_llegada = Convert.ToDateTime(_reader.GetString(2))
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
         public static List<EncaNaviera> ObtenerCabeceraTransSw(DBComun.Estado pEstado)
         {
             List<EncaNaviera> notiLista = new List<EncaNaviera>();
@@ -1094,6 +1139,44 @@ namespace CEPA.CCO.DAL
                         Total_Trans = _reader.IsDBNull(5) ? 0 : (int)_reader.GetInt32(5),
                         Total_PTrans = _reader.IsDBNull(6) ? 0 : (int)_reader.GetInt32(6),
                         Total_Cancel = _reader.IsDBNull(7) ? 0 : (int)_reader.GetInt32(7)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
+        public static List<EncaNaviera> ObtenerIdTransAuto(DBComun.Estado pEstado, string c_llegada)
+        {
+            List<EncaNaviera> notiLista = new List<EncaNaviera>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+                /*string consulta = @"SELECT COUNT(b.IdDoc) CantArch, a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera, ISNULL(n_manifiesto, 0)
+									FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_DOC_NAVI b ON  a.IdReg = b.IdReg
+									WHERE b_noti = 1 AND a.IdReg IN (SELECT IdReg FROM CCO_DETA_NAVIERAS WHERE b_autorizado = 1 AND b_cancelado = 0 AND b_detenido = 0)
+									GROUP BY a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera";*/
+
+                SqlCommand _command = new SqlCommand("PA_ENCA_TRANSMISION_AUTO", _conn as SqlConnection);
+                _command.CommandType = CommandType.StoredProcedure;
+
+                _command.Parameters.Add(new SqlParameter("@c_llegada", c_llegada));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    EncaNaviera _notificacion = new EncaNaviera
+                    {
+
+                        c_llegada = _reader.GetString(0),
+                        c_imo = _reader.GetString(1)                        
                     };
 
                     notiLista.Add(_notificacion);

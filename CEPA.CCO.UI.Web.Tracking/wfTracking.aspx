@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="wfTracking.aspx.cs" Inherits="CEPA.CCO.UI.Web.Tracking.wfTracking" %>
+﻿  <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="wfTracking.aspx.cs" Inherits="CEPA.CCO.UI.Web.Tracking.wfTracking" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
@@ -448,6 +448,8 @@
                                                                                         <asp:BoundField DataField="f_deta_ucc" HeaderText="Liberación en Línea por UCC" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_ret_mag" HeaderText="Retención en Línea por MAG" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_lib_mag" HeaderText="Liberación por MAG" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
+                                                                                        <asp:BoundField DataField="f_retencion_dga" HeaderText="Orden de Retención en Línea por DGA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
+                                                                                        <asp:BoundField DataField="f_lib_dga" HeaderText="Orden de Liberación en Línea por DGA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_salida_carga" HeaderText="Emisión Salida de Carga por CEPA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_caseta" HeaderText="Solicitud de Ingreso del Transporte al Puerto" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_solic_ingreso" HeaderText="Asignación de Turno para Cargar en Patio CEPA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
@@ -562,7 +564,7 @@
                     Para mayor información contactar: Gerente Portuario <a href="#">Roberto de Jesús Mendoza - 7070-8013 - roberto.mendoza@cepa.gob.sv</a> / Jefe Análisis de Gestión <a href="#">Omar Ivan Castillo - 7070-8243 - omar.castillo@cepa.gob.sv</a>
                 </p>
                 <p class="text-justify" style="font-size: 11px;">
-                    Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 30 de Enero de 2020
+                    Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática - 7070-8256 - elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 20 de Abril de 2020
                 </p>
             </div>
         </footer>
@@ -628,7 +630,7 @@
                                 </div>
                             </div>
                             <div class="form-group" style="margin-bottom: 5px;">
-                                <h4 class="modal-title" style="margin-bottom: 5px;">¿Se encuentra solvente con PNC-DAN o UCC?</h4>
+                                <h4 class="modal-title" style="margin-bottom: 5px;">¿Se encuentra solvente con PNC-DAN, UCC y ADUANA?</h4>
                                 <span id="MensajeModal" style="font-weight: bold; padding: 4px; line-height: 1.5em;"></span>
                             </div>
                             <div class="form-group" style="margin-bottom: 5px;">

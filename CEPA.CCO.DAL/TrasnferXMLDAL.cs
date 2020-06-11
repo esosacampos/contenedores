@@ -712,6 +712,29 @@ namespace CEPA.CCO.DAL
             }
         }
 
+        public static string ActNotiAUTO(string c_llegada, DBComun.Estado pEstado)
+        {
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+                string _consulta = @"UPDATE CCO_ENCA_NAVIERAS
+                                    SET b_noti_t_auto = 1
+                                    WHERE c_llegada = '{0}'
+                                    SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(string.Format(_consulta, c_llegada), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
+
         public static string ActLIQUID(string c_llegada)
         {
 
@@ -823,6 +846,47 @@ namespace CEPA.CCO.DAL
 
         }
 
+        public static List<DetaNaviera> CodLlegadasGroupAuto(DBComun.Estado pEstado)
+        {
+            List<DetaNaviera> notiLista = new List<DetaNaviera>();
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+                string consulta = @"SELECT a.c_llegada
+                                    FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_NAVIERAS b ON a.IdReg = b.IdReg
+                                    INNER JOIN CCO_DETA_DOC_NAVI c ON b.IdDoc = c.IdDoc AND a.IdReg = c.IdReg  
+                                    INNER JOIN CCO_USUARIOS_NAVIERAS d ON a.c_naviera = d.c_naviera 
+                                    WHERE b.b_autorizado = 1 AND c_correlativo IS NOT NULL AND a.b_cotecna = 1 AND b_noti_t_auto = 0
+                                    GROUP BY a.c_llegada
+                                    ORDER BY A.c_llegada DESC";
+
+                SqlCommand _command = new SqlCommand(consulta, _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+
+
+                    DetaNaviera _notificacion = new DetaNaviera
+                    {
+                        c_llegada = _reader.GetString(0)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
     }
 
     public class LiquidAduanaDAL

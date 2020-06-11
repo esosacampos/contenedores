@@ -118,6 +118,7 @@
                                         <asp:Label ID="lblCondicion" runat="server" Text=''></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                <asp:BoundField DataField="s_descripcion" HeaderText="DESCRIPCION"></asp:BoundField>
                                 <asp:BoundField DataField="Ingreso" DataFormatString="{0:dd/MM/yyyy HH:mm}"
                                     HeaderText="F. INGRESO"></asp:BoundField>
                                 <asp:TemplateField HeaderText="F. DE VACIADO">

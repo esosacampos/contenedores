@@ -89,7 +89,7 @@
             padding: 7px;
             text-align: center;
             border-left: none;
-            font-family: 'trebuchet MS', 'Lucida sans', Arial;
+            /*font-family: 'trebuchet MS', 'Lucida sans', Arial;*/
         }
 
         table#myTable.ui-responsive.ui-table.ui-table-reflow tbody tr td {
@@ -99,6 +99,24 @@
             border-collapse: separate;
             border-spacing: 10px 5px;
         }
+
+        body {
+            background: #66999 url(background-photo.jpg) center center cover no-repeat fixed;
+        }
+
+        /*html {
+            overflow: hidden;
+        }*/
+
+        body {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+        [data-role=footer]{bottom:0; position:absolute !important; top: auto !important; width:100%;} 
     </style>
 </head>
 <body>
@@ -117,12 +135,12 @@
             </Scripts>
         </asp:ToolkitScriptManager>
         <div data-role="page" id="page1" data-theme="b">
-            <div data-role="header" id="headerA" data-position="fixed">
+            <div data-role="header" id="headerA" data-position="fixed" style="margin-top: 8%; background-color: #313945; padding: 2%;">
                 <a href="mfDefault.aspx" class="ui-btn ui-btn-left ui-corner-all ui-shadow ui-icon-home ui-btn-icon-left">Menu</a>
-                <h1>Recepcion Importacion</h1>
+                <h1></h1>
                 <a href="mfInicio.aspx" class="ui-btn ui-btn-right ui-corner-all ui-shadow ui-icon-power ui-btn-icon-right">Salir</a>
             </div>
-            <div data-role="content" id="content">
+            <div data-role="content" id="content" style="margin-top: 9%">
                 <asp:HiddenField ID="hMarcacion" runat="server" Value="" />
                 <label for="search"># Contenedor:</label>
                 <input type="search" name="txtConte" id="search" value="" class="form-control" placeholder="Ultimos digitos contenedor">
@@ -146,9 +164,9 @@
             </div>
 
             <div data-role="footer" data-position="fixed">
-                <%-- <div align="center">
+                <div align="center">
                     <h4>© 2016 CEPA / Puerto de Acajutla, El Salvador v1.0</h4>
-                </div>--%>
+                </div>
             </div>
         </div>
 
@@ -164,18 +182,18 @@
             </div>
 
             <div data-role="footer" data-position="fixed">
-                <%-- <div align="center">
+                <div align="center">
                     <h4>© 2016 CEPA / Puerto de Acajutla, El Salvador v1.0</h4>
-                </div>--%>
+                </div>
             </div>
         </div>
         <div data-role="page" id="page3" data-theme="b">
-            <div data-role="header" id="headerD" data-position="fixed">
+            <div data-role="header" id="headerD" data-position="fixed" style="margin-top:9%;background-color: #313945; padding: 2%;">
                 <a href="#page1" class="ui-btn ui-btn-left ui-corner-all ui-shadow ui-icon-home ui-btn-icon-left">Regresar</a>
-                <h1>Resumen Recepcion Importacion</h1>
+                <h1></h1>
                 <a href="mfInicio.aspx" class="ui-btn ui-btn-right ui-corner-all ui-shadow ui-icon-power ui-btn-icon-right">Salir</a>
             </div>
-            <div data-role="content" id="content3">
+            <div data-role="content" id="content3" style="margin-top:9%;">
                 <input id="filter" data-type="search" class="form-control">
                 <table data-role="table" class="ui-responsive filtrar" id="myRecepcion" data-filter="#filter">
                     <thead>
@@ -198,9 +216,9 @@
             </div>
 
             <div data-role="footer" data-position="fixed">
-                <%-- <div align="center">
+                <div align="center">
                     <h4>© 2016 CEPA / Puerto de Acajutla, El Salvador v1.0</h4>
-                </div>--%>
+                </div>
             </div>
         </div>
         <script>
@@ -427,43 +445,43 @@
 
                     $.ajax({
                         url: '<%=ResolveUrl("~/mfRecepcionImport.aspx/showSummary") %>',
-                            data: {},
-                            dataType: "json",
-                            type: "POST",
-                            contentType: "application/json; charset=utf-8",
-                            success: function (response) {
-                                var resumen = (typeof response.d) == "string" ? eval('(' + response.d + ')') : response.d;
-                                $("#myResumen").empty();
-                                if (resumen.length > 0) {
+                        data: {},
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (response) {
+                            var resumen = (typeof response.d) == "string" ? eval('(' + response.d + ')') : response.d;
+                            $("#myResumen").empty();
+                            if (resumen.length > 0) {
 
-                                    $("#myResumen").append('<thead><th>Llegada</th>'
-                                        + '<th>Buque</th>'
-                                        + '<th>Total</th>'
-                                        + '<th>Recepcionados</th>'
-                                        + '<th>Pendientes</th></thead>');
+                                $("#myResumen").append('<thead><th>Llegada</th>'
+                                    + '<th>Buque</th>'
+                                    + '<th>Total</th>'
+                                    + '<th>Recepcionados</th>'
+                                    + '<th>Pendientes</th></thead>');
 
-                                    $("#myResumen").append('<tbody>');
+                                $("#myResumen").append('<tbody>');
 
 
-                                    for (var b = 0; b < resumen.length; b++) {
-                                        $("#myResumen").append('<tr><td>' + resumen[b].c_llegada + '</td><td>' + resumen[b].c_buque + '</td><td>' + resumen[b].Total + '</td><td>' + resumen[b].OIRSA + '</td><td>' + resumen[b].PO + '</td></tr>');
-                                    }
-
-                                    $("#myResumen").append('</tbody>');
+                                for (var b = 0; b < resumen.length; b++) {
+                                    $("#myResumen").append('<tr><td>' + resumen[b].c_llegada + '</td><td>' + resumen[b].c_buque + '</td><td>' + resumen[b].Total + '</td><td>' + resumen[b].OIRSA + '</td><td>' + resumen[b].PO + '</td></tr>');
                                 }
-                                else {
-                                    bootbox.alert("No existe buques pendientes");
-                                }
-                            },
-                            error: function (response) {
-                                bootbox.alert("CEPA - Contenedores: Alerta!! Se ha producido un error vuelva a intertarlo o reporte a Informática");
-                            },
-                            failure: function (response) {
-                                bootbox.alert(response.responseText);
+
+                                $("#myResumen").append('</tbody>');
                             }
-                        });
-
+                            else {
+                                bootbox.alert("No existe buques pendientes");
+                            }
+                        },
+                        error: function (response) {
+                            bootbox.alert("CEPA - Contenedores: Alerta!! Se ha producido un error vuelva a intertarlo o reporte a Informática");
+                        },
+                        failure: function (response) {
+                            bootbox.alert(response.responseText);
+                        }
                     });
+
+                });
 
             });
 
@@ -482,33 +500,33 @@
                         params = JSON.stringify(params);
                         $.ajax({
                             url: '<%=ResolveUrl("~/mfRecepcionImport.aspx/GetConte") %>',
-                                data: params,
-                                dataType: "json",
-                                type: "POST",
-                                contentType: "application/json; charset=utf-8",
-                                success: function (data) {
-                                    var lista = (typeof data.d) == "string" ? eval('(' + data.d + ')') : data.d;
-                                    if (lista.length > 0) {
-                                        response($.map(data.d, function (item) {
-                                            return {
-                                                label: item.split('-')[0],
-                                                val: item.split('-')[1]
-                                            }
-                                        }))
-                                    }
-                                    else {
-                                        bootbox.alert("Busqueda no produce resultados");
-                                    }
-                                },
-                                error: function (response) {
-                                    bootbox.alert("CEPA - Contenedores: Alerta!! Se ha producido un error vuelva a intertarlo o reporte a Informática");
-                                },
-                                failure: function (response) {
-                                    bootbox.alert(response.responseText);
+                            data: params,
+                            dataType: "json",
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                var lista = (typeof data.d) == "string" ? eval('(' + data.d + ')') : data.d;
+                                if (lista.length > 0) {
+                                    response($.map(data.d, function (item) {
+                                        return {
+                                            label: item.split('-')[0],
+                                            val: item.split('-')[1]
+                                        }
+                                    }))
                                 }
-                            });
-                        }
-                    });
+                                else {
+                                    bootbox.alert("Busqueda no produce resultados");
+                                }
+                            },
+                            error: function (response) {
+                                bootbox.alert("CEPA - Contenedores: Alerta!! Se ha producido un error vuelva a intertarlo o reporte a Informática");
+                            },
+                            failure: function (response) {
+                                bootbox.alert(response.responseText);
+                            }
+                        });
+                    }
+                });
             }
         </script>
 

@@ -60,7 +60,7 @@ namespace CEPA.CCO.DAL
                 _conn.Open();
                 string _consulta = @"SELECT n_contenedor, IdDeta
                                     FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_DETA_DOC_NAVI b ON a.IdDoc = b.IdDoc
-                                    WHERE b.b_estado = 1 AND b.n_manifiesto = {0} AND a_manifiesto = '{1}' AND a.b_autorizado = 1
+                                    WHERE b.b_estado = 1 AND b.n_manifiesto = {0} AND a_manifiesto = '{1}' AND a.b_autorizado = 1 AND f_retencion_dga IS NULL
                                     AND a.n_contenedor LIKE '_______{2}%'";
 
 
@@ -90,7 +90,7 @@ namespace CEPA.CCO.DAL
                 _conn.Open();
                 string _consulta = @"SELECT a.n_contenedor, a.IdDeta, b.c_llegada
                                     FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
-                                    WHERE a.b_autorizado = 1 AND a.b_recepcion = 0 AND b_cancelado = 0 AND b.b_cotecna = 1 
+                                    WHERE a.b_autorizado = 1 AND b_contecna = 1 AND b_cancelado = 0 AND b_recepcion = 0
                                     AND a.n_contenedor LIKE '_______{0}%'
                                     ORDER BY IdDeta DESC ";
 

@@ -248,6 +248,9 @@ namespace CEPA.CCO.Entidades
 
         public string f_deta_dan { get; set; }
         public string f_deta_ucc { get; set; }
+
+        public string f_retencion_dga { get; set; }
+        public string f_lib_dga { get; set; }
     }
 
     public class ProvisionalesEnca

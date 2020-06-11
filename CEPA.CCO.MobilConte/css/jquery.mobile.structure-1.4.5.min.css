@@ -1870,7 +1870,7 @@ ul.ui-grid-a, ul.ui-grid-b, ul.ui-grid-c, ul.ui-grid-d, ul.ui-grid-solo, li.ui-b
     }
 
     .ui-navbar li .ui-btn {
-        font-size: 12.5px;
+        font-size: 2em;
         display: block;
         margin: 0;
         border-right-width: 0;

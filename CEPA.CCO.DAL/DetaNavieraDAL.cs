@@ -1354,6 +1354,8 @@ namespace CEPA.CCO.DAL
 
         }
 
+
+
         public static List<DetaNaviera> ObtenerDetalleDANL(string pTipo, int pYear)
         {
             List<DetaNaviera> notiLista = new List<DetaNaviera>();
@@ -1464,6 +1466,60 @@ namespace CEPA.CCO.DAL
 									SELECT @@ROWCOUNT";
 
                 SqlCommand _command = new SqlCommand(string.Format(consulta, pUser, f_revision, IdRevision, IdDetalle, pId), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                return _reader;
+            }
+
+        }
+
+        public static string ActualizarDGAL(DBComun.Estado pEstado, int pId, string pUser)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+
+
+
+                string consulta = @"SET DATEFORMAT DMY
+                                    UPDATE CCO_DETA_NAVIERAS 
+									SET b_dga = 0, f_lib_dga = GETDATE(), us_lib_dga = '{0}' --, s_marchamo = '{1}'  
+									WHERE IdDeta = {1} AND b_autorizado = 1 AND b_cancelado = 0; 
+									SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pUser, pId), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                return _reader;
+            }
+
+        }
+
+        public static string ActualizarTransmiAut(DBComun.Estado pEstado, int pId, string pUser)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+
+
+
+                string consulta = @"SET DATEFORMAT DMY
+                                    UPDATE CCO_DETA_NAVIERAS 
+									SET t_auto = 1  
+									WHERE IdDeta = {1} AND b_autorizado = 1 AND b_cancelado = 0; 
+									SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pUser, pId), _conn as SqlConnection)
                 {
                     CommandType = CommandType.Text
                 };
@@ -2691,6 +2747,60 @@ namespace CEPA.CCO.DAL
 
         }
 
+        public static List<TrackingEnca> GetAllOrdersByCustomer(string n_contenedor, string c_naviera, DBComun.TipoBD pBD, int a_dm, int s_dm, int c_dm, string n_mani)
+        {
+            List<TrackingEnca> list = new List<TrackingEnca>();
+
+            SqlCommand command = null;
+            using (IDbConnection _conn = DBComun.ObtenerConexion(pBD, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+
+                if (c_naviera != "11" && c_naviera != "289" && c_naviera != "216")
+                {
+                    string sql = @"SELECT a.iddeta, n_contenedor, CASE WHEN b_reef = 'Y' OR b_reef = 'N' THEN  d.d_descripcion + ' ' + 'HREF' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'U1' THEN d.d_descripcion + ' OPENTOP'  ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'T1' THEN d.d_descripcion + ' TANQUE' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'P1' THEN d.d_descripcion + ' FLAT' ELSE  CASE WHEN e.d_tipo = 'HC' THEN d.d_descripcion + ' HC' ELSE d.d_descripcion + ' ' + e.d_tipo END END END END END c_tamaño, c_naviera, b.c_llegada, f_llegada,
+                                CASE WHEN b_ret_dir = 'Y' THEN 'RETIRO DIRECTO' ELSE CASE WHEN rtrim(ltrim(b_transhipment)) = 'Y' THEN 'TRASBORDO' ELSE  'PATIO CEPA' END END b_trafico, CASE WHEN rtrim(ltrim(a.b_estado)) = 'F' THEN 'LLENO' ELSE 'VACIO' END b_estado, a_manifiesto + '-' +  CONVERT(VARCHAR(4), n_manifiesto) manifiesto
+                                FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
+                                INNER JOIN CCO_ENCA_CON_LEN d ON SUBSTRING(c_tamaño, 1, 1) = d.IdValue
+                                INNER JOIN CCO_ENCA_CON_WIDTH e ON SUBSTRING(c_tamaño, 2, 1) = e.IdValue
+                                INNER JOIN CCO_DETA_DOC_NAVI g ON a.IdDoc = g.IdDoc
+                                WHERE c_naviera = @c_naviera and n_contenedor = @n_contenedor AND YEAR(a.f_registro) >= 2015 AND g.b_estado = 1 AND a.b_autorizado = 1
+                                AND CONCAT(g.a_manifiesto, '-', g.n_manifiesto) = @n_manifiesto";
+
+                    command = new SqlCommand(sql, _conn as SqlConnection);
+                    command.Parameters.AddWithValue("@n_contenedor", n_contenedor);
+                    command.Parameters.AddWithValue("@c_naviera", c_naviera);
+                    command.Parameters.AddWithValue("@n_manifiesto", n_mani);
+                }
+                else
+                {
+                    string sql = @"SELECT a.iddeta, n_contenedor, CASE WHEN b_reef = 'Y' OR b_reef = 'N' THEN  d.d_descripcion + ' ' + 'HREF' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'U1' THEN d.d_descripcion + ' OPENTOP'  ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'T1' THEN d.d_descripcion + ' TANQUE' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'P1' THEN d.d_descripcion + ' FLAT' ELSE  CASE WHEN e.d_tipo = 'HC' THEN d.d_descripcion + ' HC' ELSE d.d_descripcion + ' ' + e.d_tipo END END END END END c_tamaño, c_naviera, b.c_llegada, f_llegada,
+                                CASE WHEN b_ret_dir = 'Y' THEN 'RETIRO DIRECTO' ELSE CASE WHEN rtrim(ltrim(b_transhipment)) = 'Y' THEN 'TRASBORDO' ELSE  'PATIO CEPA' END END b_trafico, CASE WHEN rtrim(ltrim(a.b_estado)) = 'F' THEN 'LLENO' ELSE 'VACIO' END b_estado, a_manifiesto + '-' +  CONVERT(VARCHAR(4), n_manifiesto) manifiesto
+                                FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
+                                INNER JOIN CCO_ENCA_CON_LEN d ON SUBSTRING(c_tamaño, 1, 1) = d.IdValue
+                                INNER JOIN CCO_ENCA_CON_WIDTH e ON SUBSTRING(c_tamaño, 2, 1) = e.IdValue
+                                INNER JOIN CCO_DETA_DOC_NAVI g ON a.IdDoc = g.IdDoc
+                                WHERE n_contenedor = @n_contenedor AND YEAR(a.f_registro) >= 2015 AND g.b_estado = 1 AND a.b_autorizado = 1
+                                AND CONCAT(g.a_manifiesto, '-', g.n_manifiesto) = @n_manifiesto";
+
+                    command = new SqlCommand(sql, _conn as SqlConnection);
+                    command.Parameters.AddWithValue("@n_contenedor", n_contenedor);
+                    command.Parameters.AddWithValue("@n_manifiesto", n_mani);
+                }
+
+                command.CommandType = CommandType.Text;
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    list.Add(LoadOrders(reader, pBD, a_dm, s_dm, c_dm));
+                }
+            }
+
+            return list;
+
+        }
+
         public static List<TrackingEnca> GetAllOrdersByCustomer(string n_contenedor, string c_naviera, DBComun.TipoBD pBD, string _valor)
         {
             List<TrackingEnca> list = new List<TrackingEnca>();
@@ -2910,6 +3020,8 @@ namespace CEPA.CCO.DAL
             item.f_cancelado = Convert.ToString(reader["f_cancelado"]);
             item.f_deta_dan = Convert.ToString(reader["f_lib_Dan_det"]);
             item.f_deta_ucc = Convert.ToString(reader["f_lib_UCC_det"]);
+            item.f_retencion_dga = Convert.ToString(reader["f_ret_dga"]);
+            item.f_lib_dga = Convert.ToString(reader["f_lib_dga"]);
             return item;
         }
 
@@ -2948,6 +3060,8 @@ namespace CEPA.CCO.DAL
             item.f_marchamo_ucc = Convert.ToString(reader["f_marchamo_ucc"]);
             item.f_deta_dan = Convert.ToString(reader["f_lib_Dan_det"]);
             item.f_deta_ucc = Convert.ToString(reader["f_lib_UCC_det"]);
+            item.f_retencion_dga = Convert.ToString(reader["f_ret_dga"]);
+            item.f_lib_dga = Convert.ToString(reader["f_lib_dga"]);
             //item.f_reg_aduana = Convert.ToString(reader["f_reg_aduana"]);
             //item.f_reg_selectivo = Convert.ToString(reader["f_reg_selectivo"]);
             //item.f_lib_aduana = Convert.ToDateTime(reader["f_lib_aduana"]);
@@ -2955,7 +3069,6 @@ namespace CEPA.CCO.DAL
             //item.f_lib_mag = Convert.ToDateTime(reader["f_lib_mag"]);
             return item;
         }
-
         public static List<DetaNaviera> ObtenerDetaTrans(string c_llegada)
         {
             List<DetaNaviera> notiLista = new List<DetaNaviera>();
@@ -3003,6 +3116,94 @@ namespace CEPA.CCO.DAL
             }
 
         }
+        public static List<DetaNaviera> ObtenerDetaTransAuto(string c_llegada)
+        {
+            List<DetaNaviera> notiLista = new List<DetaNaviera>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+
+                SqlCommand _command = new SqlCommand("PA_CONSUL_RECEPCION_AUT", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_llegada", c_llegada));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    DetaNaviera _notificacion = new DetaNaviera
+                    {
+                        IdDeta = _reader.GetInt32(0),
+                        c_correlativo = _reader.GetInt32(1),
+                        n_contenedor = _reader.GetString(2),
+                        c_tamaño = _reader.GetString(3),                       
+                        c_llegada = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                        c_cliente = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
+                        c_manifiesto = _reader.IsDBNull(6) ? "" : _reader.GetString(6),                     
+                        b_estado = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        s_consignatario = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
+                        b_despacho = _reader.IsDBNull(9) ? "" : _reader.GetString(9),
+                        b_manejo = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
+                        b_transferencia = _reader.IsDBNull(11) ? "" : _reader.GetString(11),
+                        v_peso = Convert.ToDouble(_reader.GetDecimal(12))
+                    };
+                    notiLista.Add(_notificacion);
+                }
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+        }
+
+        public static List<DetaNaviera> ObtenerDetaTransAutoSrv(string c_llegada)
+        {
+            List<DetaNaviera> notiLista = new List<DetaNaviera>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.falso))
+            {
+                _conn.Open();
+
+                SqlCommand _command = new SqlCommand("PA_CONSUL_RECEPCION_AUT_SRV", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_llegada", c_llegada));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    DetaNaviera _notificacion = new DetaNaviera
+                    {
+                        IdDeta = _reader.GetInt32(0),
+                        c_correlativo = _reader.GetInt32(1),
+                        n_contenedor = _reader.GetString(2),
+                        c_tamaño = _reader.GetString(3),
+                        c_llegada = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                        c_cliente = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
+                        c_manifiesto = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
+                        b_estado = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        s_consignatario = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
+                        b_despacho = _reader.IsDBNull(9) ? "" : _reader.GetString(9),
+                        b_manejo = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
+                        b_transferencia = _reader.IsDBNull(11) ? "" : _reader.GetString(11),
+                        v_peso = Convert.ToDouble(_reader.GetDecimal(12)),
+                        f_recep = Convert.ToString(_reader.GetString(13)),
+                        f_tramite_s = Convert.ToString(_reader.GetString(14))
+                    };
+                    notiLista.Add(_notificacion);
+                }
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+        }
+
 
         public static string AlmacenarSADFI(DetaNaviera pDeta, DBComun.Estado pEstado)
         {
@@ -3341,6 +3542,28 @@ namespace CEPA.CCO.DAL
                 };
 
                 _command.Parameters.Add(new SqlParameter("@c_contenedor", n_contenedor));
+
+
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
+        public static string ValidRetDGA(DBComun.Estado pEstado, string n_contenedor, string a_manifiesto, int n_mani, DBComun.TipoBD pDB)
+        {
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(pDB, pEstado))
+            {
+                _conn.Open();
+                SqlCommand _command = new SqlCommand("pa_validar_retdga", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_contenedor", n_contenedor));
+                _command.Parameters.Add(new SqlParameter("@n_mani", n_mani));
+                _command.Parameters.Add(new SqlParameter("@a_manifiesto", a_manifiesto));
 
 
                 string resultado = _command.ExecuteScalar().ToString();
@@ -4040,6 +4263,106 @@ namespace CEPA.CCO.DAL
                 _conn.Close();
             }
             return notiLista;
+
+        }
+
+        public static List<EncaNaviera> getEncaContenedor(string n_contenedor, string a_manifiesto, int n_mani, DBComun.Estado pTipo)
+        {
+            List<EncaNaviera> notiLista = new List<EncaNaviera>();    
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+
+                SqlCommand _command = new SqlCommand("pa_validar_ubicacion", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_contenedor", n_contenedor));
+                _command.Parameters.Add(new SqlParameter("@n_mani", n_mani));
+                _command.Parameters.Add(new SqlParameter("@a_manifiesto", a_manifiesto));               
+                               
+             
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    EncaNaviera _notificacion = new EncaNaviera
+                    {
+                        c_llegada = _reader.GetString(0),
+                        c_naviera = _reader.GetString(1)                     
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                //System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
+                return notiLista;
+            }
+
+        }
+
+        public static string upRetDGA(DBComun.Estado pEstado, string n_contenedor, string a_mani, int n_mani, string usuario, string comentarios)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+
+                SqlCommand _command = new SqlCommand("pa_actualizar_retdga", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@usuario", usuario));
+                _command.Parameters.Add(new SqlParameter("@comentarios", comentarios));
+                _command.Parameters.Add(new SqlParameter("@n_contenedor", n_contenedor));
+                _command.Parameters.Add(new SqlParameter("@a_mani", a_mani));
+                _command.Parameters.Add(new SqlParameter("@n_mani", n_mani));
+
+
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                return _reader;
+            }
+
+        }
+
+        public static List<DetaNaviera> getDescripcion()
+        {
+            List<DetaNaviera> notiLista = new List<DetaNaviera>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+
+                SqlCommand _command = new SqlCommand("pa_inventario_descripcion", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };        
+
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    DetaNaviera _notificacion = new DetaNaviera
+                    {
+                        IdDeta = _reader.GetInt32(0),
+                        s_comodity = _reader.IsDBNull(1) ? "" : _reader.GetString(1)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                //System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
+                return notiLista;
+            }
 
         }
     }
