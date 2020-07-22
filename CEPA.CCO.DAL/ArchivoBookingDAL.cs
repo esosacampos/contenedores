@@ -75,10 +75,10 @@ namespace CEPA.CCO.DAL
                             {
                                 num_fila = num_fila,
                                 //num_manif = (int)_reader.GetDouble(0),
-                                shipment = _reader.IsDBNull(0) ? "" : Valor.ToString(),
-                                n_contenedor = _reader.IsDBNull(1) ? "" : _reader.GetString(1),                              
-                                n_sello = _reader.IsDBNull(2) ? "" : Valor3.ToString()
-                                
+                                shipment = _reader.IsDBNull(0) ? "" : Valor.ToString().Trim().TrimEnd().TrimStart(),
+                                n_contenedor = _reader.IsDBNull(1) ? "" : _reader.GetString(1).Trim().TrimEnd().TrimStart(),                              
+                                n_sello = _reader.IsDBNull(2) ? "" : Valor3.ToString().Trim().TrimEnd().TrimStart()
+
                             };
                             listaArch.Add(_tmpArc);
                             num_fila = num_fila + 1;

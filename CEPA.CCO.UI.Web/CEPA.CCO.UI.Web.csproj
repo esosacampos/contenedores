@@ -289,12 +289,14 @@
     <Content Include="Fonts\MuseoSans-300[1].otf" />
     <Content Include="Fonts\MuseoSans_500.otf" />
     <Content Include="Fonts\MuseoSans_900.otf" />
+    <Content Include="RptIngreso.xlsx" />
     <None Include="Service References\CepaSW\configuration91.svcinfo" />
     <None Include="Service References\CepaSW\configuration.svcinfo" />
     <None Include="Service References\CepaSW\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="wfRptIngreso.aspx" />
     <Content Include="wfTransmisionAutoD.aspx" />
     <Content Include="wfTransmisionAutoP.aspx" />
     <Content Include="wfConsulBL.aspx" />
@@ -750,6 +752,13 @@
     </Compile>
     <Compile Include="wfAlertaDAN.aspx.designer.cs">
       <DependentUpon>wfAlertaDAN.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfRptIngreso.aspx.cs">
+      <DependentUpon>wfRptIngreso.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfRptIngreso.aspx.designer.cs">
+      <DependentUpon>wfRptIngreso.aspx</DependentUpon>
     </Compile>
     <Compile Include="wfTransmisionAutoD.aspx.cs">
       <DependentUpon>wfTransmisionAutoD.aspx</DependentUpon>

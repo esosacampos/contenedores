@@ -393,9 +393,9 @@ namespace CEPA.CCO.Linq
                     {
 
                         num_fila = item.num_fila,
-                        shipment = item.shipment,
-                        n_contenedor = item.n_contenedor,
-                        n_sello = item.n_sello
+                        shipment = item.shipment.Trim().TrimEnd().TrimStart(),
+                        n_contenedor = item.n_contenedor.Trim().TrimEnd().TrimStart(),
+                        n_sello = item.n_sello.Trim().TrimEnd().TrimStart()
                     };
 
                     List<ResultadoValidacion> resulVal = ResultadoValidacionDAL.ValidarBooking(_Archivo);

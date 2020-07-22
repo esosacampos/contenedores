@@ -1051,10 +1051,13 @@ namespace CEPA.CCO.Linq
         public static List<TrackingEnca> ObtenerTracking_Cliente(string n_contenedor, string c_naviera, string n_mani, int a_dm, int s_dm, int c_dm)
         {
             string _valor = "NULO";
+            
+                List<TrackingEnca> pEncaT = new List<TrackingEnca>();
+                List<EncaBuque> pBuques = new List<EncaBuque>();
+                pEncaT = DetaNavieraDAL.GetAllOrdersByCustomer(n_contenedor, c_naviera, DBComun.TipoBD.SqlTracking, a_dm, s_dm, c_dm, n_mani);
 
-            List<TrackingEnca> pEncaT = new List<TrackingEnca>();
-            List<EncaBuque> pBuques = new List<EncaBuque>();
-            pEncaT = DetaNavieraDAL.GetAllOrdersByCustomer(n_contenedor, c_naviera, DBComun.TipoBD.SqlTracking, a_dm, s_dm, c_dm, n_mani);
+
+                
 
 
             var lParam = new List<string>();
@@ -1065,9 +1068,12 @@ namespace CEPA.CCO.Linq
                 lParam.Add(cLlega.c_llegada);
             }
 
+
             pBuques = EncaBuqueDAL.ObtenerBuquesJoinIN(DBComun.Estado.verdadero, "atraque", lParam);
 
-            var query = (from a in pEncaT
+
+
+                   var query = (from a in pEncaT
                          join b in pBuques on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
                          select new TrackingEnca
                          {
@@ -1089,9 +1095,11 @@ namespace CEPA.CCO.Linq
                                         select new
                                         {
                                             c_tarja = (c.c_tarja == null ? string.Empty : c.c_tarja)
-                                        }).Max(x=> x.c_tarja),
+                                        }).Max(x => x.c_tarja),
                              b_requiere = a.b_requiere
                          }).OrderByDescending(g => g.IdDeta).ToList();
+
+
 
             List<Tarjas> encaTarjas = new List<Tarjas>();
 
@@ -1258,7 +1266,7 @@ namespace CEPA.CCO.Linq
                                      con_tarjas = tarjasGroup.Max(x => x.con_tarjas),
                                      c_tarjas = tarjasGroup.Max(x => x.c_tarja)
                                  };
-                             
+
                 var quer = (from a in pEnca
                             join b in teamTarjas on a.c_llegada equals b.c_llegada
                             select new
@@ -1370,7 +1378,7 @@ namespace CEPA.CCO.Linq
             pEnca = Newtonsoft.Json.JsonConvert.DeserializeObject<List<TrackingEnca>>(jConsult);
 
             return pEnca;
-
+        
 
 
         }
@@ -1682,6 +1690,32 @@ namespace CEPA.CCO.Linq
                              a_manifiesto = a.a_manifiesto,
                              IdDoc = a.IdDoc
                          }).OrderBy(g => g.c_cliente).ToList();
+
+
+            return query;
+        }
+
+        public static List<RptIngreImport> detalleRptIngreso(int pYear, int pMes, string pTipo)
+        {
+            List<RptIngreImport> lista = new List<RptIngreImport>();
+
+            RptIngreImport _encaBL = new RptIngreImport();
+
+            var query = (from a in TipoSolicitudDAL.ObtenerDetaRptIng(pYear, pMes, pTipo)
+                         join b in EncaBuqueDAL.ObtenerBuquesJoin(DBComun.Estado.verdadero) on new { c_cliente = a.c_naviera, c_llegada = a.c_llegada } equals new { c_cliente = b.c_cliente, c_llegada = b.c_llegada }
+                         select new RptIngreImport
+                         {
+                            IdDeta =a.IdDeta,
+                            d_buque = b.d_buque,
+                             n_contenedor = a.n_contenedor,
+                             p_procedencia = a.p_procedencia,
+                             s_consignatario = a.s_consignatario,
+                             s_mercaderia = a.s_mercaderia,
+                             f_retencion = a.f_retencion,
+                             f_liberacion = a.f_liberacion,
+                             b_cancelado = a.b_cancelado,
+                             navicorto = a.navicorto
+                         }).OrderBy(g => g.navicorto).ToList();
 
 
             return query;

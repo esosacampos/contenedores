@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.SqlServer.Server;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -52,6 +54,27 @@ namespace CEPA.CCO.Entidades
         public string ClaveP { get; set; }
         public int Total { get; set; }
         public int Cantidad { get; set; }
+
+    }
+
+    public class RptIngreImport
+    {
+        public int IdDeta { get; set; }
+        public string c_llegada { get; set; }
+        public string n_contenedor { get; set; }
+        public string p_procedencia { get; set; }
+        public string navicorto { get; set; }
+
+        public string s_consignatario { get; set; }
+
+        public string s_mercaderia { get; set; }
+
+        public string f_retencion { get; set; }
+        public string f_liberacion { get; set; }
+
+        public string b_cancelado { get; set; }
+        public string d_buque { get; set; }
+        public string  c_naviera { get; set; }
 
     }
 

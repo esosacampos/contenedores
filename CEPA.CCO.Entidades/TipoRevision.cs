@@ -14,6 +14,20 @@ namespace CEPA.CCO.Entidades
         public int Hab { get; set; }
     }
 
+    public class Yearss
+    {
+        public int IdValue { get; set; }
+
+        public int sYearss { get; set; }
+    }
+
+    public class Months
+    {
+        public int Mes { get; set; }
+
+        public string s_mes { get; set; }
+    }
+
     public class AgenteDAN
     {
         public int IdAgente {get;set;}

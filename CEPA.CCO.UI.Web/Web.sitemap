@@ -20,6 +20,7 @@
       <siteMapNode url="~/DAN/wfDetalleDANL.aspx" title="Liberar Contenedores"  description="" />
       <siteMapNode url="~/DAN/wfGenerarOficio.aspx" title="Generar Oficio"  description="" />
       <siteMapNode url="~/DAN/wfTipoRevision.aspx" title="Tipo De Revision"  description="" />
+      <siteMapNode url="~/wfRptIngreso.aspx" title="Reporte Consolidado Mensual"  description="" />
     </siteMapNode>
     <siteMapNode url="" title="Facturacion"  description="Facturacion">
       <siteMapNode url="wfValidaTarja.aspx" title="Autorizacion Manual De Despacho De Contenedor"  description="" />

@@ -1765,9 +1765,9 @@ namespace CEPA.CCO.Linq
                                 {
                                     IdDetaBooking = -1,
                                     IdBooking = _resultado,
-                                    shipment_name = item.shipment,
-                                    n_contenedor = item.n_contenedor,
-                                    n_sello = item.n_sello,
+                                    shipment_name = item.shipment.Trim().TrimEnd().TrimStart(),
+                                    n_contenedor = item.n_contenedor.Trim().TrimEnd().TrimStart(),
+                                    n_sello = item.n_sello.Trim().TrimEnd().TrimStart(),
                                     b_estado = true,
                                     b_marca = false
                                 };

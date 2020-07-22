@@ -187,5 +187,108 @@ namespace CEPA.CCO.DAL
 
             }
         }
+
+
+        public static List<Yearss> ObtenerYears(string pTipo)
+        {
+            List<Yearss> list = new List<Yearss>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                SqlCommand _command = new SqlCommand("PA_OBTENER_YEARS", _conn as SqlConnection);
+                _command.CommandType = CommandType.StoredProcedure;
+
+                _command.Parameters.Add(new SqlParameter("@Tipo", pTipo));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    Yearss _tmp = new Yearss
+                    {
+                        IdValue = (int)_reader.GetInt32(0),
+                        sYearss = (int)_reader.GetInt32(1)
+                    };
+
+                    list.Add(_tmp);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return list;
+            }
+        }
+
+        public static List<Months> ObtenerMeses()
+        {
+            List<Months> list = new List<Months>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                SqlCommand _command = new SqlCommand("PA_OBTENER_MESES", _conn as SqlConnection);
+                _command.CommandType = CommandType.StoredProcedure;
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    Months _tmp = new Months
+                    {
+                        Mes = (int)_reader.GetInt32(0),
+                        s_mes = _reader.GetString(1)
+                    };
+
+                    list.Add(_tmp);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return list;
+            }
+        }
+
+        public static List<RptIngreImport> ObtenerDetaRptIng(int pYears, int pMes, string pTipo)
+        {
+            List<RptIngreImport> list = new List<RptIngreImport>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                SqlCommand _command = new SqlCommand("PA_DAN_REPORTE", _conn as SqlConnection);
+                _command.CommandType = CommandType.StoredProcedure;
+
+                _command.Parameters.Add(new SqlParameter("@year", pYears));
+                _command.Parameters.Add(new SqlParameter("@mes", pMes));
+                _command.Parameters.Add(new SqlParameter("@Tipo", pTipo));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    RptIngreImport _tmp = new RptIngreImport
+                    {
+                        IdDeta = (int)_reader.GetInt32(0),
+                        c_llegada = _reader.GetString(1),
+                        n_contenedor = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
+                        p_procedencia = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        s_consignatario = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                        s_mercaderia = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
+                        f_retencion = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
+                        f_liberacion = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        b_cancelado = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
+                        navicorto = _reader.IsDBNull(9) ? "" : _reader.GetString(9),
+                        c_naviera = _reader.IsDBNull(10) ? "" : _reader.GetString(10)
+                    };
+
+                    list.Add(_tmp);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return list;
+            }
+        }
     }
 }
