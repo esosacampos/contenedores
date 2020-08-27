@@ -2864,7 +2864,9 @@ namespace CEPA.CCO.DAL
                 b_trafico = Convert.ToString(reader["b_trafico"]),
                 n_manifiesto = Convert.ToString(reader["manifiesto"]),
                 b_cancelado = Convert.ToString(reader["b_cancelado"]),
-                b_requiere = Convert.ToString(reader["c_tipo_bl"])
+                b_requiere = Convert.ToString(reader["c_tipo_bl"]),
+                b_shipper = Convert.ToString(reader["b_shipper"]),
+                pais_origen =  Convert.ToString(reader["PaisOrigen"])
             };
             item.TrackingList = GetOrderDetailsByOrder(item.IdDeta, pBD, item.n_manifiesto, _valor);
 
@@ -3924,7 +3926,12 @@ namespace CEPA.CCO.DAL
                         n_contenedor = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
                         TipoEstado = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
                         f_aduana = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
-                        Descripcion = _reader.IsDBNull(6) ? "" : _reader.GetString(6)
+                        Descripcion = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
+                        s_consignatario = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        n_bl = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
+                        n_nit = _reader.IsDBNull(9) ? "" : _reader.GetString(9),
+                        s_descripcion = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
+                        s_tipo = _reader.IsDBNull(11) ? "" : _reader.GetString(11)
                     };
 
                     notiLista.Add(_notificacion);
@@ -3977,7 +3984,12 @@ namespace CEPA.CCO.DAL
                         n_contenedor = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
                         TipoEstado = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
                         f_aduana = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
-                        Descripcion = _reader.IsDBNull(5) ? "" : _reader.GetString(5)
+                        Descripcion = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
+                        s_consignatario = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
+                        n_bl = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        n_nit = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
+                        s_descripcion = _reader.IsDBNull(9) ? "" : _reader.GetString(9),
+                        s_tipo = _reader.IsDBNull(10) ? "" : _reader.GetString(10)
                     };
 
                     notiLista.Add(_notificacion);

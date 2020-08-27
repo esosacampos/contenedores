@@ -14,7 +14,8 @@ using System.Threading;
 using System.Globalization;
 using System.Drawing;
 using System.Web.Services;
-
+using System.Reflection;
+using Microsoft.Reporting.WebForms;
 
 namespace CEPA.CCO.UI.Web
 {
@@ -23,6 +24,7 @@ namespace CEPA.CCO.UI.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             //ScriptManager.RegisterStartupScript(this, typeof(string), "getYearD", "getYear();", true);
+         
 
             if (!IsPostBack)
             {
@@ -30,12 +32,27 @@ namespace CEPA.CCO.UI.Web
                 {
 
                     txtYear.Text = DateTime.Now.ToString("yyyy");
-                    Cargar();
+                    
+                    //Cargar();
                     
                 }
                 catch (Exception ex)
                 {
                     ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + ex.Message + "');", true);
+                }
+
+
+            }
+            hConte.Value = "";
+            if (Session["n_conte"] != null)
+            {
+                hConte.Value = Session["n_conte"].ToString();
+
+                if (hConte.Value.Length > 0)
+                {
+                    txtConte.Value = hConte.Value;
+                    Filtrar();
+                    Session["n_conte"] = "";
                 }
             }
         }
@@ -136,34 +153,48 @@ namespace CEPA.CCO.UI.Web
             }
         }
 
-        protected void btnFiltrar_Click(object sender, EventArgs e)
+        public void btnFiltrar_Click(object sender, EventArgs e)
+        {
+            Filtrar();
+
+        }
+
+        private void Filtrar()
         {
             try
             {
                 if (Convert.ToInt32(txtYear.Text) >= 2016)
                 {
-                    if (Request.Form["txtConte"].Length == 0 && Request.Form["txtDecla"].Length == 0)
+                    if (txtConte.Value.Length == 0 && Request.Form["txtDecla"].Length == 0)
                     {
                         throw new Exception("Debe indicar contenedor o # declaración a buscar");
                     }
                     else
                     {
-                        GridView1.DataSource = DetaNavieraDAL.getDeclaracionesFilter(DBComun.Estado.verdadero, Request.Form["txtConte"], Request.Form["txtDecla"], Convert.ToInt32(txtYear.Text));
+                        GridView1.DataSource = DetaNavieraDAL.getDeclaracionesFilter(DBComun.Estado.verdadero, txtConte.Value, Request.Form["txtDecla"], Convert.ToInt32(txtYear.Text));
                         GridView1.DataBind();
 
-                        GridView1.HeaderRow.Cells[0].Attributes["data-class"] = "expand";
+                        if (GridView1.Rows.Count > 0)
+                        {
+                            GridView1.HeaderRow.Cells[0].Attributes["data-class"] = "expand";
 
-                        // GridView1.HeaderRow.Cells[1].Attributes["data-hide"] = "phone";
-                        GridView1.HeaderRow.Cells[3].Attributes["data-hide"] = "phone";
-                        GridView1.HeaderRow.Cells[4].Attributes["data-hide"] = "phone";
-                        GridView1.HeaderRow.Cells[5].Attributes["data-hide"] = "phone";
+                            // GridView1.HeaderRow.Cells[1].Attributes["data-hide"] = "phone";
+                            GridView1.HeaderRow.Cells[3].Attributes["data-hide"] = "phone";
+                            GridView1.HeaderRow.Cells[4].Attributes["data-hide"] = "phone";
+                            GridView1.HeaderRow.Cells[5].Attributes["data-hide"] = "phone";
 
-                        //GridView1.HeaderRow.Cells[8].Attributes["data-hide"] = "phone";
+                            //GridView1.HeaderRow.Cells[8].Attributes["data-hide"] = "phone";
 
-                        GridView1.HeaderRow.TableSection = TableRowSection.TableHeader;
+                            GridView1.HeaderRow.TableSection = TableRowSection.TableHeader;
 
-                        GridView1.FooterRow.Cells[0].Attributes["text-align"] = "center";
-                        GridView1.FooterRow.TableSection = TableRowSection.TableFooter;
+                            GridView1.FooterRow.Cells[0].Attributes["text-align"] = "center";
+                            GridView1.FooterRow.TableSection = TableRowSection.TableFooter;
+                        }
+                        else
+                        {
+                            throw new Exception("La búsqueda no produjó resultados, podría no poseerse transmisiones hasta el momento de está consulta.");
+                        }
+                            
                     }
                 }
                 else
@@ -177,7 +208,6 @@ namespace CEPA.CCO.UI.Web
                 Cargar();
                 ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + ex.Message + "');", true);
             }
-            
         }
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -185,7 +215,7 @@ namespace CEPA.CCO.UI.Web
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
 
-                string trans = e.Row.Cells[4].Text;
+                string trans = e.Row.Cells[5].Text;
 
                 if (trans.TrimEnd().TrimStart() == "ROJO")
                 {

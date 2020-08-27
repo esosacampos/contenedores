@@ -174,14 +174,19 @@ namespace CEPA.CCO.DAL
                 _conn.Open();
                 string _consulta = @"SELECT CONCAT(a_decla, '-', s_decla, '-', c_decla) n_declaracion, MAX(a.IdRegAduana) IdReg
                                     FROM CCO_ESTADOS_DECLA a 
-                                    WHERE CONCAT(a_decla, '-', s_decla, '-', c_decla) LIKE '_______{0}%' AND YEAR(f_reg_aduana) = {1}
+                                    WHERE a_decla is not null and CONCAT(a_decla, '-', s_decla, '-', c_decla) LIKE '_______{0}%' AND YEAR(f_reg_aduana) = {1}
                                     GROUP BY a_decla, s_decla, c_decla 
+                                    union all
+                                    SELECT CONCAT(a_transito, '-', r_transito) n_declaracion, MAX(a.IdRegAduana) IdReg
+                                    FROM CCO_ESTADOS_DECLA a 
+                                    WHERE a_transito is not null and CONCAT(a_transito, '-', r_transito) LIKE '%{2}' AND YEAR(f_reg_aduana) = {3}
+                                    GROUP BY a_transito, r_transito
                                     ORDER BY 1 ";
 
 
 
 
-                SqlCommand _command = new SqlCommand(string.Format(_consulta, prefix, years), _conn as SqlConnection);
+                SqlCommand _command = new SqlCommand(string.Format(_consulta, prefix, years, prefix, years), _conn as SqlConnection);
                 _command.CommandType = CommandType.Text;
 
                 SqlDataReader _reader = _command.ExecuteReader();

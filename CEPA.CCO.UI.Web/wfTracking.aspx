@@ -200,7 +200,7 @@
     <br />
     <div class="col-lg-12">
         <div class="form-inline">
-            <div class="form-group" style="width:75%">
+            <div class="form-group" style="width: 70%">
                 <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" placeholder="# de contenedor sin guiones" autocomplete="off" Width="100%"></asp:TextBox>
             </div>
             <div class="form-group">
@@ -214,6 +214,9 @@
             <div class="form-group">
                 <asp:Button ID="btnBuscar" runat="server" Text="Consultar" CssClass="btn btn-default"
                     OnClick="btnBuscar_Click" />
+                <asp:Button ID="btnConsultar" runat="server" Text="D/T Asociados" CssClass="btn btn-success"
+                    OnClick="btnConsultar_Click" Visible="false" OnClientClick="return confirmaSave(this.id);" />
+                <%--<button runat="server" id="btnConsultar" onclick="window.open('_blank', 'wfConsulDecla.aspx', 'width=100,height=100');">Asociados</button>--%>
                 <%--<input type="button" id="exportpdf" value="Imprimir" class="btn btn-info">  OnClientClick="return confirmaSave(this.id);"--%>
                 <%--<asp:Button ID="btnImprime" runat="server" Text="Imprimir" CssClass="btn btn-info" OnClick="btnImprime_Click"  />--%>
                 <asp:HiddenField ID="txtPrint" runat="server" />
@@ -243,11 +246,13 @@
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <%--<asp:BoundField DataField="IdDeta" HeaderText="Id"></asp:BoundField>--%>
-                            <asp:BoundField DataField="n_manifiesto" HeaderText="# Manifiesto"></asp:BoundField>
-                            <asp:BoundField DataField="c_llegada" HeaderText="Cod. Llegada"></asp:BoundField>
+                            <asp:BoundField DataField="n_manifiesto" HeaderText="# MANIFIESTO"></asp:BoundField>
+                            <asp:BoundField DataField="c_llegada" HeaderText="COD. Llegada"></asp:BoundField>
                             <asp:BoundField DataField="n_contenedor" HeaderText="# CONTENEDOR"></asp:BoundField>
                             <asp:BoundField DataField="c_tarja" HeaderText="# TARJA"></asp:BoundField>
                             <asp:BoundField DataField="b_requiere" HeaderText="ENTREGA"></asp:BoundField>
+                            <asp:BoundField DataField="b_shipper" HeaderText="SHIPPER OWNER"></asp:BoundField>
+                            <asp:BoundField DataField="pais_origen" HeaderText="P. ORIGEN"></asp:BoundField>
                             <asp:BoundField DataField="c_tamaño" HeaderText="TAMAÑO"></asp:BoundField>
                             <asp:BoundField DataField="b_estado" HeaderText="ESTADO"></asp:BoundField>
                             <asp:BoundField DataField="b_trafico" HeaderText="TRAFICO"></asp:BoundField>
@@ -262,6 +267,13 @@
                                     </button>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                            <%-- <asp:TemplateField>
+                                <ItemTemplate>
+                                    <button type="button" class="btn btn-primary btn xs" onclick="return goDecla(this)" id="tooltop" data-toggle="tooltip" data-placement="top" data-original-title="Consultar el estado para despachar su contenedor">
+                                        <span class="glyphicon glyphicon-barcode" style="cursor: pointer;"></span>
+                                    </button>                                    
+                                </ItemTemplate>
+                            </asp:TemplateField>--%>
                             <%--      <asp:BoundField DataField="n_contenedor" HeaderText="" ReadOnly="True"></asp:BoundField>
                             <asp:BoundField DataField="c_naviera" HeaderText="" ReadOnly="True"></asp:BoundField>--%>
                             <asp:TemplateField>
@@ -304,9 +316,9 @@
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_deta_ucc" HeaderText="F. Liberación UCC" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
-                                                         <asp:BoundField DataField="f_retencion_dga" HeaderText="F. Orden de Retención DGA" ReadOnly="True"
+                                                        <asp:BoundField DataField="f_retencion_dga" HeaderText="F. Orden de Retención DGA" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
-                                                         <asp:BoundField DataField="f_lib_dga" HeaderText="F. Liberación DGA" ReadOnly="True"
+                                                        <asp:BoundField DataField="f_lib_dga" HeaderText="F. Liberación DGA" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_salida_carga" HeaderText="F. Salida de Carga" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
@@ -397,6 +409,7 @@
                 </ContentTemplate>
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="btnBuscar" EventName="Click" />
+                    <asp:AsyncPostBackTrigger ControlID="btnConsultar" EventName="Click" />
                     <%--<asp:PostBackTrigger ControlID="btnImprime"/>--%>
                 </Triggers>
             </asp:UpdatePanel>
@@ -542,12 +555,10 @@
             <button type="button" data-dismiss="modal" class="btn btn-default">Cerrar</button>
             <button type="button" class="btn btn-primary">Ok</button>
         </div>
+
     </div>
+      <!-- Modal Declaraciones -->
 
-    <!-- Modal Declaraciones -->
-
-    </span>
-   
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     <script type="text/javascript" src="<%= ResolveUrl("~/Scripts/jquery.blockui.js") %>"></script>
@@ -612,6 +623,9 @@
 
                 var a = postbackElement;
 
+                $('#ContentPlaceHolder1_grvTracking').footable();
+                $("#ContentPlaceHolder1_grvTracking tbody > tr#rowF").css("display", "none");
+
                 var a = Sys.WebForms.PageRequestManager.getInstance().get_isInAsyncPostBack();
                 if (!Sys.WebForms.PageRequestManager.getInstance().get_isInAsyncPostBack()) {
                     //__doPostBack('btnCargar', '');
@@ -621,10 +635,14 @@
                     //setTimeout(function () { location.reload(); }, 1000);
                     //pageLoad();
                     //$("#GridView1").load(location.href + " #GridView1");
+                    $('#ContentPlaceHolder1_grvTracking').footable();
+                    $("#ContentPlaceHolder1_grvTracking tbody > tr#rowF").css("display", "none");
                 }
 
                 $.unblockUI();
+              
                 $('#myModal').unblock();
+                
 
             });
         };
@@ -648,7 +666,7 @@
             var e = HTMLContent.innerHTML.substr((x + x + 1), x);
             var acumula;
 
-            bootbox.confirm("¿Seguro que desea imprimir?", function (result) {
+            bootbox.confirm("¿Seguro que desea consultar documentos asociados?", function (result) {
                 if (result) {
                     if (controlID != null) {
                         var controlToClick = document.getElementById(controlID);
@@ -668,6 +686,14 @@
             });
 
             return false;
+        }
+
+        function goDecla(lnk) {
+            var row = lnk.parentNode.parentNode;
+            var contenedor = row.cells[3].innerHTML;
+            $.session.set("n_conte", contenedor);
+            bootbox.alert($.session.get("n_conte"));
+            window.open('wfConsulDecla.aspx', 'popup', 'width=800,height=500');
         }
 
         function GetSelectedRow(lnk) {
@@ -1457,7 +1483,28 @@
             return so;
         }
 
+        var confirmed = false;
+        function confirmaSave(controlID) {
+            if (confirmed) { return true; }
 
+            bootbox.confirm("En este momento se cargan las declaraciones o transitos asociados ¿Desea continuar?", function (result) {
+                if (result) {
+                    if (controlID != null) {
+                        var controlToClick = document.getElementById(controlID);
+                        if (controlToClick != null) {
+                            confirmed = true;
+                            controlToClick.click();
+                            confirmed = false;
+                        }
+                    }
+                } else {
+                    bootbox.alert("De no continuar con el cambio puede dar F5 para actualizar")
+                }
+
+            });
+
+            return false;
+        }
 
         function pageLoad() {
             $(document).ready(function () {

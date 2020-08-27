@@ -7,11 +7,13 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace CEPA.CCO.UI.Web {
-    
-    
-    public partial class wfTracking {
-        
+namespace CEPA.CCO.UI.Web
+{
+
+
+    public partial class wfTracking
+    {
+
         /// <summary>
         /// Control txtBuscar.
         /// </summary>
@@ -20,7 +22,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBuscar;
-        
+
         /// <summary>
         /// Control myRadio.
         /// </summary>
@@ -29,7 +31,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl myRadio;
-        
+
         /// <summary>
         /// Control radio3.
         /// </summary>
@@ -38,7 +40,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox radio3;
-        
+
         /// <summary>
         /// Control btnBuscar.
         /// </summary>
@@ -47,7 +49,16 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnBuscar;
-        
+
+        /// <summary>
+        /// Control btnConsultar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnConsultar;
+
         /// <summary>
         /// Control txtPrint.
         /// </summary>
@@ -56,7 +67,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField txtPrint;
-        
+
         /// <summary>
         /// Control txtPrint1.
         /// </summary>
@@ -65,7 +76,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField txtPrint1;
-        
+
         /// <summary>
         /// Control txtPrint2.
         /// </summary>
@@ -74,7 +85,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField txtPrint2;
-        
+
         /// <summary>
         /// Control printArea.
         /// </summary>
@@ -83,7 +94,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl printArea;
-        
+
         /// <summary>
         /// Control EmployeesUpdatePanel.
         /// </summary>
@@ -92,7 +103,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel EmployeesUpdatePanel;
-        
+
         /// <summary>
         /// Control grvTracking.
         /// </summary>
@@ -101,7 +112,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grvTracking;
-        
+
         /// <summary>
         /// Control Label3.
         /// </summary>
@@ -110,7 +121,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label3;
-        
+
         /// <summary>
         /// Control lblMensaje.
         /// </summary>
@@ -119,7 +130,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblMensaje;
-        
+
         /// <summary>
         /// Control Label1.
         /// </summary>
@@ -128,7 +139,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label1;
-        
+
         /// <summary>
         /// Control Label2.
         /// </summary>

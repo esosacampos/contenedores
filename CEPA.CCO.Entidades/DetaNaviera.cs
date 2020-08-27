@@ -173,6 +173,13 @@ namespace CEPA.CCO.Entidades
         public string Descripcion { get; set; }
         public string f_aduana { get; set; }
         public int IdRegAduana { get; set; }
+
+        public string s_descripcion { get; set; }
+        public string n_bl { get; set; }
+        public string n_nit { get; set; }
+        public string s_consignatario { get; set; }
+
+        public string s_tipo { get; set; }
     }
 
     public class TrackingEnca
@@ -201,6 +208,10 @@ namespace CEPA.CCO.Entidades
         public int con_tarjas { get; set; }
 
         public string b_requiere { get; set; }
+
+        public string b_shipper { get; set; }
+
+        public string pais_origen { get; set; }
 
     }
 

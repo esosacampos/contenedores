@@ -41,8 +41,50 @@ namespace CEPA.CCO.UI.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Page.IsPostBack)
+            {
+                if (Session["c_naviera"].ToString() == "289")
+                    btnConsultar.Visible = true;                    
+                else
+                    btnConsultar.Visible = false;
+            }
 
         }
+
+        protected void btnConsultar_Click(object sender, EventArgs e)
+        {
+            //Response.Redirect("wfConsulDecla.aspx");
+            //string vtn = "window.open('wfConsulDecla.aspx','Dates','scrollbars=yes,resizable=yes','height=300', 'width=300')";
+            //ScriptManager.RegisterStartupScript(this, this.GetType(), "popup", vtn, true);
+            try
+            {
+                if (txtBuscar.Text.Length == 11)
+                {
+                    string valida = DetaNavieraDAL.ValidaContenedor(DBComun.Estado.verdadero, txtBuscar.Text.Trim().TrimEnd().TrimStart(), DBComun.TipoBD.SqlServer);
+
+                    if (valida == "VALIDO")
+                    {
+                        Session["n_conte"] = txtBuscar.Text;
+                        //Response.Write("<script>window.open('wfConsulDecla.aspx','popup','width=800,height=500');</script>");
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "", "window.open('wfConsulDecla.aspx','popup','width=800,height=500');", true);
+                    }
+                }
+                else
+                {
+                    throw new Exception("Debe indicar el número de contenedor a consultar");
+                }
+            }
+            catch (Exception ex)
+            {
+                ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + ex.Message + "');", true);
+            }
+            finally
+            {
+                //Session["n_conte"] = "";
+            }
+
+        }
+
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -64,8 +106,6 @@ namespace CEPA.CCO.UI.Web
                         {
 
                             pLista = DocBuqueLINQ.ObtenerTracking(txtBuscar.Text, Session["c_naviera"].ToString());
-
-
 
                             if (pLista.Count > 0)
                             {
@@ -151,7 +191,7 @@ namespace CEPA.CCO.UI.Web
         public static string getUbica(string c_contenedor, string c_llegada, string c_naviera)
         {
             string _contenedores = "";
-            string apiUrl = WebConfigurationManager.AppSettings["apiFox"].ToString(); 
+            string apiUrl = WebConfigurationManager.AppSettings["apiFox"].ToString();
             Procedure proceso = new Procedure
             {
                 NBase = "CONTENEDORES",
@@ -190,8 +230,6 @@ namespace CEPA.CCO.UI.Web
             }
             return _contenedores;
         }
-
-      
 
         public static List<ProvisionalesDeta> getDetaProvi(string c_contenedor, string c_llegada, string c_naviera)
         {
@@ -242,13 +280,13 @@ namespace CEPA.CCO.UI.Web
                 return;
 
 
-            if (ArchivoBookingDAL.isFecha(e.Row.Cells[11].Text) == true)
+            if (ArchivoBookingDAL.isFecha(e.Row.Cells[13].Text) == true)
             {
-                if (Convert.ToDateTime(e.Row.Cells[11].Text) > FIRST_GOOD_DATE)
+                if (Convert.ToDateTime(e.Row.Cells[13].Text) > FIRST_GOOD_DATE)
                 { }
                 else
                 {
-                    e.Row.Cells[11].Text = "";
+                    e.Row.Cells[13].Text = "";
                 }
 
             }
@@ -287,10 +325,10 @@ namespace CEPA.CCO.UI.Web
                     }
 
                 }
-                
+
                 Label lblUbica = (Label)gvDetails.FindControl("lblUbica") as Label;
 
-                if (lblUbica.Text == "")                    
+                if (lblUbica.Text == "")
                     lblUbica.Text = getUbica(order.n_contenedor, order.c_llegada, order.c_naviera);
 
             }
@@ -301,7 +339,7 @@ namespace CEPA.CCO.UI.Web
             if (gvProvisionales != null)
             {
                 List<ProvisionalesEnca> pList = new List<ProvisionalesEnca>();
-                pList = DetaNavieraDAL.getEncaProvi(order.IdDeta);                   
+                pList = DetaNavieraDAL.getEncaProvi(order.IdDeta);
 
                 if (pList.Count > 0)
                 {
@@ -315,7 +353,7 @@ namespace CEPA.CCO.UI.Web
 
 
                     List<ProvisionalesDeta> pListD = new List<ProvisionalesDeta>();
-                    pListD = DetaNavieraDAL.getDetaProvi(order.IdDeta);                        
+                    pListD = DetaNavieraDAL.getDetaProvi(order.IdDeta);
 
                     if (pListD.Count > 0)
                     {
@@ -357,7 +395,7 @@ namespace CEPA.CCO.UI.Web
                                             else
                                             {
 
-                                            }                                           
+                                            }
                                         }
 
                                         if (ArchivoBookingDAL.isFecha(gvDetaProvi.Rows[i].Cells[6].Text) == true)
@@ -536,18 +574,18 @@ namespace CEPA.CCO.UI.Web
                 List<Tarjas> encaTarjas = new List<Tarjas>();
 
                 encaTarjas = EncaBuqueDAL.TarjasLlegada(c_llegada, n_contenedor).ToList();
-                              
+
                 List<Pago> pLista = new List<Pago>();
 
                 foreach (var listTarjas in encaTarjas)
                 {
                     List<Pago> _lstPagos = PagoDAL.ConsultarPago(listTarjas.c_tarja, n_contenedor);
-                    v_peso = v_peso + EncaBuqueDAL.TarjasPeso(listTarjas.c_tarja);                
- 
+                    v_peso = v_peso + EncaBuqueDAL.TarjasPeso(listTarjas.c_tarja);
+
                     if (_lstPagos == null)
                         _lstPagos = new List<Pago>();
 
-                    if(_lstPagos.Count > 0)
+                    if (_lstPagos.Count > 0)
                     {
                         pLista.AddRange(_lstPagos);
                     }
@@ -555,20 +593,20 @@ namespace CEPA.CCO.UI.Web
 
 
                 string _Transfer = "Si", _Despacho = "Si", _Manejo = "Si", _Almacenaje = "Si", _Validacion = "Si";
-                
+
 
                 foreach (var iEvaPagos in pLista)
-                {                 
-                   if (iEvaPagos.ValTransfer == "No")
-                        _Transfer = "No";                   
-                    if (iEvaPagos.ValDespacho == "No")                    
-                        _Despacho = "No";                   
+                {
+                    if (iEvaPagos.ValTransfer == "No")
+                        _Transfer = "No";
+                    if (iEvaPagos.ValDespacho == "No")
+                        _Despacho = "No";
                     if (iEvaPagos.ValManejo == "No")
-                        _Manejo = "No";                   
+                        _Manejo = "No";
                     if (iEvaPagos.ValAlmacenaje == "No")
-                        _Almacenaje = "No";                   
+                        _Almacenaje = "No";
                     if (iEvaPagos.validacion == "No")
-                        _Validacion = "No";                                      
+                        _Validacion = "No";
                 }
 
                 Pago _clsPago = new Pago()
@@ -608,7 +646,7 @@ namespace CEPA.CCO.UI.Web
                         tiReten = iReten.tipo;
                     }
                     else
-                        tipo += 1; 
+                        tipo += 1;
                 }
 
                 if (tipo >= 3)
@@ -618,7 +656,7 @@ namespace CEPA.CCO.UI.Web
                     retenResult = cadenaReten.Remove(cadenaReten.Length - 1);
                     tiReten = tiReten == null ? string.Empty : tiReten;
                 }
-                
+
                 /* Validar Pagos Por Tarjas */
 
                 List<Pago> pLstDetalle = new List<Pago>();
@@ -635,7 +673,7 @@ namespace CEPA.CCO.UI.Web
 
 
 
-                    pLstDetalle = DetaNavieraDAL.CalcPagos(n_contenedor, c_llegada, f_tar, DBComun.TipoBD.SqlServer, v_peso);
+                pLstDetalle = DetaNavieraDAL.CalcPagos(n_contenedor, c_llegada, f_tar, DBComun.TipoBD.SqlServer, v_peso);
 
 
 
@@ -658,7 +696,7 @@ namespace CEPA.CCO.UI.Web
                             {
                                 validacion = a.validacion == "Si" ? "Si, El contenedor esta libre de pagos con CEPA" : "No, El contenedor tiene pagos pendientes con CEPA",
                                 b_danc = retenResult == "LIBRE" ? "Si, El contenedor esta libre de revisiones con PNC - DAN y UCC" : ("No, El contenedor tiene revisión pendiente con X desde ").Replace("X", detaReten) + retenResult,
-                                b_aduana = valorADUANA == "AUTORIZADO" ? "Si, el contenedor esta autorizado por ADUANA" : valorADUANA == "DENEGADO" ? "No, El contenedor no se encuentra autorizado por ADUANA para su retiro" : valorADUANA ,
+                                b_aduana = valorADUANA == "AUTORIZADO" ? "Si, el contenedor esta autorizado por ADUANA" : valorADUANA == "DENEGADO" ? "No, El contenedor no se encuentra autorizado por ADUANA para su retiro" : valorADUANA,
 
 
 
@@ -710,17 +748,17 @@ namespace CEPA.CCO.UI.Web
                         ValAlmacenaje = "No"
 
                     };
-                    
+
                     pLista.Add(_clPago);
 
                     query = from a in pLista
                             join b in pLstDetalle on a.n_contenedor equals b.n_contenedor
                             select new
                             {
-                                
+
                                 validacion = a.validacion == "Si" ? "Si, El contenedor esta libre de pagos con CEPA" : "No, El contenedor tiene pagos pendientes con CEPA",
 
-                                b_danc = retenResult == "LIBRE" ? "Si, El contenedor esta libre de revisiones con PNC - DAN y UCC" : ("No, El contenedor tiene revisión pendiente con X desde ").Replace("X", detaReten)  + retenResult,
+                                b_danc = retenResult == "LIBRE" ? "Si, El contenedor esta libre de revisiones con PNC - DAN y UCC" : ("No, El contenedor tiene revisión pendiente con X desde ").Replace("X", detaReten) + retenResult,
                                 b_aduana = valorADUANA == "AUTORIZADO" ? "Si, el contenedor esta autorizado por ADUANA" : valorADUANA == "DENEGADO" ? "No, El contenedor no se encuentra autorizado por ADUANA para su retiro" : valorADUANA,
 
                                 style_va = a.validacion == "Si" ? "#18D318" : "#FF0000",
@@ -744,7 +782,7 @@ namespace CEPA.CCO.UI.Web
                                 style_naviero_despacho = b.descripcion == "Despacho" && b.s_naviero == "Y" ? b.s_pagos : 0.00,
                                 style_cliente_despacho = b.descripcion == "Despacho" && b.s_cliente == "Y" ? b.s_pagos : 0.00,
 
-                               
+
 
                                 /*p_tranfer =  b.descripcion == "Transferencia" ? b.s_pagos : 0.00,
                                 p_manejo =  b.descripcion == "Manejo" ? b.s_pagos : 0.00,
@@ -817,10 +855,10 @@ namespace CEPA.CCO.UI.Web
                                   style_naviero = g.Key.descripcion == "Transferencia" ? g.Key.style_naviero_transfer : g.Key.descripcion == "Despacho" ? g.Key.style_naviero_despacho : g.Key.descripcion == "Manejo" ? g.Key.style_naviero_manejo : g.Key.descripcion == "Almacenaje" ? g.Key.style_naviero_alma : 0.00,
                                   style_cliente = g.Key.descripcion == "Transferencia" ? g.Key.style_cliente_transfer : g.Key.descripcion == "Despacho" ? g.Key.style_cliente_despacho : g.Key.descripcion == "Manejo" ? g.Key.style_cliente_manejo : g.Key.descripcion == "Almacenaje" ? g.Key.style_cliente_alma : 0.00,
 
-                                  style_pendiente = g.Key.descripcion == "Transferencia" ? 
-                                                           !g.Key.style_transfer.Contains("correcto") ? 
-                                                                g.Key.style_naviero_transfer > 0.00 ? g.Key.style_naviero_transfer : g.Key.style_cliente_transfer 
-                                                           : 0.00 : g.Key.descripcion == "Despacho" ? !g.Key.style_despac.Contains("correcto") ?  g.Key.style_naviero_despacho > 0.00 ? g.Key.style_naviero_despacho : g.Key.style_cliente_despacho : 0.00 : g.Key.descripcion == "Manejo" ? !g.Key.style_manejo.Contains("correcto") ? g.Key.style_naviero_manejo > 0.00 ? g.Key.style_naviero_manejo : g.Key.style_cliente_manejo : 0.00 : g.Key.descripcion == "Almacenaje" ? !g.Key.style_alma.Contains("correcto") ? g.Key.style_naviero_alma > 0.00 ? g.Key.style_naviero_alma : g.Key.style_cliente_alma : 0.00 : 0.00 ,
+                                  style_pendiente = g.Key.descripcion == "Transferencia" ?
+                                                           !g.Key.style_transfer.Contains("correcto") ?
+                                                                g.Key.style_naviero_transfer > 0.00 ? g.Key.style_naviero_transfer : g.Key.style_cliente_transfer
+                                                           : 0.00 : g.Key.descripcion == "Despacho" ? !g.Key.style_despac.Contains("correcto") ? g.Key.style_naviero_despacho > 0.00 ? g.Key.style_naviero_despacho : g.Key.style_cliente_despacho : 0.00 : g.Key.descripcion == "Manejo" ? !g.Key.style_manejo.Contains("correcto") ? g.Key.style_naviero_manejo > 0.00 ? g.Key.style_naviero_manejo : g.Key.style_cliente_manejo : 0.00 : g.Key.descripcion == "Almacenaje" ? !g.Key.style_alma.Contains("correcto") ? g.Key.style_naviero_alma > 0.00 ? g.Key.style_naviero_alma : g.Key.style_cliente_alma : 0.00 : 0.00,
 
                                   descripcion = g.Key.descripcion,
 
@@ -991,7 +1029,7 @@ namespace CEPA.CCO.UI.Web
                             join b in pLstDetalle on a.n_contenedor equals b.n_contenedor
                             select new
                             {
-                                
+
                                 validacion = a.validacion == "Si" ? "Si, El contenedor esta libre de pagos con CEPA" : "No, El contenedor tiene pagos pendientes con CEPA",
                                 b_danc = retenResult == "LIBRE" ? "Si, El contenedor esta libre de revisiones con PNC - DAN" : ("No, El contenedor tiene revisión pendiente con X desde ").Replace("X", detaReten) + retenResult,
                                 b_aduana = valorADUANA == "AUTORIZADO" ? "Si, el contenedor esta autorizado por ADUANA" : valorADUANA == "DENEGADO" ? "No, El contenedor no se encuentra autorizado por ADUANA para su retiro" : valorADUANA,
@@ -1290,7 +1328,7 @@ namespace CEPA.CCO.UI.Web
         [System.Web.Services.WebMethod]
         public static string ImprimirPDF(string htmlOut, string n_contenedor)
         {
- 
+
             string query = "Generado Satisfactoriamente";
             return Newtonsoft.Json.JsonConvert.SerializeObject(query);
         }
@@ -1309,11 +1347,11 @@ namespace CEPA.CCO.UI.Web
             //Generate PDF
             using (var document = new Document(PageSize.A4, 40, 40, 40, 40))
             {
-                htmlOut = FormatImageLinks(htmlOut);                
+                htmlOut = FormatImageLinks(htmlOut);
             }
 
             HttpContext.Current.Response.End();
-            HttpContext.Current.Response.Flush();            
+            HttpContext.Current.Response.Flush();
 
             string query = "Prueba";
             return Newtonsoft.Json.JsonConvert.SerializeObject(query);
@@ -1345,7 +1383,7 @@ namespace CEPA.CCO.UI.Web
                         {
                             //Insert new URL in img tag
                             src = "src=\"" + context.Request.Url.Scheme + "://" +
-                                  context.Request.Url.Authority + "/"+  src + "\"";
+                                  context.Request.Url.Authority + "/" + src + "\"";
                             try
                             {
                                 tempM = tempM.Remove(mImg.Index, mImg.Length);
@@ -1371,16 +1409,16 @@ namespace CEPA.CCO.UI.Web
 
             string fileName = "Tracking_" + txtBuscar.Text.ToUpper() + ".pdf";
             string linkCss = "~/bootstrap/csss/bootstrap-complete.css";
-           
-           Response.Clear();
-           Response.ContentType = "application/pdf";
+
+            Response.Clear();
+            Response.ContentType = "application/pdf";
 
             ////define pdf filename
             Response.AddHeader("content-disposition", "attachment; filename=" + fileName);
 
             StringWriter stringWrite = new StringWriter();
             HtmlTextWriter htmlOut = new HtmlTextWriter(stringWrite);
-            printArea.RenderControl(htmlOut);            
+            printArea.RenderControl(htmlOut);
 
             //Generate PDF
             using (var document = new Document(PageSize.A4, 40, 40, 40, 40))
@@ -1399,7 +1437,7 @@ namespace CEPA.CCO.UI.Web
                 _convert = bodyNode.WriteTo();
 
 
-                               
+
                 //define output control HTML
                 var memStream = new MemoryStream();
                 TextReader xmlString = new StringReader(_convert.ToString().Replace("\r", "").Replace("\n", "").Replace("  ", "").Replace("px", "").Replace("\0", "").Replace("%", "").Replace("<br>", "<br />"));
@@ -1421,7 +1459,7 @@ namespace CEPA.CCO.UI.Web
                 var rutaCSS = Server.MapPath(linkCss);
                 cssResolver.AddCssFile(rutaCSS, true);
 
-                
+
 
                 // Export
                 IPipeline pipeline = new CssResolverPipeline(cssResolver,
@@ -1438,8 +1476,8 @@ namespace CEPA.CCO.UI.Web
                 Response.BinaryWrite(memStream.ToArray());
             }
 
-           Response.End();
-           Response.Flush();            
+            Response.End();
+            Response.Flush();
 
 
 

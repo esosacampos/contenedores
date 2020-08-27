@@ -777,7 +777,9 @@ namespace CEPA.CCO.Linq
                                             {
                                                c_tarja = string.IsNullOrEmpty(c.c_tarja) ? "" : c.c_tarja 
                                             }).Max(x => x.c_tarja),
-                                 b_requiere = a.b_requiere
+                                 b_requiere = a.b_requiere,
+                                 b_shipper = a.b_shipper,
+                                 pais_origen = a.pais_origen
                              }).OrderByDescending(g => g.IdDeta).ToList();
 
                 List<Tarjas> encaTarjas = new List<Tarjas>();
@@ -962,7 +964,9 @@ namespace CEPA.CCO.Linq
                                     b_cancelado = a.b_cancelado,
                                     con_tarjas = b.con_tarjas == 0 ? 0 : b.con_tarjas,
                                     c_tarjasn = b.c_tarjas == "/" ? "SIN TARJAS" : b.c_tarjas,
-                                    b_requiere = a.b_requiere
+                                    b_requiere = a.b_requiere,
+                                    b_shipper = a.b_shipper,
+                                    pais_origen = a.pais_origen
                                 }).OrderByDescending(g => g.IdDeta).ToList();
 
                     jConsult = Newtonsoft.Json.JsonConvert.SerializeObject(quer);
@@ -1034,7 +1038,9 @@ namespace CEPA.CCO.Linq
                                     b_cancelado = a.b_cancelado,
                                     c_tarjasn = "SIN TARJAS",
                                     con_tarjas = 0,
-                                    b_requiere = a.b_requiere
+                                    b_requiere = a.b_requiere,
+                                    b_shipper = a.b_shipper,
+                                    pais_origen = a.pais_origen
                                 }).OrderByDescending(g => g.IdDeta).ToList();
 
                     jConsult = Newtonsoft.Json.JsonConvert.SerializeObject(quer);

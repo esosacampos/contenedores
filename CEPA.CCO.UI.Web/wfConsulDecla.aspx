@@ -23,7 +23,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <h2>Consulta Contenedores / Declaraciones </h2>
+    <h2>Consulta Contenedores / Declaraciones o Transitos </h2>
     <hr />
     <br />
     <%--<div class="col-lg-10">--%>
@@ -53,7 +53,7 @@
     <%--</div>--%>
     <div class="form-group" style="margin-left: 15px;">
         <label for="inputAddress">Año</label>
-           <asp:HiddenField ID="hYear" runat="server" />
+        <asp:HiddenField ID="hYear" runat="server" />
         <asp:TextBox ID="txtYear" runat="server" class="form-control" autocomplete="off"
             placeholder="Año de búsqueda" Text=""></asp:TextBox>
     </div>
@@ -61,10 +61,11 @@
         <div class="form-group col-md-6">
             <%--<asp:TextBox ID="txtContenedor" runat="server" class="form-control" autocomplete="off"
                 placeholder="Ingrese Últimos Dígitos del Contenedor"></asp:TextBox>--%>
-            <input type="search" name="txtConte" id="search" value="" class="form-control" placeholder="Ultimos digitos contenedor">
+            <asp:HiddenField runat="server" ID="hConte" Value="" />
+            <input type="text" runat="server" name="txtConte" id="txtConte" value="" class="form-control" placeholder="Ultimos digitos contenedor">
         </div>
         <div class="form-group col-md-4">
-            <input type="search" name="txtDecla" id="decla" value="" class="form-control" placeholder="Ingrese Últimos #'s Declaracion (Opcional)">
+            <input type="text" name="txtDecla" id="decla" value="" class="form-control" placeholder="Ingrese Últimos #'s Declaracion (Opcional)">
         </div>
         <div class="form-group col-md-2">
             <asp:Button ID="btnFiltrar" runat="server" class="form-control btn btn-primary btn-lg" Text="Filtrar" OnClick="btnFiltrar_Click" />
@@ -85,21 +86,26 @@
                 OnRowCreated="onRowCreate" PagerStyle-CssClass="pagination pagination-centered hide-if-no-paging" OnRowDataBound="GridView1_RowDataBound">
                 <Columns>
                     <asp:BoundField DataField="n_manifiesto" HeaderText="# MANIFESTO"></asp:BoundField>
-                    <asp:BoundField DataField="n_declaracion" HeaderText="# DECLARACION"></asp:BoundField>
+                    <asp:BoundField DataField="s_tipo" HeaderText="TIPO DOC."></asp:BoundField>
+                    <asp:BoundField DataField="n_declaracion" HeaderText="# DECLARACION o TRANSITO"></asp:BoundField>
                     <asp:BoundField DataField="n_contenedor" HeaderText="CONTENEDOR"></asp:BoundField>
                     <asp:BoundField DataField="TipoEstado" HeaderText="ESTADO"></asp:BoundField>
                     <asp:BoundField DataField="Descripcion" HeaderText="SELECTIVIDAD"></asp:BoundField>
                     <asp:BoundField DataField="f_aduana" HeaderText="FECHA DE TRANS. ADUANA"></asp:BoundField>
+                    <asp:BoundField DataField="s_consignatario" HeaderText="CONSIGNATARIO"></asp:BoundField>
+                    <asp:BoundField DataField="s_descripcion" HeaderText="DESCRIPCION"></asp:BoundField>
+                    <asp:BoundField DataField="n_bl" HeaderText="# BL"></asp:BoundField>
+                    <asp:BoundField DataField="n_nit" HeaderText="NIT"></asp:BoundField>
                 </Columns>
                 <EmptyDataRowStyle CssClass="alert alert-info" />
                 <EmptyDataTemplate>
-                    <asp:Label ID="lblEmptyMessage" Text="Búsqueda no produjó resultados intentarlo de nuevo" runat="server"/>
+                    <asp:Label ID="lblEmptyMessage" Text="Búsqueda no produjó resultados intentarlo de nuevo" runat="server" />
                 </EmptyDataTemplate>
             </asp:GridView>
         </ContentTemplate>
     </asp:UpdatePanel>
     <br />
-    <asp:Label ID="lblMensaje" runat="server" Text="* Debe indicar # contenedor o # de declración" CssClass="alert-danger lead" Style="margin-left: 15px;"></asp:Label>
+    <asp:Label ID="lblMensaje" runat="server" Text="* Debe indicar # contenedor o # de declaración" CssClass="alert-danger lead" Style="margin-left: 15px;"></asp:Label>
     <br />
     <nav>
         <ul class="pager">
@@ -152,7 +158,7 @@
         }
 
         function SetAutoComplete() {
-            $("#search").autocomplete({
+            $("#ContentPlaceHolder1_txtConte").autocomplete({
                 minLength: 3,
                 source: function (request, response) {
                     var params = new Object();
@@ -229,11 +235,52 @@
             });
         }
 
+        function Llenar() {
+            $.blockUI({
+                message: '<h1>Procesando</h1><img src="<%= ResolveClientUrl("~/CSS/Img/progress_bar.gif") %>" />',
+                css: {
+                    border: 'none',
+                    padding: '15px',
+                    backgroundColor: '#424242',
+                    '-webkit-border-radius': '10px',
+                    '-moz-border-radius': '10px',
+                    opacity: .5,
+                    color: '#fff'
+                }
+            });
+
+
+            $.ajax({
+                async: true,
+                cache: false,
+                type: "POST",
+                url: "wfConsulDecla.aspx/Imprime",
+                data: params,
+                contentType: "application/json; charset=utf8",
+                dataType: "json",
+                success: function (response) {
+
+                    //bootbox.alert(response.d);
+                    $.unblockUI();
+
+
+                },
+                failure: function (response) {
+                    bootbox.alert(response.d);
+                },
+                error: function (response) {
+                    bootbox.alert(response.d);
+                }
+            });
+        }
+
+
         function getYear() {
             var yearD = (new Date).getFullYear();
             $("#<%=hYear.ClientID %>").val(yearD);
             bootbox.alert($("#<%=hYear.ClientID %>").val());
         }
+
 
         $(document).ready(function () {
             $('#ContentPlaceHolder1_GridView1').footable();
@@ -244,11 +291,15 @@
                 convertToPagination(obj);
             });
 
+            bootbox.alert($.session.get("n_conte"));
+
+            $("#<%= hConte.ClientID %>").val();
+
             SetAutoComplete();
 
             SetDeclaracion();
 
-            
+
 
 
 

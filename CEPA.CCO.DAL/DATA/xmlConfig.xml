@@ -46,6 +46,14 @@
     <entry name="Username">s_operaciones</entry>
     <entry name="Password">s_operaciones8023</entry>
   </section>
+  <!--<section name="CONFIGSYBASE">
+    <entry name="Provider">Sybase.ASEOLEDBProvider.2</entry>
+    <entry name="ServerName">10.1.1.146</entry>
+    <entry name="ServerPortAddress">5000</entry>
+    <entry name="Database">CEPA_SADFI</entry>
+    <entry name="Username">sapuser1</entry>
+    <entry name="Password">sapuser122</entry>
+  </section>-->
   <section name="CONFIGVFP">
     <entry name="Provider">VFPOLEDB.1</entry>
     <entry name="Data Source">\\10.1.4.44\container\dbf\contenedores.dbc</entry>
