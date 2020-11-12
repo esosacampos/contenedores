@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <profile>
   <section name="CONFIGSQL">
-    <entry name="Server">10.1.4.61\BD_PRODUCCION</entry>    
+    <entry name="Server">10.1.4.61\BD_DESARROLLO</entry>    
     <entry name="Database">CEPA_CONTENEDORES</entry>
     <entry name="Library">dbmssocn (TCP/IP)</entry>
     <entry name="Parameters"></entry>
@@ -10,7 +10,7 @@
     <entry name="Windows">False</entry>
   </section>
   <section name="CONFIGSQL2">
-    <entry name="Server">10.1.4.61\BD_PRODUCCION</entry>    
+    <entry name="Server">10.1.4.61\BD_DESARROLLO</entry>    
     <entry name="Database">CEPA_CONTENEDORES</entry>
     <entry name="Library">dbmssocn (TCP/IP)</entry>
     <entry name="Parameters"></entry>
@@ -19,7 +19,7 @@
     <entry name="Windows">False</entry>
   </section>
   <section name="CONFIGSQL1">
-    <entry name="Server">10.1.4.61\BD_PRODUCCION</entry>
+    <entry name="Server">10.1.4.61\BD_DESARROLLO</entry>
     <!--<entry name="Server">ACA160602</entry>-->
     <entry name="Database">CEPA_CONTRATISTAS</entry>
     <entry name="Library">dbmssocn (TCP/IP)</entry>

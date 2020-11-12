@@ -14,7 +14,7 @@ namespace CEPA.CCO.Srv.Test
     /// <summary>
     /// Descripción breve de Service1
     /// </summary>
-    [WebService(Namespace = "http://138.219.156.214:2530/", Description = "Servicio de Transferencia de Informacion ADUANA - CEPA")]
+    [WebService(Namespace = "http://190.86.214.193:6046/", Description = "Servicio de Transferencia de Informacion ADUANA - CEPA")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // Para permitir que se llame a este servicio web desde un script, usando ASP.NET AJAX, quite la marca de comentario de la línea siguiente. 
@@ -60,7 +60,7 @@ namespace CEPA.CCO.Srv.Test
                         c_doc = cadenaADUANA[1].ToString();
                         n_doc = cadenaADUANA[2].ToString();
                     }
-                    else if(cadenaADUANA.Count()==4)
+                    else if (cadenaADUANA.Count() == 4)
                     {
                         a_doc = cadenaADUANA[0].ToString();
                         c_doc = cadenaADUANA[1].ToString();
@@ -97,7 +97,7 @@ namespace CEPA.CCO.Srv.Test
                             IdEstado = Convert.ToInt32(unContenedor.SelectSingleNode("ESTADO_ADUANA").InnerText),
                             f_reg_aduana = Convert.ToDateTime(unContenedor.SelectSingleNode("FEC_REG_ESTADO").InnerText),
                             IdSelectividad = Convert.ToInt32(unContenedor.SelectSingleNode("SELECTIVIDAD").InnerText),
-                             //n_nit = unContenedor.SelectSingleNode("N_NIT").InnerText.Replace("-", "").ToUpper(),
+                            //n_nit = unContenedor.SelectSingleNode("N_NIT").InnerText.Replace("-", "").ToUpper(),
                             b_siduneawd = b_sidu,
                             n_nit = "NULL",
                             s_consignatario = "NULL",
@@ -143,7 +143,7 @@ namespace CEPA.CCO.Srv.Test
                                 a_manifiesto = Convert.ToInt32(unContenedor.SelectSingleNode("YEAR_MANI").InnerText),
                                 n_contenedor = unContenedor.SelectSingleNode("NUM_CONTEN").InnerText.Replace("-", "").ToUpper(),
                                 a_transito = Convert.ToInt32(a_doc),
-                                r_transito = Convert.ToString(c_doc),                                
+                                r_transito = Convert.ToString(c_doc),
                                 IdEstado = Convert.ToInt32(unContenedor.SelectSingleNode("ESTADO_ADUANA").InnerText),
                                 f_reg_aduana = Convert.ToDateTime(unContenedor.SelectSingleNode("FEC_REG_ESTADO").InnerText),
                                 IdSelectividad = Convert.ToInt32(unContenedor.SelectSingleNode("SELECTIVIDAD").InnerText),
@@ -159,7 +159,7 @@ namespace CEPA.CCO.Srv.Test
 
                     }
 
-                    
+
 
                     int _result = Convert.ToInt32(_resultP);
 
@@ -228,5 +228,96 @@ namespace CEPA.CCO.Srv.Test
             return _respuesta;
         }
 
+        [WebMethod(Description = "Metodo para registrar las deconsolidaciones realizadas a un contenedor")]
+        public string InsertarBLs(string xmlDoc)
+        {
+            string _respuesta = null;
+            int _resulDeta = 0;
+
+            XmlDocument doc = new XmlDocument();
+
+            doc.LoadXml(xmlDoc);
+
+            XmlNodeList encaMani = doc.SelectNodes("MdsParts/MDS4");
+
+            XmlNode unMani;
+
+            List<DetaDoc> lstDoc = new List<DetaDoc>();
+            DetaDoc pDoc = new DetaDoc();
+
+            if (encaMani.Count > 0)
+            {
+                for (int i = 0; i < encaMani.Count; i++)
+                {
+
+                    unMani = encaMani.Item(i);
+
+                    pDoc.a_manif = unMani.SelectSingleNode("CAR_REG_YEAR").InnerText.Trim();
+                    pDoc.num_manif = Convert.ToInt32(unMani.SelectSingleNode("CAR_REG_NBER").InnerText.Trim());
+
+                    break;
+
+                }
+            }
+
+
+
+            XmlNodeList listaCntres = doc.SelectNodes("MdsParts/MDS4/MDS5");
+
+            XmlNode unContenedor;
+
+            List<ArchivoAduanaValid> pGuarda = new List<ArchivoAduanaValid>();
+
+            if (listaCntres.Count > 0)
+            {
+                for (int i = 0; i < listaCntres.Count; i++)
+                {
+                    unContenedor = listaCntres.Item(i);
+
+                    string _contenedor = unContenedor.SelectSingleNode("CAR_CTN_IDENT").InnerText;
+
+                    ArchivoAduanaValid validAduana = new ArchivoAduanaValid
+                    {
+                        IdValid = -1,
+                        n_contenedor = unContenedor.SelectSingleNode("CAR_CTN_IDENT").InnerText.Replace(" -", "").Replace(" ", ""),
+                        n_manifiesto = pDoc.num_manif,
+                        n_BL = unContenedor.SelectSingleNode("KEY_BOL_REF").InnerText.Trim(),
+                        n_BL_master = unContenedor.SelectSingleNode("KEY_BOL_REF_MST").InnerText.Trim(),
+                        a_mani = pDoc.a_manif,
+                        c_tipo_bl = unContenedor.SelectSingleNode("CARBOL_TYP_COD").InnerText.Trim(),
+                        b_sidunea = 1,
+                        c_tamaño = unContenedor.SelectSingleNode("CAR_CTN_TYP").InnerText.Trim(),
+                        s_agencia = unContenedor.SelectSingleNode("CAR_CAR_NAM").InnerText.Trim(),
+                        v_peso = Convert.ToDouble(unContenedor.SelectSingleNode("CAR_CTN_GWG").InnerText.Trim()),
+                        c_paquete = Convert.ToInt32(unContenedor.SelectSingleNode("CAR_CTN_NBR").InnerText.Trim()),
+                        c_embalaje = unContenedor.SelectSingleNode("CARBOL_PCK_COD").InnerText.Trim(),
+                        d_embalaje = unContenedor.SelectSingleNode("CARBOL_PCK_NAM").InnerText.Trim(),
+                        c_pais_origen = unContenedor.SelectSingleNode("CARBOL_DEP_COD").InnerText.Substring(0, 2).Trim(),
+                        d_puerto_origen = unContenedor.SelectSingleNode("CARBOL_DEP_COD").InnerText.Substring(2, 3).Trim(),
+                        c_pais_destino = unContenedor.SelectSingleNode("CARBOL_DEST_COD").InnerText.Substring(0, 2).Trim(),
+                        d_puerto_destino = unContenedor.SelectSingleNode("CARBOL_DEST_COD").InnerText.Substring(2, 3).Trim(),
+                        s_nit = unContenedor.SelectSingleNode("CARBOL_CON_COD") != null ? unContenedor.SelectSingleNode("CARBOL_CON_COD").InnerText.Trim() : "",
+                        s_consignatario = unContenedor.SelectSingleNode("CARBOL_CON_NAM") != null ? unContenedor.SelectSingleNode("CARBOL_CON_NAM").InnerText.Trim() : ""
+                    };
+
+                    //Almacenar manifiesto devuelto por aduana
+                    _resulDeta = Convert.ToInt32(DetaNavieraDAL.AlmacenarValidMst(validAduana, DBComun.Estado.verdadero));
+
+                    if (_resulDeta == 0)
+                        _respuesta = "<MSG>1| Desconsolidación NO registrada</MSG>";
+                    else if (_resulDeta == 1)
+                        _respuesta = "<MSG>0| Registrado satisfactoriamente</MSG>";
+                    else if (_resulDeta == 2)
+                        _respuesta = "<MSG>1| Contenedor no pasa estándar de validación</MSG>";
+
+
+                }               
+
+
+                
+            }
+
+            return _respuesta;
+        }
     }
 }

@@ -23,20 +23,13 @@ namespace CEPA.CCO.DAL
                 string _consulta = null;
                 AseCommand _command = null;
                 if (c_cliente == "219" || c_cliente == "289")
-                {
-                    //                    _consulta = @"SELECT a.c_llegada, b.c_buque, b.s_nom_buque, d.c_cliente, c.s_razon_social, a.f_llegada, ISNULL(b.c_imo, '')
-                    //                                FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
-                    //                                INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
-                    //                                INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-                    //                                WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND c.c_cliente IN('884', '1204', '449', '690', '809', '354', '453', '882', '1241', '1388') AND YEAR(a.f_llegada) >= 2013 AND MONTH(a.f_llegada) >=  MONTH(GETDATE()) AND 
-                    //                                a.c_llegada NOT IN (SELECT g.c_llegada FROM fa_llegadas g INNER JOIN fa_tarifa_unica e ON g.c_llegada = e.c_llegada WHERE e.c_cliente IN('884', '1204', '449', '690', '809', '354', '453', '882', '1241', '1388') AND g.f_atraque IS NOT NULL AND g.f_desatraque IS NOT NULL )  
-                    //                                ORDER BY f_llegada DESC";
+                {                 
                     _consulta = @"SELECT a.c_llegada, b.c_buque, b.s_nom_buque, d.c_cliente, c.s_razon_social, a.f_llegada, ISNULL(b.c_imo, '')
                                 FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque 
                                 INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                                 INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
                                 LEFT JOIN  fa_llegadas e ON a.c_llegada = e.c_llegada 
-                                WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND a.f_llegada >= DATEADD( dd, -30, getdate()) AND e.f_desatraque IS NULL
+                                WHERE a.c_empresa = '04' AND a.f_llegada >= DATEADD( dd, -30, getdate()) AND e.f_desatraque IS NULL
                                 ORDER BY a.f_llegada DESC";
                     _command = new AseCommand(_consulta, _conn as AseConnection);
 
@@ -48,7 +41,7 @@ namespace CEPA.CCO.DAL
                                 INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                                 INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
                                 LEFT JOIN  fa_llegadas e ON a.c_llegada = e.c_llegada 
-                                WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND c.c_cliente = '{0}' AND a.f_llegada >= DATEADD( dd, -30, getdate()) AND e.f_desatraque IS NULL
+                                WHERE a.c_empresa = '04' AND c.c_cliente = '{0}' AND a.f_llegada >= DATEADD( dd, -30, getdate()) AND e.f_desatraque IS NULL
                                 ORDER BY f_llegada DESC";
 
 
@@ -99,7 +92,7 @@ namespace CEPA.CCO.DAL
                                 INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                                 INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
                                 LEFT JOIN  fa_llegadas e ON a.c_llegada = e.c_llegada 
-                                WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND b.c_buque = '{0}' AND a.c_llegada = '{1}' AND e.f_desatraque IS NULL
+                                WHERE a.c_empresa = '04' AND b.c_buque = '{0}' AND a.c_llegada = '{1}' AND e.f_desatraque IS NULL
                                 ORDER BY f_llegada DESC";
                     _command = new AseCommand(string.Format(_consulta, c_buque, c_llegada), _conn as AseConnection);
                 }
@@ -110,7 +103,7 @@ namespace CEPA.CCO.DAL
                                 INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                                 INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
                                 LEFT JOIN  fa_llegadas e ON a.c_llegada = e.c_llegada 
-                                WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND d.c_cliente = '{0}' AND b.c_buque = '{1}' AND a.c_llegada = '{2}' AND e.f_desatraque IS NULL
+                                WHERE a.c_empresa = '04' AND d.c_cliente = '{0}' AND b.c_buque = '{1}' AND a.c_llegada = '{2}' AND e.f_desatraque IS NULL
                                 ORDER BY f_llegada DESC";
                     _command = new AseCommand(string.Format(_consulta, c_cliente, c_buque, c_llegada), _conn as AseConnection);
                 }
@@ -191,7 +184,7 @@ namespace CEPA.CCO.DAL
                             FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-                            WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 3 AND YEAR(GETDATE()) + 1 
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 3 AND YEAR(GETDATE()) + 1 
                             ORDER BY f_llegada DESC";
 
 
@@ -239,7 +232,7 @@ namespace CEPA.CCO.DAL
                             FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-                            WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 3 AND YEAR(GETDATE())
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 3 AND YEAR(GETDATE())
                             ORDER BY a.f_llegada DESC";
 
 
@@ -285,11 +278,11 @@ namespace CEPA.CCO.DAL
                 _command.CommandType = CommandType.Text;
 
 
-                _consulta = @"SELECT a.c_llegada, b.c_buque, b.s_nom_buque, d.c_cliente, c.s_razon_social, ISNULL((select f_atraque from fa_llegadas where c_llegada = a.c_llegada), ''), ISNULL(b.c_imo, '') c_imo
+                _consulta = @"SELECT a.c_llegada, b.c_buque, b.s_nom_buque, d.c_cliente, c.s_razon_social, ISNULL((select f_atraque from fa_llegadas where c_llegada = a.c_llegada), ''), ISNULL(b.c_imo, '') c_imo, ISNULL((select f_desatraque from fa_llegadas where c_llegada = a.c_llegada), '')
                             FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-                            WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 3 AND YEAR(GETDATE()) + 1
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 3 AND YEAR(GETDATE()) + 1
                             AND a.c_llegada IN({0})
                             ORDER BY CONVERT(INT, d.c_cliente) ASC, 1";
 
@@ -311,7 +304,8 @@ namespace CEPA.CCO.DAL
                         c_cliente = _reader.GetString(3),
                         d_cliente = _reader.GetString(4),
                         f_llegada = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5),
-                        c_imo = _reader.GetString(6)
+                        c_imo = _reader.GetString(6),
+                        f_desatraque = _reader.IsDBNull(7) ? Convert.ToDateTime(_reader.GetDateTime(7)) : _reader.GetDateTime(7)
                     };
 
                     _empleados.Add(_tmpEmpleado);
@@ -322,149 +316,7 @@ namespace CEPA.CCO.DAL
                 return _empleados;
             }
         }
-        //public static List<EncaBuque> ObtenerBuquesTransmi(DBComun.Estado pEstado)
-        //{
-        //    List<EncaBuque> _empleados = new List<EncaBuque>();
-
-
-        //    using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SyBaseNET, pEstado))
-        //    {
-        //        _conn.Open();
-        //        string _consulta = null;
-        //        AseCommand _command = null;
-                               
-        //        _consulta = @"SELECT a.c_llegada, b.c_buque, b.s_nom_buque, d.c_cliente, c.s_razon_social, a.f_llegada, ISNULL(b.c_imo, '') c_imo
-        //                    FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
-        //                    INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
-        //                    INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-        //                    WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE()) 
-        //                    ORDER BY f_llegada DESC";
-
-
-        //        _command = new AseCommand(_consulta, _conn as AseConnection)
-        //        {
-        //            CommandType = CommandType.Text
-        //        };
-
-        //        AseDataReader _reader = _command.ExecuteReader();
-
-        //        while (_reader.Read())
-        //        {
-        //            EncaBuque _tmpEmpleado = new EncaBuque
-        //            {
-        //                c_llegada = _reader.GetString(0),
-        //                c_buque = _reader.GetString(1),
-        //                d_buque = _reader.GetString(2),
-        //                f_llegada = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5),
-        //                c_imo = _reader.GetString(6)
-        //            };
-
-        //            _empleados.Add(_tmpEmpleado);
-        //        }
-
-        //        _reader.Close();
-        //        _conn.Close();
-        //        return _empleados;
-        //    }
-        //}
-
-        //public static List<EncaBuque> ObtenerBuquesJoinA(DBComun.Estado pEstado)
-        //{
-        //    List<EncaBuque> _empleados = new List<EncaBuque>();
-
-
-        //    using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SyBaseNET, pEstado))
-        //    {
-        //        _conn.Open();
-        //        string _consulta = null;
-        //        AseCommand _command = null;
-
-        //        _consulta = @"SELECT a.c_llegada, b.c_buque, b.s_nom_buque, d.c_cliente, c.s_razon_social, a.f_llegada, ISNULL(b.c_imo, '') c_imo
-        //                    FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
-        //                    INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
-        //                    INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-        //                    WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE())
-        //                    ORDER BY f_llegada DESC";
-
-
-        //        _command = new AseCommand(_consulta, _conn as AseConnection)
-        //        {
-        //            CommandType = CommandType.Text
-        //        };
-
-        //        AseDataReader _reader = _command.ExecuteReader();
-
-        //        while (_reader.Read())
-        //        {
-        //            EncaBuque _tmpEmpleado = new EncaBuque
-        //            {
-        //                c_llegada = _reader.GetString(0),
-        //                c_buque = _reader.GetString(1),
-        //                d_buque = _reader.GetString(2),
-        //                c_cliente = _reader.GetString(3),
-        //                d_cliente = _reader.GetString(4),
-        //                f_llegada = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5),
-        //                c_imo = _reader.GetString(6)
-        //            };
-
-        //            _empleados.Add(_tmpEmpleado);
-        //        }
-
-        //        _reader.Close();
-        //        _conn.Close();
-        //        return _empleados;
-        //    }
-        //}
-        //public static List<EncaBuque> ObtenerBuquesJoinC(DBComun.Estado pEstado)
-        //{
-        //    List<EncaBuque> _empleados = new List<EncaBuque>();
-
-
-        //    using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SyBaseNET, pEstado))
-        //    {
-        //        _conn.Open();
-        //        string _consulta = null;
-        //        AseCommand _command = null;
-
-
-
-        //        _consulta = @" SELECT a.c_llegada, b.c_buque, b.s_nom_buque, d.c_cliente, c.s_razon_social, a.f_llegada, ISNULL(b.c_imo, '') c_imo
-        //                        FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
-        //                        INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
-        //                        INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-        //                        WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE())
-        //                        ORDER BY f_llegada DESC";
-
-
-        //        _command = new AseCommand(_consulta, _conn as AseConnection)
-        //        {
-        //            CommandType = CommandType.Text
-        //        };
-
-        //        AseDataReader _reader = _command.ExecuteReader();
-
-        //        while (_reader.Read())
-        //        {
-        //            EncaBuque _tmpEmpleado = new EncaBuque
-        //            {
-        //                c_llegada = _reader.GetString(0),
-        //                c_buque = _reader.GetString(1),
-        //                d_buque = _reader.GetString(2),
-        //                c_cliente = _reader.GetString(3),
-        //                d_cliente = _reader.GetString(4),
-        //                f_llegada = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5),
-        //                c_imo = _reader.GetString(6)
-        //            };
-
-        //            _empleados.Add(_tmpEmpleado);
-        //        }
-
-        //        _reader.Close();
-        //        _conn.Close();
-        //        return _empleados;
-        //    }
-        //}
-
+       
         public static List<EncaBuque> getBuqueLleg(DBComun.Estado pEstado)
         {
             List<EncaBuque> _empleados = new List<EncaBuque>();
@@ -479,7 +331,7 @@ namespace CEPA.CCO.DAL
 
                 _consulta = @" SELECT isnull(a.c_llegada, '')c_llegada, isnull(b.c_buque, '') c_buque, isnull(b.s_nom_buque, '') d_buque, ISNULL(b.c_imo, '') c_imo
                             FROM fa_llegadas a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
-                            WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE()) + 1 ";
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE()) + 1 ";
 
 
                 _command = new AseCommand(_consulta, _conn as AseConnection)
@@ -523,7 +375,7 @@ namespace CEPA.CCO.DAL
                             FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-                            WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_llegada) BETWEEN 2014 AND YEAR(GETDATE()) + 1
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_llegada) BETWEEN 2014 AND YEAR(GETDATE()) + 1
                             ORDER BY f_llegada DESC";
 
                 _command = new AseCommand(_consulta, _conn as AseConnection)
@@ -608,7 +460,7 @@ namespace CEPA.CCO.DAL
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
                             LEFT JOIN fa_llegadas e ON a.c_llegada = e.c_llegada
-                            WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND a.c_llegada = '{0}' AND c.c_cliente = '{1}' AND e.f_desatraque IS NULL
+                            WHERE a.c_empresa = '04' AND a.c_llegada = '{0}' AND c.c_cliente = '{1}' AND e.f_desatraque IS NULL
                             ORDER BY f_llegada DESC";
 
 
@@ -850,7 +702,7 @@ namespace CEPA.CCO.DAL
                 AseCommand _command = null;
 
                 _consulta = @"set nocount on
-                            select case when sum(v_pes_rec_ton) > 0.00 then cast(ROUND(sum(v_pes_rec_ton)/MAX(v_n_contenedores), 2) as decimal(18,2)) else sum(v_pes_rec_ton) end v_pes_rec_ton from fa_bl_det where c_tarja = '{0}'";
+                              select case when sum(v_pes_rec_ton) > 0.00 and MAX(v_n_contenedores) > 0 then cast(ROUND(sum(v_pes_rec_ton)/MAX(v_n_contenedores), 3) as decimal(18,3)) else sum(v_pes_rec_ton) end v_pes_rec_ton from fa_bl_det where c_tarja = '{0}'";
 
                 _command = new AseCommand(string.Format(_consulta, c_tarja), _conn as AseConnection)
                 {
@@ -879,7 +731,7 @@ namespace CEPA.CCO.DAL
                             FROM fa_llegadas a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-                            WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_arribo) BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE()) + 1 AND a.f_zarpe IS not NULL AND MONTH(a.f_arribo) BETWEEN MONTH(GETDATE()) - 1 AND MONTH(GETDATE()) 
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_arribo) BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE()) + 1 AND a.f_zarpe IS not NULL AND MONTH(a.f_arribo) BETWEEN MONTH(GETDATE()) - 1 AND MONTH(GETDATE()) 
                             ORDER BY a.c_llegada DESC";
 
 
@@ -971,7 +823,7 @@ namespace CEPA.CCO.DAL
 
                 _consulta = @" SELECT a.c_llegada, b.c_buque, b.s_nom_buque
                             FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
-                            WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE()) + 1 
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE()) + 1 
                             --AND MONTH(a.f_llegada) BETWEEN MONTH(GETDATE()) - 1 AND MONTH(GETDATE()) 
                             ORDER BY 1 desc";
 
@@ -1057,7 +909,7 @@ namespace CEPA.CCO.DAL
                                 FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                                 INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                                 INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-                                WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND c.c_cliente = '{0}' AND a.c_llegada = '{1}'   
+                                WHERE a.c_empresa = '04' AND c.c_cliente = '{0}' AND a.c_llegada = '{1}'   
                                 ORDER BY f_llegada DESC ";
 
 
@@ -1187,6 +1039,55 @@ namespace CEPA.CCO.DAL
                 return _empleados;
             }
         }
+
+        public static List<AnexoExport> getAnexoExport(DBComun.Estado pEstado, string c_factura, string c_cliente)
+        {
+            List<AnexoExport> _empleados = new List<AnexoExport>();
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SyBaseNET, pEstado))
+            {
+                _conn.Open();
+                string _consulta = null;
+                AseCommand _command = null;
+
+
+
+                _consulta = @"select e.c_factura, e.c_nul, s_nom_buque, f_atraque, d.c_cliente
+                            from fa_enc_factura e inner join fa_llegadas a on e.c_nul = a.c_nul  
+                            inner join fa_buques b on a.c_buque = b.c_buque
+                            INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
+                            where e.c_empresa='04' and c_factura = '{0}' and d.c_cliente = '{1}'";
+
+
+                _command = new AseCommand(string.Format(_consulta, c_factura, c_cliente), _conn as AseConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                AseDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+
+                    AnexoExport _doc = new AnexoExport
+                    {
+                        c_factura = _reader.GetString(0),
+                        c_nul = _reader.GetString(1),
+                        d_buque = _reader.GetString(2),
+                        f_arribo = _reader.IsDBNull(3) ? Convert.ToDateTime(_reader.GetDateTime(3)) : _reader.GetDateTime(3),
+                        c_naviera = _reader.GetString(4)
+                    };
+
+                    _empleados.Add(_doc);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return _empleados;
+            }
+        }
+
 
     }
 }

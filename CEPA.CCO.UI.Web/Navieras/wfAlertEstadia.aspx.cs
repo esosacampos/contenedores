@@ -146,7 +146,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                                   Tipo = c.Tipo,
                                   Condicion = c.Condicion,
                                   Ingreso = c.Ingreso,
-                                  Fec_vacio = c.Fec_vacio,
+                                  Fec_Vacio = c.Fec_Vacio,
                                   Estadia = c.Estadia,
                                   Sitio = c.Sitio,
                                   Observa = c.Observa,
@@ -365,7 +365,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                                     oSheet.Cell(iCurrent, 4).Value = SanitizeXmlString(item.Tipo);
                                     oSheet.Cell(iCurrent, 5).Value = SanitizeXmlString(item.Condicion);                                    
                                     oSheet.Cell(iCurrent, 6).Value = item.Ingreso == DateTime.MinValue ? "/ / : : " : item.Ingreso.ToString("dd/MM/yyyy hh:mm");
-                                    oSheet.Cell(iCurrent, 7).Value = item.Fec_vacio == DateTime.MinValue ? "/ / : : " : item.Fec_vacio.ToString("dd/MM/yyyy hh:mm");
+                                    oSheet.Cell(iCurrent, 7).Value = item.Fec_Vacio == DateTime.MinValue || item.Fec_Vacio == Convert.ToDateTime("30/12/1899 00:00:00") ? " / / : : " : item.Fec_Vacio.ToString("dd/MM/yyyy hh:mm");
                                     oSheet.Cell(iCurrent, 8).Value = item.Estadia;
                                     oSheet.Cell(iCurrent, 9).Value = SanitizeXmlString(item.Sitio);
                                     oSheet.Cell(iCurrent, 10).Value = string.IsNullOrEmpty(item.Observa) ? "" : SanitizeXmlString(item.Observa);
@@ -552,6 +552,13 @@ namespace CEPA.CCO.UI.Web.Navieras
                         e.Row.Cells[3].Text = "/ / : : ";
                     }
                 }
+                
+                Label lblVacio = (Label)e.Row.FindControl("lblVacio") as Label;
+
+                if (lblVacio.Text.Contains("30/12/1899")){
+                    lblVacio.Text = "/ / : : ";
+                }
+
 
                 HiddenField hCat = (HiddenField)e.Row.FindControl("hCat") as HiddenField;
                 Cat = hCat.Value;

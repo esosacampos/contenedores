@@ -18,7 +18,7 @@
                     </div>
                     <div class="input-group">
                         <asp:TextBox ID="Datepicker" runat="server" class="form-control" autocomplete="off"
-                           MaxLength="4" placeholder="20XX" Text="" onkeydown="return jsDecimals(event);"></asp:TextBox>
+                            MaxLength="4" placeholder="20XX" Text="" onkeydown="return jsDecimals(event);"></asp:TextBox>
                     </div>
                     <!-- /input-group -->
                 </div>
@@ -51,7 +51,15 @@
                         Style="text-transform: uppercase;" OnLoad="txtObserva_Load"></asp:TextBox>
                 </div>
             </div>
-            <nav style="margin-top: 20%;">
+            <div class="col-lg-10 alert-danger">
+                <p style="font-weight: bold;">
+                    OBSERVACIONES:
+                </p>
+                <ul>
+                    <li>Si la búsqueda no devuelve resultados se recomienda consultar en el tracking ya que ese contenedor puedo haber sido cancelado o el número de manifiesto ingresado es incorrecto</li>
+                </ul>
+            </div>
+            <nav style="margin-top: 25%;">
                 <ul class="pager">
                     <li class="previous">
                         <asp:Button ID="btnReg" runat="server" class="btn btn-primary btn-lg" Text="Guardar" />
@@ -300,10 +308,10 @@
                             var fecha = new Date();
                             var ano = fecha.getFullYear();
                             document.getElementById("<%= txtMani.ClientID %>").value = '';
-                                document.getElementById("<%= Datepicker.ClientID %>").value = ano;
-                                document.getElementById("<%= txtObserva.ClientID %>").value = '';
-                                document.getElementById("<%= txtContenedor.ClientID %>").value = '';
-                                document.getElementById("<%= radio3.ClientID %>").checked = false;
+                            document.getElementById("<%= Datepicker.ClientID %>").value = ano;
+                            document.getElementById("<%= txtObserva.ClientID %>").value = '';
+                            document.getElementById("<%= txtContenedor.ClientID %>").value = '';
+                            document.getElementById("<%= radio3.ClientID %>").checked = false;
                             bootbox.alert(fields[1]);
 
 
@@ -346,33 +354,33 @@
                         params = JSON.stringify(params);
                         $.ajax({
                             url: '<%=ResolveUrl("~/wfValidaTarja.aspx/GetConte") %>',
-                                data: params,
-                                dataType: "json",
-                                type: "POST",
-                                contentType: "application/json; charset=utf-8",
-                                success: function (data) {
-                                    response($.map(data.d, function (item) {
-                                        return {
-                                            label: item.split('-')[0],
-                                            val: item.split('-')[1]
-                                        }
-                                    }))
-                                },
-                                error: function (response) {
-                                    bootbox.alert(response.responseText);
-                                },
-                                failure: function (response) {
-                                    bootbox.alert(response.responseText);
-                                }
-                            });
-                        }
-                        else {
-                            var fecha = new Date();
-                            var ano = fecha.getFullYear();
-                            document.getElementById("<%= txtMani.ClientID %>").value = "";
-                            document.getElementById("<%= Datepicker.ClientID %>").value = ano;
-                            document.getElementById("<%= txtMani.ClientID %>").focus();
-                            document.getElementById("<%= txtContenedor.ClientID %>").value = "";
+                            data: params,
+                            dataType: "json",
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                response($.map(data.d, function (item) {
+                                    return {
+                                        label: item.split('-')[0],
+                                        val: item.split('-')[1]
+                                    }
+                                }))
+                            },
+                            error: function (response) {
+                                bootbox.alert(response.responseText + "Verificar que ese contenedor no se encuentre cancelado y que el número de manifiesto ingresado sea el correcto");
+                            },
+                            failure: function (response) {
+                                bootbox.alert(response.responseText);
+                            }
+                        });
+                    }
+                    else {
+                        var fecha = new Date();
+                        var ano = fecha.getFullYear();
+                        document.getElementById("<%= txtMani.ClientID %>").value = "";
+                        document.getElementById("<%= Datepicker.ClientID %>").value = ano;
+                        document.getElementById("<%= txtMani.ClientID %>").focus();
+                        document.getElementById("<%= txtContenedor.ClientID %>").value = "";
                         bootbox.alert("Ingresar el # de manifiesto y su año");
 
 

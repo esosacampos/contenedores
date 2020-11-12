@@ -190,6 +190,8 @@ namespace CEPA.CCO.Entidades
         public string c_llegada { get; set; }
         public string c_naviera { get; set; }
         public DateTime f_llegada { get; set; }
+
+        public DateTime f_desatraque { get; set; }
         public List<TrackingDatails> TrackingList { get; set; }
 
         public string d_cliente { get; set; }
@@ -219,42 +221,42 @@ namespace CEPA.CCO.Entidades
     {
         public int IdDeta { get; set; }
         public string n_oficio { get; set; }
-        public DateTime f_rep_naviera { get; set; }
-        public DateTime f_aut_aduana { get; set; }
-        public DateTime f_recep_patio { get; set; }
-        public DateTime f_ret_dan_o { get; set; }
+        public DateTime? f_rep_naviera { get; set; }
+        public DateTime? f_aut_aduana { get; set; }
+        public DateTime? f_recep_patio { get; set; }
+        public DateTime? f_ret_dan_o { get; set; }
         public string f_ret_dan { get; set; }
-        public DateTime f_tramite_dan { get; set; }
-        public DateTime f_liberado_dan { get; set; }
+        public DateTime? f_tramite_dan { get; set; }
+        public DateTime? f_liberado_dan { get; set; }
         public string f_salida_carga { get; set; }
-        public DateTime f_solic_ingreso { get; set; }
-        public DateTime f_auto_patio { get; set; }
-        public DateTime f_puerta1 { get; set; }
+        public DateTime? f_solic_ingreso { get; set; }
+        public DateTime? f_auto_patio { get; set; }
+        public DateTime? f_puerta1 { get; set; }
         public string ubicacion { get; set; }
         public string c_llegada { get; set; }
         public string n_contenedor { get; set; }
         public string c_naviera { get; set; }
         public string s_comentarios { get; set; }
-        public DateTime f_trans_aduana { get; set; }
+        public DateTime? f_trans_aduana { get; set; }
         public string s_consignatario { get; set; }
         public string descripcion { get; set; }
-        public DateTime f_caseta { get; set; }
+        public DateTime? f_caseta { get; set; }
         public string f_marchamo_dan { get; set; }
 
-        public DateTime f_recepA { get; set; }
+        public DateTime? f_recepA { get; set; }
         public string f_reg_aduana { get; set; }
         public string f_reg_selectivo { get; set; }
 
-        public DateTime f_lib_aduana { get; set; }
-        public DateTime f_ret_mag { get; set; }
-        public DateTime f_lib_mag { get; set; }
+        public DateTime? f_lib_aduana { get; set; }
+        public DateTime? f_ret_mag { get; set; }
+        public DateTime? f_lib_mag { get; set; }
         public string f_cancelado { get; set; }
         public string f_cambio { get; set; }
 
 
         public string f_ret_ucc { get; set; }
-        public DateTime f_tramite_ucc { get; set; }
-        public DateTime f_liberado_ucc { get; set; }
+        public DateTime? f_tramite_ucc { get; set; }
+        public DateTime? f_liberado_ucc { get; set; }
         public string f_marchamo_ucc { get; set; }
 
         public string f_deta_dan { get; set; }

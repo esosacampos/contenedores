@@ -40,7 +40,7 @@
             // serviceInstaller1
             // 
             this.serviceInstaller1.Description = "Servicio de Transferencia de Informacion con ADUANA";
-            this.serviceInstaller1.DisplayName = "ADUANA SERVICE";
+            this.serviceInstaller1.DisplayName = "CEPA_ADUANA_SERVICE";
             this.serviceInstaller1.ServiceName = "AduanaTransfer";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 

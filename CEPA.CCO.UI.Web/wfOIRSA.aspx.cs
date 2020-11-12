@@ -63,7 +63,7 @@ namespace CEPA.CCO.UI.Web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
             if (!IsPostBack)
             {
                 try
@@ -146,20 +146,27 @@ namespace CEPA.CCO.UI.Web
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "btnOpen") 
-            { 
-                string c_llegada = Convert.ToString(e.CommandArgument);
-                ExportarExcel(c_llegada, 1);
-                Cargar();
-            }
-            else if (e.CommandName == "btnCobro")
+            try
             {
-                string c_llegada = Convert.ToString(e.CommandArgument);
-                ExportarExcel(c_llegada, 2);
-                Cargar();
+                if (e.CommandName == "btnOpen")
+                {
+                    string c_llegada = Convert.ToString(e.CommandArgument);
+                    ExportarExcel(c_llegada, 1);
+                    Cargar();
+                }
+                else if (e.CommandName == "btnCobro")
+                {
+                    string c_llegada = Convert.ToString(e.CommandArgument);
+                    ExportarExcel(c_llegada, 2);
+                    Cargar();
 
+                }
+                return;
             }
-            return;
+            catch(Exception ex)
+            {
+                ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + ex.Message + "');", true);
+            }
         }
 
         //protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -167,7 +174,7 @@ namespace CEPA.CCO.UI.Web
         //    if (e.Row.RowType == DataControlRowType.DataRow)
         //    {
         //        Button lnkOpe = (e.Row.FindControl("lnkOpe") as Button);
-                               
+
 
         //        ScriptManager current = ScriptManager.GetCurrent(Page);
         //        if (current != null)
@@ -201,7 +208,7 @@ namespace CEPA.CCO.UI.Web
                              c_cliente = a.c_cliente,
                              n_contenedor = a.n_contenedor,
                              c_tamaño = a.c_tamaño,
-                             c_tamañoc = a.c_tamañoc,                             
+                             c_tamañoc = a.c_tamañoc,
                              c_pais_origen = a.c_pais_origen,
                              c_pais_destino = a.c_pais_destino,
                              c_tratamiento = a.c_tratamiento,
@@ -217,7 +224,7 @@ namespace CEPA.CCO.UI.Web
                              c_navi = a.c_navi,
                              s_consignatario = a.s_consignatario
                          }).ToList();
-            }          
+            }
 
             int d_lineas = 0;
 
@@ -237,7 +244,7 @@ namespace CEPA.CCO.UI.Web
                 foreach (var buque in query)
                 {
                     d_barco = buque.d_buque;
-                    f_llegada = buque.f_trans;                    
+                    f_llegada = buque.f_trans;
                     break;
                 }
 
@@ -362,7 +369,7 @@ namespace CEPA.CCO.UI.Web
                 else
                 {
                     ROWS_START = 6;
-                    
+
                     #region "Tipo 2"
                     var grupoNavi = (from a in query
                                      group a by a.c_navi into g
@@ -386,17 +393,17 @@ namespace CEPA.CCO.UI.Web
                             break;
                         }
 
-                         // Crear hoja de trabajo
+                        // Crear hoja de trabajo
 
                         var oCelda = corto + "_" + d_barco.ToUpper().Replace(" ", "_") + "_" + voyage;
                         string nombreCelda = null;
-                        if(oCelda.Length >= 31)
-                            nombreCelda = corto + "_" + d_barco.ToUpper().Replace(" ", "_").Substring(0, 8) + "_" + voyage;
+                        if (oCelda.Length >= 31)
+                            nombreCelda = (corto + "_" + d_barco.ToUpper().Replace(" ", "_") + "_" + voyage).Substring(0,31);
                         else
                             nombreCelda = corto + "_" + d_barco.ToUpper().Replace(" ", "_") + "_" + voyage;
 
                         var oSheet = oWB.Worksheets.Add(nombreCelda);
-                        
+
 
                         oSheet.Range("A1", "J1").Merge();
                         oSheet.Range("A1", "J1").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
@@ -435,8 +442,8 @@ namespace CEPA.CCO.UI.Web
                         oSheet.Cell("G5").Style.Font.Bold = true;
                         oSheet.Row(5).Height = 25;
                         oSheet.Row(6).Height = 25;
-                        
-                        oSheet.Range("G5:J5").Style.Fill.BackgroundColor = cxExcel.XLColor.LightGray;                        
+
+                        oSheet.Range("G5:J5").Style.Fill.BackgroundColor = cxExcel.XLColor.LightGray;
 
                         oSheet.Range("G5:J5").Style.Border.InsideBorder = cxExcel.XLBorderStyleValues.Thin;
                         oSheet.Range("G5:J5").Style.Border.OutsideBorder = cxExcel.XLBorderStyleValues.Medium;
@@ -444,7 +451,7 @@ namespace CEPA.CCO.UI.Web
                         oSheet.Range("G5:J5").Style.Border.SetInsideBorderColor(cxExcel.XLColor.Black);
                         oSheet.Range("G5:J5").Style.Border.SetOutsideBorderColor(cxExcel.XLColor.Black);
 
-                        oSheet.Cell(ROWS_START, 1).Value = "No.";                        
+                        oSheet.Cell(ROWS_START, 1).Value = "No.";
                         oSheet.Cell(ROWS_START, 2).Value = "CONTENEDOR";
                         oSheet.Cell(ROWS_START, 3).Value = "TÑO";
                         oSheet.Cell(ROWS_START, 4).Value = "CONSIGNATARIO";
@@ -494,26 +501,26 @@ namespace CEPA.CCO.UI.Web
                             oSheet.Row(iCurrent).Height = 25;
                             oSheet.Cell(iCurrent, 1).Value = item.c_correlativo;
                             oSheet.Cell(iCurrent, 2).Value = item.n_contenedor;
-                            oSheet.Cell(iCurrent, 3).Value = SanitizeXmlString(item.c_tamañoc);                      
+                            oSheet.Cell(iCurrent, 3).Value = SanitizeXmlString(item.c_tamañoc);
                             oSheet.Cell(iCurrent, 4).Value = SanitizeXmlString(item.s_consignatario);
                             oSheet.Cell(iCurrent, 5).Value = SanitizeXmlString(item.c_pais_destino);
                             oSheet.Cell(iCurrent, 6).Value = SanitizeXmlString(item.c_pais_origen);
-                            if(item.d_20 > 0.00)
+                            if (item.d_20 > 0.00)
                                 oSheet.Cell(iCurrent, 7).Value = item.d_20;
                             else
                                 oSheet.Cell(iCurrent, 7).Value = "";
 
-                            if(item.d_4045 > 0.00)
+                            if (item.d_4045 > 0.00)
                                 oSheet.Cell(iCurrent, 8).Value = item.d_4045;
                             else
                                 oSheet.Cell(iCurrent, 8).Value = "";
 
-                            if(item.s_20 > 0.00)
+                            if (item.s_20 > 0.00)
                                 oSheet.Cell(iCurrent, 9).Value = item.s_20;
                             else
                                 oSheet.Cell(iCurrent, 9).Value = "";
 
-                            if(item.s_4045 > 0.00)
+                            if (item.s_4045 > 0.00)
                                 oSheet.Cell(iCurrent, 10).Value = item.s_4045;
                             else
                                 oSheet.Cell(iCurrent, 10).Value = "";
@@ -522,7 +529,7 @@ namespace CEPA.CCO.UI.Web
                             if (item.c_tratamiento == "CARBONATO")
                                 oSheet.Range(string.Concat("A", iCurrent), string.Concat("J", iCurrent)).Style.Fill.BackgroundColor = cxExcel.XLColor.FromArgb(255, 255, 204);
 
-                            
+
                             iRow = iRow + 1;
                         }
                         int val = ROWS_START + d_lineas;
@@ -543,12 +550,12 @@ namespace CEPA.CCO.UI.Web
 
                         oSheet.Range(string.Concat("G", (val + 1)), string.Concat("J", val + 2)).Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
                         oSheet.Range(string.Concat("G", (val + 1)), string.Concat("J", val + 2)).Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
-                        oSheet.Range(string.Concat("G", (val + 1)), string.Concat("J", val + 2)).Style.Font.FontColor = cxExcel.XLColor.FromArgb(156,101,0);
+                        oSheet.Range(string.Concat("G", (val + 1)), string.Concat("J", val + 2)).Style.Font.FontColor = cxExcel.XLColor.FromArgb(156, 101, 0);
                         oSheet.Range(string.Concat("G", (val + 1)), string.Concat("J", val + 2)).Style.Fill.BackgroundColor = cxExcel.XLColor.FromArgb(255, 235, 156);
 
 
 
-                        oSheet.Range(string.Concat("G", (val + 3)), string.Concat("I", val + 3)).Merge();                                               
+                        oSheet.Range(string.Concat("G", (val + 3)), string.Concat("I", val + 3)).Merge();
                         oSheet.Cell(string.Concat("G", (val + 3))).Value = "TOTAL  .   .   .   .";
                         oSheet.Cell(string.Concat("G", (val + 3))).Style.Font.Bold = true;
                         oSheet.Range(string.Concat("G", (val + 3)), string.Concat("J", val + 3)).Style.Font.FontSize = 16;
@@ -570,14 +577,14 @@ namespace CEPA.CCO.UI.Web
                         oSheet.Cell(string.Concat("A", val + 5)).Value = "Julio Francisco Flores";
                         oSheet.Cell(string.Concat("A", val + 6)).Value = "Facturación CEPA";
                         oSheet.Cell(string.Concat("A", val + 6)).Style.Font.Bold = true;
-                        
+
 
 
                         oSheet.Cell(string.Concat("D", val + 5)).Value = "Hilda Beatriz Pérez";
                         oSheet.Cell(string.Concat("D", val + 6)).Value = "Colectora SITC - Acajutla";
                         oSheet.Cell(string.Concat("D", val + 6)).Style.Font.Bold = true;
                         oSheet.Range(string.Concat("A", (val + 5)), string.Concat("D", val + 6)).Style.Font.FontSize = 13;
-                        
+
 
                         oSheet.PageSetup.PageOrientation = cxExcel.XLPageOrientation.Landscape;
                         oSheet.PageSetup.AdjustTo(53);
@@ -626,19 +633,19 @@ namespace CEPA.CCO.UI.Web
 
         public void RegisterPostBackControl()
         {
-                foreach (GridViewRow row in GridView1.Rows)
-                {
-                    Button lnkFull = row.FindControl("lnkOpe") as Button;
-                    ScriptManager current = ScriptManager.GetCurrent(Page);
-                    if(current != null)
-                        current.RegisterPostBackControl(lnkFull);
+            foreach (GridViewRow row in GridView1.Rows)
+            {
+                Button lnkFull = row.FindControl("lnkOpe") as Button;
+                ScriptManager current = ScriptManager.GetCurrent(Page);
+                if (current != null)
+                    current.RegisterPostBackControl(lnkFull);
 
-                    Button lnkCobro = row.FindControl("lnkCobro") as Button;
-                    ScriptManager _current = ScriptManager.GetCurrent(Page);
-                    if (_current != null)
-                        _current.RegisterPostBackControl(lnkCobro);
-                }
+                Button lnkCobro = row.FindControl("lnkCobro") as Button;
+                ScriptManager _current = ScriptManager.GetCurrent(Page);
+                if (_current != null)
+                    _current.RegisterPostBackControl(lnkCobro);
+            }
         }
-        
+
     }
 }

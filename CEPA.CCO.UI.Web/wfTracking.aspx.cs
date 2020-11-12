@@ -280,6 +280,17 @@ namespace CEPA.CCO.UI.Web
                 return;
 
 
+            if (ArchivoBookingDAL.isFecha(e.Row.Cells[14].Text) == true)
+            {
+                if (Convert.ToDateTime(e.Row.Cells[14].Text) > FIRST_GOOD_DATE)
+                { }
+                else
+                {
+                    e.Row.Cells[14].Text = "";
+                }
+
+            }
+
             if (ArchivoBookingDAL.isFecha(e.Row.Cells[13].Text) == true)
             {
                 if (Convert.ToDateTime(e.Row.Cells[13].Text) > FIRST_GOOD_DATE)
@@ -682,7 +693,9 @@ namespace CEPA.CCO.UI.Web
                 string n_year = cadenaADUANA[0].ToString();
                 string n_mani = cadenaADUANA[1].ToString();
 
-                string valorADUANA = ObtenerADUANA(n_contenedor, n_year, n_mani);
+                //string valorADUANA = ObtenerADUANA(n_contenedor, n_year, n_mani);
+
+                string valorADUANA = "DENEGADO";
 
                 var query = (dynamic)null;
 
@@ -1010,14 +1023,21 @@ namespace CEPA.CCO.UI.Web
 
                 pLstDetalle = DetaNavieraDAL.CalcPagos(n_contenedor, c_llegada, f_tar, f_re, DBComun.TipoBD.SqlServer, v_peso);
 
+               
+                TimeSpan t = f_re.Date - f_tar.Date;
+                int NrOfDays = t.Days + 1;
 
+                if (NrOfDays > 5)
+                    _clsPago.ValAlmacenaje = "No";
 
                 string[] cadenaADUANA = n_manifiesto.Split('-');
 
                 string n_year = cadenaADUANA[0].ToString();
                 string n_mani = cadenaADUANA[1].ToString();
 
-                string valorADUANA = ObtenerADUANA(n_contenedor, n_year, n_mani);
+                //string valorADUANA = ObtenerADUANA(n_contenedor, n_year, n_mani);
+
+                string valorADUANA = "DENEGADO";
 
                 var query = (dynamic)null;
 

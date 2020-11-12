@@ -14,6 +14,8 @@ namespace CEPA.CCO.Entidades
         public int num_manif { get; set; }
 
         public string c_prefijo { get; set; }
+
+        public DateTime f_desatraque { get; set; }
     }
 
     public class Documentos
@@ -43,5 +45,17 @@ namespace CEPA.CCO.Entidades
         public double v_valor { get; set; }
         public string d_cliente { get; set; }
         public string d_servicio { get; set; }
+    }
+
+    public class AnexoExport
+    {
+        public string c_factura { get; set; }
+        public string c_nul { get; set; }
+        public string d_buque { get; set; }
+        public DateTime f_arribo { get; set; }
+
+        public string c_naviera { get; set; }
+
+        public string d_naviera { get; set; }
     }
 }

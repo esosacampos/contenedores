@@ -138,19 +138,28 @@ namespace CEPA.CCO.UI.Web.DANUCC
                 grvRetenciones.DataSource = null;
                 grvRetenciones.DataBind();
 
-
-                if (txtContenedor.Text.Trim().TrimEnd().TrimStart().Length != 11)
+                if(txtContenedor.Text.Length == 0)
                 {
-                    b_retenido.Text = "El # de Contenedor debe poseer 11 caracteres: " + txtContenedor.Text;
-                    throw new Exception("El # de Contenedor debe poseer 11 caracteres: " + txtContenedor.Text);
+                    b_retenido.Text = "El # de Contenedor no posee un valor ";
+                    throw new Exception("El # de Contenedor no posee un valor ") ;
                 }
+                string b_shipper = DetaNavieraDAL.validShipper(DBComun.Estado.verdadero, txtContenedor.Text.Trim().TrimEnd().TrimStart(), DBComun.TipoBD.SqlServer);
 
-                valida = DetaNavieraDAL.ValidaContenedor(DBComun.Estado.verdadero, txtContenedor.Text.Trim().TrimEnd().TrimStart(), DBComun.TipoBD.SqlServer);
-
-                if (valida != "VALIDO")
+                if (b_shipper != "VALIDO")
                 {
-                    b_retenido.Text = "El # de Contenedor no es válido: " + txtContenedor.Text;
-                    throw new Exception("El # de Contenedor no es válido: " + txtContenedor.Text);
+                    if (txtContenedor.Text.Trim().TrimEnd().TrimStart().Length != 11)
+                    {
+                        b_retenido.Text = "El # de Contenedor debe poseer 11 caracteres: " + txtContenedor.Text;
+                        throw new Exception("El # de Contenedor debe poseer 11 caracteres: " + txtContenedor.Text);
+                    }
+
+                    valida = DetaNavieraDAL.ValidaContenedor(DBComun.Estado.verdadero, txtContenedor.Text.Trim().TrimEnd().TrimStart(), DBComun.TipoBD.SqlServer);
+
+                    if (valida != "VALIDO")
+                    {
+                        b_retenido.Text = "El # de Contenedor no es válido: " + txtContenedor.Text;
+                        throw new Exception("El # de Contenedor no es válido: " + txtContenedor.Text);
+                    }
                 }
 
                 if (Datepicker.Text.Length != 4)
@@ -170,7 +179,7 @@ namespace CEPA.CCO.UI.Web.DANUCC
                 }
 
 
-                if (txtContenedor.Text.Trim().TrimEnd().TrimStart().Length == 11 && Datepicker.Text.Length == 4 && ArchivoBookingDAL.isNumeric(txtMani.Text))
+                if (Datepicker.Text.Length == 4 && ArchivoBookingDAL.isNumeric(txtMani.Text))
                 {
                     pLista = DetaNavieraDAL.ConsultarDAN_Web(txtContenedor.Text.Trim().TrimEnd().TrimStart(), Datepicker.Text.Trim().TrimEnd().TrimStart(), Convert.ToInt32(txtMani.Text.Trim().TrimEnd().TrimStart())).ToList();
 
@@ -237,7 +246,7 @@ namespace CEPA.CCO.UI.Web.DANUCC
                         grvRetenciones.DataSource = null;
                         grvRetenciones.DataBind();
                         // Label lblEmptyMessage = GridView1.Controls[0].Controls[0].FindControl("lblEmptyMessage") as Label;
-                        label = "No se poseen registros de información para el contenedor: " + txtContenedor.Text.ToUpper();
+                        label = "No se poseen registros de información para el contenedor: " + txtContenedor.Text.ToUpper() + " Se recomienda confirmar el número de manifiesto.";
                         ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + label + "');", true);
                     }
 

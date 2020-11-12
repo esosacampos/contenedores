@@ -125,11 +125,15 @@
     <Content Include="vendor\bootstrap\Images\Photo0810.jpg" />
     <Content Include="vendor\bootstrap\Images\Photo0810p.png" />
     <Content Include="vendor\bootstrap\Images\plus.gif" />
+    <Content Include="vendor\bootstrap\Images\PNC.png" />
     <Content Include="vendor\bootstrap\Images\pncsv.jpg" />
+    <Content Include="vendor\bootstrap\Images\pnc_12.png" />
+    <Content Include="vendor\bootstrap\Images\pnc_dan.png" />
     <Content Include="vendor\bootstrap\Images\prev.gif" />
     <Content Include="vendor\bootstrap\Images\print.gif" />
     <Content Include="vendor\bootstrap\Images\progress_bar.gif" />
     <Content Include="vendor\bootstrap\Images\Refresh.png" />
+    <Content Include="vendor\bootstrap\Images\ucc.png" />
     <Content Include="vendor\bootstrap\js\bootbox.min.js" />
     <Content Include="vendor\bootstrap\js\bootstrap.js" />
     <Content Include="vendor\bootstrap\js\bootstrap.min.js" />

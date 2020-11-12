@@ -139,6 +139,8 @@ namespace CEPA.CCO.Entidades
         public string d_puerto_destino { get; set; }
         public string s_nit { get; set; }
         public string s_consignatario { get; set; }
+
+        public string n_BL_master { get; set; }
     }
 
 

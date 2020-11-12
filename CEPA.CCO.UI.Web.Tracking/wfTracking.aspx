@@ -1,4 +1,4 @@
-﻿  <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="wfTracking.aspx.cs" Inherits="CEPA.CCO.UI.Web.Tracking.wfTracking" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="wfTracking.aspx.cs" Inherits="CEPA.CCO.UI.Web.Tracking.wfTracking" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
@@ -26,6 +26,11 @@
     <link href="vendor/bootstrap/css/bootstrap-datetimepicker.css" rel="stylesheet" />
     <link href="bootstrap/csss/checbox.css" rel="stylesheet" />
     <style type="text/css">
+        #grvTracking tbody tr td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
         .sidebar ul li {
             border: none;
         }
@@ -44,14 +49,23 @@
             background-color: #CECEF6
         }
 
+        #btnVEA {
+            background-image: url(dist/logos/vea_logo.png);
+            background-repeat: no-repeat;
+            height: 37px;
+            width: 117px;
+            background-size: 115px;
+            background-position: center;
+        }
+
         table.table-bordered th:last-child,
         table.table-bordered td:last-child {
             border-right: 1px solid #1771f8;
         }
 
         table.dataTable thead > tr > th {
-            padding-left: 9px;
-            padding-right: 18px;
+            padding-left: 5px;
+            padding-right: 12px;
             background-color: #1771F8;
             text-align: center;
             color: #fff;
@@ -94,7 +108,11 @@
         }
 
         .alignCells {
-            text-transform: capitalize;
+            text-transform: lowercase;
+        }
+
+        #grvTracking tbody tr td:first-letter {
+            text-transform: uppercase;
         }
 
         .dataTables_filter, .dataTables_info, .dataTables_paginate, .dataTables_length {
@@ -231,8 +249,8 @@
             EnablePageMethods="true" EnableHistory="true">
             <Scripts>
                 <asp:ScriptReference Path="~/vendor/jquery/jquery.min.js" />
-                <asp:ScriptReference Path="~/vendor/bootstrap/js/bootstrap.min.js" />
-                <asp:ScriptReference Path="~/vendor/bootstrap/js/bootbox.min.js" />
+                <asp:ScriptReference Path="~/vendor/bootstrap/js/bootstrap.js" />
+                <%--<asp:ScriptReference Path="~/vendor/bootstrap/js/bootbox.min.js" />--%>
                 <%--<asp:ScriptReference Path="~/vendor/metisMenu/metisMenu.min.js" />
                 <asp:ScriptReference Path="~/vendor/raphael/raphael.min.js" />--%>
                 <%-- <asp:ScriptReference Path="~/vendor/morrisjs/morris.min.js" />
@@ -264,8 +282,7 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right list">
                     <li>
-                        <center>
-                            <a href="https://www.websmultimedia.com/contador-de-visitas-gratis" title="">
+                        <center><a href="https://www.websmultimedia.com/contador-de-visitas-gratis" title="">
                             <img style="border: 0px solid; display: inline; width:120px; height:25px;" alt="" src="https://www.websmultimedia.com/contador-de-visitas.php?id=258647"></a><br><a href='http://www.websmultimedia.com/registro-de-marcas-y-logotipos' style="color: #777;font-size: 20px;font-weight: bold;">Visitantes</a></center>
                     </li>
                 </ul>
@@ -273,27 +290,22 @@
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
                             <li></li>
+
                             <li>
-                                <img src="vendor/bootstrap/logo/dga_lo.png" alt="" style="margin-bottom: 5%; margin-left: 20%; margin-top: 20%;" class="img-responsive" />
+                                <img src="dist/logos/aduana.png" alt="" style="margin-bottom: 5%; margin-left: 10%; margin-top: 20%; width: 120px;" class="img-responsive">
                             </li>
+                            <li></li>
                             <li>
-                               
+                                <img src="dist/logos/pnc.png" alt="" style="margin-bottom: 5%; margin-left: 10%; width: 120px; height: 150px; margin-top: 10%;" class="img-responsive">
                             </li>
+                            <li></li>
                             <li>
-                                <img src="vendor/bootstrap/logo/pncsv.png" alt="" style="margin-bottom: 5%; margin-left: 15%" class="img-responsive" />
+                                <img src="dist/logos/mag.png" alt="" style="margin-bottom: 5%; margin-left: 10%; margin-top: 10%; width: 125px;" class="img-responsive">
                             </li>
-                            <li>
-                               
-                            </li>
-                            <li>
-                                <img src="vendor/bootstrap/logo/MAG_Logo.png" alt="" style="margin-bottom:5%; margin-left: 8%" class="img-responsive" />
-                            </li>
-                            <li>
-                                
-                            </li>
+                            <li></li>
                             <li>
                                 <a href="wfAyuda.aspx" alt="Manual de Usuario">
-                                    <img src="vendor/bootstrap/logo/manual_icons.png" alt="" style="margin-bottom: 5%; margin-left: 10%" class="img-responsive" />
+                                    <img src="dist/logos/manual.png" alt="" style="margin-bottom: 5%; margin-left: 5%; width: 120px; height: 130px;" class="img-responsive">
                                 </a>
                             </li>
                         </ul>
@@ -321,7 +333,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-9">
+                            <div class="col-lg-8">
                                 <div class="form-inline">
                                     <div class="form-group">
                                         <label>Año Declaración</label>
@@ -342,7 +354,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-4">
                                 <div class="form-inline">
                                     <div id="googleRecaptchadiv">
                                         <!-- BEGIN: ReCAPTCHA implementation example. -->
@@ -362,16 +374,20 @@
                                                 clickButton.click();
                                             };
 
-                                           
+
                                         </script>
                                         <!-- Optional noscript fallback. -->
                                         <!-- END: ReCAPTCHA implementation example. -->
                                     </div>
                                     <div class="form-group">
-                                        <asp:Button CssClass="btn btn-primary" runat="server" ID="recaptcha_demo_submit" Text="Consultar" OnClick="recaptcha_demo_submit_Click" />
-                                        <asp:Button ID="btnBuscar" runat="server" CssClass="btn btn-primary" Text="Consultar" OnClick="btnBuscar_Click"  Style="display: none;" />
-                                        <asp:Button ID="btnClrear" runat="server" CssClass="btn btn-success" Text="Limpiar" />
+                                        <asp:Button CssClass="btn btn-primary" runat="server" ID="recaptcha_demo_submit" Text="Consultar" OnClick="recaptcha_demo_submit_Click" Style="display: none;" />
+                                        <asp:Button ID="btnBuscar" runat="server" CssClass="btn btn-primary" Text="Consultar" OnClick="btnBuscar_Click" />
+                                        <asp:Button ID="btnClrear" runat="server" CssClass="btn btn-success" Text="Limpiar" OnClick="btnLimpiar_Click" />
+                                        <%--   <button id="btnClear" class="btn btn btn-success">Limpiar</button> class="d-inline-block material-tooltip-smaller"--%>
                                         <input type="button" id="exportpdf" value="Imprimir" class="btn btn-info">
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnVEA" type="button" class="btn btn-success" data-toggle="tooltip" title="Clic ir a VEA de la DGA" onclick="shwwindow()" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -403,18 +419,19 @@
                                                             <asp:BoundField DataField="n_contenedor" HeaderText="CONTENEDOR"></asp:BoundField>
                                                             <asp:BoundField DataField="c_tarja" HeaderText="TARJA"></asp:BoundField>
                                                             <asp:BoundField DataField="c_tamaño" HeaderText="TAMAÑO"></asp:BoundField>
-                                                            <asp:BoundField DataField="b_estado" HeaderText="ESTADO"></asp:BoundField>
+                                                            <asp:BoundField DataField="b_estado" HeaderText="ESTADO S/MANIFIESTO"></asp:BoundField>
                                                             <asp:BoundField DataField="b_trafico" HeaderText="TRAFICO"></asp:BoundField>
                                                             <asp:BoundField DataField="d_cliente" HeaderText="NAVIERA"></asp:BoundField>
                                                             <asp:BoundField DataField="d_buque" HeaderText="BUQUE"></asp:BoundField>
                                                             <asp:BoundField DataField="f_llegada" HeaderText="F/ATRAQUE" HtmlEncode="false" DataFormatString="{0:F}" ItemStyle-CssClass="alignCells"></asp:BoundField>
+                                                            <asp:BoundField DataField="f_desatraque" HeaderText="F/DESATRAQUE" HtmlEncode="false" DataFormatString="{0:F}" ItemStyle-CssClass="alignCells"></asp:BoundField>
                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
                                                                     <button type="button" class="btn btn-primary btn xs" onclick="return GetSelectedRow(this)" id="tooltop" data-toggle="tooltip" data-placement="top" data-original-title="Consultar el estado para despachar su contenedor">
                                                                         <span class="glyphicon glyphicon-usd" style="cursor: pointer;"></span>
                                                                     </button>
                                                                     <tr id="rowF" iddeta="<%# Eval(" IdDeta") %>">
-                                                                        <td colspan="12">
+                                                                        <td colspan="13">
                                                                             <div style="position: relative;">
                                                                                 <asp:DetailsView ID="dtTracking" runat="server" AutoGenerateRows="False" DataKeyNames="IdDeta" CssClass="table table-striped table-bordered table-hover" CellPadding="0" GridLines="None">
                                                                                     <Fields>
@@ -422,11 +439,11 @@
                                                                                         <asp:BoundField DataField="descripcion" HeaderText="Descripcion" ReadOnly="True" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_rep_naviera" HeaderText="Anuncio Contenedor a Bordo por NAVIERA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_aut_aduana" HeaderText="Autorización Desestiba por ADUANA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
-                                                                                        <asp:BoundField DataField="f_recepA" HeaderText="Recepcion de Contenedor por CEPA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
+                                                                                        <asp:BoundField DataField="f_recepA" HeaderText="Recepcion Contenedor" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
+                                                                                        <asp:BoundField DataField="f_trans_aduana" HeaderText="Confirmación de Recepción para ADUANA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_recep_patio" HeaderText="Ubicacion de Contenedor por CEPA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_cancelado" HeaderText="Cancelación del Contenedor por la NAVIERA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_cambio" HeaderText="Cambio de Condición por NAVIERA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
-                                                                                        <asp:BoundField DataField="f_trans_aduana" HeaderText="Confirmación de Recepción para ADUANA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_reg_aduana" HeaderText="Transmisión Electrónica de la DM" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:TemplateField HeaderStyle-Font-Bold="true">
                                                                                             <HeaderTemplate>
@@ -535,7 +552,7 @@
                                                 </ContentTemplate>
                                                 <Triggers>
                                                     <asp:AsyncPostBackTrigger ControlID="btnBuscar" EventName="Click" />
-                                                    <asp:PostBackTrigger ControlID="btnClrear" />
+                                                    <asp:AsyncPostBackTrigger ControlID="btnClrear" EventName="Click" />
                                                 </Triggers>
                                             </asp:UpdatePanel>
                                         </div>
@@ -564,7 +581,7 @@
                     Para mayor información contactar: Gerente Portuario <a href="#">Roberto de Jesús Mendoza - 7070-8013 - roberto.mendoza@cepa.gob.sv</a> / Jefe Análisis de Gestión <a href="#">Omar Ivan Castillo - 7070-8243 - omar.castillo@cepa.gob.sv</a>
                 </p>
                 <p class="text-justify" style="font-size: 11px;">
-                    Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática - 7070-8256 - elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 20 de Abril de 2020
+                    Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática - 7070-8256 - elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 11 de Noviembre de 2020
                 </p>
             </div>
         </footer>
@@ -705,29 +722,7 @@
                     }
                 });
 
-               <%--  $('#<%= grvTracking.ClientID %>').DataTable({                    
-                      "responsive": true,
-                        "ordering": false,
-                        "searching": false,
-                        "info": false,
-                        "autoWidth": false,
-                        "pagin":true,
-                        "scrollX": true
-                });--%>
 
-                //$("[id*=grvTracking]").DataTable({
-                //    "paging": true,
-                //    "lengthChange": false,
-                //    "searching": false,
-                //    "ordering": true,
-                //    "info": true,
-                //    "autoWidth": false,
-                //    "scrollX": true
-                //});
-
-                // $('#ContentPlaceHolder1_grvTracking tbody > tr#rowF').css('display', 'none');
-
-                //$('#ContentPlaceHolder1_grvTracking').trigger('footable_redraw');
 
                 $('#myModal').block({
                     message: '<h1>Procesando</h1><img src="<%= ResolveClientUrl("~/vendor/bootstrap/Images/progress_bar.gif") %>" />',
@@ -747,24 +742,29 @@
             }
 
 
+
+
+
+
             function endRequest(sender, args) {
 
-                $.unblockUI();
-                // $("[id*=grvTracking]").DataTable({
-                //    "paging": true,
-                //    "lengthChange": false,
-                //    "searching": false,
-                //    "ordering": true,
-                //    "info": true,
-                //    "autoWidth": false,
-                //    "scrollX": true
+                //$("#myOK").click(function () {
+                //    $("#myModal").modal('hide');
                 //});
+
+
+
+                //$("#myOKD").click(function () {
+                //    $("#myModalD").modal('hide');
+                //});
+
+
+                $.unblockUI();
+
+
+
                 $('#myModal').unblock();
 
-
-                //            $('#ContentPlaceHolder1_grvTracking').footable();
-
-                //            $('#ContentPlaceHolder1_grvTracking tbody').trigger('footable_redraw');
 
             }
 
@@ -1353,8 +1353,24 @@
             }
 
 
+            function btnCheck(valor) {
+                if (valor == 1)
+                    document.getElementById("btnVEA").disabled = false;
+                else
+                    document.getElementById("btnVEA").disabled = true;
+            }
 
 
+
+
+            function shwwindow() {
+                //window.open(myurl, '_blank');
+                var anio = document.getElementById('<%= a_declaracion.ClientID %>').value;
+                var serial = document.getElementById('<%= n_serial.ClientID %>').value;
+                var registro = document.getElementById('<%= n_correlativo.ClientID %>').value;
+                var url = 'anio=' + anio + '&aduana=02&serial=' + serial + '&registro=' + registro
+                window.open('https://aduana2.mh.gob.sv/VEA/free/InfoDm.do?' + url, '_blank');
+            }
 
 
 
@@ -1453,7 +1469,9 @@
             }
 
 
-
+            function btnLimpio() {
+                window.href = "wfTracking.aspx";
+            };
 
             function CalculosTabla() {
                 var subtotal = 0;
@@ -1530,15 +1548,6 @@
 
             function pageLoad() {
                 $(document).ready(function () {
-                    //6LfrpzEUAAAAAE7ID9J6bhWi26WXJuKFKGHRpE81, 6LeIrTEUAAAAAGus82oGe3gWnVijwzM3S7t6I1H8
-                    //var x = window.location.href;
-                    //var z = x.indexOf("acajutla");
-                    //if (z > 0) {
-                    //    $("#recaptcha-demo").attr("data-sitekey", "6LeIrTEUAAAAAGus82oGe3gWnVijwzM3S7t6I1H8");
-                    //}
-                    //else {
-                    //    $("#recaptcha-demo").attr("data-sitekey", "6LfrpzEUAAAAAE7ID9J6bhWi26WXJuKFKGHRpE81");
-                    //}
 
                     $("#myOK").click(function () {
                         $("#myModal").modal('hide');
@@ -1723,6 +1732,8 @@
                         $("#myModalD").modal('hide');
                     });
 
+
+                    $('#btnVEA').tooltip();
 
                     //$('#<%=grvTracking.ClientID %> button').tooltip();
 

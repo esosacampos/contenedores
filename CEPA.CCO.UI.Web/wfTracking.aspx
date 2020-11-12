@@ -10,7 +10,7 @@
 
         .footable > tbody > tr > td {
             border-top: 1px solid #dddddd;
-            padding: 10px;
+            padding: 3px;
             text-align: center;
             border-left: none;
             border-top: none;
@@ -252,13 +252,15 @@
                             <asp:BoundField DataField="c_tarja" HeaderText="# TARJA"></asp:BoundField>
                             <asp:BoundField DataField="b_requiere" HeaderText="ENTREGA"></asp:BoundField>
                             <asp:BoundField DataField="b_shipper" HeaderText="SHIPPER OWNER"></asp:BoundField>
-                            <asp:BoundField DataField="pais_origen" HeaderText="P. ORIGEN"></asp:BoundField>
+                            <asp:BoundField DataField="pais_origen" HeaderText="PAÍS DE ORIGEN"></asp:BoundField>
                             <asp:BoundField DataField="c_tamaño" HeaderText="TAMAÑO"></asp:BoundField>
-                            <asp:BoundField DataField="b_estado" HeaderText="ESTADO"></asp:BoundField>
+                            <asp:BoundField DataField="b_estado" HeaderText="ESTADO S/MANIFIESTO"></asp:BoundField>
                             <asp:BoundField DataField="b_trafico" HeaderText="TRAFICO"></asp:BoundField>
                             <asp:BoundField DataField="d_cliente" HeaderText="NAVIERA"></asp:BoundField>
                             <asp:BoundField DataField="d_buque" HeaderText="BUQUE"></asp:BoundField>
                             <asp:BoundField DataField="f_llegada" HeaderText="F. ATRAQUE" HtmlEncode="false"
+                                DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
+                            <asp:BoundField DataField="f_desatraque" HeaderText="F. DESATRAQUE" HtmlEncode="false"
                                 DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                             <asp:TemplateField>
                                 <ItemTemplate>
@@ -292,13 +294,13 @@
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_recepA" HeaderText="F. Recepción en Arco" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
+                                                        <asp:BoundField DataField="f_trans_aduana" HeaderText="F. Transmision ADUANA" ReadOnly="True"
+                                                            DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_recep_patio" HeaderText="F. Recepción en Patio" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_cancelado" HeaderText="F. Cancelación" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_cambio" HeaderText="F. Cambio Condición" ReadOnly="True"
-                                                            DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
-                                                        <asp:BoundField DataField="f_trans_aduana" HeaderText="F. Transmision ADUANA" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_ret_dan" HeaderText="F. Orden de Retención DAN" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
@@ -557,7 +559,7 @@
         </div>
 
     </div>
-      <!-- Modal Declaraciones -->
+    <!-- Modal Declaraciones -->
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
@@ -640,9 +642,9 @@
                 }
 
                 $.unblockUI();
-              
+
                 $('#myModal').unblock();
-                
+
 
             });
         };

@@ -60,7 +60,7 @@ namespace CEPA.CCO.DAL
                 _conn.Open();
                 string _consulta = @"SELECT n_contenedor, IdDeta
                                     FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_DETA_DOC_NAVI b ON a.IdDoc = b.IdDoc
-                                    WHERE b.b_estado = 1 AND b.n_manifiesto = {0} AND a_manifiesto = '{1}' AND a.b_autorizado = 1 AND f_retencion_dga IS NULL
+                                    WHERE b.b_estado = 1 AND b.n_manifiesto = {0} AND a_manifiesto = '{1}' AND a.b_autorizado = 1 AND b_cancelado = 0
                                     AND a.n_contenedor LIKE '_______{2}%'";
 
 
@@ -81,6 +81,36 @@ namespace CEPA.CCO.DAL
             }
         }
 
+        public static List<string> GetContenedor(string prefix, int n_manifiesto, int a_mani, string b_dga)
+        {
+            List<string> pLista = new List<string>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                string _consulta = @"SELECT n_contenedor, IdDeta
+                                    FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_DETA_DOC_NAVI b ON a.IdDoc = b.IdDoc
+                                    WHERE b.b_estado = 1 AND b.n_manifiesto = {0} AND a_manifiesto = '{1}' AND a.b_autorizado = 1 AND f_retencion_dga IS NULL AND b_cancelado = 0
+                                    AND a.n_contenedor LIKE '_______{2}%'";
+
+
+                SqlCommand _command = new SqlCommand(string.Format(_consulta, n_manifiesto, a_mani, prefix), _conn as SqlConnection);
+                _command.CommandType = CommandType.Text;
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+
+                    pLista.Add(string.Format("{0}-{1}", _reader.IsDBNull(0) ? "" : _reader.GetString(0), _reader.IsDBNull(1) ? "0" : Convert.ToString(_reader.GetInt32(1))));
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return pLista;
+            }
+        }
+
         public static List<DetaNaviera> GetContenedor(string prefix)
         {
             List<DetaNaviera> pLista = new List<DetaNaviera>();
@@ -90,7 +120,7 @@ namespace CEPA.CCO.DAL
                 _conn.Open();
                 string _consulta = @"SELECT a.n_contenedor, a.IdDeta, b.c_llegada
                                     FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
-                                    WHERE a.b_autorizado = 1 AND b_contecna = 1 AND b_cancelado = 0 AND b_recepcion = 0
+                                    WHERE a.b_autorizado = 1 AND b_cotecna = 1 AND b_cancelado = 0 AND b_recepcion = 0
                                     AND a.n_contenedor LIKE '_______{0}%'
                                     ORDER BY IdDeta DESC ";
 

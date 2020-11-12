@@ -1557,6 +1557,42 @@ namespace CEPA.CCO.DAL
             }
 
         }
+        public static string AlmacenarValidMst(ArchivoAduanaValid _Encanaviera, DBComun.Estado pTipo)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+                SqlCommand _command = new SqlCommand("pa_valid_aduana_master", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@n_manifiesto", _Encanaviera.n_manifiesto));
+                _command.Parameters.Add(new SqlParameter("@n_contenedor", _Encanaviera.n_contenedor));
+                _command.Parameters.Add(new SqlParameter("@n_BL", _Encanaviera.n_BL));
+                _command.Parameters.Add(new SqlParameter("@a_mani", _Encanaviera.a_mani));
+                _command.Parameters.Add(new SqlParameter("@c_tipo_bl", _Encanaviera.c_tipo_bl));
+                _command.Parameters.Add(new SqlParameter("@b_sidunea", _Encanaviera.b_sidunea));
+                _command.Parameters.Add(new SqlParameter("@c_tamaño", _Encanaviera.c_tamaño));
+                _command.Parameters.Add(new SqlParameter("@v_peso", _Encanaviera.v_peso));
+                _command.Parameters.Add(new SqlParameter("@c_pais_destino", _Encanaviera.c_pais_destino));
+                _command.Parameters.Add(new SqlParameter("@c_pais_origen", _Encanaviera.c_pais_origen));
+                _command.Parameters.Add(new SqlParameter("@d_puerto_origen", _Encanaviera.d_puerto_origen));
+                _command.Parameters.Add(new SqlParameter("@d_puerto_destino", _Encanaviera.d_puerto_destino));
+                _command.Parameters.Add(new SqlParameter("@s_agencia", _Encanaviera.s_agencia));
+                _command.Parameters.Add(new SqlParameter("@c_paquete", _Encanaviera.c_paquete));
+                _command.Parameters.Add(new SqlParameter("@c_embalaje", _Encanaviera.c_embalaje));
+                _command.Parameters.Add(new SqlParameter("@d_embalaje", _Encanaviera.d_embalaje));
+                _command.Parameters.Add(new SqlParameter("@s_nit", _Encanaviera.s_nit));
+                _command.Parameters.Add(new SqlParameter("@s_consignatario", _Encanaviera.s_consignatario));
+                _command.Parameters.Add(new SqlParameter("@n_BL_master", _Encanaviera.n_BL_master));
+
+
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+            }
+        }
 
         public static string AlmacenarValid(ArchivoAduanaValid _Encanaviera, DBComun.Estado pTipo)
         {
@@ -2759,7 +2795,7 @@ namespace CEPA.CCO.DAL
                 if (c_naviera != "11" && c_naviera != "289" && c_naviera != "216")
                 {
                     string sql = @"SELECT a.iddeta, n_contenedor, CASE WHEN b_reef = 'Y' OR b_reef = 'N' THEN  d.d_descripcion + ' ' + 'HREF' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'U1' THEN d.d_descripcion + ' OPENTOP'  ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'T1' THEN d.d_descripcion + ' TANQUE' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'P1' THEN d.d_descripcion + ' FLAT' ELSE  CASE WHEN e.d_tipo = 'HC' THEN d.d_descripcion + ' HC' ELSE d.d_descripcion + ' ' + e.d_tipo END END END END END c_tamaño, c_naviera, b.c_llegada, f_llegada,
-                                CASE WHEN b_ret_dir = 'Y' THEN 'RETIRO DIRECTO' ELSE CASE WHEN rtrim(ltrim(b_transhipment)) = 'Y' THEN 'TRASBORDO' ELSE  'PATIO CEPA' END END b_trafico, CASE WHEN rtrim(ltrim(a.b_estado)) = 'F' THEN 'LLENO' ELSE 'VACIO' END b_estado, a_manifiesto + '-' +  CONVERT(VARCHAR(4), n_manifiesto) manifiesto
+                                CASE WHEN b_ret_dir = 'Y' THEN 'RETIRO DIRECTO' ELSE CASE WHEN rtrim(ltrim(b_transhipment)) = 'Y' THEN 'TRASBORDO' ELSE  'PATIO CEPA' END END b_trafico, CASE WHEN rtrim(ltrim(a.b_estado)) = 'F' THEN 'LLENO' ELSE 'VACIO' END + CASE WHEN c_condicion = 'F' THEN '/FCL' ELSE CASE WHEN c_condicion = 'L' THEN '/LCL' ELSE '' END END b_estado, a_manifiesto + '-' +  CONVERT(VARCHAR(4), n_manifiesto) manifiesto
                                 FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
                                 INNER JOIN CCO_ENCA_CON_LEN d ON SUBSTRING(c_tamaño, 1, 1) = d.IdValue
                                 INNER JOIN CCO_ENCA_CON_WIDTH e ON SUBSTRING(c_tamaño, 2, 1) = e.IdValue
@@ -2775,7 +2811,7 @@ namespace CEPA.CCO.DAL
                 else
                 {
                     string sql = @"SELECT a.iddeta, n_contenedor, CASE WHEN b_reef = 'Y' OR b_reef = 'N' THEN  d.d_descripcion + ' ' + 'HREF' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'U1' THEN d.d_descripcion + ' OPENTOP'  ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'T1' THEN d.d_descripcion + ' TANQUE' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'P1' THEN d.d_descripcion + ' FLAT' ELSE  CASE WHEN e.d_tipo = 'HC' THEN d.d_descripcion + ' HC' ELSE d.d_descripcion + ' ' + e.d_tipo END END END END END c_tamaño, c_naviera, b.c_llegada, f_llegada,
-                                CASE WHEN b_ret_dir = 'Y' THEN 'RETIRO DIRECTO' ELSE CASE WHEN rtrim(ltrim(b_transhipment)) = 'Y' THEN 'TRASBORDO' ELSE  'PATIO CEPA' END END b_trafico, CASE WHEN rtrim(ltrim(a.b_estado)) = 'F' THEN 'LLENO' ELSE 'VACIO' END b_estado, a_manifiesto + '-' +  CONVERT(VARCHAR(4), n_manifiesto) manifiesto
+                                CASE WHEN b_ret_dir = 'Y' THEN 'RETIRO DIRECTO' ELSE CASE WHEN rtrim(ltrim(b_transhipment)) = 'Y' THEN 'TRASBORDO' ELSE  'PATIO CEPA' END END b_trafico, CASE WHEN rtrim(ltrim(a.b_estado)) = 'F' THEN 'LLENO' ELSE 'VACIO' END + CASE WHEN c_condicion = 'F' THEN '/FCL' ELSE CASE WHEN c_condicion = 'L' THEN '/LCL' ELSE '' END END b_estado, a_manifiesto + '-' +  CONVERT(VARCHAR(4), n_manifiesto) manifiesto
                                 FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
                                 INNER JOIN CCO_ENCA_CON_LEN d ON SUBSTRING(c_tamaño, 1, 1) = d.IdValue
                                 INNER JOIN CCO_ENCA_CON_WIDTH e ON SUBSTRING(c_tamaño, 2, 1) = e.IdValue
@@ -2992,32 +3028,32 @@ namespace CEPA.CCO.DAL
                 f_aut_aduana = Convert.ToDateTime(reader["f_aut_aduana"]),
                 f_recep_patio = Convert.ToDateTime(reader["f_recep_patio"]),
                 f_ret_dan = Convert.ToString(reader["f_reg_dan"]),
-                f_tramite_dan = Convert.ToDateTime(reader["f_tramite"]),
-                f_liberado_dan = Convert.ToDateTime(reader["f_liberado"]),
+                f_tramite_dan = reader.IsDBNull(6) ? (DateTime?)null : Convert.ToDateTime(reader["f_tramite"]),
+                f_liberado_dan = reader.IsDBNull(7) ? (DateTime?)null : Convert.ToDateTime(reader["f_liberado"]),
                 f_salida_carga = Convert.ToString(reader["f_salida_carga"]),
-                f_solic_ingreso = Convert.ToDateTime(reader["f_solic_ingre"]),
-                f_auto_patio = Convert.ToDateTime(reader["f_aut_patio"]),
-                f_puerta1 = Convert.ToDateTime(reader["f_confir_puerta"]),
+                f_solic_ingreso = reader.IsDBNull(9) ? (DateTime?)null : Convert.ToDateTime(reader["f_solic_ingre"]),
+                f_auto_patio = reader.IsDBNull(10) ? (DateTime?)null : Convert.ToDateTime(reader["f_aut_patio"]),
+                f_puerta1 = reader.IsDBNull(11) ? (DateTime?)null : Convert.ToDateTime(reader["f_confir_puerta"]),
                 c_llegada = Convert.ToString(reader["c_llegada"]),
                 n_contenedor = Convert.ToString(reader["n_contenedor"]),
                 c_naviera = Convert.ToString(reader["c_naviera"])
             };
             //item.ubicacion = ObtenerUbicacion(item.c_llegada, item.n_contenedor, item.c_naviera);
             item.s_comentarios = Convert.ToString(reader["s_comentarios"]);
-            item.f_trans_aduana = reader.IsDBNull(16) ? Convert.ToDateTime(reader["f_trasmision"]) : Convert.ToDateTime(reader["f_trasmision"]);
+            item.f_trans_aduana = reader.IsDBNull(16) ? (DateTime?)null : Convert.ToDateTime(reader["f_trasmision"]);
             item.s_consignatario = Convert.ToString(reader["s_consignatario"]);
             item.descripcion = Convert.ToString(reader["s_comodity"]);
-            item.f_caseta = Convert.ToDateTime(reader["f_caseta"]);
+            item.f_caseta = reader.IsDBNull(19) ? (DateTime?)null : Convert.ToDateTime(reader["f_caseta"]);
             item.f_marchamo_dan = Convert.ToString(reader["f_marchamo_dan"]);
-            item.f_recepA = reader.IsDBNull(21) ? Convert.ToDateTime(reader["f_recepcion"]) : Convert.ToDateTime(reader["f_recepcion"]);
+            item.f_recepA = reader.IsDBNull(21) ? (DateTime?)null : Convert.ToDateTime(reader["f_recepcion"]);
             item.f_reg_aduana = Convert.ToString(reader["f_reg_aduana"]);
             item.f_reg_selectivo = Convert.ToString(reader["f_reg_selectivo"]);
-            item.f_lib_aduana = Convert.ToDateTime(reader["f_lib_aduana"]);
-            item.f_ret_mag = Convert.ToDateTime(reader["f_ret_mag"]);
-            item.f_lib_mag = Convert.ToDateTime(reader["f_lib_mag"]);
+            item.f_lib_aduana = reader.IsDBNull(24) ? (DateTime?)null : Convert.ToDateTime(reader["f_lib_aduana"]);
+            item.f_ret_mag = reader.IsDBNull(25) ? (DateTime?)null : Convert.ToDateTime(reader["f_ret_mag"]);
+            item.f_lib_mag = reader.IsDBNull(26) ? (DateTime?)null : Convert.ToDateTime(reader["f_lib_mag"]);
             item.f_ret_ucc = Convert.ToString(reader["f_retencion_ucc"]);
-            item.f_tramite_ucc = Convert.ToDateTime(reader["f_trami_ucc"]);
-            item.f_liberado_ucc = Convert.ToDateTime(reader["f_liberado_ucc"]);
+            item.f_tramite_ucc = reader.IsDBNull(28) ? (DateTime?)null : Convert.ToDateTime(reader["f_trami_ucc"]);
+            item.f_liberado_ucc = reader.IsDBNull(29) ? (DateTime?)null : Convert.ToDateTime(reader["f_liberado_ucc"]);
             item.f_marchamo_ucc = Convert.ToString(reader["f_marchamo_ucc"]);
             item.f_cancelado = Convert.ToString(reader["f_cancelado"]);
             item.f_deta_dan = Convert.ToString(reader["f_lib_Dan_det"]);
@@ -4373,6 +4409,63 @@ namespace CEPA.CCO.DAL
                 _reader.Close();
                 _conn.Close();
                 //System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
+                return notiLista;
+            }
+
+        }
+
+        public static string validShipper(DBComun.Estado pEstado, string n_contenedor, DBComun.TipoBD pDB)
+        {
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(pDB, pEstado))
+            {
+                _conn.Open();
+                SqlCommand _command = new SqlCommand("pa_valid_shipper", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_contenedor", n_contenedor));
+
+
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
+
+        public static List<DetaNaviera> getNaviValida()
+        {
+            List<DetaNaviera> notiLista = new List<DetaNaviera>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();             
+
+                string consulta = @"select c_naviera, c_prefijo from CCO_USUARIOS_NAVIERAS";
+
+                SqlCommand _command = new SqlCommand(consulta, _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    DetaNaviera _notificacion = new DetaNaviera
+                    {
+                        c_cliente = _reader.GetString(0),
+                        c_navi = _reader.GetString(1)
+                      
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
                 return notiLista;
             }
 

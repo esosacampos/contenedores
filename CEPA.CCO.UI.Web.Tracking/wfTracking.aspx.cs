@@ -28,26 +28,55 @@ using iTextSharp.tool.xml;
 using Newtonsoft.Json;
 using System.Data;
 using System.Web.Configuration;
+using System.Collections.Specialized;
 
 namespace CEPA.CCO.UI.Web.Tracking
 {
     public partial class wfTracking : System.Web.UI.Page
     {
-      
+
         private static readonly DateTime FIRST_GOOD_DATE1 = new DateTime(2016, 01, 01, 00, 00, 00);
         private static readonly DateTime FIRST_GOOD_DATE = new DateTime(1900, 01, 01);
         public int b_sidunea = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            //if (!IsPostBack)
+            //{
+            String currurl = HttpContext.Current.Request.RawUrl;
+
+
+            Uri myUri = new Uri(Request.Url.AbsoluteUri);
+
+            // Check to make sure some query string variables
+            // exist and if not add some and redirect.
+            int iqs = currurl.IndexOf('?');
+
+            // If query string variables exist, put them in
+            // a string.
+
             if (!IsPostBack)
             {
+                //btnVEA.Enabled = false;
+            }
 
-            }
-            else
+            if (iqs >= 0)
             {
-//                Response.Redirect("wfTracking.aspx");
-            }
+                bool flag;
+                string contenedor = HttpUtility.ParseQueryString(myUri.Query).Get("contenedor");
+                string a_decla = HttpUtility.ParseQueryString(myUri.Query).Get("a_decla");                
+                string s_decla = HttpUtility.ParseQueryString(myUri.Query).Get("s_decla");
+                string c_decla = HttpUtility.ParseQueryString(myUri.Query).Get("c_decla");
+                string b_sidunea = HttpUtility.ParseQueryString(myUri.Query).Get("b_sidunea");
+
+                txtBuscar.Text = contenedor;
+                a_declaracion.Text = a_decla;
+                n_serial.Text = s_decla;
+                n_correlativo.Text = c_decla;
+                radio3.Checked = Boolean.TryParse(b_sidunea, out flag);
+                
+                btnBuscar_Click(btnBuscar, new EventArgs());               
+            }   
         }
         protected void recaptcha_demo_submit_Click(object sender, EventArgs e)
         {
@@ -207,7 +236,7 @@ namespace CEPA.CCO.UI.Web.Tracking
 
                             ServicePointManager.Expect100Continue = true;
                             System.Net.ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072 | SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls;
- 
+
 
                             XmlDocument doc = new XmlDocument();
 
@@ -255,14 +284,14 @@ namespace CEPA.CCO.UI.Web.Tracking
                         }
                     }
                 }
-                
+
 
 
                 return _mani;
             }
             catch (Exception e)
             {
-                throw new Exception("Error: "+ e.Message + "<br><strong>Favor intentar mas tarde, presentamos problemas de comunicación o reportar a Informática ACAJUTLA 2405-3255 con Elsa Sosa</strong>");
+                throw new Exception("Error: " + e.Message + "<br><strong>Favor intentar mas tarde, presentamos problemas de comunicación o reportar a Informática ACAJUTLA 2405-3255 con Elsa Sosa</strong>");
             }
 
         }
@@ -299,7 +328,7 @@ namespace CEPA.CCO.UI.Web.Tracking
                 else
                     b_sidunea = 0;
 
-                
+
 
                 if (txtBuscar.Text.Trim().TrimStart().TrimEnd().ToUpper().Replace("-", "").Length == 11)
                 {
@@ -313,6 +342,7 @@ namespace CEPA.CCO.UI.Web.Tracking
                         //v_aduana = "2019-176";
                         if (v_aduana == "0")
                         {
+                            ScriptManager.RegisterStartupScript(this, typeof(string), "", "btnCheck(0);", true);
                             throw new Exception("Alerta!! Revise los párametros de ingreso a está consulta y/o los utilizados en sus declaración de mercancía");
                         }
                         else
@@ -321,6 +351,7 @@ namespace CEPA.CCO.UI.Web.Tracking
 
                             if (pLista.Count > 0)
                             {
+                                
                                 grvTracking.Visible = true;
                                 grvTracking.DataSource = pLista;
                                 grvTracking.DataBind();
@@ -330,14 +361,19 @@ namespace CEPA.CCO.UI.Web.Tracking
                                 grvTracking.HeaderRow.Cells[0].Attributes["text-align"] = "center";
                                 grvTracking.FooterRow.Cells[0].Attributes["text-align"] = "center";
                                 grvTracking.FooterRow.TableSection = TableRowSection.TableFooter;
+
                                 
+                                ScriptManager.RegisterStartupScript(this, typeof(string), "", "btnCheck(1);", true);
+
                             }
                             else
                             {
+                             
                                 grvTracking.DataSource = null;
                                 grvTracking.DataBind();
                                 Label lblEmptyMessage = grvTracking.Controls[0].Controls[0].FindControl("lblEmptyMessage") as Label;
                                 lblEmptyMessage.Text = "No se poseen registros de este contenedor: " + txtBuscar.Text;
+                                ScriptManager.RegisterStartupScript(this, typeof(string), "", "btnCheck(0);", true);
                                 throw new Exception("No se poseen registros de este contenedor: " + txtBuscar.Text);
                             }
                         }
@@ -356,11 +392,11 @@ namespace CEPA.CCO.UI.Web.Tracking
                     throw new Exception("Este # de contenedor no posee los 11 caracteres " + txtBuscar.Text);
                 }
 
-                txtBuscar.Text = "";
-                n_correlativo.Text = "";
-                n_serial.Text = "";
-                a_declaracion.Text = "";
-                radio3.Checked = false;
+                //txtBuscar.Text = "";
+                //n_correlativo.Text = "";
+                //n_serial.Text = "";
+                //a_declaracion.Text = "";
+                //radio3.Checked = false;
 
             }
             catch (Exception ex)
@@ -373,11 +409,11 @@ namespace CEPA.CCO.UI.Web.Tracking
                 grvTracking.DataSource = null;
                 grvTracking.DataBind();
                 ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + ex.Message + "');", true);
-               
+
             }
             finally
             {
-                
+
                 ScriptManager.RegisterStartupScript(this, typeof(string), "", "grecaptcha.reset();", true);
             }
         }
@@ -425,7 +461,7 @@ namespace CEPA.CCO.UI.Web.Tracking
             return _contenedores;
         }
 
-        
+
         protected void grvTracking_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             try
@@ -441,6 +477,16 @@ namespace CEPA.CCO.UI.Web.Tracking
                     else
                     {
                         e.Row.Cells[11].Text = "";
+                    }
+
+                }
+                if (ArchivoBookingDAL.isFecha(e.Row.Cells[10].Text) == true)
+                {
+                    if (Convert.ToDateTime(e.Row.Cells[10].Text) > FIRST_GOOD_DATE)
+                    { }
+                    else
+                    {
+                        e.Row.Cells[10].Text = "";
                     }
 
                 }
@@ -712,7 +758,8 @@ namespace CEPA.CCO.UI.Web.Tracking
                     _proxySW.ClientCredentials.UserName.UserName = _usuario;
                     _proxySW.ClientCredentials.UserName.Password = _pass;
 
-                    _resultado = _proxySW.getDocumentoInfoDocumento(_Aduana);
+                    //_resultado = _proxySW.getDocumentoInfoDocumento(_Aduana);
+                    _resultado = "encuentran";
                 }
 
                 if (_resultado.Contains("encuentran"))
@@ -924,6 +971,13 @@ namespace CEPA.CCO.UI.Web.Tracking
 
                 pLstDetalle = DetaNavieraDAL.CalcPagos(n_contenedor, c_llegada, f_tar, DBComun.TipoBD.SqlTracking, v_peso);
 
+                DateTime f_salidaCalc = DetaNavieraLINQ.FechaBD(); 
+                             
+                TimeSpan t = f_salidaCalc.Date - f_tar.Date;
+                int NrOfDays = t.Days + 1;
+
+                if (NrOfDays > 5)
+                    _clsPago.ValAlmacenaje = "No";
 
 
                 string[] cadenaADUANA = n_manifiesto.Split('-');
@@ -931,7 +985,8 @@ namespace CEPA.CCO.UI.Web.Tracking
                 string n_year = cadenaADUANA[0].ToString();
                 string n_mani = cadenaADUANA[1].ToString();
 
-                string valorADUANA = ObtenerADUANA(n_contenedor, n_year, n_mani);
+                //string valorADUANA = ObtenerADUANA(n_contenedor, n_year, n_mani);
+                string valorADUANA = "DENAGADO";
 
                 var query = (dynamic)null;
 
@@ -1262,13 +1317,20 @@ namespace CEPA.CCO.UI.Web.Tracking
                 pLstDetalle = DetaNavieraDAL.CalcPagos(n_contenedor, c_llegada, f_tar, f_re, DBComun.TipoBD.SqlTracking, v_peso);
 
 
+                TimeSpan t = f_re.Date - f_tar.Date;
+                int NrOfDays = t.Days + 1;
+
+                if (NrOfDays > 5)
+                    _clsPago.ValAlmacenaje = "No";
+
 
                 string[] cadenaADUANA = n_manifiesto.Split('-');
 
                 string n_year = cadenaADUANA[0].ToString();
                 string n_mani = cadenaADUANA[1].ToString();
 
-                string valorADUANA = ObtenerADUANA(n_contenedor, n_year, n_mani);
+                //string valorADUANA = ObtenerADUANA(n_contenedor, n_year, n_mani);
+                string valorADUANA = "DENAGADO";
 
                 var query = (dynamic)null;
 
@@ -1474,134 +1536,13 @@ namespace CEPA.CCO.UI.Web.Tracking
 
         }
 
-        //protected void btnPDF_Click(object sender, EventArgs e)
-        //{
-        //    using (StringWriter sw = new StringWriter())
-        //    {
-        //        using (HtmlTextWriter hw = new HtmlTextWriter(sw))
-        //        {
-        //            grvTracking.RenderControl(hw);
-        //            StringReader sr = new StringReader(sw.ToString());
-        //            Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
-        //            PdfWriter writer = PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
-        //            pdfDoc.Open();
-        //            XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
-        //            pdfDoc.Close();
-        //            Response.ContentType = "application/pdf";
-        //            Response.AddHeader(string.Format("content-disposition", "attachment;filename=Tracking_{0}.pdf"), txtBuscar.Text);
-        //            Response.Cache.SetCacheability(HttpCacheability.NoCache);
-        //            Response.Write(pdfDoc);
-        //            Response.End();
-        //        }
+        protected void btnVEA_Click(object sender, EventArgs e)
+        {
+            string cadena = @"https://test7.mh.gob.sv/VEA/free/InfoDm.do?anio=2020&aduana=02&serial=4&registro=2";
+            
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "show window", "shwwindow('" + cadena + "');", true);
+        }
 
-        //    }
-        //}
-
-        
-        //[System.Web.Services.WebMethod]
-        //public static string ObtenerDecla(string n_contenedor, string n_mani)
-        //{
-        //    try
-        //    {
-        //string _resultado = null;
-        //string _mani = null;
-        //List<Declaracion> pDecla = new List<Declaracion>();
-
-        //MemoryStream memoryStream = new MemoryStream();
-        //XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
-        //xmlWriterSettings.Encoding = new UTF8Encoding(false);
-        //xmlWriterSettings.ConformanceLevel = ConformanceLevel.Document;
-        //xmlWriterSettings.Indent = true;
-
-        //XmlWriter xml = XmlWriter.Create(memoryStream, xmlWriterSettings);
-
-        //CEPAService.WSManifiestoCEPAClient _proxy = new CEPAService.WSManifiestoCEPAClient();
-
-        //string[] cadenaADUANA = n_mani.Split('-');
-
-        //string n_year = cadenaADUANA[0].ToString();
-        //string nmani = cadenaADUANA[1].ToString();
-        //string _Aduana = null;
-
-        //xml.WriteStartDocument();
-
-        //xml.WriteStartElement("MDS4");
-
-        //xml.WriteElementString("CAR_REG_YEAR", n_year);
-        //xml.WriteElementString("KEY_CUO", "02");
-        //xml.WriteElementString("CAR_REG_NBER", nmani);
-        //xml.WriteElementString("CAR_CTN_IDENT", n_contenedor.Trim().TrimEnd().TrimStart());
-
-
-
-        //xml.WriteEndDocument();
-        //xml.Flush();
-        //xml.Close();
-
-        ////Generar XML para enviar parametros al servicio.
-        //_Aduana = Encoding.UTF8.GetString(memoryStream.ToArray());
-
-        //XmlDocument doc = new XmlDocument();
-        //_resultado = _proxy.getDocumentoInfoDocumento(_Aduana);
-
-        //if (_resultado.Contains("encuentran"))
-        //{
-        //    _mani = "DENEGADO";
-
-        //}
-        //else
-        //{
-
-        //    doc.LoadXml(_resultado);
-        //    XmlNodeList listaCntres = doc.SelectNodes("MdsParts/MDS4/MDS5S/MDS5");
-
-        //    XmlNode unContenedor;
-
-
-
-        //    if (listaCntres.Count > 0)
-        //    {
-
-
-        //        for (int i = 0; i < listaCntres.Count; i++)
-        //        {
-        //            unContenedor = listaCntres.Item(i);
-
-        //            Declaracion valiDecla = new Declaracion
-        //            {
-
-        //                tipo_doc = unContenedor.SelectSingleNode("TIPO_DOC").InnerText,
-        //                num_doc = unContenedor.SelectSingleNode("NUM_DOC").InnerText,
-        //                b_estado = unContenedor.SelectSingleNode("VAL_DOC").InnerText == "1" ? "AUTORIZADA" : "DENEGADA"
-        //            };
-
-
-        //            pDecla.Add(valiDecla);
-
-
-        //        }
-        //    }
-        //    else
-        //    {
-        //        _mani = "DENEGADO";
-        //    }
-        //}
-
-
-        //string re = null;
-        //if (pDecla.Count > 0)
-        //{
-        //    re = Newtonsoft.Json.JsonConvert.SerializeObject(pDecla);
-        //    return re;
-        //}
-        //else
-        //    return "No se posee declaraciones a mostrar";
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new Exception(e.Message);
-        //    }
-        //}
-
+      
     }
 }

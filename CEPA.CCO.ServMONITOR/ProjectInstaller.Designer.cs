@@ -40,7 +40,7 @@
             // serviceInstaller1
             // 
             this.serviceInstaller1.Description = "Servicio de monitor de servicio de ADUANA CCO_ADUANA";
-            this.serviceInstaller1.DisplayName = "MONITOR ADUANA SERVICE";
+            this.serviceInstaller1.DisplayName = "CEPA_ADUANA_MONITOR";
             this.serviceInstaller1.ServiceName = "MonitorService";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 

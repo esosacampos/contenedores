@@ -323,28 +323,27 @@ namespace CEPA.CCO.UI.Web
                 }
 
                 _correo.Subject = string.Format("ADUANA : Listado de Contenedores Liberados de {0} para el buque {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_prefijo, d_buque, nviaje, nmani);
-                //_correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_detenido", DBComun.Estado.verdadero, c_naviera);
-                //List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_detenido", DBComun.Estado.verdadero, c_naviera);
+                _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_sol_dga", DBComun.Estado.verdadero, c_naviera);
+                List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_sol_dga", DBComun.Estado.verdadero, c_cliente);
 
-                //if (_listaCC == null)
+                if (_listaCC == null)
+                    _listaCC = new List<Notificaciones>();
+
+                _listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_sol_dga", DBComun.Estado.verdadero, c_naviera));
+                _listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_sol_dga", DBComun.Estado.verdadero, "219"));
+                _correo.ListaCC = _listaCC;
+
+                //Notificaciones noti = new Notificaciones
                 //{
-                //    _listaCC = new List<Notificaciones>();
-                //}
+                //    sMail = "elsa.sosa@cepa.gob.sv",
+                //    dMail = "Elsa Sosa"
+                //};
 
-                //_listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_detenido", DBComun.Estado.verdadero, c_cliente));
-                //_correo.ListaCC = _listaCC;
+                //List<Notificaciones> pLisN = new List<Notificaciones>();
 
-                Notificaciones noti = new Notificaciones
-                {
-                    sMail = "elsa.sosa@cepa.gob.sv",
-                    dMail = "Elsa Sosa"
-                };
+                //pLisN.Add(noti);
 
-                List<Notificaciones> pLisN = new List<Notificaciones>();
-
-                pLisN.Add(noti);
-
-                _correo.ListaNoti = pLisN;
+                //_correo.ListaNoti = pLisN;
 
                 _correo.Asunto = Html;
                 _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 
 using CEPA.CCO.Entidades;
 using System.Data;
-using System.Data.SqlClient;
-using System.Data.OleDb;
+
 using Sybase.Data.AseClient;
 
 namespace CEPA.CCO.DAL
@@ -25,7 +23,7 @@ namespace CEPA.CCO.DAL
                                     WHERE a.c_buque = b.c_buque and
                                     b.c_tip_buque = c.c_tip_buque and
                                     a.c_operadora = d.c_operadora and
-                                    a.c_empresa ='04' and year(a.f_atraque)=year(getdate()) and a.f_fin_oper is null /*and a.c_llegada = '{0}'*/ and a.c_operadora = '{0}'  and b.c_tip_buque='4' -- BUQUES DE CONTENEDORES
+                                    a.c_empresa ='04' and year(a.f_atraque)=year(getdate()) and a.f_fin_oper is null and a.c_operadora = '{0}' and b.c_tip_buque='4' -- BUQUES DE CONTENEDORES
                                     ORDER BY a.f_arribo";
 
                 AseCommand _command = new AseCommand(string.Format(consulta, c_operadora), _conn as AseConnection);

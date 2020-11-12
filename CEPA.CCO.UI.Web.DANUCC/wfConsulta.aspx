@@ -25,19 +25,25 @@
         #img1 {
             width: 80%;
             height: 30%;
-            margin-left: 15%;
+            margin-left: 10%;
         }
 
         #img2 {
-            width: 50%;
+            width: 65%;
             height: 30%;
-            margin-left: 25%;
+            margin-left: 18%;
         }
 
         #img3 {
-            width: 50%;
+            width: 75%;
             height: 30%;
-            margin-left: 25%;
+            margin-left: 12%;
+        }
+
+        #img4 {
+            width: 80%;
+            height: 30%;
+            margin-left: 10%;
         }
 
         div.dataTables_wrapper {
@@ -147,13 +153,19 @@
                                 <br />
                             </li>
                             <li>
-                                <img src="vendor/bootstrap/Images/dan_logo.png" id="img2" alt="" class="img-responsive" />
+                                <img src="vendor/bootstrap/Images/pnc_dan.png" id="img2" alt="" class="img-responsive" />
                             </li>
                             <li>
                                 <br />
                             </li>
                             <li>
-                                <img src="vendor/bootstrap/Images/pncsv.jpg" alt="" id="img3" class="img-responsive" />
+                                <img src="vendor/bootstrap/Images/ucc.png" alt="" id="img4" class="img-responsive" />
+                            </li>
+                            <li>
+                                <br />
+                            </li>
+                            <li>
+                                <img src="vendor/bootstrap/Images/pnc_12.png" alt="" id="img3" class="img-responsive" />
                             </li>
                         </ul>
                     </div>

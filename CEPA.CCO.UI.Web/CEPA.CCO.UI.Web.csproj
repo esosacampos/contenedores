@@ -263,6 +263,7 @@
     <Content Include="Navieras\wfConsultaCambio.aspx" />
     <Content Include="Navieras\wfConsultaCancel.aspx" />
     <Content Include="Navieras\wfDespacho.aspx" />
+    <Content Include="Navieras\wfAnexosExport.aspx" />
     <Content Include="Navieras\wfDocumentos.aspx" />
     <Content Include="Navieras\wfExportacion.aspx" />
     <Content Include="Navieras\wfRegistrarSalida.aspx" />
@@ -290,6 +291,7 @@
     <Content Include="Fonts\MuseoSans_500.otf" />
     <Content Include="Fonts\MuseoSans_900.otf" />
     <Content Include="RptIngreso.xlsx" />
+    <Content Include="Anexo_export.xlsx" />
     <None Include="Service References\CepaSW\configuration91.svcinfo" />
     <None Include="Service References\CepaSW\configuration.svcinfo" />
     <None Include="Service References\CepaSW\Reference.svcmap">
@@ -297,6 +299,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="wfRptIngreso.aspx" />
+    <Content Include="wfTipoCliente.aspx" />
     <Content Include="wfTransmisionAutoD.aspx" />
     <Content Include="wfTransmisionAutoP.aspx" />
     <Content Include="wfConsulBL.aspx" />
@@ -673,6 +676,13 @@
     <Compile Include="Navieras\wfDespacho.aspx.designer.cs">
       <DependentUpon>wfDespacho.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Navieras\wfAnexosExport.aspx.cs">
+      <DependentUpon>wfAnexosExport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Navieras\wfAnexosExport.aspx.designer.cs">
+      <DependentUpon>wfAnexosExport.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Navieras\wfDocumentos.aspx.cs">
       <DependentUpon>wfDocumentos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -759,6 +769,13 @@
     </Compile>
     <Compile Include="wfRptIngreso.aspx.designer.cs">
       <DependentUpon>wfRptIngreso.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfTipoCliente.aspx.cs">
+      <DependentUpon>wfTipoCliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfTipoCliente.aspx.designer.cs">
+      <DependentUpon>wfTipoCliente.aspx</DependentUpon>
     </Compile>
     <Compile Include="wfTransmisionAutoD.aspx.cs">
       <DependentUpon>wfTransmisionAutoD.aspx</DependentUpon>

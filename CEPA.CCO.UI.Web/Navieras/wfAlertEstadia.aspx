@@ -123,7 +123,7 @@
                                     HeaderText="F. INGRESO"></asp:BoundField>
                                 <asp:TemplateField HeaderText="F. DE VACIADO">
                                     <ItemTemplate>
-                                        <asp:Label ID="lblVacio" runat="server" Text='<%# Bind("Fec_vacio", "{0:dd/MM/yyyy HH:mm}") %>'></asp:Label>
+                                        <asp:Label ID="lblVacio" runat="server" Text='<%# Bind("Fec_Vacio", "{0:dd/MM/yyyy HH:mm}") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="Estadia" HeaderText="ESTADIA"></asp:BoundField>

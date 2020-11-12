@@ -365,7 +365,7 @@ namespace CEPA.CCO.DAL
                             FROM fa_llegadas a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-                            WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_arribo) >= 2015 AND a.c_llegada = '{0}' AND a.f_desatraque IS NOT NULL
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_arribo) >= 2015 AND a.c_llegada = '{0}' AND a.f_desatraque IS NOT NULL
                             ORDER BY a.c_llegada DESC";
 
 
@@ -583,7 +583,7 @@ namespace CEPA.CCO.DAL
                             FROM fa_llegadas a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-                            WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_arribo) >= year(getdate())-1 AND a.c_llegada = '{0}'  /*A.f_atraque IS not NULL */
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_arribo) >= year(getdate())-1 AND a.c_llegada = '{0}'  /*A.f_atraque IS not NULL */
                             ORDER BY a.c_llegada DESC";
 
 
@@ -1003,7 +1003,7 @@ namespace CEPA.CCO.DAL
                 _consulta = @"SELECT DISTINCT a.c_llegada, b.s_nom_buque, a.f_atraque, a.f_desatraque, a.c_nul, b.c_imo
                             FROM fa_llegadas a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
-                            WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_arribo) >= year(getdate())-1 AND a.c_llegada = '{0}' AND a.f_desatraque IS not NULL 
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_arribo) >= year(getdate())-1 AND a.c_llegada = '{0}' AND a.f_desatraque IS not NULL 
                             ORDER BY a.c_llegada DESC";
 
 
@@ -1050,7 +1050,7 @@ namespace CEPA.CCO.DAL
                             FROM fa_llegadas a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-                            WHERE a.c_empresa = '04' AND b.c_tip_buque = '4' AND YEAR(a.f_arribo) >= year(getdate())-1 AND a.c_llegada = '{0}' AND a.f_desatraque IS not NULL 
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_arribo) >= year(getdate())-1 AND a.c_llegada = '{0}' AND a.f_desatraque IS not NULL 
                             ORDER BY a.c_llegada DESC";
 
 

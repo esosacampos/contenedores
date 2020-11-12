@@ -9,6 +9,26 @@ namespace CEPA.CCO.Entidades
     class WebApiEntity
     {
     }
+
+    public class ExpConte
+    {
+        public Int64 Interno { get; set; }
+        public Int64 Numeral { get; set; }
+        public String Contenedor { get; set; }
+        public Double Tara { get; set; }
+        public Double Peso { get; set; }
+        public String Tamaño { get; set; }
+        public String Condicion { get; set; }
+        public String Tipo { get; set; }
+        public String Conectado { get; set; }
+        public Int64 Dreales { get; set; }
+        public Int64 Dcobro { get; set; }
+        public DateTime? Fingresa { get; set; }
+        public DateTime? Fexporta { get; set; }
+        public String Leyenda { get; set; }
+
+        public Int64 Orden { get; set; }
+    }
     public class EntLlenos
     {
         public string Recno { get; set; }
@@ -65,7 +85,7 @@ namespace CEPA.CCO.Entidades
         public string Tipo { get; set; }
         public string Condicion { get; set; }
         public DateTime Ingreso { get; set; }
-        public DateTime Fec_vacio { get; set; }
+        public DateTime Fec_Vacio { get; set; }
         public Int64 Estadia { get; set; }
         public string Sitio { get; set; }
         public string Observa { get; set; }

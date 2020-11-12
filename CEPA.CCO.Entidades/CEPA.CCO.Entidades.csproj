@@ -86,6 +86,7 @@
     <Compile Include="ResulNaviera.cs" />
     <Compile Include="ResultadoValidacion.cs" />
     <Compile Include="TEUSAna.cs" />
+    <Compile Include="TipoCliente.cs" />
     <Compile Include="TipoRevision.cs" />
     <Compile Include="TransferXML.cs" />
     <Compile Include="Usuario.cs" />

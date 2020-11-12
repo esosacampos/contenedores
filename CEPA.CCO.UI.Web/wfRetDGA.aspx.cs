@@ -252,7 +252,7 @@ namespace CEPA.CCO.UI.Web
         {
             List<string> customers = new List<string>();
 
-            customers = ValidaTarjaDAL.GetContenedor(prefix, n_manifiesto, a_mani);
+            customers = ValidaTarjaDAL.GetContenedor(prefix, n_manifiesto, a_mani, "");
 
 
             return customers.ToArray();
@@ -316,27 +316,27 @@ namespace CEPA.CCO.UI.Web
                 
 
                 _correo.Subject = string.Format("ADUANA : Contenedor Retenido para {0} del buque {1}, Manifiesto de Aduana # {2}", c_prefijo, d_buque, nmani);
-                //_correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_detenido", DBComun.Estado.verdadero, c_naviera);
-                //List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_detenido", DBComun.Estado.verdadero, c_cliente);
+                _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_sol_dga", DBComun.Estado.verdadero, c_naviera);
+                List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_sol_dga", DBComun.Estado.verdadero, c_cliente);
 
-                //if (_listaCC == null)
-                //    _listaCC = new List<Notificaciones>();
+                if (_listaCC == null)
+                    _listaCC = new List<Notificaciones>();
 
-                //_listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_detenido", DBComun.Estado.verdadero, c_naviera));
-                //_listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_detenido", DBComun.Estado.verdadero, "219"));
-                //_correo.ListaCC = _listaCC;
+                _listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_sol_dga", DBComun.Estado.verdadero, c_naviera));
+                _listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_sol_dga", DBComun.Estado.verdadero, "219"));
+                _correo.ListaCC = _listaCC;
 
-                Notificaciones noti = new Notificaciones
-                {
-                    sMail = "elsa.sosa@cepa.gob.sv",
-                    dMail = "Elsa Sosa"
-                };
+                //Notificaciones noti = new Notificaciones
+                //{
+                //    sMail = "elsa.sosa@cepa.gob.sv",
+                //    dMail = "Elsa Sosa"
+                //};
 
-                List<Notificaciones> pLisN = new List<Notificaciones>();
+                //List<Notificaciones> pLisN = new List<Notificaciones>();
 
-                pLisN.Add(noti);
+                //pLisN.Add(noti);
 
-                _correo.ListaNoti = pLisN;
+                //_correo.ListaNoti = pLisN;
 
 
                 _correo.Asunto = Html;
