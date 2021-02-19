@@ -44,7 +44,7 @@
                 <td>                    
                     <div runat="server" id="myRadio">
                         <div>
-                            <asp:CheckBox class="label-success" runat="server" ID="radio3" />
+                            <asp:CheckBox class="label-success" runat="server" ID="radio3" Checked="true" />
                             <label for="radio3">Sidunea World</label>
                         </div>
                     </div>

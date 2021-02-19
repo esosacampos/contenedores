@@ -272,7 +272,7 @@ namespace CEPA.CCO.Entidades
         public double Total { get; set; }
         public string c_llegada { get; set; }
         public string n_contenedor { get; set; }
-        public int IdDeta { get; set; }       
+        public int IdDeta { get; set; }
 
         public List<ProvisionalesDeta> ProviList { get; set; }
     }
@@ -283,14 +283,14 @@ namespace CEPA.CCO.Entidades
         public string C_Llegada { get; set; }
         public string Contenedor { get; set; }
         public DateTime Fecha_Prv { get; set; }
-        public string Tipo { get; set; }        
+        public string Tipo { get; set; }
         public string Motorista_Prv { get; set; }
         public string Transporte_Prv { get; set; }
         public string Placa_Prv { get; set; }
         public string Chasis_Prv { get; set; }
-        public DateTime Fec_Reserva { get; set; }
-        public DateTime Fec_Valida { get; set; }
-        public DateTime Fecha_Ing { get; set; }
+        public DateTime? Fec_Reserva { get; set; }
+        public DateTime? Fec_Valida { get; set; }
+        public DateTime? Fecha_Ing { get; set; }
         public double Recno { get; set; }
         public double Num_Prv { get; set; }
         public double Num_Corr { get; set; }
@@ -307,6 +307,8 @@ namespace CEPA.CCO.Entidades
         public double v_peso { get; set; }
         public string c_contenedor { get; set; }
         public int con_tarjas { get; set; }
+        public string c_bl { get; set; }
+
     }
 
     public class TipoRevisiones
@@ -317,4 +319,17 @@ namespace CEPA.CCO.Entidades
         public int Years { get; set; }
 
     }
+
+    public class FacturasTarjas
+    {
+        public string c_factura { get; set; }
+        public string c_preimpreso { get; set; }
+        public DateTime f_factura { get; set; }
+        public string s_detalle { get; set; }
+
+        public double t_factura { get; set; }
+
+        public string fa_factura { get; set; }
+    }
+
 }

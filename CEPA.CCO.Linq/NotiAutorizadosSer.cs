@@ -170,7 +170,22 @@ namespace CEPA.CCO.Linq
                 pRutas.Add(_f3save);
 
                 if (_list.Count > 0)
+                {
                     ruta = GenerarPeligrosidadCX(_list, c_cliente, d_naviera, c_llegada, IdReg, d_buque, f_llegada, pValor, pCantidad, n_manifiesto, c_viaje);
+                }
+
+                List<string> pSize = new List<string>();
+
+                if(_list.Count > 0)
+                {
+                    foreach (var sizeV in _list)
+                    {
+                        string validacionSize = DetaNavieraDAL.validSize(sizeV.n_contenedor, sizeV.c_tamaño, DBComun.Estado.falso);
+
+                        if (validacionSize.Contains("ISOType"))
+                            pSize.Add(validacionSize);
+                    }
+                }
 
                 //COTECNA 
                 List<ArchivoAduana> pCotecna = new List<ArchivoAduana>();
@@ -192,7 +207,7 @@ namespace CEPA.CCO.Linq
 
                 //List<string> pPDF = new List<string>();                
 
-                EnviarCorreo(pRutas, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, n_manifiesto);
+                EnviarCorreo(pRutas, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, n_manifiesto, pSize);
 
                 //pPDF.Add(_f3save);
 
@@ -243,7 +258,7 @@ namespace CEPA.CCO.Linq
             return oSheet;
         }
                
-        public void EnviarCorreo(List<string> pArchivo, string d_buque, int pValor, int pCantidad, List<DetaNaviera> pLista, string c_cliente, string c_llegada, string c_navi_corto, string c_viaje, int n_manifiesto)
+        public void EnviarCorreo(List<string> pArchivo, string d_buque, int pValor, int pCantidad, List<DetaNaviera> pLista, string c_cliente, string c_llegada, string c_navi_corto, string c_viaje, int n_manifiesto, List<string> pValidacion)
         {
             string Html;
             int i = 1;
@@ -277,6 +292,21 @@ namespace CEPA.CCO.Linq
                 if (pArchivo.Count < 3 && c_cliente != "11" && c_cliente != "216")
                 {
                     Html += "<font color=red> Este manifiesto no posee contenedores clasificados con peligrosidad </font><br/> ";
+                }
+
+                if(pValidacion.Count > 0)
+                {
+                    Html += "<br /><br/>";
+                    Html += "<div style='color: #000!important;background-color: #ffffcc!important;'>";
+                    Html += "Los siguientes contenedores presentaron inconsistencia en su tamaño según historial, y para su revisión se detallan a continuación : ";
+                    Html += "<OL>";
+                    foreach(string itemS in pValidacion)
+                    {
+                        Html += "<LI>" + itemS;
+                    }
+                    Html += "</OL>";
+                    Html += "</div>";
+                    Html += "<br /><br/>";
                 }
 
                 Html += "<br /><br />";
@@ -876,6 +906,8 @@ namespace CEPA.CCO.Linq
                         oSheet.Cell(iCurrent, 8).Value = "LCL";
                     else if (pValor == 4 && item.b_reef.Contains("SI"))
                         oSheet.Cell(iCurrent, 8).Value = "A CONECTAR";
+                    else if(item.v_peso + item.v_tara > 30000.00)
+                        oSheet.Cell(iCurrent, 8).Value = "ADVERTENCIA DE PESO (PESO + TARA): " + item.v_peso + item.v_tara;
                     else
                         oSheet.Cell(iCurrent, 8).Value = "";
 

@@ -32,6 +32,7 @@ using System.Xml;
 using Newtonsoft.Json;
 using System.Data;
 using System.Web.Configuration;
+using System.Web.UI.HtmlControls;
 
 namespace CEPA.CCO.UI.Web
 {
@@ -279,6 +280,25 @@ namespace CEPA.CCO.UI.Web
             if (e.Row.RowType != DataControlRowType.DataRow)
                 return;
 
+            //LinkButton btnCliente = (LinkButton)e.Row.FindControl("tooltip") as LinkButton;
+            //LinkButton btnFact = (LinkButton)e.Row.FindControl("fact") as LinkButton;
+
+            HtmlButton pFact = (HtmlButton)e.Row.FindControl("fact") as HtmlButton;
+            HtmlButton pClie = (HtmlButton)e.Row.FindControl("tooltop") as HtmlButton;
+
+            string c_user = Session["c_usuario"].ToString();
+
+            if (c_user == "mercedes.calderon" || c_user == "edwin.estrada" || c_user == "marlon.sanchez" || c_user == "vanessa.vasquez" || c_user=="elsa.sosa" || c_user == "samuel.ortega" || c_user == "henry.fuentes")
+            {
+                pFact.Visible = true;
+                pClie.Visible = false;
+            }
+            else
+            {
+                pFact.Visible = false;
+                pClie.Visible = true;
+            }
+
 
             if (ArchivoBookingDAL.isFecha(e.Row.Cells[14].Text) == true)
             {
@@ -301,6 +321,7 @@ namespace CEPA.CCO.UI.Web
                 }
 
             }
+
 
             e.Row.Cells[0].Attributes.Add("style", "word-break:break-word;word-wrap:break-word;");
 

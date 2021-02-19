@@ -25,7 +25,7 @@ namespace CEPA.CCO.UI.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 Datepicker.Text = DateTime.Now.Year.ToString();
 
@@ -39,8 +39,8 @@ namespace CEPA.CCO.UI.Web
 
         protected void btnReg_Click(object sender, EventArgs e)
         {
-           // CargarArchivosLINQ _cargar = new CargarArchivosLINQ();
-           // RegValid(_cargar);
+            // CargarArchivosLINQ _cargar = new CargarArchivosLINQ();
+            // RegValid(_cargar);
         }
 
 
@@ -58,7 +58,7 @@ namespace CEPA.CCO.UI.Web
             proceso.Parametros.Add(new Parametros { nombre = "nmanifiesto", valor = pTarja.Nmanifiesto.ToString() });
             proceso.Parametros.Add(new Parametros { nombre = "ncontenedor", valor = pTarja.Ncontenedor });
             proceso.Parametros.Add(new Parametros { nombre = "observa", valor = pTarja.Observa });
-            proceso.Parametros.Add(new Parametros { nombre = "usuario", valor = pTarja.Usuario });           
+            proceso.Parametros.Add(new Parametros { nombre = "usuario", valor = pTarja.Usuario });
 
             string inputJson = JsonConvert.SerializeObject(proceso);
             apiUrl = apiUrl + inputJson;
@@ -112,30 +112,38 @@ namespace CEPA.CCO.UI.Web
 
                                 if (valida == "VALIDO")
                                 {
-                                    //int valor = ValidaTarjaDAL.ValidaCantidad(n_contenedor.TrimStart().TrimEnd(), n_manifiesto, a_mani);
 
-                                    ValiadaTarja _valida = new ValiadaTarja()
-                                    {
-                                        Observa = b_observa.ToUpper(),
-                                        Usuario = System.Web.HttpContext.Current.Session["d_usuario"].ToString().ToUpper(),
-                                        Amanifiesto = Convert.ToInt32(a_mani),
-                                        Nmanifiesto = Convert.ToInt32(n_manifiesto),
-                                        Ncontenedor = n_contenedor
-                                    };
+                                    string valor = ValidaTarjaDAL.ValidFact(DBComun.Estado.verdadero, n_contenedor.TrimStart().TrimEnd(), string.Concat(a_mani, '-', n_manifiesto), DBComun.TipoBD.SqlServer);
 
-                                    string _resultado = inTarjaValid(_valida);
-                                    if (_resultado.ToUpper().Contains("EXISTE"))
+                                    if (valor == "EXISTE")
                                     {
-                                        respuesta = "2|El número de contenedor " + n_contenedor + " ya se encuentra validado";
-                                    }
-                                    else if (_resultado.ToUpper().Contains("OK"))
-                                    {
+                                        ValiadaTarja _valida = new ValiadaTarja()
+                                        {
+                                            Observa = b_observa.ToUpper(),
+                                            Usuario = System.Web.HttpContext.Current.Session["d_usuario"].ToString().ToUpper(),
+                                            Amanifiesto = Convert.ToInt32(a_mani),
+                                            Nmanifiesto = Convert.ToInt32(n_manifiesto),
+                                            Ncontenedor = n_contenedor
+                                        };
 
-                                        respuesta = "0|Registrado Correctamente";
+                                        string _resultado = inTarjaValid(_valida);
+                                        if (_resultado.ToUpper().Contains("EXISTE"))
+                                        {
+                                            respuesta = "2|El número de contenedor " + n_contenedor + " ya se encuentra validado";
+                                        }
+                                        else if (_resultado.ToUpper().Contains("OK"))
+                                        {
+
+                                            respuesta = "0|Registrado Correctamente";
+                                        }
+                                        else
+                                        {
+                                            respuesta = "5|Verificar la información introducida, y volverlo a intentar.";
+                                        }
                                     }
                                     else
                                     {
-                                        respuesta = "5|Verificar la información introducida, y volverlo a intentar.";
+                                        respuesta = "4|Verificar ya que contenedor NO EXISTE en manifiesto seleccionado";
                                     }
                                 }
                                 else
@@ -162,7 +170,7 @@ namespace CEPA.CCO.UI.Web
                         }
                         else if (b_observa.Length <= 254)
                         {
-                            valida = DetaNavieraDAL.ValidaContenedorShipper(DBComun.Estado.verdadero, n_contenedor.Trim().TrimEnd().TrimStart(), DBComun.TipoBD.SqlServer);
+                            valida = DetaNavieraDAL.ValidaContenedorShipper(DBComun.Estado.verdadero, n_contenedor.Trim().TrimEnd().TrimStart(), string.Concat(a_mani, '-', n_manifiesto), DBComun.TipoBD.SqlServer);
 
 
                             if (valida == "VALIDO")
@@ -216,10 +224,10 @@ namespace CEPA.CCO.UI.Web
                 return respuesta = "5|Verificar la información introducida, y volverlo a intentar.";
             }
 
-           
+
         }
 
-      
+
 
         [WebMethod]
         [System.Web.Script.Services.ScriptMethod()]
@@ -227,6 +235,9 @@ namespace CEPA.CCO.UI.Web
         {
             List<string> customers = new List<string>();
 
+            if(prefix.Length > 4)
+                prefix = prefix.Substring((prefix.Length - 4), 4);
+            
             customers = ValidaTarjaDAL.GetContenedor(prefix, n_manifiesto, a_mani);
 
 
@@ -242,7 +253,7 @@ namespace CEPA.CCO.UI.Web
 
             return resultado;
 
-            
+
         }
 
         protected void txtObserva_Load(object sender, EventArgs e)

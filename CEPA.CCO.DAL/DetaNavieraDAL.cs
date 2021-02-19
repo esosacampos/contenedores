@@ -933,6 +933,39 @@ namespace CEPA.CCO.DAL
 
         }
 
+        public static string validSize(string n_contenedor, string c_tamaño, DBComun.Estado pTipo)
+        {
+            
+
+            System.Globalization.CultureInfo CurrentCI = System.Threading.Thread.CurrentThread.CurrentCulture;
+
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-SV");
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+
+
+                SqlCommand _command = new SqlCommand("pa_valid_size", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_contenedor", n_contenedor));
+                _command.Parameters.Add(new SqlParameter("@c_tamaño", c_tamaño));
+
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
+                return _reader;
+
+                
+            
+            }
+
+        }
+
         public static List<ArchivoAduana> getCotecnaLstWeb(string a_mani, int n_manifiesto, DBComun.Estado pTipo)
         {
             List<ArchivoAduana> notiLista = new List<ArchivoAduana>();
@@ -3611,7 +3644,7 @@ namespace CEPA.CCO.DAL
             }
         }
 
-        public static string ValidaContenedorShipper(DBComun.Estado pEstado, string n_contenedor, DBComun.TipoBD pDB)
+        public static string ValidaContenedorShipper(DBComun.Estado pEstado, string n_contenedor, string n_manifiesto, DBComun.TipoBD pDB)
         {
 
             using (IDbConnection _conn = DBComun.ObtenerConexion(pDB, pEstado))
@@ -3623,6 +3656,7 @@ namespace CEPA.CCO.DAL
                 };
 
                 _command.Parameters.Add(new SqlParameter("@c_contenedor", n_contenedor));
+                _command.Parameters.Add(new SqlParameter("@n_manifiesto", n_manifiesto));
 
 
                 string resultado = _command.ExecuteScalar().ToString();
@@ -4261,8 +4295,8 @@ namespace CEPA.CCO.DAL
                         Transporte_Prv = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
                         Placa_Prv = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
                         Chasis_Prv = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
-                        Fec_Reserva = _reader.IsDBNull(8) ? Convert.ToDateTime(_reader.GetDateTime(8)) : _reader.GetDateTime(8),
-                        Fec_Valida = _reader.IsDBNull(9) ? Convert.ToDateTime(_reader.GetDateTime(9)) : _reader.GetDateTime(9)
+                        Fec_Reserva = _reader.IsDBNull(8) ? (DateTime?)null : _reader.GetDateTime(8),
+                        Fec_Valida = _reader.IsDBNull(9) ? (DateTime?)null : _reader.GetDateTime(9)
 
                     };
 
@@ -4372,6 +4406,33 @@ namespace CEPA.CCO.DAL
 
 
                 string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                return _reader;
+            }
+
+        }
+
+        public static string upRetDGA(DBComun.Estado pEstado, string n_contenedor, string a_mani, int n_mani, string usuario, string comentarios, int retencion)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+
+                SqlCommand _command = new SqlCommand("pa_actualizar_retdga_srv", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@usuario", usuario));
+                _command.Parameters.Add(new SqlParameter("@comentarios", comentarios));
+                _command.Parameters.Add(new SqlParameter("@n_contenedor", n_contenedor));
+                _command.Parameters.Add(new SqlParameter("@a_mani", a_mani));
+                _command.Parameters.Add(new SqlParameter("@n_mani", n_mani));
+                _command.Parameters.Add(new SqlParameter("@b_dga", retencion));
+
+                string _reader = _command.ExecuteScalar().ToString();
+
 
                 _conn.Close();
                 return _reader;

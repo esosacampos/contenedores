@@ -184,7 +184,7 @@ namespace CEPA.CCO.DAL
                             FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-                            WHERE a.c_empresa = '04' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 3 AND YEAR(GETDATE()) + 1 
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_llegada) BETWEEN 2014 AND YEAR(GETDATE()) + 1
                             ORDER BY f_llegada DESC";
 
 
@@ -232,7 +232,7 @@ namespace CEPA.CCO.DAL
                             FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-                            WHERE a.c_empresa = '04' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 3 AND YEAR(GETDATE())
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_llegada) BETWEEN 2014 AND YEAR(GETDATE()) + 1
                             ORDER BY a.f_llegada DESC";
 
 
@@ -282,7 +282,7 @@ namespace CEPA.CCO.DAL
                             FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
-                            WHERE a.c_empresa = '04' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 3 AND YEAR(GETDATE()) + 1
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_llegada) BETWEEN 2014 AND YEAR(GETDATE()) + 1
                             AND a.c_llegada IN({0})
                             ORDER BY CONVERT(INT, d.c_cliente) ASC, 1";
 
@@ -645,7 +645,7 @@ namespace CEPA.CCO.DAL
             }
         }
 
-        public static List<Tarjas> getTarjaxNUL(string c_nul)
+        public static List<Tarjas> getTarjaxNUL(string c_llegada, string n_contenedor)
         {
             List<Tarjas> _empleados = new List<Tarjas>();
 
@@ -658,13 +658,21 @@ namespace CEPA.CCO.DAL
 
 
                 _consulta = @"set nocount on
-                            declare @c_nul varchar(50)                           
-                            set @c_nul = '{0}'                            
-                            select a.c_tarja, a.c_contenedor, a.d_clase_contenido, c.f_tarja, b.c_llegada from fa_bl_det a, fa_enc_manifies b, fa_manifiestos c
-                            where  b.c_manifiesto=c.c_manifiesto and
-                            c.c_tarja=a.c_tarja and b.b_mani_embar='2' and b.c_nul = @c_nul";
+                            declare @c_llegada varchar(20)                           
+                            declare @c_bl varchar(30) 
+                            declare @c_contenedor varchar(20)     
+                            set @c_llegada = '{0}'    
+                            set @c_contenedor = '{1}'
 
-                _command = new AseCommand(string.Format(_consulta, c_nul), _conn as AseConnection)
+                            set @c_bl = (select c_bl from fa_bl_det a, fa_enc_manifies b, fa_manifiestos c where  b.c_manifiesto=c.c_manifiesto and
+                            c.c_tarja=a.c_tarja and b.b_mani_embar='2' and b.c_llegada = @c_llegada and a.c_contenedor = @c_contenedor)
+
+                        
+                            select c.c_bl, a.c_tarja, a.c_contenedor, a.d_clase_contenido, c.f_tarja, b.c_llegada, a.v_pes_rec from fa_bl_det a, fa_enc_manifies b, fa_manifiestos c
+                            where  b.c_manifiesto=c.c_manifiesto and
+                            c.c_tarja=a.c_tarja and b.b_mani_embar='2' and b.c_llegada = @c_llegada and c.c_bl = @c_bl ";
+
+                _command = new AseCommand(string.Format(_consulta, c_llegada, n_contenedor), _conn as AseConnection)
                 {
                     CommandType = CommandType.Text
                 };
@@ -675,11 +683,59 @@ namespace CEPA.CCO.DAL
                 {
                     Tarjas _tmpEmpleado = new Tarjas
                     {
-                        c_tarja = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
-                        d_marcas = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
-                        s_descripcion = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
-                        f_tarja = _reader.GetDateTime(3),
-                        c_llegada = _reader.IsDBNull(4) ? "" : _reader.GetString(4)
+                        c_bl = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
+                        c_tarja = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        d_marcas = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
+                        s_descripcion = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        f_tarja = _reader.GetDateTime(4),
+                        c_llegada = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
+                        v_peso = _reader.IsDBNull(6) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(6))
+                    };
+
+                    _empleados.Add(_tmpEmpleado);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return _empleados;
+            }
+        }
+
+        public static List<FacturasTarjas> getFacturasTarja(string c_tarja)
+        {
+            List<FacturasTarjas> _empleados = new List<FacturasTarjas>();
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SyBaseNET, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                string _consulta = null;
+                AseCommand _command = null;
+
+
+                _consulta = @"select a.c_factura, s_pre_imp_du, f_factura, a.s_complementarios, v_factura_total, a.c_tarja
+                                from fa_enc_factura a, fa_det_factura b, cg_ctas_conta c, fa_cat_servicios d
+                                where a.c_factura = b.c_factura
+                                and b.c_servicio = d.c_servicio
+                                and d.c_cta_contab = c.c_cta_contab and a.c_tarja  = '{0}'
+                                order by f_factura desc ";
+
+                _command = new AseCommand(string.Format(_consulta, c_tarja), _conn as AseConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                AseDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    FacturasTarjas _tmpEmpleado = new FacturasTarjas
+                    {
+                        c_factura = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
+                        c_preimpreso = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        f_factura = _reader.GetDateTime(2),
+                        s_detalle = _reader.IsDBNull(3) ? "" : _reader.GetString(3),                        
+                        t_factura = _reader.IsDBNull(4) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(4))
                     };
 
                     _empleados.Add(_tmpEmpleado);
@@ -773,9 +829,9 @@ namespace CEPA.CCO.DAL
                 string _consulta = null;
                 AseCommand _command = null;
 
-                _consulta = @"select a.c_llegada, b.s_nom_buque
+                _consulta = @"select a.c_llegada, b.s_nom_buque, a.*
                             from fa_llegadas a, fa_buques b
-                            where a.c_buque=b.c_buque and a.c_empresa='04' and a.c_operadora<>'14' and a.f_desatraque is null and year(a.f_atraque)BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE()) AND MONTH(a.f_atraque) BETWEEN MONTH(GETDATE()) - 1 AND MONTH(GETDATE()) 
+                            where a.c_buque=b.c_buque and a.c_empresa='04' /*and a.c_operadora<>'14'*/ and a.f_desatraque is null and year(a.f_atraque)BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE()) AND MONTH(a.f_atraque) BETWEEN MONTH(GETDATE()) - 1 AND MONTH(GETDATE()) and a.c_llegada is not null
                             order by a.f_atraque desc";
 
                 /*_consulta = @"select a.c_llegada, b.s_nom_buque

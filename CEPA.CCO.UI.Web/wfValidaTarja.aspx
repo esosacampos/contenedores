@@ -8,74 +8,64 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>Autorización Manual Para Despacho De Contenedor</h2>
     <hr />
-    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-        <ContentTemplate>
-            <div class="col-lg-10">
-                <div class="form-inline">
-                    <div class="input-group">
-                        <asp:TextBox ID="txtMani" runat="server" class="form-control" autocomplete="off" MaxLength="4"
-                            placeholder="9999" onkeydown="return jsDecimals(event);"></asp:TextBox>
-                    </div>
-                    <div class="input-group">
-                        <asp:TextBox ID="Datepicker" runat="server" class="form-control" autocomplete="off"
-                            MaxLength="4" placeholder="20XX" Text="" onkeydown="return jsDecimals(event);"></asp:TextBox>
-                    </div>
-                    <!-- /input-group -->
-                </div>
-            </div>
-            <br />
-            <br />
-            <div class="col-lg-10">
-                <div class="form-inline">
-                    <div class="input-group" style="width: 88%;">
-                        <asp:TextBox ID="txtContenedor" runat="server" CssClass="form-control" placeholder="ingrese los ultimos 4 digitos del contenedor" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
-                    </div>
-                    <!-- /input-group -->
-                    <div class="form-group">
-                        <div runat="server" id="myRadio">
-                            <div>
-                                <asp:CheckBox class="label-success" runat="server" ID="radio3" />
-                                <label for="radio3">Shipper Own</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br />
-            <br />
-            <div class="col-lg-10">
-                <div class="form-group">
-                    <label for="recipient-name" class="control-label">
-                        Observaciones:</label>
-                    <asp:TextBox ID="txtObserva" runat="server" class="form-control" TextMode="multiline" Rows="5" MaxLength="254" placeholder="Ingrese comentarios"
-                        Style="text-transform: uppercase;" OnLoad="txtObserva_Load"></asp:TextBox>
-                </div>
-            </div>
-            <div class="col-lg-10 alert-danger">
-                <p style="font-weight: bold;">
-                    OBSERVACIONES:
-                </p>
-                <ul>
-                    <li>Si la búsqueda no devuelve resultados se recomienda consultar en el tracking ya que ese contenedor puedo haber sido cancelado o el número de manifiesto ingresado es incorrecto</li>
-                </ul>
-            </div>
-            <nav style="margin-top: 25%;">
-                <ul class="pager">
-                    <li class="previous">
-                        <asp:Button ID="btnReg" runat="server" class="btn btn-primary btn-lg" Text="Guardar" />
-                    <li class="next">
-                        <asp:Button ID="btnRegresar" runat="server" class="btn btn-primary btn-lg" OnClick="btnRegresar_Click" Text="<< Regresar" /></li>
-                </ul>
-            </nav>
-            <div id="domMessage" style="display: none;">
-                <h1>Buscando...</h1>
-            </div>
-        </ContentTemplate>
-        <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="btnReg" EventName="Click" />
 
-        </Triggers>
-    </asp:UpdatePanel>
+    <div class="col-lg-10">
+        <div class="form-inline">
+            <div class="input-group">
+                <asp:TextBox ID="txtMani" runat="server" class="form-control" autocomplete="off" MaxLength="4"
+                    placeholder="9999" onkeydown="return jsDecimals(event);"></asp:TextBox>
+            </div>
+            <div class="input-group">
+                <asp:TextBox ID="Datepicker" runat="server" class="form-control" autocomplete="off"
+                    MaxLength="4" placeholder="20XX" Text="" onkeydown="return jsDecimals(event);"></asp:TextBox>
+            </div>
+            <!-- /input-group -->
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="col-lg-10">
+        <div class="form-inline">
+            <div class="input-group" style="width: 88%;">
+                <asp:TextBox ID="txtContenedor" runat="server" CssClass="form-control" placeholder="ingrese los ultimos 4 digitos del contenedor" onkeydown="return (event.keyCode!=13);"></asp:TextBox>
+            </div>
+            <!-- /input-group -->
+            <div class="form-group">
+                <div runat="server" id="myRadio">
+                    <div>
+                        <asp:CheckBox class="label-success" runat="server" ID="radio3" />
+                        <label for="radio3">Shipper Own</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="col-lg-10">
+        <div class="form-group">
+            <label for="recipient-name" class="control-label">
+                Justificación:</label>
+            <asp:TextBox ID="txtObserva" runat="server" class="form-control" TextMode="multiline" Rows="5" MaxLength="254" placeholder="Ingrese comentarios"
+                Style="text-transform: uppercase;" OnLoad="txtObserva_Load"></asp:TextBox>
+        </div>
+    </div>
+    <div class="col-lg-10 alert-danger">
+        <p style="font-weight: bold;">
+            Observación:
+        </p>
+        <ul>
+            <li>Si la búsqueda no devuelve resultados se recomienda consultar en el tracking ya que ese contenedor puedo haber sido cancelado o el número de manifiesto ingresado es incorrecto</li>
+        </ul>
+    </div>
+    <nav style="margin-top: 25%;">
+        <ul class="pager">
+            <li class="previous">
+                <asp:Button ID="btnReg" runat="server" class="btn btn-primary btn-lg" Text="Guardar" />
+            <li class="next">
+                <asp:Button ID="btnRegresar" runat="server" class="btn btn-primary btn-lg" OnClick="btnRegresar_Click" Text="<< Regresar" /></li>
+        </ul>
+    </nav>   
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     <script type="text/javascript" src="<%= ResolveUrl("~/Scripts/jquery.blockui.js") %>"></script>
@@ -129,7 +119,7 @@
         }
 
         //On UpdatePanel Refresh.
-        var prm = Sys.WebForms.PageRequestManager.getInstance();
+        <%--var prm = Sys.WebForms.PageRequestManager.getInstance();
         if (prm != null) {
             prm.add_endRequest(function (sender, e) {
                 if (sender._postBackSettings.panelsToUpdate != null) {
@@ -154,13 +144,13 @@
                     color: '#fff'
                 }
             });
-        });
+        });--%>
 
 
 
 
 
-        function alertError() {
+       <%-- function alertError() {
             $.blockUI({
                 message: '<h1>Procesando</h1><img src="<%= ResolveClientUrl("~/CSS/Img/progress_bar.gif") %>" />',
                 css: {
@@ -213,7 +203,7 @@
             });
 
             setTimeout($.unblockUI, 2000);
-        }
+        }--%>
 
         function ErrorCantidad(c_tarja) {
             $.blockUI({
@@ -254,12 +244,14 @@
 
         function SaveValidacion() {
             $('#<%= btnReg.ClientID %>').click(function (e) {
+                e.preventDefault();
+
                 $.blockUI({
-                    message: '<img src="<%= ResolveClientUrl("~/CSS/Img/ajax-loader.gif") %>" /><h1>Procesando...</h1>',
+                    message: '<h1>Procesando</h1><img src="<%= ResolveClientUrl("~/CSS/Img/progress_bar.gif") %>" />',
                     css: {
                         border: 'none',
                         padding: '15px',
-                        backgroundColor: '#1771F8',
+                        backgroundColor: '#424242',
                         '-webkit-border-radius': '10px',
                         '-moz-border-radius': '10px',
                         opacity: .5,
@@ -304,7 +296,7 @@
 
                             }
 
-                            $.unblockUI
+                            $.unblockUI();
                             var fecha = new Date();
                             var ano = fecha.getFullYear();
                             document.getElementById("<%= txtMani.ClientID %>").value = '';
@@ -317,23 +309,26 @@
 
                         },
                         error: function (response) {
+                            $.unblockUI();
                             bootbox.alert(response.responseText);
                         },
                         failure: function (response) {
+                            $.unblockUI();
                             bootbox.alert(response.responseText);
                         }
                     });
                 }
                 else {
+                    $.unblockUI();
                     var fecha = new Date();
                     var ano = fecha.getFullYear();
 
-                    document.getElementById("<%= txtMani.ClientID %>").value = "";
+ <%--                   document.getElementById("<%= txtMani.ClientID %>").value = "";--%>
                     document.getElementById("<%= Datepicker.ClientID %>").value = ano;
-                    document.getElementById("<%= txtObserva.ClientID %>").value = "";
-                    document.getElementById("<%= txtContenedor.ClientID %>").value = "";
+    <%--                document.getElementById("<%= txtObserva.ClientID %>").value = "";
+                    document.getElementById("<%= txtContenedor.ClientID %>").value = "";--%>
                     document.getElementById("<%= radio3.ClientID %>").checked = false;
-                    bootbox.alert("Llenar el formulario antes de almacenar");
+                    bootbox.alert("Verificar la información ingresada no es válida");
                 }
             });
         }
@@ -359,12 +354,18 @@
                             type: "POST",
                             contentType: "application/json; charset=utf-8",
                             success: function (data) {
-                                response($.map(data.d, function (item) {
-                                    return {
-                                        label: item.split('-')[0],
-                                        val: item.split('-')[1]
-                                    }
-                                }))
+                                var lista = (typeof data.d) == "string" ? eval('(' + data.d + ')') : data.d;
+                                if (lista.length > 0) {
+                                    response($.map(data.d, function (item) {
+                                        return {
+                                            label: item.split('-')[0],
+                                            val: item.split('-')[1]
+                                        }
+                                    }))
+                                }
+                                else {
+                                    bootbox.alert("Búsqueda no produce resultados en este manifiesto podría estar cancelado o estar incorrecto el # de manifiesto");
+                                }
                             },
                             error: function (response) {
                                 bootbox.alert(response.responseText + "Verificar que ese contenedor no se encuentre cancelado y que el número de manifiesto ingresado sea el correcto");

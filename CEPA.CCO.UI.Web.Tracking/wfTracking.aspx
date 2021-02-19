@@ -73,6 +73,13 @@
             border: hidden;
         }
 
+        .badge-notify {
+            background: red;
+            position: relative;
+            top: -22px;
+            left: -27px;
+        }
+
         .footer {
             position: fixed;
             bottom: 0;
@@ -147,6 +154,76 @@
         #myTableModal > tfoot > tr > th {
             text-align: right;
         }
+
+        .badgeNO {
+            box-sizing: border-box;
+            font-family: 'Trebuchet MS', sans-serif;
+            background: #ff0000;
+            cursor: default;
+            border-radius: 44%;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1rem;
+            height: 2rem;
+            letter-spacing: -.1rem;
+            line-height: 1.55;
+            margin-top: -2rem;
+            margin-left: 1.1rem;
+            border: .2rem solid #fff;
+            text-align: center;
+            display: inline-block;
+            width: 3rem;
+            box-shadow: 1px 1px 5px rgba(0,0,0, .2);
+            animation: pulse 1.5s 1;
+        }
+
+            .badgeNO:after {
+                content: '';
+                position: absolute;
+                top: -.1rem;
+                left: -.1rem;
+                border: 2px solid rgba(255,0,0,.5);
+                opacity: 0;
+                border-radius: 50%;
+                width: 100%;
+                height: 100%;
+                animation: sonar 1.5s 1;
+            }
+
+        @keyframes sonar {
+            0% {
+                transform: scale(.9);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            20% {
+                transform: scale(1.4);
+            }
+
+            50% {
+                transform: scale(.9);
+            }
+
+            80% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
 
         .badge {
             display: inline-block;
@@ -304,7 +381,7 @@
                             </li>
                             <li></li>
                             <li>
-                                <a href="wfAyuda.aspx" alt="Manual de Usuario">
+                                <a href="wfAyuda.aspx" id="linkManual" data-toggle="tooltip" data-placement="bottom" title="Clic para ver Manual de Usuario" alt="Manual de Usuario">
                                     <img src="dist/logos/manual.png" alt="" style="margin-bottom: 5%; margin-left: 5%; width: 120px; height: 130px;" class="img-responsive">
                                 </a>
                             </li>
@@ -333,30 +410,30 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-8">
+                            <div class="col-lg-8" style="width: 62%;">
                                 <div class="form-inline">
-                                    <div class="form-group">
-                                        <label>Año Declaración</label>
+                                    <div class="form-group" style="margin-right: 15px;">
+                                        <label>Año Declaración</label><br />
                                         <asp:TextBox required ID="a_declaracion" size="10" runat="server" autocomplete="off" CssClass="form-control" placeholder="20XX"></asp:TextBox>
                                     </div>
-                                    <div class="form-group">
-                                        <label># Serie</label>
+                                    <div class="form-group" style="margin-left: 15px; margin-right: 15px;">
+                                        <label># Serie</label><br />
                                         <asp:TextBox required ID="n_serial" runat="server" size="5" autocomplete="off" CssClass="form-control" placeholder="X"></asp:TextBox>
                                     </div>
-                                    <div class="form-group">
-                                        <label># Correlativo</label>
+                                    <div class="form-group" style="margin-left: 15px; margin-right: 15px;">
+                                        <label># Correlativo</label><br />
                                         <asp:TextBox required ID="n_correlativo" runat="server" autocomplete="off" size="10" CssClass="form-control" placeholder="XXXXXX" Style="margin-right: 2px;"></asp:TextBox>
                                     </div>
                                     <div class="form-group">
-                                        <div class="checkbox checkbox-primary checkbox-inline">
-                                            <asp:CheckBox runat="server" ID="radio3" Text="Sidunea World" Style="font-weight: bold;" />
+                                        <div class="checkbox checkbox-primary checkbox-inline" style="margin-top: 23%; padding-left: 5px;">
+                                            <asp:CheckBox runat="server" ID="radio3" Text="Sidunea World" Style="font-weight: bold;" Checked="true" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="form-inline">
-                                    <div id="googleRecaptchadiv">
+                            <div class="col-lg-4" style="width: 38%; padding-right: 4px; padding-top: 1.8%;">
+                                <div class="form-inline" style="font-size: 12px;">
+                                     <div id="googleRecaptchadiv">
                                         <!-- BEGIN: ReCAPTCHA implementation example. -->
                                         <div id="recaptcha-demo" class="g-recaptcha" data-sitekey="6LfrpzEUAAAAAE7ID9J6bhWi26WXJuKFKGHRpE81" data-callback="onSuccess" data-bind="recaptcha_demo_submit"></div>
                                         <script>
@@ -387,8 +464,12 @@
                                         <input type="button" id="exportpdf" value="Imprimir" class="btn btn-info">
                                     </div>
                                     <div class="form-group">
-                                        <button id="btnVEA" type="button" class="btn btn-success" data-toggle="tooltip" title="Clic ir a VEA de la DGA" onclick="shwwindow()" disabled />
+                                        <button id="btnVEA" type="button" class="btn btn-success" data-toggle="tooltip" title="Clic ir a VEA de la DGA" onclick="shwwindow()" disabled></button>
+                                        <span id="badgeNN" class="badgeNO badge-notify">New</span>
                                     </div>
+                                    <%-- <div class="form-group" style="margin-bottom: 26px; margin-left: -3px;">
+                                        <span class="label label-danger" style="">New</span>
+                                    </div>--%>
                                 </div>
                             </div>
                         </div>
@@ -444,17 +525,17 @@
                                                                                         <asp:BoundField DataField="f_recep_patio" HeaderText="Ubicacion de Contenedor por CEPA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_cancelado" HeaderText="Cancelación del Contenedor por la NAVIERA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_cambio" HeaderText="Cambio de Condición por NAVIERA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
-                                                                                        <asp:BoundField DataField="f_reg_aduana" HeaderText="Transmisión Electrónica de la DM" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
+                                                                                        <asp:BoundField DataField="f_reg_aduana" HeaderText="Registro de la Declaración de Mercancías" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:TemplateField HeaderStyle-Font-Bold="true">
                                                                                             <HeaderTemplate>
-                                                                                                <asp:Label Text="Presentación Física de la DM" ID="lblFS" runat="server"></asp:Label>
+                                                                                                <asp:Label Text="Selectividad de la Declaración de Mercancías" ID="lblFS" runat="server"></asp:Label>
                                                                                             </HeaderTemplate>
                                                                                             <ItemTemplate>
                                                                                                 <asp:Label Text='<%# Bind("f_reg_selectivo") %>' ID="lblFechaP" runat="server"></asp:Label>
                                                                                                 <asp:Label Text="" ID="lblSelectividad" runat="server"></asp:Label>
                                                                                             </ItemTemplate>
                                                                                         </asp:TemplateField>
-                                                                                        <asp:BoundField DataField="f_lib_aduana" HeaderText="Liberación de la DM" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
+                                                                                        <asp:BoundField DataField="f_lib_aduana" HeaderText="Orden de Levante" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_ret_dan" HeaderText="Orden de Retención en Línea por DAN" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_tramite_dan" HeaderText="Cliente/Tramitador Confirma Retención por DAN" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_marchamo_dan" HeaderText="Corte de Marchamo por DAN" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
@@ -581,7 +662,7 @@
                     Para mayor información contactar: Gerente Portuario <a href="#">Roberto de Jesús Mendoza - 7070-8013 - roberto.mendoza@cepa.gob.sv</a> / Jefe Análisis de Gestión <a href="#">Omar Ivan Castillo - 7070-8243 - omar.castillo@cepa.gob.sv</a>
                 </p>
                 <p class="text-justify" style="font-size: 11px;">
-                    Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática - 7070-8256 - elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 11 de Noviembre de 2020
+                    Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática - 7070-8256 - elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 04 de Diciembre de 2020
                 </p>
             </div>
         </footer>
@@ -1734,12 +1815,15 @@
 
 
                     $('#btnVEA').tooltip();
+                    $('#linkManual').tooltip();
+
+
 
                     //$('#<%=grvTracking.ClientID %> button').tooltip();
 
                     //$('#dpRetiro').tooltip();
 
-
+                   
 
                 });
             }

@@ -270,7 +270,7 @@ namespace CEPA.CCO.UI.Web
 
                             string fullPathCO = ConfigurationManager.AppSettings["fullPathCO"];
 
-                            string _f7save = string.Format("{0}{1}", fullPathCO, "COTEC_" + d_buque + "_" + iLst.c_navi_corto + "_" + f_corto + ".xlsx");
+                            string _f7save = string.Format("{0}{1}", fullPathCO, "COTEC_" + d_buque + "_" + iLst.c_navi_corto + "_" + f_corto + "_" + string.Concat(iLst.a_manifiesto.Substring(iLst.a_manifiesto.Length -2), iLst.n_manifiesto) + ".xlsx");
 
                             if (File.Exists(_f7save))
                             {

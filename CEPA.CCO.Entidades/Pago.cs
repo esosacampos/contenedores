@@ -7,6 +7,7 @@ namespace CEPA.CCO.Entidades
 {
     public class Pago
     {
+        
         public string b_tarifa { get; set; }
         public string validacion { get; set; }
         public string ValTransfer { get; set; }
@@ -65,7 +66,9 @@ namespace CEPA.CCO.Entidades
         public int v_dias { get; set; }
         public double v_teus { get; set; }
 
+        public string prueba { get; set; }
 
-        
+
+
     }                           
 }

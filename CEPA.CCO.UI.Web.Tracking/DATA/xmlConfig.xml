@@ -63,7 +63,7 @@
     <entry name="fromMail">acajutla.contenedores@cepa.gob.sv</entry>
     <entry name="nameMail">Notificacion | Contenedores</entry>
     <entry name="smtpPort">2552</entry>
-    <entry name="smtpUser">acajutla.contenedores@cepa.gob.sv</entry>
+    <entry name="smtpUser">acajutla.contenedores.cepa@cepa.gob.sv</entry>
     <entry name="smtpPwd">AcA-(2018)</entry>
     <entry name="smtpSSL">False</entry>
   </section>

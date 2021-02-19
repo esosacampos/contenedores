@@ -39,12 +39,11 @@ namespace CEPA.CCO.DAL
                    Pago _pago = new Pago
                    {
                        n_contenedor = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
-                       ValTransfer = _reader.IsDBNull(2) ? "" : (_reader.GetString(2) == "1" ? "Si" : "No"),
-                       ValDespacho = _reader.IsDBNull(3) ? "" : (_reader.GetString(3) == "1" ? "Si" : "No"),
-                       ValManejo = _reader.IsDBNull(4) ? "" : (_reader.GetString(4) == "1" ? "Si" : "No"),
-                       ValAlmacenaje = _reader.IsDBNull(5) ? "" : (_reader.GetString(5) == "1" ? "Si" : "No"),
-                       validacion = _reader.IsDBNull(6) ? "" : (_reader.GetString(6) == "1" ? "Si" : "No")
-
+                       ValTransfer = _reader.IsDBNull(2) ? "No" : (_reader.GetString(2) == "1" ? "Si" : "No"),
+                       ValDespacho = _reader.IsDBNull(3) ? "No" : (_reader.GetString(3) == "1" ? "Si" : "No"),
+                       ValManejo = _reader.IsDBNull(4) ? "No" : (_reader.GetString(4) == "1" ? "Si" : "No"),
+                       ValAlmacenaje = _reader.IsDBNull(5) ? "No" : (_reader.GetString(5) == "1" ? "Si" : "No"),
+                       validacion = _reader.IsDBNull(6) ? "No" : (_reader.GetString(6) == "1" ? "Si" : "No")                      
                    };
 
                    pLista.Add(_pago);

@@ -487,7 +487,7 @@ namespace CEPA.CCO.UI.Web
                 year = ddlYear.SelectedItem.ToString();
             }
 
-            Cargar("DAN", Convert.ToInt32(year));
+            Cargar("DGA", Convert.ToInt32(year));
         }
     }
 }

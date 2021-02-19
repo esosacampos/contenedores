@@ -15,18 +15,21 @@ namespace CEPA.CCO.Entidades
         public string n_contenedor { get; set; }
         public string c_tamaño { get; set; }
         public double v_peso { get; set; }
-        public int v_teus { get; set; }
+        public double v_teus { get; set; }
         public string c_trafico { get; set; }
         public DateTime f_salida { get; set; }
         public string n_manejo { get; set; }
-        public string c_manejo { get; set; }
+        public string c_manejo { get; set; }       
         public double v_manejo { get; set; }
+        public double p_manejo { get; set; }
         public string n_transfer { get; set; }
         public string c_transfer { get; set; }
         public double v_transfer { get; set; }
+        public double p_transfer { get; set; }
         public string n_desp { get; set; }
         public string c_desp { get; set; }
         public double v_desp { get; set; }
+        public double p_desp { get; set; }
         public string n_alm { get; set; }
         public string c_alm { get; set; }
         public double v_alm { get; set; }
@@ -35,5 +38,12 @@ namespace CEPA.CCO.Entidades
         public string f_tarja { get; set; }
 
         public string f_salidas { get; set; }
+        public string b_cancelado { get; set; }
+
+        public double ta_alm { get; set; }
+        public string t_retencion { get; set; }
+        public string reff { get; set; }
+
+        public double peso_entregado { get; set; }
     }
 }

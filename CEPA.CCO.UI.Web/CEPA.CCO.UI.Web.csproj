@@ -190,6 +190,7 @@
     <Content Include="bootstrap\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="bootstrap\js\autocomplete.js" />
     <Content Include="bootstrap\js\bootstrap-toggle.min.js" />
+    <Content Include="bootstrap\js\dataTables.rowsGroup.js" />
     <Content Include="bootstrap\js\jquery.session.js" />
     <Content Include="bootstrap\js\slicknav.min.js" />
     <Content Include="bootstrap\js\jquery.placeholder.js" />
@@ -211,6 +212,7 @@
     <Content Include="bootstrap\js\vertical-responsive-menu.min.js" />
     <Content Include="Controles\ucMultiFileUpload.ascx" />
     <Content Include="CSS\calendar-blue.css" />
+    <Content Include="CSS\datatables.min.css" />
     <Content Include="CSS\Images\aduana.jpg" />
     <Content Include="CSS\Images\calender.png" />
     <Content Include="CSS\Images\cs_print.gif" />
@@ -267,6 +269,8 @@
     <Content Include="Navieras\wfDocumentos.aspx" />
     <Content Include="Navieras\wfExportacion.aspx" />
     <Content Include="Navieras\wfRegistrarSalida.aspx" />
+    <Content Include="Scripts\datatables.min.js" />
+    <Content Include="Scripts\dataTables.rowsGroup.js" />
     <Content Include="Scripts\jquery.blockui.js" />
     <Content Include="Scripts\jquery-11.js" />
     <Content Include="Scripts\calendar-es.js" />
@@ -277,6 +281,10 @@
     <Content Include="Scripts\jquery.formatCurrency-1.4.0.min.js" />
     <Content Include="Scripts\jquery.number.min.js" />
     <Content Include="Scripts\jquery.responsivetable.min.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\script.js" />
     <Content Include="Scripts\scripts.js" />
     <Content Include="bootstrap\js\bootstrap-select.min.js" />
@@ -292,6 +300,8 @@
     <Content Include="Fonts\MuseoSans_900.otf" />
     <Content Include="RptIngreso.xlsx" />
     <Content Include="Anexo_export.xlsx" />
+    <Content Include="Scripts\moment.min.js.map" />
+    <Content Include="Scripts\moment-with-locales.min.js.map" />
     <None Include="Service References\CepaSW\configuration91.svcinfo" />
     <None Include="Service References\CepaSW\configuration.svcinfo" />
     <None Include="Service References\CepaSW\Reference.svcmap">

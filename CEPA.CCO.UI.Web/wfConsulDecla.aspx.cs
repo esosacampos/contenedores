@@ -24,37 +24,48 @@ namespace CEPA.CCO.UI.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             //ScriptManager.RegisterStartupScript(this, typeof(string), "getYearD", "getYear();", true);
-         
 
-            if (!IsPostBack)
-            {
-                try
+
+            txtYear.Text = DateTime.Now.ToString("yyyy");
+            String currurl = HttpContext.Current.Request.RawUrl;
+
+
+            Uri myUri = new Uri(Request.Url.AbsoluteUri);
+
+            // Check to make sure some query string variables
+            // exist and if not add some and redirect.
+            int iqs = currurl.IndexOf('?');
+
+            if (iqs >= 0)
+            {               
+                string contenedor = HttpUtility.ParseQueryString(myUri.Query).Get("contenedor");
+                
+                txtConte.Value = contenedor;
+                if(txtConte.Value.Length > 0)
                 {
-
-                    txtYear.Text = DateTime.Now.ToString("yyyy");
-                    
-                    //Cargar();
-                    
-                }
-                catch (Exception ex)
-                {
-                    ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + ex.Message + "');", true);
-                }
-
-
-            }
-            hConte.Value = "";
-            if (Session["n_conte"] != null)
-            {
-                hConte.Value = Session["n_conte"].ToString();
-
-                if (hConte.Value.Length > 0)
-                {
-                    txtConte.Value = hConte.Value;
                     Filtrar();
-                    Session["n_conte"] = "";
-                }
+                }                
             }
+            else
+            {
+                if (!IsPostBack)
+                {
+                    try
+                    {
+                        
+                        Cargar();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + ex.Message + "');", true);
+                    }
+
+
+                }
+                
+            }
+          
         }
 
         private void Cargar()

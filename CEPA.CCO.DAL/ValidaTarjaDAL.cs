@@ -538,5 +538,27 @@ namespace CEPA.CCO.DAL
                 return pLista;
             }
         }
+
+        public static string ValidFact(DBComun.Estado pEstado, string n_contenedor, string n_manifiesto, DBComun.TipoBD pDB)
+        {
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(pDB, pEstado))
+            {
+                _conn.Open();
+                SqlCommand _command = new SqlCommand("pa_valid_fact", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@n_contenedor", n_contenedor));
+                _command.Parameters.Add(new SqlParameter("@n_manifiesto", n_manifiesto));
+
+
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
     }
 }

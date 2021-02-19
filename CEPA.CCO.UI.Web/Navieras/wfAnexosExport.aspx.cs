@@ -107,8 +107,8 @@ namespace CEPA.CCO.UI.Web.Navieras
             string c_cliente = Session["c_naviera"].ToString();
             //string c_cliente = "690";
 
-            if (c_cliente == "1541")
-                c_cliente = "1515";
+            //if (c_cliente == "1541")
+            //    c_cliente = "1515";
 
 
             List<AnexoExport> queryEnca = (from a in EncaBuqueDAL.getAnexoExport(DBComun.Estado.verdadero, c_factura, c_cliente)
@@ -190,20 +190,23 @@ namespace CEPA.CCO.UI.Web.Navieras
                     oSheet.Cell("I8").Value = "AGENCIA: " + _anexoCls.d_naviera;
                     oSheet.Cell("I8").Style.Font.Bold = true;
 
-                    oSheet.Cell("L8").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
-                    oSheet.Cell("L8").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+                    oSheet.Cell("M8").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+                    oSheet.Cell("M8").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
 
-                    oSheet.Cell("L8").Value = "FECHA: " + f_actual;
-                    oSheet.Cell("L8").Style.Font.Bold = true;
+                    oSheet.Cell("M8").Value = "FECHA: " + f_actual;
+                    oSheet.Cell("M8").Style.Font.Bold = true;
+
+                   
                     //CABECERA FIN
 
 
-                    //BORDES TABLA
-                    oSheet.Range("A11", string.Concat("M", ((ROWS_START + d_lineas) - 1))).Style.Border.InsideBorder = cxExcel.XLBorderStyleValues.Thin;
-                    oSheet.Range("A11", string.Concat("M", ((ROWS_START + d_lineas) - 1))).Style.Border.OutsideBorder = cxExcel.XLBorderStyleValues.Medium;
 
-                    oSheet.Range("A11", string.Concat("M", ((ROWS_START + d_lineas) - 1))).Style.Border.SetInsideBorderColor(cxExcel.XLColor.Black);
-                    oSheet.Range("A11", string.Concat("M", ((ROWS_START + d_lineas) - 1))).Style.Border.SetOutsideBorderColor(cxExcel.XLColor.Black);
+                    //BORDES TABLA
+                    oSheet.Range("A11", string.Concat("O", ((ROWS_START + d_lineas) - 1))).Style.Border.InsideBorder = cxExcel.XLBorderStyleValues.Thin;
+                    oSheet.Range("A11", string.Concat("O", ((ROWS_START + d_lineas) - 1))).Style.Border.OutsideBorder = cxExcel.XLBorderStyleValues.Medium;
+
+                    oSheet.Range("A11", string.Concat("O", ((ROWS_START + d_lineas) - 1))).Style.Border.SetInsideBorderColor(cxExcel.XLColor.Black);
+                    oSheet.Range("A11", string.Concat("O", ((ROWS_START + d_lineas) - 1))).Style.Border.SetOutsideBorderColor(cxExcel.XLColor.Black);
 
 
                     foreach (var item in pLstAnexo)
@@ -233,8 +236,10 @@ namespace CEPA.CCO.UI.Web.Navieras
                             oSheet.Cell(iCurrent, 11).Value = item.Dcobro;
                         else
                             oSheet.Cell(iCurrent, 11).Value = "";
-                        oSheet.Cell(iCurrent, 12).Value = item.Fingresa;
-                        oSheet.Cell(iCurrent, 13).Value = item.Fexporta;
+                        oSheet.Cell(iCurrent, 12).Value = item.Fec_Vacio.ToString().Contains("1899") ? "/ / : : " : item.Fec_Vacio.ToString("dd/MM/yyyy hh:mm"); 
+                        oSheet.Cell(iCurrent, 13).Value = item.Fec_Valle.ToString().Contains("1899") ? "/ / : : " : item.Fec_Valle.ToString("dd/MM/yyyy hh:mm");
+                        oSheet.Cell(iCurrent, 14).Value = item.Fingresa;
+                        oSheet.Cell(iCurrent, 15).Value = item.Fexporta;
 
                         iRow = iRow + 1;
                     }

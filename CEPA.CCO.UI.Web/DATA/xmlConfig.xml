@@ -66,15 +66,15 @@
     <entry name="TypeGuessRows">0</entry>
     <entry name="ImportMixedTypes">Text</entry>
   </section>
-  <section name="MAIL">
-    <entry name="smtpServer">mail.cepa.gob.sv</entry>
-    <entry name="fromMail">acajutla.contenedores@cepa.gob.sv</entry>
-    <entry name="nameMail">Notificacion | Contenedores</entry>
-    <entry name="smtpPort">2552</entry>
-    <entry name="smtpUser">acajutla.contenedores@cepa.gob.sv</entry>
-    <entry name="smtpPwd">AcA-(2018)</entry>
-    <entry name="smtpSSL">False</entry>
-  </section>
+	<section name="MAIL">
+		<entry name="smtpServer">mail.cepa.gob.sv</entry>
+		<entry name="fromMail">acajutla.contenedores@cepa.gob.sv</entry>
+		<entry name="nameMail">Notificacion | Contenedores</entry>
+		<entry name="smtpPort">2552</entry>
+		<entry name="smtpUser">acajutla.contenedores.cepa@cepa.gob.sv</entry>
+		<entry name="smtpPwd">AcA-(2018)</entry>
+		<entry name="smtpSSL">False</entry>
+	</section>
   <section name="MAIL2">
     <entry name="smtpServer">smtp.gmail.com</entry>
     <entry name="fromMail">cepa.contenedores@gmail.com</entry>

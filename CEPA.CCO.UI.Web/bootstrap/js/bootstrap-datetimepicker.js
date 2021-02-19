@@ -412,7 +412,7 @@ THE SOFTWARE.
                     parent = parent.parents().filter(function () {
                         return $(this).css('position') === 'relative';
                     }).first();
-                }
+                }                
 
                 if (parent.length === 0) {
                     throw new Error('datetimepicker component should be placed within a relative positioned container');

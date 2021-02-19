@@ -27,6 +27,9 @@ namespace CEPA.CCO.Entidades
         public DateTime? Fexporta { get; set; }
         public String Leyenda { get; set; }
 
+        public DateTime Fec_Vacio { get; set; }
+        public DateTime Fec_Valle { get; set; }
+
         public Int64 Orden { get; set; }
     }
     public class EntLlenos

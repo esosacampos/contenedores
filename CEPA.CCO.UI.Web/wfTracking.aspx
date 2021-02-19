@@ -200,7 +200,7 @@
     <br />
     <div class="col-lg-12">
         <div class="form-inline">
-            <div class="form-group" style="width: 70%">
+            <div class="form-group" style="width: 65%">
                 <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" placeholder="# de contenedor sin guiones" autocomplete="off" Width="100%"></asp:TextBox>
             </div>
             <div class="form-group">
@@ -215,7 +215,7 @@
                 <asp:Button ID="btnBuscar" runat="server" Text="Consultar" CssClass="btn btn-default"
                     OnClick="btnBuscar_Click" />
                 <asp:Button ID="btnConsultar" runat="server" Text="D/T Asociados" CssClass="btn btn-success"
-                    OnClick="btnConsultar_Click" Visible="false" OnClientClick="return confirmaSave(this.id);" />
+                     Visible="false" OnClientClick="return confirmaSave(this.id);" />                 
                 <%--<button runat="server" id="btnConsultar" onclick="window.open('_blank', 'wfConsulDecla.aspx', 'width=100,height=100');">Asociados</button>--%>
                 <%--<input type="button" id="exportpdf" value="Imprimir" class="btn btn-info">  OnClientClick="return confirmaSave(this.id);"--%>
                 <%--<asp:Button ID="btnImprime" runat="server" Text="Imprimir" CssClass="btn btn-info" OnClick="btnImprime_Click"  />--%>
@@ -264,7 +264,10 @@
                                 DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <button type="button" class="btn btn-primary btn xs" onclick="return GetSelectedRow(this)" id="tooltop" data-toggle="tooltip" data-placement="top" data-original-title="Consultar el estado para despachar su contenedor">
+                                    <button type="button" runat="server" class="btn btn-primary btn xs" onclick="return GetSelectedRow(this)" id="tooltop" data-toggle="tooltip" data-placement="top" data-original-title="Consultar el estado para despachar su contenedor">
+                                        <span class="glyphicon glyphicon-usd" style="cursor: pointer;"></span>
+                                    </button>
+                                     <button type="button" id="fact" runat="server" class="btn btn-warning btn xs" onclick="return getBL(this)" >
                                         <span class="glyphicon glyphicon-usd" style="cursor: pointer;"></span>
                                     </button>
                                 </ItemTemplate>
@@ -690,12 +693,29 @@
             return false;
         }
 
+        function getBL(lnk) {
+            //window.open(myurl, '_blank');
+            var row = lnk.parentNode.parentNode;
+            var c_llegada = row.cells[2].innerHTML;
+            var contenedor = row.cells[3].innerHTML;
+            var c_tarja = row.cells[4].innerHTML;
+            var url = 'llegada=' + c_llegada + '&contenedor=' + contenedor
+            
+            if (c_tarja != "&nbsp;")
+                window.open('wfConsulBL.aspx?' + url, '_blank');
+            else
+                bootbox.alert("CEPA - Contenedores: no puede proceder porque no se posee tarja vuelva intentar mas tarde.")
+        }
+       
+
         function goDecla(lnk) {
             var row = lnk.parentNode.parentNode;
             var contenedor = row.cells[3].innerHTML;
             $.session.set("n_conte", contenedor);
             bootbox.alert($.session.get("n_conte"));
             window.open('wfConsulDecla.aspx', 'popup', 'width=800,height=500');
+
+
         }
 
         function GetSelectedRow(lnk) {
@@ -1495,7 +1515,10 @@
                         var controlToClick = document.getElementById(controlID);
                         if (controlToClick != null) {
                             confirmed = true;
-                            controlToClick.click();
+                            //controlToClick.click();
+                            var contenedor = document.getElementById('<%= txtBuscar.ClientID %>').value;
+                            var url = 'contenedor=' + contenedor; 
+                            window.open('wfConsulDecla.aspx?' + url, 'popup');
                             confirmed = false;
                         }
                     }
