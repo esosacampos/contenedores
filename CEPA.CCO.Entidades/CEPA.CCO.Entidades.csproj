@@ -90,6 +90,7 @@
     <Compile Include="TipoRevision.cs" />
     <Compile Include="TransferXML.cs" />
     <Compile Include="Usuario.cs" />
+    <Compile Include="Vaciado.cs" />
     <Compile Include="ValiadaTarja.cs" />
     <Compile Include="WebApiEntity.cs" />
   </ItemGroup>

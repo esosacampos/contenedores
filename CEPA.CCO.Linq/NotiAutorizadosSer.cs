@@ -110,6 +110,21 @@ namespace CEPA.CCO.Linq
 
                 int Aumenta = 3;
                 int Cuenta = 1;
+
+                List<string> pSize = new List<string>();
+
+                if (pLista.Count > 0)
+                {
+                    foreach (var sizeV in pLista)
+                    {
+                        string validacionSize = DetaNavieraDAL.validSize(sizeV.n_contenedor, DBComun.Estado.falso);
+
+                        if (validacionSize.Contains("ISOType"))
+                            pSize.Add(validacionSize);
+                    }
+                }
+
+
                 for (int j = 1; j < 8; j++)
                 {
                     if (j == 1)
@@ -174,18 +189,7 @@ namespace CEPA.CCO.Linq
                     ruta = GenerarPeligrosidadCX(_list, c_cliente, d_naviera, c_llegada, IdReg, d_buque, f_llegada, pValor, pCantidad, n_manifiesto, c_viaje);
                 }
 
-                List<string> pSize = new List<string>();
-
-                if(_list.Count > 0)
-                {
-                    foreach (var sizeV in _list)
-                    {
-                        string validacionSize = DetaNavieraDAL.validSize(sizeV.n_contenedor, sizeV.c_tamaño, DBComun.Estado.falso);
-
-                        if (validacionSize.Contains("ISOType"))
-                            pSize.Add(validacionSize);
-                    }
-                }
+               
 
                 //COTECNA 
                 List<ArchivoAduana> pCotecna = new List<ArchivoAduana>();
@@ -213,7 +217,7 @@ namespace CEPA.CCO.Linq
 
                 //EnviarCorreoCO(pPDF, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, n_manifiesto);
 
-                EnviarCorreoCOTEC(pCotecLst, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, n_manifiesto, a_manifiesto);
+               EnviarCorreoCOTEC(pCotecLst, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, n_manifiesto, a_manifiesto);
 
                 System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
 
@@ -297,16 +301,16 @@ namespace CEPA.CCO.Linq
                 if(pValidacion.Count > 0)
                 {
                     Html += "<br /><br/>";
-                    Html += "<div style='color: #000!important;background-color: #ffffcc!important;'>";
+                    Html += "<p style='background-color: #ffffcc'><font color:'#000000;'>";                    
                     Html += "Los siguientes contenedores presentaron inconsistencia en su tamaño según historial, y para su revisión se detallan a continuación : ";
-                    Html += "<OL>";
+                    Html += "<UL>";
                     foreach(string itemS in pValidacion)
                     {
                         Html += "<LI>" + itemS;
                     }
-                    Html += "</OL>";
-                    Html += "</div>";
-                    Html += "<br /><br/>";
+                    Html += "</UL>";                   
+                    Html += "<br/><br/>";
+                    Html += "</font></p>";
                 }
 
                 Html += "<br /><br />";
@@ -335,6 +339,8 @@ namespace CEPA.CCO.Linq
 
                 _listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_autoriza", DBComun.Estado.falso, "219"));
                 _correo.ListaCC = _listaCC;
+
+                //LIMITE
 
                 //Notificaciones noti = new Notificaciones
                 //{
@@ -828,8 +834,8 @@ namespace CEPA.CCO.Linq
                 oSheet.Range("A8", string.Format("{0}8", _rango)).Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
                 oSheet.Range("A6", string.Format("{0}8", _rango)).Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
                 oSheet.Range("A9", string.Concat("C", Filas)).Style.NumberFormat.SetFormat("@");
-                oSheet.Range("D9", string.Concat("D", Filas)).Style.NumberFormat.SetFormat("0.00");
-                oSheet.Range("E9", string.Concat("E", Filas)).Style.NumberFormat.SetFormat("0");
+                oSheet.Range("D9", string.Concat("D", Filas)).Style.NumberFormat.SetFormat("#,##0.00");
+                oSheet.Range("E9", string.Concat("E", Filas)).Style.NumberFormat.SetFormat("#,##0");
                 oSheet.Range("F9", string.Format("{0}{1}", _rango, Filas)).Style.NumberFormat.SetFormat("@");
                 oSheet.Range("A9", string.Concat("B", Filas)).Style.Font.FontSize = 14;
 
@@ -899,7 +905,7 @@ namespace CEPA.CCO.Linq
                     oSheet.Cell(iCurrent, 2).Value = item.n_contenedor;
                     oSheet.Cell(iCurrent, 3).Value = item.c_tamaño_c;
                     oSheet.Cell(iCurrent, 4).Value = item.v_peso;
-                    oSheet.Cell(iCurrent, 5).Value = item.v_tara;
+                    oSheet.Cell(iCurrent, 5).Value =item.v_tara; 
                     oSheet.Cell(iCurrent, 6).Value = item.c_imo_imd;
                     oSheet.Cell(iCurrent, 7).Value = "";
                     if (pValor != 4 && item.b_condicion.Substring(0, 3) == "LCL")
@@ -907,16 +913,19 @@ namespace CEPA.CCO.Linq
                     else if (pValor == 4 && item.b_reef.Contains("SI"))
                         oSheet.Cell(iCurrent, 8).Value = "A CONECTAR";
                     else if(item.v_peso + item.v_tara > 30000.00)
-                        oSheet.Cell(iCurrent, 8).Value = "ADVERTENCIA DE PESO (PESO + TARA): " + item.v_peso + item.v_tara;
+                        oSheet.Cell(iCurrent, 8).Value = "ADVERTENCIA DE PESO (PESO + TARA): " + String.Format("{0:0,0.00}", item.v_peso + item.v_tara);
+                    else if(item.b_shipper == "SI")
+                        oSheet.Cell(iCurrent, 8).Value = "SHIPPER OWNED";
                     else
                         oSheet.Cell(iCurrent, 8).Value = "";
-
 
 
                     iRow = iRow + 1;
                 }
 
-                
+
+                oSheet.Range("H9", string.Format("H{0}", Filas)).Style.Alignment.SetWrapText(true);
+
                 oSheet.PageSetup.PageOrientation = cxExcel.XLPageOrientation.Portrait;
                 oSheet.PageSetup.AdjustTo(59);                                
                 oSheet.PageSetup.PaperSize = cxExcel.XLPaperSize.LetterPaper;

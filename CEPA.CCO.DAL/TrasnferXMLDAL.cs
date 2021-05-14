@@ -65,22 +65,10 @@ namespace CEPA.CCO.DAL
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
             {
                 _conn.Open();
-                /* string consulta = @"SELECT c.a_mani Año, '02' ADUANA, b.n_manifiesto, c.n_bl, c.n_contenedor, CONVERT(CHAR(10), f_rpatio, 103) +' ' + CONVERT(CHAR(10), f_rpatio, 108) f_rpatio,  ISNULL(a.sitio, '????') sitio, CASE WHEN LEN(a.s_comentarios) = 0 THEN '' ELSE a.s_comentarios END  s_comentarios, IdDeta, b.c_llegada
-                                     FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_DETA_DOC_NAVI b ON a.IdDoc = b.IdDoc
-                                     INNER JOIN CCO_ADUANA_VALID c ON a.n_contenedor = c.n_contenedor AND b.n_manifiesto = c.n_manifiesto
-                                     WHERE b_transmision = 0 AND f_rpatio IS NOT NULL AND b.n_manifiesto = '{0}' AND b.a_manifiesto = '{1}'                                
-                                     ORDER BY b.n_manifiesto, c.n_bl";*/
-
-
-                string consulta = @"SELECT c.a_mani Año, '02' ADUANA, b.n_manifiesto, c.n_bl, c.n_contenedor, RTRIM(LTRIM(CONVERT(CHAR(10), f_recepcion, 103) +' ' + CONVERT(CHAR(10), f_recepcion, 108))) f_rpatio,  CASE WHEN UPPER(a.b_ret_dir) = 'Y' THEN 'Retiro Directo CEPA Acajutla' ELSE 'Patio de Contenedores CEPA Acajutla' END  sitio, CASE WHEN LEN(a.s_obser_recep) = 0 THEN '' ELSE a.s_obser_recep END  s_comentarios, IdDeta, b.c_llegada, CASE WHEN b.b_siduneawd = 1 THEN 1 ELSE 0 END b_siduneawd
-                                    FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_DETA_DOC_NAVI b ON a.IdDoc = b.IdDoc
-                                    INNER JOIN CCO_ADUANA_VALID c ON a.n_contenedor = c.n_contenedor AND b.n_manifiesto = c.n_manifiesto
-                                    WHERE b_transmision = 0 AND f_recepcion IS NOT NULL --AND b.n_manifiesto = {0} AND b.a_manifiesto = '{1}'                                
-                                    ORDER BY b.n_manifiesto, c.n_bl";
-
-                SqlCommand _command = new SqlCommand(consulta, _conn as SqlConnection)
+             
+                SqlCommand _command = new SqlCommand("pa_pendientes_dga", _conn as SqlConnection)
                 {
-                    CommandType = CommandType.Text
+                    CommandType = CommandType.StoredProcedure
                 };
 
                 SqlDataReader _reader = _command.ExecuteReader();
@@ -349,6 +337,29 @@ namespace CEPA.CCO.DAL
             }
         }
 
+        public static string ActCOARRI(int pValor, int pIdDeta)
+        {
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.falso))
+            {
+                _conn.Open();
+                string _consulta = @"UPDATE CCO_DETA_NAVIERAS
+                                    SET b_coarri = {0}, f_coarri = GETDATE()
+                                    WHERE IdDeta = {1}
+                                    SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(string.Format(_consulta, pValor, pIdDeta), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
+
 
         public static List<CorteCOTECNA> shipperZarpe(DBComun.Estado pEstado, string c_llegada)
         {
@@ -568,6 +579,54 @@ namespace CEPA.CCO.DAL
 
     public class CorteCOTECNADAL
     {
+
+        public static List<CorteCOTECNA> BuquesCorteEnca(DBComun.Estado pEstado, string c_llegada)
+        {
+            List<CorteCOTECNA> _empleados = new List<CorteCOTECNA>();
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SyBaseNET, pEstado))
+            {
+                _conn.Open();
+                string _consulta = null;
+                AseCommand _command = null;
+
+                _consulta = @"SELECT a.c_nul, a.c_llegada, b.s_nom_buque, d.c_cliente, c.s_razon_social, a.f_atraque
+                            FROM fa_llegadas a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
+                            INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
+                            INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_arribo) >= year(getdate())-1 AND a.c_llegada = '{0}'  /*A.f_atraque IS not NULL */
+                            ORDER BY a.c_llegada DESC";
+
+
+                _command = new AseCommand(string.Format(_consulta, c_llegada), _conn as AseConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                AseDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    CorteCOTECNA _tmpEmpleado = new CorteCOTECNA
+                    {
+                        c_nul = _reader.GetString(0),
+                        c_llegada = _reader.GetString(1),
+                        d_buque = _reader.GetString(2),
+                        c_cliente = _reader.GetString(3),
+                        d_cliente = _reader.GetString(4),
+                        f_atraque = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5)
+
+                    };
+
+                    _empleados.Add(_tmpEmpleado);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return _empleados;
+            }
+        }
         public static List<CorteCOTECNA> BuquesCorte(DBComun.Estado pEstado, string c_llegada)
         {
             List<CorteCOTECNA> _empleados = new List<CorteCOTECNA>();
@@ -615,6 +674,48 @@ namespace CEPA.CCO.DAL
                 return _empleados;
             }
         }
+
+        public static List<CorteCOTECNA> BuquesCorte(DBComun.Estado pEstado)
+        {
+            List<CorteCOTECNA> _empleados = new List<CorteCOTECNA>();
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SyBaseNET, pEstado))
+            {
+                _conn.Open();
+                string _consulta = null;
+                AseCommand _command = null;
+
+                _consulta = @"SELECT a.c_llegada
+                            FROM fa_llegadas a 
+                            WHERE a.c_empresa = '04' AND a.f_desatraque is null AND YEAR(a.f_arribo) BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE()) AND MONTH(a.f_arribo) BETWEEN MONTH(GETDATE()) - 1 AND MONTH(GETDATE()) and a.c_llegada is not null  
+                            order by a.f_atraque desc";
+
+
+                _command = new AseCommand(_consulta, _conn as AseConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                AseDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    CorteCOTECNA _tmpEmpleado = new CorteCOTECNA
+                    {                        
+                        c_llegada = _reader.GetString(0)                       
+                    };
+
+                    _empleados.Add(_tmpEmpleado);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return _empleados;
+            }
+        }
+
+
 
         public static List<CorteCOTECNA> CorteLlegadas(DBComun.Estado pEstado, string c_llegada)
         {
@@ -812,17 +913,10 @@ namespace CEPA.CCO.DAL
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
             {
                 _conn.Open();
-                string consulta = @"SELECT a.c_llegada
-                                    FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_NAVIERAS b ON a.IdReg = b.IdReg
-                                    INNER JOIN CCO_DETA_DOC_NAVI c ON b.IdDoc = c.IdDoc AND a.IdReg = c.IdReg  
-                                    INNER JOIN CCO_USUARIOS_NAVIERAS d ON a.c_naviera = d.c_naviera 
-                                    WHERE b.b_autorizado = 1 AND c_correlativo IS NOT NULL AND a.b_cotecna = 0
-                                    GROUP BY a.c_llegada
-                                    ORDER BY A.c_llegada DESC";
 
-                SqlCommand _command = new SqlCommand(consulta, _conn as SqlConnection)
+                SqlCommand _command = new SqlCommand("pa_cotecna_resumen", _conn as SqlConnection)
                 {
-                    CommandType = CommandType.Text
+                    CommandType = CommandType.StoredProcedure
                 };
 
                 SqlDataReader _reader = _command.ExecuteReader();
@@ -854,18 +948,13 @@ namespace CEPA.CCO.DAL
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
             {
                 _conn.Open();
-                string consulta = @"SELECT a.c_llegada
-                                    FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_NAVIERAS b ON a.IdReg = b.IdReg
-                                    INNER JOIN CCO_DETA_DOC_NAVI c ON b.IdDoc = c.IdDoc AND a.IdReg = c.IdReg  
-                                    INNER JOIN CCO_USUARIOS_NAVIERAS d ON a.c_naviera = d.c_naviera 
-                                    WHERE b.b_autorizado = 1 AND c_correlativo IS NOT NULL AND a.b_cotecna = 1 AND b_noti_t_auto = 0
-                                    GROUP BY a.c_llegada
-                                    ORDER BY A.c_llegada DESC";
 
-                SqlCommand _command = new SqlCommand(consulta, _conn as SqlConnection)
+
+                SqlCommand _command = new SqlCommand("pa_consulta_transmi_auto", _conn as SqlConnection)
                 {
-                    CommandType = CommandType.Text
+                    CommandType = CommandType.StoredProcedure
                 };
+
 
                 SqlDataReader _reader = _command.ExecuteReader();
 

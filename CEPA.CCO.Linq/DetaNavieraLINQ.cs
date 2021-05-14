@@ -445,7 +445,8 @@ namespace CEPA.CCO.Linq
                         num_manif = a.num_manif,
                         b_transferencia = a.b_transferencia,
                         b_manejo = a.b_manejo,
-                        b_despacho = a.b_despacho
+                        b_despacho = a.b_despacho,
+                        b_shipper = a.b_shipper
                     }).ToList();
 
 
@@ -516,7 +517,8 @@ namespace CEPA.CCO.Linq
                         num_manif = a.num_manif,
                         b_transferencia = a.b_transferencia,
                         b_manejo = a.b_manejo,
-                        b_despacho = a.b_despacho
+                        b_despacho = a.b_despacho,
+                        b_shipper = a.b_shipper
                     }).OrderBy(y => y.c_correlativo).ToList();
 
 

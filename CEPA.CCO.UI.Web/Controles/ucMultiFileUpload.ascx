@@ -2,9 +2,10 @@
 <!--    2011 Marcelo Calderón - www.lengasoft.com
         Este código es de uso y distribución libre bajo los términos de GPLv2
         siempre que se conserve este texto. -->
+
 <fieldset  ID="campo" class="fUploadControl" runat="server" style="height: auto; width: 95%">
     <legend>
-        <asp:Label ID="lblUploadFilesTitle" Text="Archivos a subir" runat="server"></asp:Label>
+        <asp:Label ID="lblUploadFilesTitle" Text="Autorización ADUANA" runat="server"></asp:Label>
     </legend>
     <asp:Label ID="lblNote" Text="" CssClass="comment" runat="server" />
     <asp:Panel ID="pnlUpload" runat="server" Width="80%">

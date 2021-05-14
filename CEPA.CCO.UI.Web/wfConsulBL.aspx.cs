@@ -63,6 +63,8 @@ namespace CEPA.CCO.UI.Web
                 return Newtonsoft.Json.JsonConvert.SerializeObject(ex.Message);
             }
         }
+              
+       
 
         [System.Web.Services.WebMethod]
         public static string getBLs(string c_llegada, string n_contenedor)
@@ -104,14 +106,14 @@ namespace CEPA.CCO.UI.Web
                                  v_teus = a.v_teus,
                                  c_trafico = a.c_trafico,
                                  f_salidas = a.f_salida.ToString("dd/MM/yyyy HH:mm"),
-                                 n_manejo = a.n_manejo,
-                                 c_manejo = a.c_manejo,
+                                 vn_manejo = a.vn_manejo,
+                                 vc_manejo = a.vc_manejo,
                                  p_manejo = a.p_manejo,
-                                 n_transfer = a.n_transfer,
-                                 c_transfer = a.c_transfer,
+                                 vn_transfer = a.vn_transfer,
+                                 vc_transfer = a.vc_transfer,
                                  p_transfer = a.p_transfer,
-                                 n_desp = a.n_desp,
-                                 c_desp = a.c_desp,
+                                 vn_desp = a.vn_desp,
+                                 vc_desp = a.vc_desp,
                                  p_desp = a.p_desp,
                                  n_alm = a.n_alm,
                                  c_alm = a.c_alm,
@@ -120,7 +122,8 @@ namespace CEPA.CCO.UI.Web
                                  ta_alm = a.ta_alm,
                                  t_retencion = a.t_retencion,
                                  reff = a.reff,
-                                 peso_entregado = a.peso_entregado
+                                 peso_entregado = a.peso_entregado,
+                                 f_retenciones = a.f_retencion.ToString("dd/MM/yyyy HH:mm")
                              }).ToList();
 
                     if (pList.Count > 0)
@@ -147,14 +150,14 @@ namespace CEPA.CCO.UI.Web
                                         v_teus = item.v_teus,
                                         c_trafico = item.c_trafico,
                                         f_salidas = item.f_salidas,
-                                        n_manejo = item.n_manejo,
-                                        c_manejo = item.c_manejo,
+                                        vn_manejo = item.vn_manejo,
+                                        vc_manejo = item.vc_manejo,
                                         p_manejo = iPago.ValManejo == "No" ? item.p_manejo : 0.00,
-                                        n_transfer = item.n_transfer,
-                                        c_transfer = item.c_transfer,
+                                        vn_transfer = item.vn_transfer,
+                                        vc_transfer = item.vc_transfer,
                                         p_transfer = iPago.ValTransfer == "No" ? item.p_transfer : 0.00,
-                                        n_desp = item.n_desp,
-                                        c_desp = item.c_desp,
+                                        vn_desp = item.vn_desp,
+                                        vc_desp = item.vc_desp,
                                         p_desp = iPago.ValDespacho == "No" ? item.p_desp : 0.00,
                                         n_alm = item.n_alm,
                                         c_alm = item.c_alm,
@@ -163,7 +166,8 @@ namespace CEPA.CCO.UI.Web
                                         ta_alm = item.ta_alm,
                                         t_retencion = item.t_retencion,
                                         reff = item.reff,
-                                        peso_entregado = item.peso_entregado
+                                        peso_entregado = item.peso_entregado,
+                                        f_retenciones = item.f_retenciones
                                     };                                                                       
 
                                     pList2.Add(_BL);

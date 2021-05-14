@@ -55,5 +55,6 @@ namespace CEPA.CCO.Entidades
         public string d_cliente { get; set; }
 
         public string c_tipo_bl { get; set; }
+        public string b_shipper { get; set; }
     }
 }

@@ -166,5 +166,11 @@ namespace CEPA.CCO.Entidades
         public int b_sidunea { get; set; }
 
         public string c_navi_corto { get; set; }
+
+        public double v_aduana { get; set; }
+        public double v_cepa { get; set; }
+
+        public string b_ship_aduana { get; set; }
+        public string b_ship_cepa { get; set; }
     }
 }

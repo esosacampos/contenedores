@@ -38,21 +38,21 @@ namespace CEPA.CCO.DAL
                         c_nul = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
                         c_prefijo = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
                         c_llegada = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
-                        n_manifiesto = _reader.IsDBNull(3) ? "" : _reader.GetString(3),                        
+                        n_manifiesto = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
                         n_contenedor = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
                         c_tamaño = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
                         v_peso = _reader.IsDBNull(6) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(6)),
                         v_teus = _reader.IsDBNull(7) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(7)),
                         c_trafico = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
                         f_salida = _reader.IsDBNull(9) ? Convert.ToDateTime(_reader.GetDateTime(9)) : _reader.GetDateTime(9),
-                        n_manejo = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
-                        c_manejo = _reader.IsDBNull(11) ? "" : _reader.GetString(11),
+                        vn_manejo = _reader.IsDBNull(10) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(10)),
+                        vc_manejo = _reader.IsDBNull(11) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(11)),
                         p_manejo = _reader.IsDBNull(12) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(12)),
-                        n_transfer = _reader.IsDBNull(13) ? "" : _reader.GetString(13),
-                        c_transfer = _reader.IsDBNull(14) ? "" : _reader.GetString(14),
+                        vn_transfer = _reader.IsDBNull(13) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(13)),
+                        vc_transfer = _reader.IsDBNull(14) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(14)),
                         p_transfer = _reader.IsDBNull(15) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(15)),
-                        n_desp = _reader.IsDBNull(16) ? "" : _reader.GetString(16),
-                        c_desp = _reader.IsDBNull(17) ? "" : _reader.GetString(17),
+                        vn_desp = _reader.IsDBNull(16) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(16)),
+                        vc_desp = _reader.IsDBNull(17) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(17)),
                         p_desp = _reader.IsDBNull(18) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(18)),
                         n_alm = _reader.IsDBNull(19) ? "" : _reader.GetString(19),
                         c_alm = _reader.IsDBNull(20) ? "" : _reader.GetString(20),
@@ -60,7 +60,8 @@ namespace CEPA.CCO.DAL
                         t_retencion = _reader.IsDBNull(22) ? "" : _reader.GetString(22),
                         ta_alm = _reader.IsDBNull(23) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(23)),
                         reff = _reader.IsDBNull(24) ? "" : _reader.GetString(24),
-                        peso_entregado = _reader.IsDBNull(25) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(25))
+                        peso_entregado = _reader.IsDBNull(25) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(25)),
+                        f_retencion = _reader.IsDBNull(26) ? Convert.ToDateTime(_reader.GetDateTime(26)) : _reader.GetDateTime(26)
                     };
                     notiLista.Add(_notificacion);
                 }

@@ -184,6 +184,7 @@ namespace CEPA.CCO.Entidades
 
     public class TrackingEnca
     {
+        public string s_marchamo { get; set; }
         public int IdDeta { get; set; }
         public string n_contenedor { get; set; }
         public string c_tamaño { get; set; }

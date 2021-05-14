@@ -717,7 +717,7 @@ namespace CEPA.CCO.DAL
                                 from fa_enc_factura a, fa_det_factura b, cg_ctas_conta c, fa_cat_servicios d
                                 where a.c_factura = b.c_factura
                                 and b.c_servicio = d.c_servicio
-                                and d.c_cta_contab = c.c_cta_contab and a.c_tarja  = '{0}'
+                                and d.c_cta_contab = c.c_cta_contab and a.c_tarja  = '{0}' and a.m_factura_estado <> 'A'
                                 order by f_factura desc ";
 
                 _command = new AseCommand(string.Format(_consulta, c_tarja), _conn as AseConnection)
@@ -1144,6 +1144,31 @@ namespace CEPA.CCO.DAL
             }
         }
 
+
+        public static string getBuque(DBComun.Estado pEstado, string c_llegada)
+        {          
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SyBaseNET, pEstado))
+            {
+                _conn.Open();
+                string _consulta = null;
+                AseCommand _command = null;
+
+                _consulta = @"select s_nom_buque
+                            from fa_llegadas a inner join fa_buques b on a.c_buque = b.c_buque
+                            where c_llegada = '{0}'";
+
+
+                _command = new AseCommand(string.Format(_consulta, c_llegada), _conn as AseConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string buque = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                return buque;
+            }
+        }
 
     }
 }

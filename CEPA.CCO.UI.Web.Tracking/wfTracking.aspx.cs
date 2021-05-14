@@ -342,7 +342,7 @@ namespace CEPA.CCO.UI.Web.Tracking
                         //v_aduana = "2019-176";
                         if (v_aduana == "0")
                         {
-                            ScriptManager.RegisterStartupScript(this, typeof(string), "", "btnCheck(0);", true);
+                            ScriptManager.RegisterStartupScript(this.UpdatePanel1, GetType(), "validar", "btnCheck(0);", true);
                             throw new Exception("Alerta!! Revise los párametros de ingreso a está consulta y/o los utilizados en sus declaración de mercancía");
                         }
                         else
@@ -363,7 +363,7 @@ namespace CEPA.CCO.UI.Web.Tracking
                                 grvTracking.FooterRow.TableSection = TableRowSection.TableFooter;
 
                                 
-                                ScriptManager.RegisterStartupScript(this, typeof(string), "", "btnCheck(1);", true);
+                                ScriptManager.RegisterStartupScript(this.UpdatePanel1, GetType(), "validar", "btnCheck(1);", true);
 
                             }
                             else
@@ -373,7 +373,7 @@ namespace CEPA.CCO.UI.Web.Tracking
                                 grvTracking.DataBind();
                                 Label lblEmptyMessage = grvTracking.Controls[0].Controls[0].FindControl("lblEmptyMessage") as Label;
                                 lblEmptyMessage.Text = "No se poseen registros de este contenedor: " + txtBuscar.Text;
-                                ScriptManager.RegisterStartupScript(this, typeof(string), "", "btnCheck(0);", true);
+                                ScriptManager.RegisterStartupScript(this.UpdatePanel1, GetType(), "validar", "btnCheck(0);", true);
                                 throw new Exception("No se poseen registros de este contenedor: " + txtBuscar.Text);
                             }
                         }
@@ -405,10 +405,10 @@ namespace CEPA.CCO.UI.Web.Tracking
                 n_correlativo.Text = "";
                 n_serial.Text = "";
                 a_declaracion.Text = "";
-                radio3.Checked = false;
+                radio3.Checked = false;               
                 grvTracking.DataSource = null;
-                grvTracking.DataBind();
-                ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + ex.Message + "');", true);
+                grvTracking.DataBind();                
+                ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + ex.Message.Replace("'", "") + "');", true);
 
             }
             finally
@@ -480,13 +480,13 @@ namespace CEPA.CCO.UI.Web.Tracking
                     }
 
                 }
-                if (ArchivoBookingDAL.isFecha(e.Row.Cells[10].Text) == true)
+                if (ArchivoBookingDAL.isFecha(e.Row.Cells[12].Text) == true)
                 {
-                    if (Convert.ToDateTime(e.Row.Cells[10].Text) > FIRST_GOOD_DATE)
+                    if (Convert.ToDateTime(e.Row.Cells[12].Text) > FIRST_GOOD_DATE)
                     { }
                     else
                     {
-                        e.Row.Cells[10].Text = "";
+                        e.Row.Cells[12].Text = "";
                     }
 
                 }

@@ -27,7 +27,7 @@
         a {
             color: #EFF2FB;
             text-decoration: none;
-            font-size:15px;
+            font-size: 15px;
         }
 
             a:focus, a:hover {
@@ -69,8 +69,21 @@
             </div>
         </div>
         <div id="nebaris">
-            © 2013 CEPA / Puerto de Acajutla, El Salvador v2.0 para Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv</a>
-            <span id="siteseal" style="padding-left:100px;"><%--<script async type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=M3U1QZ69toEvGnm5vsHcmLOlgtC6rSd11HzwnBCF9eDXbwiU7WtfLrjr6st5"></script>--%></span>
+            <div class="form-inline">
+                <div class="form-group">
+                    <%--<div id="DigiCertClickID_0bcATRpn3"></div>--%>
+                   <%-- <script type="text/javascript"> //<![CDATA[
+                        var tlJsHost = ((window.location.protocol == "https:") ? "https://secure.trust-provider.com/" : "http://www.trustlogo.com/");
+                        document.write(unescape("%3Cscript src='" + tlJsHost + "trustlogo/javascript/trustlogo.js' type='text/javascript'%3E%3C/script%3E"));
+//]]></script>
+                    <script type="text/javascript">
+                        TrustLogo("https://sectigo.com/images/seals/sectigo_trust_seal_sm_2x.png", "SECEV", "none");
+                    </script>--%>
+                </div>
+                <div class="form-group">
+                    © 2013 CEPA / Puerto de Acajutla, El Salvador v2.0 para Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv</a>
+                </div>
+            </div>
         </div>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="bootstrap/js/jquery-1.11.2.min.js"></script>
@@ -78,13 +91,14 @@
         <script src="bootstrap/js/bootstrap.min.js"></script>
         <script src="bootstrap/js/bootbox.min.js"></script>
         <script src="bootstrap/js/jquery.placeholder.js"></script>
-        <script type="text/javascript">
+        <%-- <script type="text/javascript">
+            var __dcid = __dcid || []; __dcid.push(["DigiCertClickID_0bcATRpn3", "10", "s", "white", "0bcATRpn"]); (function () { var cid = document.createElement("script"); cid.async = true; cid.src = "//seal.digicert.com/seals/cascade/seal.min.js"; var s = document.getElementsByTagName("script"); var ls = s[(s.length - 1)]; ls.parentNode.insertBefore(cid, ls.nextSibling); }());
             var nua = navigator.userAgent;
             var isAndroid = (nua.indexOf('Mozilla/5.0') > -1 && nua.indexOf('Android ') > -1 && nua.indexOf('AppleWebKit') > -1 && nua.indexOf('Chrome') === -1);
             if (isAndroid) {
                 $('select.form-control').removeClass('form-control').css('width', '100%');
             }
-        </script>
+        </script>--%>
     </form>
 </body>
 </html>

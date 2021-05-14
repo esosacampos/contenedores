@@ -283,21 +283,21 @@ namespace CEPA.CCO.UI.Web
             //LinkButton btnCliente = (LinkButton)e.Row.FindControl("tooltip") as LinkButton;
             //LinkButton btnFact = (LinkButton)e.Row.FindControl("fact") as LinkButton;
 
-            HtmlButton pFact = (HtmlButton)e.Row.FindControl("fact") as HtmlButton;
-            HtmlButton pClie = (HtmlButton)e.Row.FindControl("tooltop") as HtmlButton;
+            //HtmlButton pFact = (HtmlButton)e.Row.FindControl("fact") as HtmlButton;
+            //HtmlButton pClie = (HtmlButton)e.Row.FindControl("tooltop") as HtmlButton;
 
-            string c_user = Session["c_usuario"].ToString();
+            //string c_user = Session["c_usuario"].ToString();
 
-            if (c_user == "mercedes.calderon" || c_user == "edwin.estrada" || c_user == "marlon.sanchez" || c_user == "vanessa.vasquez" || c_user=="elsa.sosa" || c_user == "samuel.ortega" || c_user == "henry.fuentes")
-            {
-                pFact.Visible = true;
-                pClie.Visible = false;
-            }
-            else
-            {
-                pFact.Visible = false;
-                pClie.Visible = true;
-            }
+            //if (c_user == "mercedes.calderon" || c_user == "edwin.estrada" || c_user == "marlon.sanchez" || c_user == "vanessa.vasquez" || c_user=="elsa.sosa" || c_user == "samuel.ortega" || c_user == "henry.fuentes")
+            //{
+            //    pFact.Visible = true;
+            //    pClie.Visible = false;
+            //}
+            //else
+            //{
+            //    pFact.Visible = false;
+            //    pClie.Visible = true;
+            //}
 
 
             if (ArchivoBookingDAL.isFecha(e.Row.Cells[14].Text) == true)
@@ -311,13 +311,13 @@ namespace CEPA.CCO.UI.Web
 
             }
 
-            if (ArchivoBookingDAL.isFecha(e.Row.Cells[13].Text) == true)
+            if (ArchivoBookingDAL.isFecha(e.Row.Cells[15].Text) == true)
             {
-                if (Convert.ToDateTime(e.Row.Cells[13].Text) > FIRST_GOOD_DATE)
+                if (Convert.ToDateTime(e.Row.Cells[15].Text) > FIRST_GOOD_DATE)
                 { }
                 else
                 {
-                    e.Row.Cells[13].Text = "";
+                    e.Row.Cells[15].Text = "";
                 }
 
             }

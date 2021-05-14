@@ -47,7 +47,7 @@ namespace CEPA.CCO.UI.Web
         public static string inTarjaValid(ValiadaTarja pTarja)
         {
             string _contenedores = "";
-            string apiUrl = WebConfigurationManager.AppSettings["apiFox"].ToString();
+            string apiUrl = WebConfigurationManager.AppSettings["apiInt"].ToString();
             Procedure proceso = new Procedure
             {
                 NBase = "CONTENEDORES",

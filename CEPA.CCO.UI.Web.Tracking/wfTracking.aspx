@@ -84,7 +84,7 @@
             position: fixed;
             bottom: 0;
             width: 100%;
-            height: 50px;
+            height: 55px;
             background-color: #f5f5f5;
             left: 0;
             margin-top: 5%;
@@ -129,6 +129,49 @@
         #myTableModal td, th {
             text-align: center;
         }
+
+        .DigiCertClickID_0bcATRpn3 {
+            text-decoration: none;
+            text-align: center;
+            display: block;
+            vertical-align: baseline;
+            font-size: 100%;
+            font-style: normal;
+            text-indent: 0px;
+            line-height: 1;
+            width: auto;
+            margin: 0px auto;
+            padding: 0px;
+            border: 0px;
+            background: transparent;
+            position: relative;
+            inset: 8px;
+            clear: both;
+            float: left;
+            cursor: default;
+        }
+
+            .DigiCertClickID_0bcATRpn3 img {
+                text-decoration: none;
+                text-align: left;
+                display: block;
+                vertical-align: baseline;
+                font-size: 100%;
+                font-style: normal;
+                text-indent: 0px;
+                line-height: 1;
+                width: 50%;
+                margin: 0px auto;
+                padding: 0px;
+                border: 0px;
+                background: transparent;
+                position: relative;
+                inset: 0px;
+                clear: both;
+                float: left;
+                cursor: pointer;
+            }
+
 
         #myTableModal thead tr {
             background-color: #1771F8;
@@ -433,7 +476,7 @@
                             </div>
                             <div class="col-lg-4" style="width: 38%; padding-right: 4px; padding-top: 1.8%;">
                                 <div class="form-inline" style="font-size: 12px;">
-                                     <div id="googleRecaptchadiv">
+                                    <div id="googleRecaptchadiv">
                                         <!-- BEGIN: ReCAPTCHA implementation example. -->
                                         <div id="recaptcha-demo" class="g-recaptcha" data-sitekey="6LfrpzEUAAAAAE7ID9J6bhWi26WXJuKFKGHRpE81" data-callback="onSuccess" data-bind="recaptcha_demo_submit"></div>
                                         <script>
@@ -450,8 +493,6 @@
                                                 var clickButton = document.getElementById("<%= btnBuscar.ClientID %>");
                                                 clickButton.click();
                                             };
-
-
                                         </script>
                                         <!-- Optional noscript fallback. -->
                                         <!-- END: ReCAPTCHA implementation example. -->
@@ -483,7 +524,7 @@
                                         <div id="printArea">
                                             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                                                 <ContentTemplate>
-                                                    <asp:GridView ID="grvTracking" runat="server" AutoGenerateColumns="False" CssClass="table table-striped table-bordered table-hover" OnRowDataBound="grvTracking_RowDataBound">
+                                                    <asp:GridView ID="grvTracking" runat="server" Font-Size="0.75em" AutoGenerateColumns="False" CssClass="table table-striped table-bordered table-hover" OnRowDataBound="grvTracking_RowDataBound">
                                                         <Columns>
                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
@@ -501,6 +542,7 @@
                                                             <asp:BoundField DataField="c_tarja" HeaderText="TARJA"></asp:BoundField>
                                                             <asp:BoundField DataField="c_tamaño" HeaderText="TAMAÑO"></asp:BoundField>
                                                             <asp:BoundField DataField="b_estado" HeaderText="ESTADO S/MANIFIESTO"></asp:BoundField>
+                                                            <asp:BoundField DataField="s_marchamo" HeaderText="# MARCHAMO"></asp:BoundField>
                                                             <asp:BoundField DataField="b_trafico" HeaderText="TRAFICO"></asp:BoundField>
                                                             <asp:BoundField DataField="d_cliente" HeaderText="NAVIERA"></asp:BoundField>
                                                             <asp:BoundField DataField="d_buque" HeaderText="BUQUE"></asp:BoundField>
@@ -508,11 +550,11 @@
                                                             <asp:BoundField DataField="f_desatraque" HeaderText="F/DESATRAQUE" HtmlEncode="false" DataFormatString="{0:F}" ItemStyle-CssClass="alignCells"></asp:BoundField>
                                                             <asp:TemplateField>
                                                                 <ItemTemplate>
-                                                                    <button type="button" class="btn btn-primary btn xs" onclick="return GetSelectedRow(this)" id="tooltop" data-toggle="tooltip" data-placement="top" data-original-title="Consultar el estado para despachar su contenedor">
+                                                                    <button type="button" class="btn btn-primary btn xs" onclick="return getBL(this)" id="tooltop" data-toggle="tooltip" data-placement="top" data-original-title="Consultar el estado para despachar su contenedor">
                                                                         <span class="glyphicon glyphicon-usd" style="cursor: pointer;"></span>
                                                                     </button>
                                                                     <tr id="rowF" iddeta="<%# Eval(" IdDeta") %>">
-                                                                        <td colspan="13">
+                                                                        <td colspan="14">
                                                                             <div style="position: relative;">
                                                                                 <asp:DetailsView ID="dtTracking" runat="server" AutoGenerateRows="False" DataKeyNames="IdDeta" CssClass="table table-striped table-bordered table-hover" CellPadding="0" GridLines="None">
                                                                                     <Fields>
@@ -653,17 +695,29 @@
             </div>
         </div>
         <br />
-        <footer class="footer" style="margin-top: 5px;">
-            <div class="container">
-                <p class="text-justify" style="font-size: 11px;">
-                    © 2013 CEPA / Puerto de Acajutla, El Salvador v3.0
-                </p>
-                <p class="text-justify" style="font-size: 11px;">
-                    Para mayor información contactar: Gerente Portuario <a href="#">Roberto de Jesús Mendoza - 7070-8013 - roberto.mendoza@cepa.gob.sv</a> / Jefe Análisis de Gestión <a href="#">Omar Ivan Castillo - 7070-8243 - omar.castillo@cepa.gob.sv</a>
-                </p>
-                <p class="text-justify" style="font-size: 11px;">
-                    Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática - 7070-8256 - elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 04 de Diciembre de 2020
-                </p>
+        <footer class="footer" style="margin-top: 0px; margin-left: 5%;">
+            <div class="form-inline">
+                <div class="form-group">
+                    <%--<div id="DigiCertClickID_0bcATRpn3"></div>--%>
+                    <%--<script type="text/javascript"> //<![CDATA[
+                        var tlJsHost = ((window.location.protocol == "https:") ? "https://secure.trust-provider.com/" : "http://www.trustlogo.com/");
+                        document.write(unescape("%3Cscript src='" + tlJsHost + "trustlogo/javascript/trustlogo.js' type='text/javascript'%3E%3C/script%3E"));
+//]]></script>
+                    <script type="text/javascript">
+                        TrustLogo("https://sectigo.com/images/seals/sectigo_trust_seal_sm_2x.png", "SECEV", "none");
+                    </script>--%>
+                </div>
+                <div class="form-group" style="margin-left: 1%;">
+                    <p class="text-justify" style="font-size: 11px;">
+                        © 2013 CEPA / Puerto de Acajutla, El Salvador v3.0
+                    </p>
+                    <p class="text-justify" style="font-size: 11px;">
+                        Para mayor información contactar: Gerente Portuario <a href="#">Roberto de Jesús Mendoza - 7070-8013 - roberto.mendoza@cepa.gob.sv</a> / Jefe Análisis de Gestión <a href="#">Omar Ivan Castillo - 7070-8243 - omar.castillo@cepa.gob.sv</a>
+                    </p>
+                    <p class="text-justify" style="font-size: 11px;">
+                        Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática - 7070-8256 - elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 27 de Abril de 2021
+                    </p>
+                </div>
             </div>
         </footer>
         <!-- Modal HTML -->
@@ -785,6 +839,9 @@
         </div>
         <script type="text/javascript">
 
+            //var __dcid = __dcid || []; __dcid.push(["DigiCertClickID_0bcATRpn3", "10", "s", "white", "0bcATRpn"]); (function () { var cid = document.createElement("script"); cid.async = true; cid.src = "//seal.digicert.com/seals/cascade/seal.min.js"; var s = document.getElementsByTagName("script"); var ls = s[(s.length - 1)]; ls.parentNode.insertBefore(cid, ls.nextSibling); }());
+
+
             Page = Sys.WebForms.PageRequestManager.getInstance();
             Page.add_beginRequest(OnBeginRequest);
             Page.add_endRequest(endRequest);
@@ -850,7 +907,19 @@
             }
 
 
+            function getBL(lnk) {
+                //window.open(myurl, '_blank');
+                var row = lnk.parentNode.parentNode;
+                var c_llegada = row.cells[2].innerHTML;
+                var contenedor = row.cells[3].innerHTML;
+                var c_tarja = row.cells[4].innerHTML;
+                var url = 'llegada=' + c_llegada + '&contenedor=' + contenedor
 
+                if (c_tarja != "&nbsp;")
+                    window.open('wfConsulBL.aspx?' + url, '_blank');
+                else
+                    bootbox.alert("CEPA - Contenedores: no puede proceder porque no se posee tarja vuelva intentar mas tarde.")
+            }
 
             function GetSelectedRow(lnk) {
                 var row = lnk.parentNode.parentNode;
@@ -1823,7 +1892,7 @@
 
                     //$('#dpRetiro').tooltip();
 
-                   
+
 
                 });
             }

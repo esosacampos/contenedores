@@ -682,6 +682,10 @@ namespace CEPA.CCO.UI.Web
                 {
                     table.AddCell("A CONECTAR");
                 }
+                else if (detaLst.b_shipper.Contains("SI"))
+                {
+                    table.AddCell("SHIPPER OWNED");
+                }
                 else
                 {
                     table.AddCell("");

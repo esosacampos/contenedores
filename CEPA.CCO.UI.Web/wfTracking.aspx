@@ -255,6 +255,7 @@
                             <asp:BoundField DataField="pais_origen" HeaderText="PAÍS DE ORIGEN"></asp:BoundField>
                             <asp:BoundField DataField="c_tamaño" HeaderText="TAMAÑO"></asp:BoundField>
                             <asp:BoundField DataField="b_estado" HeaderText="ESTADO S/MANIFIESTO"></asp:BoundField>
+                            <asp:BoundField DataField="s_marchamo" HeaderText="# MARCHAMO"></asp:BoundField>
                             <asp:BoundField DataField="b_trafico" HeaderText="TRAFICO"></asp:BoundField>
                             <asp:BoundField DataField="d_cliente" HeaderText="NAVIERA"></asp:BoundField>
                             <asp:BoundField DataField="d_buque" HeaderText="BUQUE"></asp:BoundField>
@@ -264,10 +265,10 @@
                                 DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <button type="button" runat="server" class="btn btn-primary btn xs" onclick="return GetSelectedRow(this)" id="tooltop" data-toggle="tooltip" data-placement="top" data-original-title="Consultar el estado para despachar su contenedor">
+                                    <%--<button type="button" runat="server" class="btn btn-primary btn xs" onclick="return GetSelectedRow(this)" id="tooltop" data-toggle="tooltip" data-placement="top" data-original-title="Consultar el estado para despachar su contenedor">
                                         <span class="glyphicon glyphicon-usd" style="cursor: pointer;"></span>
-                                    </button>
-                                     <button type="button" id="fact" runat="server" class="btn btn-warning btn xs" onclick="return getBL(this)" >
+                                    </button>--%>
+                                     <button type="button" id="fact" runat="server" class="btn btn-primary btn xs" onclick="return getBL(this)" >
                                         <span class="glyphicon glyphicon-usd" style="cursor: pointer;"></span>
                                     </button>
                                 </ItemTemplate>

@@ -175,7 +175,6 @@ namespace CEPA.CCO.DAL
             {
                 _conn.Open();
 
-
                 SqlCommand _command = new SqlCommand("pa_aduana_valid_autorizados", _conn as SqlConnection);
                 _command.CommandType = CommandType.StoredProcedure;
 
@@ -349,6 +348,88 @@ namespace CEPA.CCO.DAL
                     };
 
                     
+                    notiLista.Add(_notificacion);
+                    correlativo = correlativo + 1;
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
+        public static List<ContenedoresAduana> ObtenerAutorizadosNOWEIGTH(DBComun.Estado pEstado, int n_manifiesto, string c_naviera, int a_manifiesto)
+        {
+            List<ContenedoresAduana> notiLista = new List<ContenedoresAduana>();
+            int correlativo = 1;
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+
+
+                SqlCommand _command = new SqlCommand("pa_aduana_valid_no_weigth", _conn as SqlConnection);
+                _command.CommandType = CommandType.StoredProcedure;
+
+                _command.Parameters.Add(new SqlParameter("@n_manifiesto", n_manifiesto));
+                _command.Parameters.Add(new SqlParameter("@c_naviera", c_naviera));
+                _command.Parameters.Add(new SqlParameter("@a_manifiesto", a_manifiesto));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    ContenedoresAduana _notificacion = new ContenedoresAduana
+                    {
+                        n_contenedor = _reader.GetString(0),
+                        v_aduana = Convert.ToDouble(_reader.GetDecimal(1)),
+                        v_cepa = Convert.ToDouble(_reader.GetDecimal(3)),
+                        c_correlativo = correlativo
+                    };
+
+
+                    notiLista.Add(_notificacion);
+                    correlativo = correlativo + 1;
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
+        public static List<ContenedoresAduana> ObtenerAutorizadosSHIPPER(DBComun.Estado pEstado, int n_manifiesto, string c_naviera, int a_manifiesto)
+        {
+            List<ContenedoresAduana> notiLista = new List<ContenedoresAduana>();
+            int correlativo = 1;
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+
+
+                SqlCommand _command = new SqlCommand("pa_aduana_valid_no_shipper", _conn as SqlConnection);
+                _command.CommandType = CommandType.StoredProcedure;
+
+                _command.Parameters.Add(new SqlParameter("@n_manifiesto", n_manifiesto));
+                _command.Parameters.Add(new SqlParameter("@c_naviera", c_naviera));
+                _command.Parameters.Add(new SqlParameter("@a_manifiesto", a_manifiesto));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    ContenedoresAduana _notificacion = new ContenedoresAduana
+                    {
+                        n_contenedor = _reader.GetString(0),
+                        b_ship_aduana = _reader.GetString(1),
+                        b_ship_cepa = _reader.GetString(3),
+                        c_correlativo = correlativo
+                    };
+
+
                     notiLista.Add(_notificacion);
                     correlativo = correlativo + 1;
                 }

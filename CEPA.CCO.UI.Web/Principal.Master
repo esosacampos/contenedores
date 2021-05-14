@@ -1,5 +1,4 @@
-﻿
-<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Principal.master.cs"
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Principal.master.cs"
     Inherits="CEPA.CCO.UI.Web.Principal" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
@@ -307,7 +306,7 @@
                                 <label runat="server" style="padding-left: 5px; color: White;" id="sessionInput" />
                                 <span class="caret" style="color: White;"></span></a>
                             <ul class="dropdown-menu" role="menu" id="mySetting">
-                                <li style="font-size: 1.2em;"><a href="wfConfiguracion.aspx"><span class="glyphicon glyphicon-cog" style="margin-top: 5px;"></span>Configuracion</a></li>
+                                <li style="font-size: 1.2em;"><a href="../wfConfiguracion.aspx"><span class="glyphicon glyphicon-cog" style="margin-top: 5px;"></span>Configuracion</a></li>
                                 <li class="divider"></li>
                                 <li style="font-size: 1.2em;"><a id="link1" href="javascript:__doPostBack('btnLogOut', '');"><span class="glyphicon glyphicon-log-out" style="margin-top: 5px;"></span>Cerrar Sesión</a></li>
                             </ul>
@@ -318,10 +317,10 @@
         </nav>
         <!-- main <%--style="padding-right: 97px;"--%>-->
         <div class="container-fluid text-left">
-            <div class="row content">                
+            <div class="row content">
                 <div class="col-sm-2 sidenav navegacion" id="mySideNav">
                     <%--<img class="logo" src="CSS/Imag/cepa.png" alt="CEPA Puerto de Acajutla">--%>
-                    <div style="background-color: #f1f1f1; opacity: 0.75; background-image: url(/CSS/Imag/cepa.png);background-size: 100% auto; height: 85px; width: 180px;background-repeat:no-repeat;"></div>
+                    <div style="background-color: #f1f1f1; opacity: 0.75; background-image: url(/CSS/Imag/cepa.png); background-size: 100% auto; height: 85px; width: 180px; background-repeat: no-repeat;"></div>
                     <asp:Menu ID="MenuPrincipal" MaximumDynamicDisplayLevels="20" CssClass="nav nav-list"
                         IncludeStyleBlock="false" StaticMenuStyle-CssClass="nav" StaticSelectedStyle-CssClass="active"
                         DynamicMenuStyle-CssClass="dropdown-menu" runat="server" Orientation="Vertical"
@@ -340,18 +339,23 @@
         </div>
         <footer class="footer">
             <div class="container">
-                <p class="text-muted">
-                    © 2013 CEPA / Puerto de Acajutla, El Salvador v3.0 para Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv</a>
-                    <table width="135" border="0" cellpadding="2" cellspacing="0" title="Click to Verify - This site chose GeoTrust SSL for secure e-commerce and confidential communications.">
-                        <tr>
-                            <td width="135" align="center" valign="top">
-                                <script type="text/javascript" src="https://seal.geotrust.com/getgeotrustsslseal?host_name=acajutlaweb.cepa.gob.sv&amp;size=S&amp;lang=en"></script>
-                                <br />
-                                <a href="http://www.geotrust.com/ssl/" target="_blank" style="color: #000000; text-decoration: none; font: bold 7px verdana,sans-serif; letter-spacing: .5px; text-align: center; margin: 0px; padding: 0px;"></a></td>
-                        </tr>
-                    </table>
-                </p>
-
+                <div class="form-inline">
+                    <div class="form-group">
+                        <%--<div id="DigiCertClickID_0bcATRpn3"></div>--%>
+                       <%-- <script type="text/javascript"> //<![CDATA[
+                            var tlJsHost = ((window.location.protocol == "https:") ? "https://secure.trust-provider.com/" : "http://www.trustlogo.com/");
+                            document.write(unescape("%3Cscript src='" + tlJsHost + "trustlogo/javascript/trustlogo.js' type='text/javascript'%3E%3C/script%3E"));
+//]]></script>
+                        <script type="text/javascript">
+                            TrustLogo("https://sectigo.com/images/seals/sectigo_trust_seal_sm_2x.png", "SECEV", "none");
+                        </script>--%>
+                    </div>
+                    <div class="form-group">
+                        <p class="text-muted">
+                            © 2013 CEPA / Puerto de Acajutla, El Salvador v3.0 para Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv - (+503) 7070 - 8256</a>
+                        </p>
+                    </div>
+                </div>
             </div>
         </footer>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -362,6 +366,8 @@
             var filtered = false;
             var y = 0;
             var size = 0;
+
+           // var __dcid = __dcid || []; __dcid.push(["DigiCertClickID_0bcATRpn3", "10", "s", "white", "0bcATRpn"]); (function () { var cid = document.createElement("script"); cid.async = true; cid.src = "//seal.digicert.com/seals/cascade/seal.min.js"; var s = document.getElementsByTagName("script"); var ls = s[(s.length - 1)]; ls.parentNode.insertBefore(cid, ls.nextSibling); }());
 
             $(function () {
 

@@ -125,6 +125,7 @@
     <Compile Include="TipoSolicitudDAL.cs" />
     <Compile Include="TrasnferXMLDAL.cs" />
     <Compile Include="UsuarioDAL.cs" />
+    <Compile Include="VaciadoDAL.cs" />
     <Compile Include="ValidaTarjaDAL.cs" />
     <Compile Include="WebApiEntityDAL.cs" />
   </ItemGroup>

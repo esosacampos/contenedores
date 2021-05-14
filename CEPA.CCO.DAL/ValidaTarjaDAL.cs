@@ -118,20 +118,24 @@ namespace CEPA.CCO.DAL
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
             {
                 _conn.Open();
-                string _consulta = @"SELECT a.n_contenedor, a.IdDeta, b.c_llegada
+                /*string _consulta = @"SELECT a.n_contenedor, a.IdDeta, b.c_llegada
                                     FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
                                     WHERE a.b_autorizado = 1 AND b_cotecna = 1 AND b_cancelado = 0 AND b_recepcion = 0
-                                    AND a.n_contenedor LIKE '_______{0}%'
-                                    ORDER BY IdDeta DESC ";
+                                    AND a.n_contenedor  LIKE '_______{0}%'
+                                    ORDER BY IdDeta DESC ";*/
 
                 /*string _consulta = @"SELECT a.n_contenedor, a.IdDeta, b.c_llegada
                                     FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
                                     WHERE a.b_autorizado = 1 AND a.b_recepcion = 0 AND b_cancelado = 0
                                     AND a.n_contenedor LIKE '_______{0}%' AND b.c_llegada = '4.11877'";*/
 
+                SqlCommand _command = new SqlCommand("pa_getContenedor", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
-                SqlCommand _command = new SqlCommand(string.Format(_consulta, prefix), _conn as SqlConnection);
-                _command.CommandType = CommandType.Text;
+                _command.Parameters.Add(new SqlParameter("@prefix", prefix));
+
 
                 SqlDataReader _reader = _command.ExecuteReader();
 

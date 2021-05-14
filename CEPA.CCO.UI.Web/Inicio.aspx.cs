@@ -36,6 +36,29 @@ namespace CEPA.CCO.UI.Web
 
             try
             {
+            
+                //DirectoryEntry AD = new DirectoryEntry("LDAP://cepa.gob.sv/OU=acajutla,DC=cepa,DC=gob,DC=sv");
+
+
+                //DirectoryEntry de = new DirectoryEntry("LDAP://cepa.gob.sv/OU=acajutla,DC=cepa,DC=gob,DC=sv", "elsa.sosa", "elsa21");
+
+                //DirectorySearcher ds = new DirectorySearcher(de);
+
+                //ds.Filter = string.Format("(&(objectCategory=user)(objectClass=user)({0}={1}))", "samAccountName", "elsa.sosa");
+
+                //ds.PropertiesToLoad.AddRange(new string[] { "samAccountName", "maxPwdAge" });
+
+                //SearchResult sr = ds.FindOne();
+
+                //long lastLogon = (long)sr.Properties["maxPwdAge"][0];
+
+                //DateTime dtLastLogon = DateTime.FromFileTime(lastLogon);
+
+
+
+
+
+
 
                 UsuarioBL _usuBL = new UsuarioBL();
                 string _usuario = inputTxtandPassw.Value + "@cepa.gob.sv";

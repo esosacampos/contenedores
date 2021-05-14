@@ -274,7 +274,7 @@
                                 <label runat="server" style="padding-left: 5px; color: White;" id="sessionInput" />
                                 <span class="caret" style="color: White;"></span></a>
                             <ul class="dropdown-menu" role="menu" id="mySetting">
-                                <li style="font-size: 1.2em;"><a href="wfConfiguracion.aspx"><span class="glyphicon glyphicon-cog" style="margin-top: 5px;"></span>Configuracion</a></li>
+                                <li style="font-size: 1.2em;"><a href="../wfConfiguracion.aspx"><span class="glyphicon glyphicon-cog" style="margin-top: 5px;"></span>Configuracion</a></li>
                                 <li class="divider"></li>
                                 <li style="font-size: 1.2em;"><a id="link1" href="javascript:__doPostBack('btnLogOut', '');"><span class="glyphicon glyphicon-log-out" style="margin-top: 5px;"></span>Cerrar Sesión</a></li>
                             </ul>
@@ -342,23 +342,23 @@
         </div>
         <footer class="footer">
             <div class="container">
-                <p class="text-muted">
-                    © 2013 CEPA / Puerto de Acajutla, El Salvador v2.0 para Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv</a>
-                    <table width="135" border="0" cellpadding="2" cellspacing="0" title="Click to Verify - This site chose GeoTrust SSL for secure e-commerce and confidential communications.">
-                        <tr>
-                            <td width="135" align="center" valign="top">
-                                <script type="text/javascript" src="https://seal.geotrust.com/getgeotrustsslseal?host_name=acajutlaweb.cepa.gob.sv&amp;size=S&amp;lang=en"></script>
-                                <br />
-                                <a href="http://www.geotrust.com/ssl/" target="_blank" style="color: #000000; text-decoration: none; font: bold 7px verdana,sans-serif; letter-spacing: .5px; text-align: center; margin: 0px; padding: 0px;"></a></td>
-                        </tr>
-                    </table>
-                </p>
+              <div class="form-inline">
+                    <div class="form-group">
+                        <div id="DigiCertClickID_0bcATRpn3"></div>
+                    </div>
+                    <div class="form-group">
+                        <p class="text-muted">
+                            © 2013 CEPA / Puerto de Acajutla, El Salvador v3.0 para Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv - (+503) 7070 - 8256</a>                           
+                        </p>
+                    </div>
+                </div>
             </div>
         </footer>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <%--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>--%>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script type="text/javascript">
+            var __dcid = __dcid || []; __dcid.push(["DigiCertClickID_0bcATRpn3", "10", "s", "white", "0bcATRpn"]); (function () { var cid = document.createElement("script"); cid.async = true; cid.src = "//seal.digicert.com/seals/cascade/seal.min.js"; var s = document.getElementsByTagName("script"); var ls = s[(s.length - 1)]; ls.parentNode.insertBefore(cid, ls.nextSibling); }());
             $(function () {
 
 
