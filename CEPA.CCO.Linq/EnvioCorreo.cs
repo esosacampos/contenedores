@@ -7,6 +7,9 @@ using CEPA.CCO.DAL;
 using System.Net.Mail;
 using CEPA.CCO.Entidades;
 using System.IO;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
 
 namespace CEPA.CCO.Linq
 {
@@ -104,12 +107,23 @@ namespace CEPA.CCO.Linq
 
             _mensaje.IsBodyHtml = true;
             _mensaje.BodyEncoding = System.Text.Encoding.UTF8;
-          
+
+         
+
+
 
             _mensaje.Body = m_Asunto;
 
             try
             {
+                if (pTipo != DBComun.TipoCorreo.CEPA)
+                {
+                    ServicePointManager.ServerCertificateValidationCallback =
+                    delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+                    {
+                        return true;
+                    };
+                }
                 _cliente.Send(_mensaje);
                 _mensaje.Attachments.Dispose();
                 Error = false;

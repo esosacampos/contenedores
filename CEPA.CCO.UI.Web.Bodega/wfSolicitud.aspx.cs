@@ -68,10 +68,10 @@ namespace CEPA.CCO.UI.Web.Bodega
                 vaciado.s_archivo_aut = s_archivo.ToUpper();
 
                 string valor = ValidaTarjaDAL.ValidFact(DBComun.Estado.verdadero, n_contenedor, n_manifiesto.Trim().Replace("_", ""), DBComun.TipoBD.SqlServer);
-
+                int _resultado = 0;
                 if (valor == "EXISTE")
                 {
-                    int _resultado = VaciadoDAL.InsertSolVac(vaciado);
+                    _resultado = VaciadoDAL.InsertSolVac(vaciado);
                     if (_resultado > 0)
                         EnviarCorreo(vaciado, _resultado);
                     else
@@ -82,7 +82,7 @@ namespace CEPA.CCO.UI.Web.Bodega
                 {
                     throw new Exception("Número de contenedor no esta asociado con el manifiesto indicado");
                 }
-                return Newtonsoft.Json.JsonConvert.SerializeObject("Registrado Correctamente");
+                return Newtonsoft.Json.JsonConvert.SerializeObject(string.Format("La solicitud Nº {0} ha sido recibida satisfactoriamente, muy pronto nos pondremos en contacto con usted.", _resultado));
             }
             catch (Exception ex)
 
@@ -138,11 +138,14 @@ namespace CEPA.CCO.UI.Web.Bodega
 
                 Html += "MÓDULO : SOLICITUD DE VACIADO DE CONTENEDOR <br />";
                 Html += "TIPO DE MENSAJE : NOTIFICACIÓN DE SOLICITUD DE VACIADO DE CONTENEDOR <br /><br />";
-                Html += string.Format("La solicitud de vacíado <b>#{0}</b> para el contenedor <b>{1}</b> correspondientes al buque <b>{2}</b>, del manifiesto de ADUANA <b># {3}</b> ha sido solicitado para realizar <b>{4}</b> por la empresa <b>{5}</b> - teléfono de contacto: <b>{6}</b> / correo electrónico: <b>{7}</b>", pNum.ToString(), pSoli.n_contenedor, d_buque, string.Concat(pSoli.a_manifiesto, "-", pSoli.n_manifiesto), tipoVac, pSoli.n_contacto.ToUpper(), pSoli.t_contacto, pSoli.e_contacto);
-                Html += "<br /><br/>";
+                Html += "<p style='text-align: justify;'>";
+                Html += string.Format("La solicitud de vacíado <b>#{0}</b> para el contenedor <b>{1}</b> correspondientes al buque <b>{2}</b>, del manifiesto de ADUANA <b># {3}</b> ha sido solicitado para realizar la operación de: <b>{4}</b> a petición del solicitante: <b>{5}</b> - teléfono de solicitante: <b>{6}</b> / correo electrónico de solicitante: <b>{7}</b>", pNum.ToString(), pSoli.n_contenedor, d_buque, string.Concat(pSoli.a_manifiesto, "-", pSoli.n_manifiesto), tipoVac, pSoli.n_contacto.ToUpper(), pSoli.t_contacto, pSoli.e_contacto);
+                Html += "</p><br /><br/>";
 
 
                 _correo.Subject = string.Format("VACIADO : Solicitud de Vacíado #{0} para # Contenedor {1} del buque {2}, Manifiesto de Aduana # {3}", pNum.ToString(), pSoli.n_contenedor, d_buque, string.Concat(pSoli.a_manifiesto, "-", pSoli.n_manifiesto));
+                
+                
                 //_correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_sol_dga", DBComun.Estado.verdadero, c_naviera);
                 //List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_sol_dga", DBComun.Estado.verdadero, c_cliente);
 
@@ -153,10 +156,11 @@ namespace CEPA.CCO.UI.Web.Bodega
                 //_listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_sol_dga", DBComun.Estado.verdadero, "219"));
                 //_correo.ListaCC = _listaCC;
 
+
                 Notificaciones noti = new Notificaciones
                 {
-                    sMail = "elsa.sosa@cepa.gob.sv",
-                    dMail = "Elsa Sosa"
+                    sMail = pSoli.e_contacto,
+                    dMail = pSoli.n_contacto
                 };
 
                 List<Notificaciones> pLisN = new List<Notificaciones>();
@@ -164,6 +168,15 @@ namespace CEPA.CCO.UI.Web.Bodega
                 pLisN.Add(noti);
 
                 _correo.ListaNoti = pLisN;
+
+                List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificaciones("b_noti_vaciado", DBComun.Estado.verdadero, "0");
+
+                if (_listaCC == null)
+                    _listaCC = new List<Notificaciones>();
+                
+                _correo.ListaCC = _listaCC;
+
+
                 _correo.ListArch.Add(HttpContext.Current.Server.MapPath("~/Solicitudes/" + pSoli.s_archivo_aut));
 
                 _correo.Asunto = Html;

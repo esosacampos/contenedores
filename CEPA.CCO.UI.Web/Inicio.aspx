@@ -41,6 +41,11 @@
                 outline-offset: -2px;
             }
     </style>
+    <script type="text/javascript">//<![CDATA[
+        var tlJsHost = ((window.location.protocol == "https:") ? "https://secure.trust-provider.com/" : "http://www.trustlogo.com/");
+        document.write(unescape("%3Cscript src='" + tlJsHost + "trustlogo/javascript/trustlogo.js' type='text/javascript'%3E%3C/script%3E"));
+//]]>
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -71,14 +76,13 @@
         <div id="nebaris">
             <div class="form-inline">
                 <div class="form-group">
+                    <%--<script type="text/javascript" src="https://secure.trust-provider.com/trustlogo/javascript/trustlogo.js"></script>--%>
+                    <%-- <img src="CSS/Imag/sectigo_trust_seal_sm_82x32.png" />--%>
                     <%--<div id="DigiCertClickID_0bcATRpn3"></div>--%>
-                   <%-- <script type="text/javascript"> //<![CDATA[
-                        var tlJsHost = ((window.location.protocol == "https:") ? "https://secure.trust-provider.com/" : "http://www.trustlogo.com/");
-                        document.write(unescape("%3Cscript src='" + tlJsHost + "trustlogo/javascript/trustlogo.js' type='text/javascript'%3E%3C/script%3E"));
-//]]></script>
-                    <script type="text/javascript">
-                        TrustLogo("https://sectigo.com/images/seals/sectigo_trust_seal_sm_2x.png", "SECEV", "none");
-                    </script>--%>
+                    <script language="JavaScript" type="text/javascript">
+                        TrustLogo("https://acajutlaweb.cepa.gob.sv:6500/CSS/Imag/sectigo_trust_seal_sm_82x32.png", "SC5", "none");
+                    </script>
+                    <a href="https://ssl.comodo.com/ev-ssl-certificates.php" id="comodoTL"></a>
                 </div>
                 <div class="form-group">
                     © 2013 CEPA / Puerto de Acajutla, El Salvador v2.0 para Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv</a>

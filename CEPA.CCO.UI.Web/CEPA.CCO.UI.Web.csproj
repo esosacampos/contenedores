@@ -209,7 +209,9 @@
     <Content Include="bootstrap\js\npm.js" />
     <Content Include="bootstrap\js\vertical-responsive-menu.min.js" />
     <Content Include="Controles\ucMultiFileUpload.ascx" />
+    <Content Include="CSS\bootstrap.min.css" />
     <Content Include="CSS\calendar-blue.css" />
+    <Content Include="CSS\dataTables.bootstrap.min.css" />
     <Content Include="CSS\datatables.min.css" />
     <Content Include="CSS\Images\aduana.jpg" />
     <Content Include="CSS\Images\calender.png" />
@@ -226,6 +228,9 @@
     <Content Include="CSS\Imag\001.jpg" />
     <Content Include="CSS\Imag\cepa.png" />
     <Content Include="CSS\Imag\explaing.png" />
+    <Content Include="CSS\Imag\instantssl_trust_seal_sm_118x32.png" />
+    <Content Include="CSS\Imag\sectigo_trust_seal_md_2x.png" />
+    <Content Include="CSS\Imag\sectigo_trust_seal_sm_82x32.png" />
     <Content Include="CSS\Img\26270.png" />
     <Content Include="CSS\Img\262701.gif" />
     <Content Include="CSS\Img\ajax-loader.gif" />
@@ -241,6 +246,7 @@
     <Content Include="CSS\Img\red-error.gif" />
     <Content Include="CSS\Img\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="CSS\Loaders.css" />
+    <Content Include="CSS\select.dataTables.min.css" />
     <Content Include="DAN\wfAddFolio.aspx" />
     <Content Include="DAN\wfAddTipo.aspx" />
     <Content Include="DAN\wfDetalleDANL.aspx" />
@@ -279,6 +285,9 @@
     <Content Include="Scripts\jquery.formatCurrency-1.4.0.min.js" />
     <Content Include="Scripts\jquery.number.min.js" />
     <Content Include="Scripts\jquery.responsivetable.min.js" />
+    <Content Include="Scripts\JS_DT\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\JS_DT\dataTables.select.min.js" />
+    <Content Include="Scripts\JS_DT\jquery.dataTables.min.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
@@ -300,6 +309,8 @@
     <Content Include="Anexo_export.xlsx" />
     <Content Include="Scripts\moment.min.js.map" />
     <Content Include="Scripts\moment-with-locales.min.js.map" />
+    <Content Include="Fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Service References\CepaSW\configuration91.svcinfo" />
     <None Include="Service References\CepaSW\configuration.svcinfo" />
     <None Include="Service References\CepaSW\Reference.svcmap">
@@ -307,6 +318,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="wfRptIngreso.aspx" />
+    <Content Include="wfSolPendiVac.aspx" />
     <Content Include="wfTipoCliente.aspx" />
     <Content Include="wfTransmisionAutoD.aspx" />
     <Content Include="wfTransmisionAutoP.aspx" />
@@ -777,6 +789,13 @@
     </Compile>
     <Compile Include="wfRptIngreso.aspx.designer.cs">
       <DependentUpon>wfRptIngreso.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfSolPendiVac.aspx.cs">
+      <DependentUpon>wfSolPendiVac.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfSolPendiVac.aspx.designer.cs">
+      <DependentUpon>wfSolPendiVac.aspx</DependentUpon>
     </Compile>
     <Compile Include="wfTipoCliente.aspx.cs">
       <DependentUpon>wfTipoCliente.aspx</DependentUpon>

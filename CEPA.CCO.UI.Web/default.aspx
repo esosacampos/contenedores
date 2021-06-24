@@ -344,7 +344,7 @@
             <div class="container">
               <div class="form-inline">
                     <div class="form-group">
-                        <div id="DigiCertClickID_0bcATRpn3"></div>
+                        <%--<div id="DigiCertClickID_0bcATRpn3"></div>--%>
                     </div>
                     <div class="form-group">
                         <p class="text-muted">

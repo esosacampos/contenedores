@@ -58,6 +58,13 @@
             background-position: center;
         }
 
+        #btnBancos {
+            height: 40px;
+            width: 100px;
+            white-space: normal;
+            padding: 1px;
+        }
+
         table.table-bordered th:last-child,
         table.table-bordered td:last-child {
             border-right: 1px solid #1771f8;
@@ -298,6 +305,10 @@
             border-radius: 10px;
         }
 
+        .embed-responsive-16by9 {
+            padding-bottom: 43.25%;
+        }
+
         .badgeRP {
             display: inline-block;
             min-width: 10px;
@@ -333,10 +344,10 @@
             margin-right: 5px;
         }
 
-        .modal-dialog {
+        /* .modal-dialog {
             width: 600px;
             margin: 3px auto;
-        }
+        }*/
 
         .grecaptcha-badge {
             width: 256px;
@@ -453,7 +464,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-8" style="width: 62%;">
+                            <div class="col-lg-8" style="width: 50%;">
                                 <div class="form-inline">
                                     <div class="form-group" style="margin-right: 15px;">
                                         <label>Año Declaración</label><br />
@@ -474,7 +485,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4" style="width: 38%; padding-right: 4px; padding-top: 1.8%;">
+                            <div class="col-lg-4" style="width: 47%; padding-right: 4px; padding-top: 1.8%;">
                                 <div class="form-inline" style="font-size: 12px;">
                                     <div id="googleRecaptchadiv">
                                         <!-- BEGIN: ReCAPTCHA implementation example. -->
@@ -506,6 +517,10 @@
                                     </div>
                                     <div class="form-group">
                                         <button id="btnVEA" type="button" class="btn btn-success" data-toggle="tooltip" title="Clic ir a VEA de la DGA" onclick="shwwindow()" disabled></button>
+                                        <%--<span id="badgeNN" class="badgeNO badge-notify">New</span>--%>
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnBancos" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalBancos" disabled>Cuentas Colectoras</button>
                                         <span id="badgeNN" class="badgeNO badge-notify">New</span>
                                     </div>
                                     <%-- <div class="form-group" style="margin-bottom: 26px; margin-left: -3px;">
@@ -814,7 +829,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header" style="line-height: 10px;">
-                        <button type="button" class="close" id="myCloseD" data-dismiss="modal" aria-hidden="true">
+                        <button type="button" class="close" id="myCloseD1" data-dismiss="modal" aria-hidden="true">
                             ×</button>
                         <h4 class="modal-title">DETALLE ADUANA
                         </h4>
@@ -833,6 +848,28 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="myOKD">
                             Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Bancos -->
+        <div class="modal fade" role="dialog" id="myModalBancos">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header" style="line-height: 10px;">
+                        <button type="button" class="close" id="myCloseD" data-dismiss="modal" aria-hidden="true">
+                            ×</button>
+                        <h4 class="modal-title" style="font-weight: 900;">CUENTAS COLECTORAS
+                        </h4>
+                    </div>
+                    <%--<iframe id="serviceFrameSend" src="bancos_htm.htm" width="100" height="100" frameborder="0">--%>
+                    <div class="modal-body">
+                        <div align="center" class='embed-responsive embed-responsive-16by9'>
+                            <iframe class='embed-responsive-item' src="bancos_htm.htm"></iframe>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="font-weight: 900;">Cerrar</button>
                     </div>
                 </div>
             </div>
@@ -1504,10 +1541,14 @@
 
 
             function btnCheck(valor) {
-                if (valor == 1)
+                if (valor == 1) {
                     document.getElementById("btnVEA").disabled = false;
-                else
+                    document.getElementById("btnBancos").disabled = false;
+                }
+                else {
                     document.getElementById("btnVEA").disabled = true;
+                    document.getElementById("btnBancos").disabled = true;
+                }
             }
 
 
@@ -1882,7 +1923,7 @@
                         $("#myModalD").modal('hide');
                     });
 
-
+                    $('#btnVEA').tooltip();
                     $('#btnVEA').tooltip();
                     $('#linkManual').tooltip();
 

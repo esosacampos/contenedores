@@ -221,7 +221,8 @@ namespace CEPA.CCO.UI.Web
             }
             catch (Exception ex)
             {
-                return respuesta = "5|Verificar la información introducida, y volverlo a intentar.";
+                //return respuesta = "5|Verificar la información introducida, y volverlo a intentar.";
+                return ex.Message;
             }
 
 

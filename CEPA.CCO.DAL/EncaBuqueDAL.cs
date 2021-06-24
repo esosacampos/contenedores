@@ -278,7 +278,7 @@ namespace CEPA.CCO.DAL
                 _command.CommandType = CommandType.Text;
 
 
-                _consulta = @"SELECT a.c_llegada, b.c_buque, b.s_nom_buque, d.c_cliente, c.s_razon_social, ISNULL((select f_atraque from fa_llegadas where c_llegada = a.c_llegada), ''), ISNULL(b.c_imo, '') c_imo, ISNULL((select f_desatraque from fa_llegadas where c_llegada = a.c_llegada), '')
+                _consulta = @"SELECT DISTINCT a.c_llegada, b.c_buque, b.s_nom_buque, d.c_cliente, c.s_razon_social, ISNULL((select f_atraque from fa_llegadas where c_llegada = a.c_llegada), ''), ISNULL(b.c_imo, '') c_imo, ISNULL((select f_desatraque from fa_llegadas where c_llegada = a.c_llegada), '')
                             FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente

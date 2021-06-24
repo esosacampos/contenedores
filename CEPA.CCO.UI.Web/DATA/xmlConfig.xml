@@ -79,7 +79,7 @@
     <entry name="smtpServer">smtp.gmail.com</entry>
     <entry name="fromMail">cepa.contenedores@gmail.com</entry>
     <entry name="nameMail">Notificacion | Contenedores</entry>
-    <entry name="smtpPort">587</entry>
+    <entry name="smtpPort">25</entry>
     <entry name="smtpUser">cepa.contenedores@gmail.com</entry>
     <entry name="smtpPwd">puertoacajutla</entry>
     <entry name="smtpSSL">True</entry>

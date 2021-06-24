@@ -64,7 +64,7 @@ namespace CEPA.CCO.UI.Web.Tracking
             {
                 bool flag;
                 string contenedor = HttpUtility.ParseQueryString(myUri.Query).Get("contenedor");
-                string a_decla = HttpUtility.ParseQueryString(myUri.Query).Get("a_decla");                
+                string a_decla = HttpUtility.ParseQueryString(myUri.Query).Get("a_decla");
                 string s_decla = HttpUtility.ParseQueryString(myUri.Query).Get("s_decla");
                 string c_decla = HttpUtility.ParseQueryString(myUri.Query).Get("c_decla");
                 string b_sidunea = HttpUtility.ParseQueryString(myUri.Query).Get("b_sidunea");
@@ -74,9 +74,9 @@ namespace CEPA.CCO.UI.Web.Tracking
                 n_serial.Text = s_decla;
                 n_correlativo.Text = c_decla;
                 radio3.Checked = Boolean.TryParse(b_sidunea, out flag);
-                
-                btnBuscar_Click(btnBuscar, new EventArgs());               
-            }   
+
+                btnBuscar_Click(btnBuscar, new EventArgs());
+            }
         }
         protected void recaptcha_demo_submit_Click(object sender, EventArgs e)
         {
@@ -351,7 +351,7 @@ namespace CEPA.CCO.UI.Web.Tracking
 
                             if (pLista.Count > 0)
                             {
-                                
+
                                 grvTracking.Visible = true;
                                 grvTracking.DataSource = pLista;
                                 grvTracking.DataBind();
@@ -362,13 +362,13 @@ namespace CEPA.CCO.UI.Web.Tracking
                                 grvTracking.FooterRow.Cells[0].Attributes["text-align"] = "center";
                                 grvTracking.FooterRow.TableSection = TableRowSection.TableFooter;
 
-                                
+
                                 ScriptManager.RegisterStartupScript(this.UpdatePanel1, GetType(), "validar", "btnCheck(1);", true);
 
                             }
                             else
                             {
-                             
+
                                 grvTracking.DataSource = null;
                                 grvTracking.DataBind();
                                 Label lblEmptyMessage = grvTracking.Controls[0].Controls[0].FindControl("lblEmptyMessage") as Label;
@@ -405,9 +405,9 @@ namespace CEPA.CCO.UI.Web.Tracking
                 n_correlativo.Text = "";
                 n_serial.Text = "";
                 a_declaracion.Text = "";
-                radio3.Checked = false;               
+                radio3.Checked = false;
                 grvTracking.DataSource = null;
-                grvTracking.DataBind();                
+                grvTracking.DataBind();
                 ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + ex.Message.Replace("'", "") + "');", true);
 
             }
@@ -971,8 +971,8 @@ namespace CEPA.CCO.UI.Web.Tracking
 
                 pLstDetalle = DetaNavieraDAL.CalcPagos(n_contenedor, c_llegada, f_tar, DBComun.TipoBD.SqlTracking, v_peso);
 
-                DateTime f_salidaCalc = DetaNavieraLINQ.FechaBD(); 
-                             
+                DateTime f_salidaCalc = DetaNavieraLINQ.FechaBD();
+
                 TimeSpan t = f_salidaCalc.Date - f_tar.Date;
                 int NrOfDays = t.Days + 1;
 
@@ -1539,10 +1539,10 @@ namespace CEPA.CCO.UI.Web.Tracking
         protected void btnVEA_Click(object sender, EventArgs e)
         {
             string cadena = @"https://test7.mh.gob.sv/VEA/free/InfoDm.do?anio=2020&aduana=02&serial=4&registro=2";
-            
+
             ScriptManager.RegisterStartupScript(this, this.GetType(), "show window", "shwwindow('" + cadena + "');", true);
         }
 
-      
+
     }
 }

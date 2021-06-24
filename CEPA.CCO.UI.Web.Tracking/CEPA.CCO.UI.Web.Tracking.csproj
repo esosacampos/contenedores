@@ -93,6 +93,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bancos_htm.htm" />
+    <Content Include="bancos_htm.png" />
     <Content Include="bootstrap\csss\bootstrap-datetimepicker.css" />
     <Content Include="bootstrap\csss\bootstrap-responsive.css" />
     <Content Include="bootstrap\csss\bootstrap-select.css" />

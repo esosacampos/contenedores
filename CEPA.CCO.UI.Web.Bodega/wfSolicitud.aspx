@@ -51,9 +51,9 @@
 
     <style type="text/css">
         #img1 {
-            width: 80%;
-            height: 30%;
-            margin-left: 10%;
+            width: 7%;
+            height: 35px;
+            display: inline-block;
         }
 
         .form-group {
@@ -112,6 +112,23 @@
             text-transform: uppercase;
         }
 
+        .navbar-brand {
+            float: left;
+            height: 50px;
+            padding: 10px 5px;
+            font-size: 25px;
+            line-height: 10px;
+            display: inline-block;
+        }
+
+        .panel-default > .panel-heading {
+            color: #333;
+            background-color: #f5f5f5;
+            border-color: #ddd;
+            font-weight: 900;
+            font-size: 1.25em;
+        }
+
         @media (min-width: 1200px) {
             div.col-lg-12 {
                 padding-right: 6px;
@@ -152,6 +169,23 @@
 
             .h1, h1 {
                 font-size: 18px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .sidebar {
+                z-index: 1;
+                position: absolute;
+                width: 50px;
+                margin-top: 51px;
+            }
+
+            #page-wrapper {
+                position: inherit;
+                margin: 0 0 0 50px;
+                padding-left: 35px;
+                border-left: 1px solid #e7e7e7;
+                padding-right: 35px;
             }
         }
     </style>
@@ -198,7 +232,8 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="wfSolicitud.aspx">Puerto de Acajutla - Vacíado</a>
+                    <a class="navbar-brand" href="wfSolicitud.aspx" style="display: inline-block;">
+                        <img src="vendor/bootstrap/Images/cepa_logo.png" id="img1" class="img-responsive" style="display: inline-block;"><span style="margin-left: 1%; font-weight: bold">Puerto de Acajutla - Solicitud de Vaciado/Llenado de Contenedores de Importación</span></a>
                 </div>
                 <!-- /.navbar-header -->
 
@@ -206,7 +241,7 @@
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
                             <li>
-                                <img src="vendor/bootstrap/Images/cepa_logo.png" id="img1" class="img-responsive" />
+                                <%--<img src="vendor/bootstrap/Images/cepa_logo.png" id="img1" class="img-responsive" />--%>
                             </li>
                             <li>
                                 <br />
@@ -232,43 +267,43 @@
                 </div>
                 <!-- /.navbar-static-side -->
             </nav>
-            <div id="page-wrapper">
+            <div id="page-wrapper" style="overflow: hidden;">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Solicitud De Vaciado Contenedores De Importación</h1>
+                        <h1 class="page-header" style="font-weight: 900;"></h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /.row -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Ingresar Información
+                        Ingresar información conforme la solicitud presentada a DGA
                     </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div role="form">
                                     <div class="form-group">
-                                        <label># Manifiesto</label>
+                                        <label># de Manifiesto</label>
                                         <asp:TextBox ID="txtMani" runat="server" class="form-control" autocomplete="off"
                                             placeholder="Ingrese # de Manifiesto 202X-XXXX" Text=""></asp:TextBox>
                                     </div>
                                     <div class="form-group">
-                                        <label># Contenedor</label>
+                                        <label># de Contenedor</label>
                                         <asp:TextBox ID="txtContenedor" runat="server" class="form-control" autocomplete="off"
                                             placeholder="Ingrese # Contenedor XYZUXXXXXX"></asp:TextBox>
                                     </div>
                                     <div class="form-group">
-                                        <label>Tipo de Vaciado</label>
-                                        <asp:DropDownList ID="ddlTipoVac" runat="server" Style="width: 100%;" class="selectpicker show-tick seleccion" data-style="" title="Por favor seleccione el tipo de vacíado">
+                                        <label>Tipo de Solicitud</label>
+                                        <asp:DropDownList ID="ddlTipoVac" runat="server" Style="width: 100%;" class="selectpicker show-tick seleccion" data-style="" title="Por favor seleccione el tipo de operación">
                                         </asp:DropDownList>
                                     </div>
                                     <div class="form-group">
-                                        <label>Nombre de Contacto</label>
+                                        <label>Nombre del Solicitante</label>
                                         <asp:TextBox ID="txtContacto" runat="server" CssClass="form-control" placeholder="ABC SA DE CV" autocomplete="off"></asp:TextBox>
                                     </div>
                                     <div class="form-group">
-                                        <label>Teléfono de Contacto</label>
+                                        <label>Teléfono de Solicitante</label>
                                         <asp:TextBox ID="txtTel" runat="server" CssClass="form-control" placeholder="9999-9999" autocomplete="off"></asp:TextBox>
                                     </div>
                                     <div class="form-group">
@@ -282,8 +317,11 @@
                                         <input type="button" id="open_btn" class="btn btn-primary" value="Cargar Autorización">
                                     </div>--%>
                                     <div class="form-group">
-                                        <label class="control-label" style="color: black !important;">Autorización ADUANA</label>
-                                        <input type="file" id="fileUpload" name="fileUpload" class="filestyle" data-text="Examinar" data-placeholder="Seleccione un archivo tipo pdf | jpg | png" data-btnclass="btn-success" data-icon />
+                                        <label class="control-label" style="color: black !important;">Anexar Autorización de ADUANA</label>
+                                        <input type="file" id="fileUpload" name="fileUpload" class="filestyle" data-text="Examinar" data-placeholder="Seleccione un archivo tipo pdf | jpg | png" data-btnclass="btn-success" data-dragdrop="true" />
+                                    </div>
+                                    <div class="form-group bg-primary">
+                                        <p class="lead text-justify">El archivo que se adjunte en este campo debe ser un documento legalmente valido y no una falsificación o alteración con el ánimo de engañar a esta institución. Cualquier contravención representa un delito sujeto a la Ley Salvadoreña.</p>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -327,7 +365,7 @@
         }
 
 
-       
+
 
 
         $.validator.addMethod('customphone', function (value, element) {
@@ -335,22 +373,27 @@
         });
 
 
+
+
         $(document).ready(function () {
-            $('input[type=file]').filestyle({
-                //dragdrop: true,
-                //htmlIcon: '<span class="glyphicon glyphicon- upload"></span>',
-                //'onChange': function (files) {
-                //    //console.log(files)
-                //}
+
+
+            $('#fileUpload').filestyle({
+                iconName: "glyphicon glyphicon-inbox",
+                onChange: function (param) {
+                    console.log(param)
+                    alert(param);
+                }
             });
 
-            $('input[type=file]').change(function () {
-                //if ($(this).val().length > 0)
-                //    $(this).valid();
-                //else
-                //    $(this).valid() = false;
-            });
+            $('#fileUpload').change(function (e) {
+                filename = this.files[0].name
+                if (filename.length > 0)
+                    $(this).valid();
+                else
+                    $(this).valid() = false;
 
+            });
 
             $('#txtMani').inputmask('9999-9999');
             $('#txtMail').inputmask('email');
@@ -380,6 +423,7 @@
                     $(this).valid() = false;
             });
 
+
             $.validator.setDefaults({
                 debug: true,
                 submitHandler: function (form) {
@@ -390,8 +434,10 @@
                 onfocusout: function () { return true; }
             });
 
+
+
             $("#frmSolicitud").validate({
-                debug: true,                
+                debug: true,
                 rules: {
                     txtMani: "required",
                     txtMail: "required",
@@ -434,7 +480,7 @@
                 errorElement: "em",
                 errorPlacement: function (error, element) {
                     // Add the `help-block` class to the error element
-                    $.unblockUI();
+                    //$.unblockUI();
                     error.addClass("help-block");
                     if (element.prop("type") === "checkbox" || element.prop("type") == "select") {
                         error.insertAfter(element.parent("label"));
@@ -447,14 +493,14 @@
                     else {
                         error.insertAfter(element);
                     };
-                    
+
                 },
                 highlight: function (element, errorClass, validClass) {
-                    $.unblockUI();
+                    // $.unblockUI();
                     $(element).parents(".form-group").addClass("has-error").removeClass("has-success");
                 },
                 unhighlight: function (element, errorClass, validClass) {
-                   $.unblockUI();
+                    //$.unblockUI();
                     $(element).parents(".form-group").addClass("has-success").removeClass("has-error");
                 }
 
@@ -463,24 +509,26 @@
 
 
             $("#btnBuscar").click(function (event) {
+
                 event.preventDefault();
-                $.blockUI({
-                    message: '<h1>Procesando</h1><img src="<%= ResolveClientUrl("~/vendor/bootstrap/Images/progress_bar.gif") %>" />',
-                     css: {
-                         border: 'none',
-                         padding: '15px',
-                         backgroundColor: '#424242',
-                         '-webkit-border-radius': '10px',
-                         '-moz-border-radius': '10px',
-                         opacity: .5,
-                         color: '#fff'
-                     }
 
-                });
 
-                console.log($("#frmSolicitud").valid());
                 if ($("#frmSolicitud").valid()) {
-                    
+
+                    $.blockUI({
+                        message: '<h1>Procesando</h1><img src="<%= ResolveClientUrl("~/vendor/bootstrap/Images/progress_bar.gif") %>" />',
+                        css: {
+                            border: 'none',
+                            padding: '15px',
+                            backgroundColor: '#424242',
+                            '-webkit-border-radius': '10px',
+                            '-moz-border-radius': '10px',
+                            opacity: .5,
+                            color: '#fff'
+                        }
+
+                    });
+
                     if ($('#fileUpload').prop('files')[0].name.length > 0) {
 
                         var data = new FormData();
@@ -532,16 +580,6 @@
                 else {
                     $.unblockUI();
                 }
-
-
-                
-
-                //console.log(validado.valid());
-
-                //if (validado.valid()) {
-                //}
-
-                //return false;
 
             });
         });

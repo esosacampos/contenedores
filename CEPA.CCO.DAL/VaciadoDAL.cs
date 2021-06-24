@@ -77,5 +77,97 @@ namespace CEPA.CCO.DAL
             }
 
         }
+
+        public static List<Vaciado> getPendiSolic(DBComun.Estado pTipo)
+        {
+            List<Vaciado> notiLista = new List<Vaciado>();
+
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+
+
+                SqlCommand _command = new SqlCommand("pa_pendi_solic_vac", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    Vaciado _notificacion = new Vaciado
+                    {
+                        IdTipoVa = Convert.ToInt32(_reader.GetInt32(0)),
+                        t_solicitud = _reader.GetString(1),
+                        num_mani = _reader.GetString(2),
+                        n_contenedor = _reader.GetString(3),
+                        bl_master = _reader.GetString(4),
+                        n_contacto = _reader.GetString(5),
+                        t_contacto = _reader.GetString(6),
+                        e_contacto = _reader.GetString(7),
+                        f_registro = _reader.GetDateTime(8),
+                        t_retencion = _reader.GetString(9)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+
+                return notiLista;
+            }
+
+        }
+
+        public static List<Vaciado> getBLVaciado(DBComun.Estado pTipo, string n_contenedor, string n_manifiesto)
+        {
+            List<Vaciado> notiLista = new List<Vaciado>();
+
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+
+
+                SqlCommand _command = new SqlCommand("pa_get_bl_vaciado", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@n_contenedor", n_contenedor));
+                _command.Parameters.Add(new SqlParameter("@n_manifiesto", n_manifiesto));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    Vaciado _notificacion = new Vaciado
+                    {
+                        
+                        n_contenedor = _reader.GetString(0),
+                        bl_hijo = _reader.GetString(1),
+                        t_bl = _reader.GetString(2),
+                        c_tamaño = _reader.GetString(3),
+                        s_consignatario = _reader.GetString(4)                        
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+
+                return notiLista;
+            }
+
+        }
+
     }
 }

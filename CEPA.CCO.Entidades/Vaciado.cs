@@ -20,6 +20,21 @@ namespace CEPA.CCO.Entidades
 
         public int b_shipper { get; set; }
 
+        public string t_solicitud { get; set; }
+
+        public string bl_master { get; set; }
+        public DateTime f_registro { get; set; }
+        public string t_retencion { get; set; }
+        public string num_mani { get; set; }
+
+        public string bl_hijo { get; set; }
+
+        public string t_bl { get; set; }
+
+        public string c_tamaño { get; set; }
+        public string s_consignatario { get; set; }
+
+
     }
 
     public class TipoVaciado
