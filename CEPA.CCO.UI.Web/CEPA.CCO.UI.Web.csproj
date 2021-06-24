@@ -256,6 +256,7 @@
     <Content Include="DAN\wfDetalleDAN.aspx" />
     <Content Include="DAN\wfPrincipalDAN.aspx" />
     <Content Include="DAN\wfTipoRevision.aspx" />
+    <Content Include="DATA\xmlConfig.xml" />
     <Content Include="Navieras\wfAlertEstadia.aspx" />
     <Content Include="Navieras\wfAlertSalidas.aspx" />
     <Content Include="Navieras\wfCambioTran.aspx" />
@@ -441,10 +442,6 @@
     <Content Include="CSS\MultipleFileUpload.css" />
     <Content Include="CSS\Site.css" />
     <Content Include="CSS\style.css" />
-    <Content Include="DATA\xmlConfig.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="default.aspx" />
     <Content Include="Inicio.aspx" />
     <Content Include="Scripts\jquery-1.3.2.js" />

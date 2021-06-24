@@ -650,7 +650,7 @@ namespace CEPA.CCO.DAL
                                     FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_DOC_NAVI b ON  a.IdReg = b.IdReg
                                     INNER JOIN CCO_DETA_NAVIERAS z ON b.IdReg = z.IdReg AND b.IdDoc = z.IdDoc
                                     WHERE b_noti = 1  AND b.b_estado = 1 AND b_autorizado = 1 AND b_cancelado = 0
-                                    AND c_nul IS NULL and YEAR(f_llegada) >= 2020 AND a.c_llegada <> '4.13840'
+                                    AND c_nul IS not NULL and YEAR(f_llegada) >= 2020 AND a.c_llegada <> '4.13840'
                                     GROUP BY a.c_llegada, a.c_imo, convert(char(10), a.f_llegada, 103)
                                     ORDER BY 3";
 

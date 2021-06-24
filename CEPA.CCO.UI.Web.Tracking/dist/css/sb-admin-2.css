@@ -218,9 +218,11 @@ body {
         }
 
         .imageTitulo {
-            width: 152px;
+            width: 125px;
             margin: 0;
             padding: 0;
+            height: 56px;            
+            margin-left: 7px;
         }
 
         .navbar-top-links li:last-child {
