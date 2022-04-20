@@ -85,7 +85,7 @@
                     <a href="https://ssl.comodo.com/ev-ssl-certificates.php" id="comodoTL"></a>
                 </div>
                 <div class="form-group">
-                    © 2013 CEPA / Puerto de Acajutla, El Salvador v2.0 para Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv</a>
+                    © 2013 CEPA / Puerto de Acajutla, El Salvador v2.0 - Para asistencia técnica favor escribir al correo <a href="#">informática.acajutla@cepa.gob.sv</a>
                 </div>
             </div>
         </div>

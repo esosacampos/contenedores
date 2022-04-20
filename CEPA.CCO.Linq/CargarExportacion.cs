@@ -23,8 +23,9 @@ namespace CEPA.CCO.Linq
         int IdRegEnca;
         int IdRegReal;
         string Html;
+
         DateTime _fecha;
-               
+
         public string c_imo { get; set; }
         public string c_llegada { get; set; }
         public string c_usuario { get; set; }
@@ -39,6 +40,11 @@ namespace CEPA.CCO.Linq
         public int sustitucion { get; set; }
         public string arch_susti { get; set; }
 
+        public string c_naviera { get; set; }
+
+        public string c_iso_navi { get; set; }
+
+        public string c_navi_corto { get; set; }
         #endregion
 
 
@@ -50,7 +56,7 @@ namespace CEPA.CCO.Linq
             Html1 = "<dir style=\"font-family: 'Arial'; font-size: 12px; line-height: 1.2em\">";
             Html1 += "<br />MÓDULO : RECEPCIÓN DE LISTADO DE EXPORTACIÓN POR SUSTITUCIÓN <br />";
             Html1 += "TIPO DE MENSAJE : NOTIFICACIÓN RECEPCIÓN DE ARCHIVO POR SUSTITUCIÓN <br /><br />";
-            Html1 += string.Format("Se notifica que la recepción del archivo de exportación por sustitución, de {0} para el buque {1}, número de Viaje {2}, en la cual solicitan la sustitución del archivo {4}, y queda en espera de resultados de validación", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, arch_susti);
+            Html1 += string.Format("Se notifica que la recepción del archivo de exportación por sustitución, de {0} para el buque {1}, número de Viaje {2}, en la cual solicitan la sustitución del archivo {3}, y queda en espera de resultados de validación", c_navi_corto, d_buque, cn_voyage, arch_susti);
 
 
             Html1 += "<br /><br />";
@@ -59,9 +65,9 @@ namespace CEPA.CCO.Linq
 
             //_correo.Subject = string.Format("Importación de Archivo Buque {0} Número de Viaje {1}", d_buque, cn_voyage);
 
-            _correo1.Subject = string.Format("PASO 1 de 4: Recepción CEPA: Listado de Exportación por SUSTITUCIÓN de {0} para el Buque: {1}, # de Viaje {2}", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage);
-            _correo1.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga_exp", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-            _correo1.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga_exp", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+            _correo1.Subject = string.Format("PASO 1 de 4: Recepción CEPA: Listado de EXPORTACIÓN por SUSTITUCIÓN de {0} para el Buque: {1}, # de Viaje {2}", c_navi_corto, d_buque, cn_voyage);
+            _correo1.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga_exp", DBComun.Estado.verdadero, c_naviera);
+            _correo1.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga_exp", DBComun.Estado.verdadero, c_naviera);
 
             //Notificaciones _notiCC = new Notificaciones
             //{
@@ -88,16 +94,16 @@ namespace CEPA.CCO.Linq
             Html1 = "<dir style=\"font-family: 'Arial'; font-size: 12px; line-height: 1.2em\">";
             Html1 += "<br />MÓDULO : RECEPCIÓN DE LISTADO DE EXPORTACIÓN <br />";
             Html1 += "TIPO DE MENSAJE : NOTIFICACIÓN RECEPCIÓN DE ARCHIVO <br /><br />";
-            Html1 += string.Format("Se notifica que la recepción del archivo de exportación, de {0} para el buque {1}, número de Viaje {2}, ha sido recibido y queda en espera de resultados de validación", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage);
+            Html1 += string.Format("Se notifica que la recepción del archivo de exportación, de {0} para el buque {1}, número de Viaje {2}, ha sido recibido y queda en espera de resultados de validación", c_navi_corto, d_buque, cn_voyage);
             Html1 += "<br /><br />";
             Html1 += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
             Html1 += "<font color=blue> En espera de validación de CEPA </font>";
 
             //_correo.Subject = string.Format("Importación de Archivo Buque {0} Número de Viaje {1}", d_buque, cn_voyage);
 
-            _correo1.Subject = string.Format("PASO 1 de 4: Recepción CEPA: Listado de Exportación de {0} para el Buque: {1}, # de Viaje {2}", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage);
-            _correo1.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga_exp", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-            _correo1.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga_exp", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+            _correo1.Subject = string.Format("PASO 1 de 4: Recepción CEPA: Listado de EXPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}", c_navi_corto, d_buque, cn_voyage);
+            _correo1.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga_exp", DBComun.Estado.verdadero, c_naviera);
+            _correo1.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga_exp", DBComun.Estado.verdadero, c_naviera);
 
             //Notificaciones _notiCC = new Notificaciones
             //{
@@ -115,7 +121,7 @@ namespace CEPA.CCO.Linq
             _correo1.Asunto = Html1;
             _correo1.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);
             _correo1 = null;
-        }     
+        }
 
         public void AlmacenaCargaExport()
         {
@@ -123,6 +129,13 @@ namespace CEPA.CCO.Linq
             string _actSusti = null;
             List<int> _listaDeta = new List<int>();
             int _resulDeta = 0;
+
+            //DETALLES DE NAVIERA
+            foreach (var itemNav in EncaNavieraDAL.GetNavieras(DBComun.Estado.verdadero).Where(a => a.c_naviera == c_naviera))
+            {
+                c_navi_corto = itemNav.d_naviera_p;                
+                break;
+            }
 
             if (sustitucion == 1)
             {
@@ -146,7 +159,7 @@ namespace CEPA.CCO.Linq
 
             if (sustitucion == 0)
             {
-                int _exis = Convert.ToInt32(DetaDocDAL.ArchivosExistentesEx(c_imo, c_llegada, HttpContext.Current.Session["c_naviera"].ToString(), HttpContext.Current.Session["archivo"].ToString()));
+                int _exis = Convert.ToInt32(DetaDocDAL.ArchivosExistentesEx(c_imo, c_llegada, c_naviera, a));
 
                 if (_exis > 0)
                     throw new Exception("Ya existe un archivo almacenado con este nombre");
@@ -169,15 +182,15 @@ namespace CEPA.CCO.Linq
 
             //Verificar archivos almacenados.
 
-            int _arch = Convert.ToInt32(DetaDocDAL.ArchivosAlmacenadosEx(c_imo, c_llegada, HttpContext.Current.Session["c_naviera"].ToString()));
+            int _arch = Convert.ToInt32(DetaDocDAL.ArchivosAlmacenadosEx(c_imo, c_llegada, c_naviera));
 
             if (_arch > 0)
             {
-                IdRegEnca = Convert.ToInt32(EncaNavieraDAL.ObtenerIdRegEx(c_imo, c_llegada, HttpContext.Current.Session["c_naviera"].ToString()));
+                IdRegEnca = Convert.ToInt32(EncaNavieraDAL.ObtenerIdRegEx(c_imo, c_llegada, c_naviera));
             }
 
-            /*if (sustitucion == 1)
-                _actSusti = EncaNavieraDAL.ActSustitucion(IdRegEnca, 1);*/
+            if (sustitucion == 1)
+                _actSusti = EncaNavieraDAL.ActSustitucionExp(IdRegEnca, 1);
 
             //Validar que el imo coincida con el del archivo
 
@@ -249,6 +262,8 @@ namespace CEPA.CCO.Linq
             int ar1 = Path.GetExtension(a).Length;
             int ar3 = 19 + d_buque.Length;
 
+            var ay = Path.GetFileName(a);
+
             if ((Path.GetFileName(a).Length - Path.GetExtension(a).Length) != (19 + d_buque.Length))
                 throw new System.InvalidOperationException("Longitud de nombre de archivo no es válida");
 
@@ -259,9 +274,9 @@ namespace CEPA.CCO.Linq
 
             int countColumnas = ArchivoExcelDAL.GetNumberOfColumns(a);
 
-            if (countColumnas != 30)
-                throw new Exception("Hoja debe tener 30 columnas que son (A-AD) las permitidas");
-           
+            if (countColumnas != 33)
+                throw new Exception("Hoja debe tener 33 columnas que son (A-AG) las permitidas");
+
             EnvioCorreo _correo = new EnvioCorreo();
 
             Html += "<font size=2>";
@@ -279,7 +294,7 @@ namespace CEPA.CCO.Linq
 
                 if (nombre.Trim().Substring(17 + d_buque.Length, 2) == "01")
                 {
-                    _resultadoV = ArchivoExcelDAL.ValidarViajeCEx(DBComun.Estado.verdadero, c_imoVa, cn_voyage, HttpContext.Current.Session["c_naviera"].ToString());
+                    _resultadoV = ArchivoExcelDAL.ValidarViajeCEx(DBComun.Estado.verdadero, c_imoVa, cn_voyage, c_naviera);
                     if (_resultadoV != "NULL" || _resultadoV == "Error")
                         throw new Exception("ESTE IMO YA PRESENTO ESTE NÚMERO DE VIAJE");
                 }
@@ -288,516 +303,550 @@ namespace CEPA.CCO.Linq
             //VALIDANDO ARCHIVO DE EXCEL
 
             List<ArchivoExport> pExport = new List<ArchivoExport>();
-            
+
             pExport = ArchivoExcelDAL.GetListaEx(a, DBComun.Estado.verdadero);
 
-            if(pExport.Count > 0)
+            if (pExport.Count > 0)
             {
-                
-                    if (ErrorNombre == false)
+
+                if (ErrorNombre == false)
+                {
+                    int del = 0;
+                    if (sustitucion == 1)
                     {
-                        int del = 0;
-                        if (sustitucion == 1)
-                        {
-                            del = Convert.ToInt32(DetaNavieraDAL.EliminarDetaNavieraEx(IdRegEnca, nombre));
-                        }
+                        del = Convert.ToInt32(DetaNavieraDAL.EliminarDetaNavieraEx(IdRegEnca, nombre));
+                    }
 
 
-                        List<ResultadoValidacion> pTotalList = new List<ResultadoValidacion>();
-                        List<ResultadoValidacion> validarPrueba = new List<ResultadoValidacion>();
-                        List<ResultadoValidacion> listaVaTa = new List<ResultadoValidacion>();
+                    List<ResultadoValidacion> pTotalList = new List<ResultadoValidacion>();
+                    List<ResultadoValidacion> validarPrueba = new List<ResultadoValidacion>();
+                    List<ResultadoValidacion> listaVaTa = new List<ResultadoValidacion>();
 
-                        validarPrueba = DetaNavieraLINQ.ValidarDetalleEx(a, DBComun.Estado.verdadero);
+                    validarPrueba = DetaNavieraLINQ.ValidarDetalleEx(a, DBComun.Estado.verdadero);
 
-                        List<DetaNaviera> pListaExist = DetaNavieraDAL.ObtenerRegAnterEx(c_imo, c_llegada, cn_voyage);
+                    List<DetaNaviera> pListaExist = DetaNavieraDAL.ObtenerRegAnterEx(c_imo, c_llegada, cn_voyage);                    
 
-                        if (pListaExist == null)
-                            pListaExist = new List<DetaNaviera>();
+                    if (pListaExist == null)
+                        pListaExist = new List<DetaNaviera>();
 
-                        if (pListaExist.Count > 0)
-                            listaVaTa = DetaNavieraLINQ.ValidarDetalleEx(a, pListaExist, DBComun.Estado.verdadero);
-
-
-                        if (validarPrueba.Count > 0)
-                            pTotalList.AddRange(validarPrueba);
-
-                        if (listaVaTa.Count > 0)
-                            pTotalList.AddRange(listaVaTa);
-
-                        //Errores en la validacion
-                        if (pTotalList.Count > 0)
-                        {
-                            #region "INCONSISTENCIAS"
-                            if (sustitucion == 0)
-                                CorreoRecepcion(cn_voyage);
-
-                            else
-                            {
-                                CorreoRecepcion1(cn_voyage);
-                            }
-
-                            Html += "<b><u>DETALLE DE INCONSISTENCIAS</b></u><br />";
-                            Html += "<br />";
-
-                            Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1em;width: 100%;border: thin solid #4F81BD; border-collapse: separate; border-spacing:0px; \">";
-                            Html += "<tr>";
-                            Html += "<center>";
-                            Html += "<td width=\"5%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>IMO SHIP</font></th>";
-                            Html += "<td width=\"5%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>VOYAGE</font></th>";
-                            Html += "<td width=\"5%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>BL</font></th>";
-                            Html += "<td width=\"5%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>CONTAINER</font></th>";
-                            Html += "<td width=\"7%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>SYZE/TYPE</font></th>";
-                            Html += "<td width=\"7%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>WEIGHT</font></th>";
-                            Html += "<td width=\"7%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>FULL/EMPTY</font></th>";
-                            Html += "<td width=\"25%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>EXPORTADOR</font></th>";
-                            Html += "<td width=\"25%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>CONSIGNATARIO</font></th>";
-                            Html += "<td width=\"25%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>NOTIFICADOR</font></th>";
-                            Html += "<td width=\"8%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>SEAL NUMBER</font></th>";
-                            Html += "<td width=\"5%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>PAIS DESTINO</font></th>";
-                            Html += "<td width=\"7%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>PAIS ORIGEN</font></th>";
-                            Html += "<td width=\"20%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>DESCRIPCION</font></th>";
-                            Html += "<td width=\"5%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>TARE</font></th>";
-                            Html += "<td width=\"5%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>REFEER</font></th>";
-                            Html += "<td width=\"5%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>EMB DIR</font></th>";
-                            Html += "<td width=\"5%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>TIPO DOCUMENTO</font></th>";
-                            Html += "</center>";
-                            Html += "</tr>";
-
-                            var query = (from arch in pExport
-                                         join valid in pTotalList.Where(t => t.Resultado == 1) on arch.num_fila equals valid.NumFila
-                                         orderby arch.num_fila
-                                         select new
-                                         {
-                                             valid.NumFila,
-                                             valid.NumCelda,
-                                             valid.Descripcion
-                                         }).ToList();
-
-                            var queryTodos = (from arch in ArchivoExcelDAL.GetListaEx(a, DBComun.Estado.verdadero)
-                                              where
-                                                 (from valid in pTotalList
-                                                  where valid.Resultado == 1
-                                                  select new
-                                                  {
-                                                      valid.NumFila
-                                                  }).Contains(new { NumFila = arch.num_fila })
-                                              select new ArchivoExport
-                                              {
-                                                  num_fila = arch.num_fila,
-                                                  n_BL = arch.n_BL,
-                                                  n_booking = arch.n_booking,
-                                                  n_contenedor = arch.n_contenedor,
-                                                  c_tamaño = arch.c_tamaño,
-                                                  v_peso = arch.v_peso,
-                                                  b_estado = arch.b_estado,
-                                                  s_exportador = arch.s_exportador,
-                                                  s_consignatario = arch.s_consignatario,
-                                                  s_notificador = arch.s_notificador,
-                                                  n_sello = arch.n_sello,
-                                                  c_pais_destino = arch.c_pais_destino,
-                                                  c_pais_origen = arch.c_pais_origen,
-                                                  s_comodity = arch.s_comodity,
-                                                  s_prodmanifestado = arch.s_prodmanifestado,
-                                                  v_tara = arch.v_tara,
-                                                  b_reef = arch.b_reef,
-                                                  b_emb_dir = arch.b_emb_dir,
-                                                  c_tipo_doc = arch.c_tipo_doc
-                                              }).ToList();
+                    if (pListaExist.Count > 0)
+                        listaVaTa = DetaNavieraLINQ.ValidarDetalleEx(a, pListaExist, DBComun.Estado.verdadero);
 
 
-                            foreach (ArchivoExport itemArch in queryTodos)
-                            {
-                                Html += "<tr>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + c_imoVa + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + cn_voyage + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.n_BL + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.n_contenedor + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.c_tamaño + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.v_peso + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.b_estado + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.s_exportador + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.s_consignatario + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.s_notificador + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.n_sello + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.c_pais_destino + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.c_pais_origen + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.s_prodmanifestado + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.v_tara + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.b_reef + "</font></td>";
-                                Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.b_emb_dir + "</font></td>";
-                                Html += "<td height=\"25\"><font size=1 color=blue>" + itemArch.c_tipo_doc + "</font></td>";
-                                Html += "</tr>";
-                                Html += "</font>";
-                                Html += "<tr>";
-                                Html += "<td colspan=18>";
+                    if (validarPrueba.Count > 0)
+                        pTotalList.AddRange(validarPrueba);
 
-                                //List<ResultadoValidacion> _lista = queryTodos.Where(p => p.num_fila == itemArch.num_fila).ToList() as List<ResultadoValidacion>;
-                                var _lista = query.Where(p => p.NumFila == itemArch.num_fila).ToList();
-                                if (_lista.Count > 0)
-                                {
-                                    Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1em;width: 100%;border: thin solid #4F81BD; border-collapse: separate; border-spacing:0px; \">";
-                                    Html += "<tr>";
-                                    Html += "<td width=\"5%\" height=\"25\"><font color=red size=1></font></th>";
-                                    Html += "<td width=\"5%\" height=\"25\"><font color=red size=1>FILA</font></th>";
-                                    Html += "<td width=\"5%\" height=\"25\"><font color=red size=1>CELDA</font></th>";
-                                    Html += "<td width=\"25%\" height=\"25\"><font color=red size=1>DESCRIPCION</font></th>";
-                                    Html += "</tr>";
-                                    foreach (var itemRela in _lista)
-                                    {
-                                        Html += "<td height=\"25\"><font size=1 color=red>  </font></td>";
-                                        Html += "<td height=\"25\"><font size=1 color=red>" + itemRela.NumFila + "</font></td>";
-                                        Html += "<td height=\"25\"><font size=1 color=red>" + itemRela.NumCelda + "</font></td>";
-                                        Html += "<td height=\"25\"><font size=1 color=red>" + itemRela.Descripcion + "</font></td>";
-                                        Html += "</tr>";
-                                    }
-                                    Html += "</font></table>";
-                                }
-                            }
-                            Html += "</td></tr></font></table>";
+                    if (listaVaTa.Count > 0)
+                        pTotalList.AddRange(listaVaTa);
 
+                    //Errores en la validacion
+                    if (pTotalList.Count > 0)
+                    {
+                        #region "INCONSISTENCIAS"
+                        if (sustitucion == 0)
+                            CorreoRecepcion(cn_voyage);
 
-                            Html += "</font>";
-                            Html += "<br /><br />";
-                            Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
-                            Html += "<font color=red>En espera de correcciones por la Naviera </font>";
-
-
-                            if (sustitucion == 0)
-                                _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA: DENEGADA Listado de Exportación de {0} para el Buque: {1}, # de Viaje {2}", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage);
-                            else
-                                _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): DENEGADA Listado de Exportación Buque: {0}, # de Viaje {1}", d_buque, cn_voyage);
-
-
-                            _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga_exp", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-                            List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga_exp", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-
-                            if (_listaCC == null)
-                                _listaCC = new List<Notificaciones>();
-
-                            _correo.ListaCC = _listaCC;
-
-                            //Notificaciones _notiCC = new Notificaciones
-                            //{
-                            //    IdNotificacion = -1,
-                            //    sMail = "elsa.sosa@cepa.gob.sv",
-                            //    dMail = "Elsa Sosa"
-                            //};
-
-                            //List<Notificaciones> _ccList = new List<Notificaciones>();
-                            //_ccList.Add(_notiCC);
-
-                            //_correo.ListaNoti = _ccList;
-                            _correo.ListArch.Add(a);
-                            _correo.Asunto = Html;
-                            _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);
-                            // _correo = null;
-                            _actSusti = EncaNavieraDAL.ActSustitucion(IdRegEnca, 0);
-
-                            throw new Exception("Archivo presento inconsistencias revisar correo electrónico");
-
-
-                            #endregion
-                        }
                         else
                         {
-                            #region "ACEPTADO"
-                            if (sustitucion == 0)
-                            {
-
-                                CorreoRecepcion(cn_voyage);
-
-                                int _resultado = 0;
-                                if (_arch > 0)
-                                    IdRegReal = IdRegEnca;
-                                else
-                                {
-                                    EncaNaviera _encaNavi = new EncaNaviera
-                                    {
-                                        IdReg = -1,
-                                        c_imo = c_imo,
-                                        c_usuario = HttpContext.Current.Session["c_usuario"].ToString(),
-                                        c_naviera = HttpContext.Current.Session["c_naviera"].ToString(),
-                                        c_llegada = c_llegada,
-                                        c_voyage = cn_voyage,
-                                        f_llegada = Convert.ToDateTime(f_llegada.ToString("dd/MM/yyyy hh:mm tt"))
-                                    };
-
-                                    _resultado = Convert.ToInt32(EncaNavieraDAL.AlmacenarEncaNavieraEx(_encaNavi));
-                                    IdRegReal = _resultado;
-                                }
-
-
-
-                                if (IdRegReal > 0)
-                                {
-                                    DetaDoc _detaDoc = new DetaDoc
-                                    {
-                                        IdDoc = -1,
-                                        IdReg = IdRegReal,
-                                        s_archivo = HttpContext.Current.Session["archivo"].ToString(),
-                                        c_imo = c_imo,
-                                        c_usuario = HttpContext.Current.Session["c_usuario"].ToString(),
-                                        c_llegada = c_llegada
-                                    };
-
-                                    int _docResul = Convert.ToInt32(DetaDocDAL.AlmacenarDocNaviEx(_detaDoc));
-
-
-                                    if (_docResul > 0)
-                                    {
-
-                                        _resulDeta = Convert.ToInt32(DetaNavieraDAL.AlmacenarDetaNavieraEx(pExport, IdRegReal, _docResul));
-
-                                        if (_resulDeta > 0)
-                                            Save = true;
-
-
-
-
-
-                                    }
-                                }
-
-
-                                Html += "<b><u>DETALLE DE CARGA DE LISTADO</b></u><br />";
-                                Html += "<br /> Módulo : Carga de listado de contenedores de exportación <br />";
-                                Html += "Mensaje : Notificación carga de listado exitosa <br /><br />";
-                                Html += string.Format("Se notifica que la carga del archivo de exportación, de {0} para el buque: {1}, # de Viaje {2}, se validaron {3} contenedores de forma exitosa sin presentar inconsistencias", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, pExport.Count);
-                                Html += "<br /><br />";
-                                Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
-                                Html += "<font color=blue> En espera de validación de ADUANA </font>";
-
-                                Html += "</font>";
-
-
-                                //_correo.Subject = string.Format("Importación de Archivo Buque {0} Número de Viaje {1}", d_buque, cn_voyage);
-                                _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA: ACEPTADA Listado de Exportación de {0} para el Buque: {1}, # de Viaje {2}", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage);
-                                _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-                                List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-
-                                if (_listaCC == null)
-                                    _listaCC = new List<Notificaciones>();
-
-                                _listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_carga", DBComun.Estado.verdadero, "219"));
-                                _correo.ListaCC = _listaCC;
-
-                                //Notificaciones _noticc = new Notificaciones
-                                //{
-                                //    IdNotificacion = -1,
-                                //    sMail = "elsa.sosa@cepa.gob.sv",
-                                //    dMail = "elsa sosa"
-                                //};
-
-                                //List<Notificaciones> _cclist = new List<Notificaciones>();
-                                //_cclist.Add(_noticc);
-
-                                //_correo.ListaNoti = _cclist;
-
-                                _correo.Asunto = Html;
-                                _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);
-                                _correo = null;
-
-                                if (Save == true)
-                                    throw new Exception("Archivo registrado correctamente");
-
-
-                            }
-                            else
-                            {
-                                CorreoRecepcion1(cn_voyage);
-                                //SI ES SUSTITUCION
-                                int IdDoc = 0;
-                                int IdReg = 0;
-                                List<DetaDoc> listaDoc = DetaDocDAL.ObtenerDocAEx(DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString(), c_llegada, arch_susti);
-
-                                if (listaDoc.Count == 1)
-                                {
-                                    foreach (DetaDoc idRegV in listaDoc)
-                                    {
-                                        IdDoc = idRegV.IdDoc;
-                                        IdReg = idRegV.IdReg;
-                                        break;
-                                    }
-                                    foreach (DetaDoc item1 in listaDoc)
-                                    {
-
-                                        if (del >= 0)
-                                        {
-                                            DetaDoc _detaDoc = new DetaDoc
-                                            {
-                                                IdDoc = -1,
-                                                IdReg = item1.IdReg,
-                                                s_archivo = HttpContext.Current.Session["archivo"].ToString(),
-                                                c_imo = c_imo,
-                                                c_usuario = HttpContext.Current.Session["c_usuario"].ToString(),
-                                                c_llegada = c_llegada
-                                            };
-
-                                            int _docResul = Convert.ToInt32(DetaDocDAL.AlmacenarDocNaviEx(_detaDoc));
-
-                                            if (_docResul > 0)
-                                            {
-                                                _resulDeta = Convert.ToInt32(DetaNavieraDAL.AlmacenarDetaNavieraEx(pExport, IdReg, _docResul));
-
-                                                if (_resulDeta > 0)
-                                                {
-                                                    Save = true;
-                                                }
-                                            }
-                                        }
-                                        int _resultado = Convert.ToInt32(DetaDocDAL.ActualizarDocNaviEx(IdDoc));
-
-                                        // Html += HttpContext.Current.Session["Html"].ToString();
-
-                                        if (_resultado > 0)
-                                        {
-                                            Html += "<b><u>DETALLE DE CARGA DE LISTADO POR SUSTITUCIÓN</b></u><br />";
-                                            Html += "<br /> Módulo : Carga de listado de contenedores de exportación por sustitución <br />";
-                                            Html += "Mensaje : Notificación carga de listado por sustitución exitosa <br /><br />";
-                                            Html += string.Format("Se notifica que la carga del archivo de exportación, de {0} para el buque: {1}, # de Viaje {2}, se validaron {3} contenedores de forma exitosa sin presentar inconsistencias", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, pExport.Count);
-
-
-                                            Html += "<br /><br />";
-                                            Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
-                                            Html += "<font color=blue> En espera de validación de ADUANA </font>";
-
-                                            Html += "</font>";
-                                            //_correo.Subject = string.Format("Importación de Archivo Buque {0} Número de Viaje {1}", d_buque, cn_voyage);
-                                            _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): ACEPTADA Listado de Exportación de {0} para el Buque: {1}, # de Viaje {2}", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage);
-                                            _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-
-                                            List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-
-                                            if (_listaCC == null)
-                                                _listaCC = new List<Notificaciones>();
-
-                                            _listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_carga", DBComun.Estado.verdadero, "219"));
-                                            _correo.ListaCC = _listaCC;
-
-                                            //Notificaciones _notiCC = new Notificaciones
-                                            //{
-                                            //    IdNotificacion = -1,
-                                            //    sMail = "elsa.sosa@cepa.gob.sv",
-                                            //    dMail = "Elsa Sosa"
-                                            //};
-
-                                            //List<Notificaciones> _ccList = new List<Notificaciones>();
-                                            //_ccList.Add(_notiCC);
-
-                                            //_correo.ListaNoti = _ccList;
-
-
-
-                                            _correo.Asunto = Html;
-                                            _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);
-                                            _correo = null;
-
-                                            _actSusti = EncaNavieraDAL.ActSustitucion(IdRegEnca, 0);
-
-                                            if (Save == true)
-                                                throw new Exception("Archivo registrado correctamente");
-
-
-                                        }
-                                        else
-                                            throw new Exception("Seleccione el archivo a reemplazar");
-                                    }
-                                }
-
-                            }
-                            #endregion
+                            CorreoRecepcion1(cn_voyage);
                         }
 
-                    }
-                    else
-                    {
-                        #region "NONBRE TRUE"
+                        Html += "<b><u>DETALLE DE INCONSISTENCIAS</b></u><br />";
+                        Html += "<br />";
+
+                        Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1em;width: 100%;border: thin solid #4F81BD; border-collapse: separate; border-spacing:0px; \">";
+                        Html += "<tr>";
+                        Html += "<center>";                        
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>BOOKING</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>CONTAINER</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>TAMAÑO</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>PESO</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>ESTADO</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>EXPORTADOR</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>CONSIGNATARIO</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>NIT EXPORTADOR</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>TEL EXPORTADOR</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>CORREO EXPORTADOR</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>SELLO</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>PAIS ORIGEN</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>PAIS DESTINO</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>PUERTO DESTINO</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>PAIS TRASBORDO</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>PUERTO TRASBORDO</font></th>";
+                        Html += "<td  height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>DESCRIPCION</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>TARA</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>EMB DIR</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>IMO IMDG</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>NUMBER</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>T. DOCUMENTO</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>N. DOCUMENTO</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>CONDICION</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>RECEPCION</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>MANEJO</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>TRANSFERENCIA</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>ALMACENAJE</font></th>";
+                        Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=1>SHIPPER OWNED</font></th>";
+                        Html += "</center>";
+                        Html += "</tr>";
+
+                        var query = (from arch in pExport
+                                     join valid in pTotalList.Where(t => t.Resultado == 1) on arch.num_fila equals valid.NumFila
+                                     orderby arch.num_fila
+                                     select new
+                                     {
+                                         valid.NumFila,
+                                         valid.NumCelda,
+                                         valid.Descripcion
+                                     }).ToList();
+
+                        var queryTodos = (from arch in ArchivoExcelDAL.GetListaEx(a, DBComun.Estado.verdadero)
+                                          where
+                                             (from valid in pTotalList
+                                              where valid.Resultado == 1
+                                              select new
+                                              {
+                                                  valid.NumFila
+                                              }).Contains(new { NumFila = arch.num_fila })
+                                          select new ArchivoExport
+                                          {
+                                              num_fila = arch.num_fila,
+                                              n_booking = arch.n_booking,
+                                              n_contenedor = arch.n_contenedor,
+                                              c_tamaño = arch.c_tamaño,
+                                              v_peso = arch.v_peso,
+                                              b_estado = arch.b_estado,
+                                              s_consignatario = arch.s_consignatario,
+                                              s_exportador = arch.s_exportador,
+                                              nit_exportador = arch.nit_exportador,
+                                              tel_exportador = arch.tel_exportador,
+                                              em_exportador = arch.em_exportador,
+                                              n_sello = arch.n_sello,
+                                              c_pais_origen = arch.c_pais_origen,
+                                              c_pais_destino = arch.c_pais_destino,                                             
+                                              c_pais_trasbordo = arch.c_pais_trasbordo,
+                                              c_puerto_trasbordo = arch.c_puerto_trasbordo,
+                                              s_comodity = arch.s_comodity,
+                                              v_tara = arch.v_tara,
+                                              c_imo_imd = arch.c_imo_imd,
+                                              c_un_number = arch.c_un_number,
+                                              c_condicion = arch.c_condicion,
+                                              b_emb_dir = arch.b_emb_dir,
+                                              c_tipo_doc = arch.c_tipo_doc,
+                                              n_documento = arch.n_documento,
+                                              b_shipper = arch.b_shipper,
+                                              s_almacenaje = arch.s_almacenaje,
+                                              s_transferencia = arch.s_transferencia,
+                                              s_manejo = arch.s_manejo,
+                                              s_recepcion = arch.s_recepcion,
+                                              b_transhipment = arch.b_transhipment,
+                                              s_nom_predio = arch.s_nom_predio,
+                                              f_venc_arivu = arch.f_venc_arivu
+                                          }).ToList();                    
+                                 
+
+
+                        foreach (ArchivoExport itemArch in queryTodos)
+                        {
+                            Html += "<tr>";                            
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.n_booking + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.n_contenedor + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.c_tamaño + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.v_peso + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.b_estado + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.s_consignatario + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.s_exportador + "</font></td>";                            
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.nit_exportador + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.tel_exportador + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.em_exportador + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.n_sello + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.c_pais_origen + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.c_pais_destino + "</font></td>";                            
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.c_pais_trasbordo + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.c_puerto_trasbordo + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.s_comodity + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.v_tara + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.c_imo_imd + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.c_un_number + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.c_condicion + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.b_emb_dir + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.c_tipo_doc + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.n_documento + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.b_shipper + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.s_almacenaje + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.s_transferencia + "</font></td>";
+                            Html += "<td height=\"25\" style=\"border-right: thin solid #4F81BD\"><font size=1 color=blue>" + itemArch.s_manejo + "</font></td>";                            
+                            Html += "<td height=\"25\"><font size=1 color=blue>" + itemArch.s_recepcion + "</font></td>";
+                            Html += "</tr>";
+                            Html += "</font>";
+                            Html += "<tr>";
+                            Html += "<td colspan=28>";
+
+                            //List<ResultadoValidacion> _lista = queryTodos.Where(p => p.num_fila == itemArch.num_fila).ToList() as List<ResultadoValidacion>;
+                            var _lista = query.Where(p => p.NumFila == itemArch.num_fila).ToList();
+                            if (_lista.Count > 0)
+                            {
+                                Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1em;width: 100%;border: thin solid #4F81BD; border-collapse: separate; border-spacing:0px; \">";
+                                Html += "<tr>";
+                                Html += "<td width=\"5%\" height=\"25\"><font color=red size=1></font></th>";
+                                Html += "<td width=\"5%\" height=\"25\"><font color=red size=1>FILA</font></th>";
+                                Html += "<td width=\"5%\" height=\"25\"><font color=red size=1>CELDA</font></th>";
+                                Html += "<td width=\"25%\" height=\"25\"><font color=red size=1>DESCRIPCION</font></th>";
+                                Html += "</tr>";
+                                foreach (var itemRela in _lista)
+                                {
+                                    Html += "<td height=\"25\"><font size=1 color=red>  </font></td>";
+                                    Html += "<td height=\"25\"><font size=1 color=red>" + itemRela.NumFila + "</font></td>";
+                                    Html += "<td height=\"25\"><font size=1 color=red>" + itemRela.NumCelda + "</font></td>";
+                                    Html += "<td height=\"25\"><font size=1 color=red>" + itemRela.Descripcion + "</font></td>";
+                                    Html += "</tr>";
+                                }
+                                Html += "</font></table>";
+                            }
+                        }
+                        Html += "</td></tr></font></table>";
+
+
+                        Html += "</font>";
+                        Html += "<br /><br />";
+                        Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
+                        Html += "<font color=red>En espera de correcciones por la Naviera </font>";
+
 
                         if (sustitucion == 0)
-                        {
-                           
-                            Html += "<b><u>DETALLE DE CARGA DE LISTADO DENEGADO</b></u><br />";
-                            Html += "<br /> Módulo : Carga de listado de contenedores de exportación <br />";
-                            Html += "Mensaje : Notificación carga de listado denegada <br /><br />";
-                            Html += string.Format("Se notifica que la carga del archivo de exportación, de {0} para el buque: {1}, # de Viaje {2} ha sido rechazado por las inconsistencias detalladas en el presente", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage);
-
-                            Html += "</font>";
-                            Html += "<br /><br />";
-                            Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
-                            Html += "<font color=red>En espera de correcciones por la Naviera </font>";
-
-
-
-                            _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA: DENEGADA Listado de Exportación Buque: {0}, # de Viaje {1}", d_buque, cn_voyage);
-                            _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-                            _correo.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-
-                            //Notificaciones _notiCC = new Notificaciones
-                            //{
-                            //    IdNotificacion = -1,
-                            //    sMail = "elsa.sosa@cepa.gob.sv",
-                            //    dMail = "Elsa Sosa"
-                            //};
-
-                            //List<Notificaciones> _ccList = new List<Notificaciones>();
-                            //_ccList.Add(_notiCC);
-
-                            //_correo.ListaNoti = _ccList;
-
-                            _correo.Asunto = Html;
-                            _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);
-                            _correo = null;
-
-                            throw new Exception("Archivo presento inconsistencias revisar correo electrónico");
-                        }
+                            _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA: DENEGADA Listado de EXPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}", c_navi_corto, d_buque, cn_voyage);
                         else
-                        {
-                            
+                            _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): DENEGADA Listado de EXPORTACIÓN Buque: {0}, # de Viaje {1}", d_buque, cn_voyage);
 
-                            Html += "<b><u>DETALLE DE CARGA DE LISTADO POR SUSTITUCIÓN DENEGADO</b></u><br />";
-                            Html += "<br /> Módulo : Carga de listado de contenedores de exportación por sustitución de archivo <br />";
-                            Html += "Mensaje : Notificación carga de listado por sustitución denegada <br /><br />";
-                            Html += string.Format("Se notifica que la carga del archivo de exportación por sustitución, de {0} para el buque: {1}, # de Viaje {2}, ha sido rechazado por las inconsistencias detalladas en el presente", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage);
 
-                            Html += "</font>";
+                        _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga_exp", DBComun.Estado.verdadero, c_naviera);
+                        List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga_exp", DBComun.Estado.verdadero, c_naviera);
 
-                            Html += "<br /><br />";
-                            Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
-                            Html += "<font color=red>En espera de correcciones por la Naviera </font>";
+                        if (_listaCC == null)
+                            _listaCC = new List<Notificaciones>();
 
-                            _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): DENEGADA Listado de Exportación Buque: {0}, # de Viaje {1}", d_buque, cn_voyage);
-                            _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-                            List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                        _correo.ListaCC = _listaCC;
+           
+                        _correo.ListArch.Add(a);
+                        _correo.Asunto = Html;
+                        _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);
+                        // _correo = null;
+                        if(sustitucion == 1)
+                            _actSusti = EncaNavieraDAL.ActSustitucionExp(IdRegEnca, 0);
+                        else
+                            _actSusti = EncaNavieraDAL.ActSustitucionExp(IdRegReal, 0);
 
-                            //Notificaciones _notiCC = new Notificaciones
-                            //{
-                            //    IdNotificacion = -1,
-                            //    sMail = "elsa.sosa@cepa.gob.sv",
-                            //    dMail = "Elsa Sosa"
-                            //};
-
-                            //List<Notificaciones> _ccList = new List<Notificaciones>();
-                            //_ccList.Add(_notiCC);
-
-                            //_correo.ListaNoti = _ccList;
-
-                            if (_listaCC == null)
-                                _listaCC = new List<Notificaciones>();
-
-                            _correo.ListaCC = _listaCC;
-                            _correo.Asunto = Html;
-                            _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);
-                            _correo = null;
-                            _actSusti = EncaNavieraDAL.ActSustitucion(IdRegEnca, 0);
-
-                            throw new Exception("Archivo presento inconsistencias revisar correo electrónico");
-                        }
+                        throw new Exception("Archivo presento inconsistencias revisar correo electrónico");
 
 
                         #endregion
                     }
+                    else
+                    {
+                        #region "ACEPTADO"
+                        if (sustitucion == 0)
+                        {
+
+                            CorreoRecepcion(cn_voyage);
+
+                            int _resultado = 0;
+                            if (_arch > 0)
+                                IdRegReal = IdRegEnca;
+                            else
+                            {
+                                EncaNaviera _encaNavi = new EncaNaviera
+                                {
+                                    IdReg = -1,
+                                    c_imo = c_imo,
+                                    c_usuario = HttpContext.Current.Session["c_usuario"].ToString(),
+                                    c_naviera = c_naviera,
+                                    c_llegada = c_llegada,
+                                    c_voyage = cn_voyage,
+                                    f_llegada = Convert.ToDateTime(f_llegada.ToString("dd/MM/yyyy hh:mm tt"))
+                                };
+
+                                _resultado = Convert.ToInt32(EncaNavieraDAL.AlmacenarEncaNavieraEx(_encaNavi));
+                                IdRegReal = _resultado;
+                            }
+
+
+
+                            if (IdRegReal > 0)
+                            {
+                                DetaDoc _detaDoc = new DetaDoc
+                                {
+                                    IdDoc = -1,
+                                    IdReg = IdRegReal,
+                                    s_archivo = Path.GetFileName(a),
+                                    c_imo = c_imo,
+                                    c_usuario = HttpContext.Current.Session["c_usuario"].ToString(),
+                                    c_llegada = c_llegada
+                                };
+
+                                int _docResul = Convert.ToInt32(DetaDocDAL.AlmacenarDocNaviEx(_detaDoc));
+
+
+                                if (_docResul > 0)
+                                {
+
+                                    _resulDeta = Convert.ToInt32(DetaNavieraDAL.AlmacenarDetaNavieraEx(pExport, IdRegReal, _docResul));
+
+                                    if (_resulDeta > 0)
+                                        Save = true;
+                                }
+                            }
+
+
+                            Html += "<b><u>DETALLE DE CARGA DE LISTADO</b></u><br />";
+                            Html += "<br /> Módulo : Carga de listado de contenedores de exportación <br />";
+                            Html += "Mensaje : Notificación carga de listado exitosa <br /><br />";
+                            Html += string.Format("Se notifica que la carga del archivo de exportación, de {0} para el buque: {1}, # de Viaje {2}, se validaron {3} contenedores de forma exitosa sin presentar inconsistencias", c_navi_corto, d_buque, cn_voyage, pExport.Count);
+                            Html += "<br /><br />";
+                            Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
+                            Html += "<font color=blue> En espera de generación automática del listado previo, posterior deben adjuntar la información en el orden del listado </font>";
+
+                            Html += "</font>";
+
+
+                            //_correo.Subject = string.Format("Importación de Archivo Buque {0} Número de Viaje {1}", d_buque, cn_voyage);
+                            _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA: ACEPTADA Listado de EXPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}", c_navi_corto, d_buque, cn_voyage);
+                            _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga_exp", DBComun.Estado.verdadero, c_naviera);
+                            List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga_exp", DBComun.Estado.verdadero, c_naviera);
+
+                            if (_listaCC == null)
+                                _listaCC = new List<Notificaciones>();
+
+                            _listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_carga_exp", DBComun.Estado.verdadero, "219"));
+                            _correo.ListaCC = _listaCC;
+
+                            //Notificaciones _noticc = new Notificaciones
+                            //{
+                            //    IdNotificacion = -1,
+                            //    sMail = "elsa.sosa@cepa.gob.sv",
+                            //    dMail = "elsa sosa"
+                            //};
+
+                            //List<Notificaciones> _cclist = new List<Notificaciones>();
+                            //_cclist.Add(_noticc);
+
+                            //_correo.ListaNoti = _cclist;
+
+                            _correo.Asunto = Html;
+                            _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);
+                            _correo = null;
+
+                            if (sustitucion == 1)
+                                _actSusti = EncaNavieraDAL.ActSustitucionExp(IdRegEnca, 0);
+                            else
+                                _actSusti = EncaNavieraDAL.ActSustitucionExp(IdRegReal, 0);
+
+                            if (Save == true)
+                                throw new Exception("Archivo registrado correctamente");
+
+
+                        }
+                        else
+                        {
+                            CorreoRecepcion1(cn_voyage);
+                            //SI ES SUSTITUCION
+                            int IdDoc = 0;
+                            int IdReg = 0;
+                            List<DetaDoc> listaDoc = DetaDocDAL.ObtenerDocAEx(DBComun.Estado.verdadero, c_naviera, c_llegada, arch_susti);
+
+                            if (listaDoc.Count == 1)
+                            {
+                                foreach (DetaDoc idRegV in listaDoc)
+                                {
+                                    IdDoc = idRegV.IdDoc;
+                                    IdReg = idRegV.IdReg;
+                                    break;
+                                }
+                                foreach (DetaDoc item1 in listaDoc)
+                                {
+
+                                    if (del >= 0)
+                                    {
+                                        DetaDoc _detaDoc = new DetaDoc
+                                        {
+                                            IdDoc = -1,
+                                            IdReg = item1.IdReg,
+                                            s_archivo = HttpContext.Current.Session["archivo"].ToString(),
+                                            c_imo = c_imo,
+                                            c_usuario = HttpContext.Current.Session["c_usuario"].ToString(),
+                                            c_llegada = c_llegada
+                                        };
+
+                                        int _docResul = Convert.ToInt32(DetaDocDAL.AlmacenarDocNaviEx(_detaDoc));
+
+                                        if (_docResul > 0)
+                                        {
+                                            _resulDeta = Convert.ToInt32(DetaNavieraDAL.AlmacenarDetaNavieraEx(pExport, IdReg, _docResul));
+
+                                            if (_resulDeta > 0)
+                                            {
+                                                Save = true;
+                                            }
+                                        }
+                                    }
+                                    int _resultado = Convert.ToInt32(DetaDocDAL.ActualizarDocNaviEx(IdDoc));
+
+                                    // Html += HttpContext.Current.Session["Html"].ToString();
+
+                                    if (_resultado > 0)
+                                    {
+                                        Html += "<b><u>DETALLE DE CARGA DE LISTADO POR SUSTITUCIÓN</b></u><br />";
+                                        Html += "<br /> Módulo : Carga de listado de contenedores de exportación por sustitución <br />";
+                                        Html += "Mensaje : Notificación carga de listado por sustitución exitosa <br /><br />";
+                                        Html += string.Format("Se notifica que la carga del archivo de exportación, de {0} para el buque: {1}, # de Viaje {2}, se validaron {3} contenedores de forma exitosa sin presentar inconsistencias", c_navi_corto, d_buque, cn_voyage, pExport.Count);
+
+
+                                        Html += "<br /><br />";
+                                        Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
+                                        Html += "<font color=blue> En espera de validación de ADUANA </font>";
+
+                                        Html += "</font>";
+                                        //_correo.Subject = string.Format("Importación de Archivo Buque {0} Número de Viaje {1}", d_buque, cn_voyage);
+                                        _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): ACEPTADA Listado de EXPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}", c_navi_corto, d_buque, cn_voyage);
+                                        _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga_exp", DBComun.Estado.verdadero, c_naviera);
+
+                                        List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga_exp", DBComun.Estado.verdadero, c_naviera);
+
+                                        if (_listaCC == null)
+                                            _listaCC = new List<Notificaciones>();
+
+                                        _listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_carga_exp", DBComun.Estado.verdadero, "219"));
+                                        _correo.ListaCC = _listaCC;
+
+                                        //Notificaciones _notiCC = new Notificaciones
+                                        //{
+                                        //    IdNotificacion = -1,
+                                        //    sMail = "elsa.sosa@cepa.gob.sv",
+                                        //    dMail = "Elsa Sosa"
+                                        //};
+
+                                        //List<Notificaciones> _ccList = new List<Notificaciones>();
+                                        //_ccList.Add(_notiCC);
+
+                                        //_correo.ListaNoti = _ccList;
+
+
+
+                                        _correo.Asunto = Html;
+                                        _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);
+                                        _correo = null;
+
+                                        if (sustitucion == 1)  
+                                            _actSusti = EncaNavieraDAL.ActSustitucionExp(IdRegEnca, 0);
+                                        else
+                                            _actSusti = EncaNavieraDAL.ActSustitucionExp(IdRegReal, 0);
+
+                                        if (Save == true)
+                                            throw new Exception("Archivo registrado correctamente");
+
+                                        int resuly = Convert.ToInt32(DetaDocDAL.ActualizarValidacionEx(0, IdReg, DBComun.Estado.verdadero, IdDoc));
+                                    }
+                                    else
+                                        throw new Exception("Seleccione el archivo a reemplazar");
+                                }
+
+                            }
+
+                        }
+                        #endregion
+                    }
+
+                }
+                else
+                {
+                    #region "NONBRE TRUE"
+
+                    if (sustitucion == 0)
+                    {
+
+                        Html += "<b><u>DETALLE DE CARGA DE LISTADO DENEGADO</b></u><br />";
+                        Html += "<br /> Módulo : Carga de listado de contenedores de exportación <br />";
+                        Html += "Mensaje : Notificación carga de listado denegada <br /><br />";
+                        Html += string.Format("Se notifica que la carga del archivo de exportación, de {0} para el buque: {1}, # de Viaje {2} ha sido rechazado por las inconsistencias detalladas en el presente", c_navi_corto, d_buque, cn_voyage);
+
+                        Html += "</font>";
+                        Html += "<br /><br />";
+                        Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
+                        Html += "<font color=red>En espera de correcciones por la Naviera </font>";
+
+
+
+                        _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA: DENEGADA Listado de EXPORTACIÓN Buque: {0}, # de Viaje {1}", d_buque, cn_voyage);
+                        _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
+                        _correo.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
+
+                        //Notificaciones _notiCC = new Notificaciones
+                        //{
+                        //    IdNotificacion = -1,
+                        //    sMail = "elsa.sosa@cepa.gob.sv",
+                        //    dMail = "Elsa Sosa"
+                        //};
+
+                        //List<Notificaciones> _ccList = new List<Notificaciones>();
+                        //_ccList.Add(_notiCC);
+
+                        //_correo.ListaNoti = _ccList;
+
+                        _correo.Asunto = Html;
+                        _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);
+                        _correo = null;
+
+                        throw new Exception("Archivo presento inconsistencias revisar correo electrónico");
+                    }
+                    else
+                    {
+
+
+                        Html += "<b><u>DETALLE DE CARGA DE LISTADO POR SUSTITUCIÓN DENEGADO</b></u><br />";
+                        Html += "<br /> Módulo : Carga de listado de contenedores de exportación por sustitución de archivo <br />";
+                        Html += "Mensaje : Notificación carga de listado por sustitución denegada <br /><br />";
+                        Html += string.Format("Se notifica que la carga del archivo de exportación por sustitución, de {0} para el buque: {1}, # de Viaje {2}, ha sido rechazado por las inconsistencias detalladas en el presente", c_navi_corto, d_buque, cn_voyage);
+
+                        Html += "</font>";
+
+                        Html += "<br /><br />";
+                        Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
+                        Html += "<font color=red>En espera de correcciones por la Naviera </font>";
+
+                        _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): DENEGADA Listado de EXPORTACIÓN Buque: {0}, # de Viaje {1}", d_buque, cn_voyage);
+                        _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
+                        List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
+
+                        //Notificaciones _notiCC = new Notificaciones
+                        //{
+                        //    IdNotificacion = -1,
+                        //    sMail = "elsa.sosa@cepa.gob.sv",
+                        //    dMail = "Elsa Sosa"
+                        //};
+
+                        //List<Notificaciones> _ccList = new List<Notificaciones>();
+                        //_ccList.Add(_notiCC);
+
+                        //_correo.ListaNoti = _ccList;
+
+                        if (_listaCC == null)
+                            _listaCC = new List<Notificaciones>();
+
+                        _correo.ListaCC = _listaCC;
+                        _correo.Asunto = Html;
+                        _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);
+                        _correo = null;
+                        if (sustitucion == 1)
+                            _actSusti = EncaNavieraDAL.ActSustitucionExp(IdRegEnca, 0);
+                        else
+                            _actSusti = EncaNavieraDAL.ActSustitucionExp(IdRegReal, 0);
+
+                        throw new Exception("Archivo presento inconsistencias revisar correo electrónico");
+                    }
+
+
+                    #endregion
+                }
             }
-            else if(pExport.Count == 0)
+            else if (pExport.Count == 0)
             {
                 throw new Exception("El archivo no posee registros que validar");
             }
@@ -809,7 +858,7 @@ namespace CEPA.CCO.Linq
 
             Html += "a. Código Internacional de Naviera : " + nombre.TrimStart().Substring(0, 4) + " - ";
 
-            if (HttpContext.Current.Session["c_iso_navi"].ToString().TrimStart() != nombre.TrimStart().Substring(0, 4))
+            if (c_iso_navi != nombre.TrimStart().Substring(0, 4))
             {
                 Html += "<font color=\"red\">INVALIDO CODIGO INCORRECTO</font><br />";
                 ErrorNombre = true;
@@ -878,12 +927,12 @@ namespace CEPA.CCO.Linq
                     }
                     else
                         if (Convert.ToInt32(cor) > 1)
-                        {
-                            Html += string.Format("<font color=\"red\">INVALIDO SIGUIENTE CORRELATIVO VALIDO : {0} </font><br />", "01");
-                            ErrorNombre = true;
-                        }
-                        else
-                            Html += "OK.<br />";
+                    {
+                        Html += string.Format("<font color=\"red\">INVALIDO SIGUIENTE CORRELATIVO VALIDO : {0} </font><br />", "01");
+                        ErrorNombre = true;
+                    }
+                    else
+                        Html += "OK.<br />";
                 }
             }
 
@@ -898,7 +947,7 @@ namespace CEPA.CCO.Linq
 
             Html += "a. Código Internacional de Naviera : " + nombre.TrimStart().Substring(0, 4) + " - ";
 
-            if (HttpContext.Current.Session["c_iso_navi"].ToString().TrimStart() != nombre.TrimStart().Substring(0, 4))
+            if (c_iso_navi != nombre.TrimStart().Substring(0, 4))
             {
                 Html += "<font color=\"red\">INVALIDO CODIGO INCORRECTO</font><br />";
                 ErrorNombre = true;
@@ -971,12 +1020,12 @@ namespace CEPA.CCO.Linq
                     }
                     else
                         if (Convert.ToInt32(cor) > 1)
-                        {
-                            Html += string.Format("<font color=\"red\">INVALIDO SIGUIENTE CORRELATIVO VALIDO : {0} </font><br />", "01");
-                            ErrorNombre = true;
-                        }
-                        else
-                            Html += "OK.<br />";
+                    {
+                        Html += string.Format("<font color=\"red\">INVALIDO SIGUIENTE CORRELATIVO VALIDO : {0} </font><br />", "01");
+                        ErrorNombre = true;
+                    }
+                    else
+                        Html += "OK.<br />";
                 }
             }
 

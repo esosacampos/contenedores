@@ -394,5 +394,38 @@ namespace CEPA.CCO.DAL
                 return _empleados;
             }
         }
+        public static List<TipoClaves> getClaves()
+        {
+            List<TipoClaves> _empleados = new List<TipoClaves>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+
+                SqlCommand _command = new SqlCommand("PA_OBTENER_CLAVES", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                               
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    TipoClaves _tmpUsuario = new TipoClaves
+                    {
+                        Clave = _reader.GetString(0),
+                        Tipo = _reader.GetString(1)
+                    };
+
+                    _empleados.Add(_tmpUsuario);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return _empleados;
+            }
+        }
+
     }
 }

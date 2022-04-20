@@ -178,8 +178,8 @@ namespace CEPA.CCO.UI.Web
 
                 grvTracking.HeaderRow.TableSection = TableRowSection.TableHeader;
 
-                grvTracking.FooterRow.Cells[0].Attributes["text-align"] = "center";
-                grvTracking.FooterRow.TableSection = TableRowSection.TableFooter;
+                //grvTracking.FooterRow.Cells[0].Attributes["text-align"] = "center";
+                //grvTracking.FooterRow.TableSection = TableRowSection.TableFooter;
 
 
             }
@@ -278,26 +278,7 @@ namespace CEPA.CCO.UI.Web
         protected void grvTracking_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType != DataControlRowType.DataRow)
-                return;
-
-            //LinkButton btnCliente = (LinkButton)e.Row.FindControl("tooltip") as LinkButton;
-            //LinkButton btnFact = (LinkButton)e.Row.FindControl("fact") as LinkButton;
-
-            //HtmlButton pFact = (HtmlButton)e.Row.FindControl("fact") as HtmlButton;
-            //HtmlButton pClie = (HtmlButton)e.Row.FindControl("tooltop") as HtmlButton;
-
-            //string c_user = Session["c_usuario"].ToString();
-
-            //if (c_user == "mercedes.calderon" || c_user == "edwin.estrada" || c_user == "marlon.sanchez" || c_user == "vanessa.vasquez" || c_user=="elsa.sosa" || c_user == "samuel.ortega" || c_user == "henry.fuentes")
-            //{
-            //    pFact.Visible = true;
-            //    pClie.Visible = false;
-            //}
-            //else
-            //{
-            //    pFact.Visible = false;
-            //    pClie.Visible = true;
-            //}
+                return;           
 
 
             if (ArchivoBookingDAL.isFecha(e.Row.Cells[14].Text) == true)
@@ -337,8 +318,12 @@ namespace CEPA.CCO.UI.Web
 
             if (hEstado.Value == "CANCELADO")
             {
-                e.Row.BackColor = Color.FromName("#EB7A7A");
-                e.Row.ForeColor = Color.White;
+                //e.Row.BackColor = Color.FromName("#EB7A7A");
+                //e.Row.ForeColor = Color.White;
+                e.Row.Attributes.Remove("style");
+                e.Row.Attributes.Add("style", "color:white;background-color: rgb(235, 122, 122);display: table-row;");
+                    
+
             }
 
             //ScriptManager.RegisterStartupScript(this, typeof(string), "", "almacenando();", true);
@@ -358,6 +343,14 @@ namespace CEPA.CCO.UI.Web
 
                 }
 
+                if (hEstado.Value != "CANCELADO")
+                {
+                    if ((Convert.ToString(item.Cells[0].Text) == "Recepcion Contenedor" && Convert.ToString(item.Cells[1].Text) == ""))
+                    {
+                        item.Cells[1].Text = "CONTENEDOR AUN NO RECIBIDO EN PUERTO";
+                    }
+                }
+
                 Label lblUbica = (Label)gvDetails.FindControl("lblUbica") as Label;
 
                 if (lblUbica.Text == "")
@@ -366,7 +359,7 @@ namespace CEPA.CCO.UI.Web
             }
 
 
-            GridView gvProvisionales = (GridView)gvDetails.Rows[26].Cells[1].FindControl("grvProv");
+            GridView gvProvisionales = (GridView)gvDetails.Rows[27].Cells[1].FindControl("grvProv");
 
             if (gvProvisionales != null)
             {

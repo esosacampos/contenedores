@@ -7,11 +7,13 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace CEPA.CCO.MobilConte {
-    
-    
-    public partial class mfRecepInfor {
-        
+namespace CEPA.CCO.MobilConte
+{
+
+
+    public partial class mfRecepInfor
+    {
+
         /// <summary>
         /// Control form1.
         /// </summary>
@@ -20,7 +22,7 @@ namespace CEPA.CCO.MobilConte {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-        
+
         /// <summary>
         /// Control ScriptManager1.
         /// </summary>
@@ -29,7 +31,7 @@ namespace CEPA.CCO.MobilConte {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::AjaxControlToolkit.ToolkitScriptManager ScriptManager1;
-        
+
         /// <summary>
         /// Control GridView1.
         /// </summary>

@@ -10,6 +10,15 @@
     <hr />
     <div class="table-responsive">
         <table class="table">
+              <tr>
+                <td>AGENCIA
+                </td>
+                <td>
+                 <asp:HiddenField ID="hNaviera" runat="server" Value="" />
+                    <asp:HiddenField ID="hIsoNavi" runat="server" Value="" />
+                    <asp:Label ID="d_agencia" runat="server" Text=""></asp:Label>
+                </td>
+            </tr>
             <tr>
                 <td>IMO
                 </td>
@@ -45,7 +54,7 @@
                 <td>
                     <div runat="server" id="myRadio">
                         <div>
-                            <asp:CheckBox class="label-success" runat="server" ID="radio3" />
+                            <asp:CheckBox class="label-success" runat="server" ID="radio3" Checked="true" />
                             <label for="radio3">Sidunea World</label>
                         </div>
                     </div>
@@ -132,6 +141,9 @@
                             else
                                 var check = false;
 
+                            var c_naviera = document.getElementById("<%= hNaviera.ClientID %>").value;
+                            var c_iso_navi = document.getElementById("<%= hIsoNavi.ClientID %>").value;
+
                             $.blockUI({
                                 message: '<h1>Procesando</h1><img src="<%= ResolveClientUrl("~/CSS/Img/progress_bar.gif") %>" />',
                                 css: {
@@ -147,7 +159,7 @@
 
 
                             $.ajax({
-                                url: '<%= ResolveClientUrl("~/FileUploadHandler.ashx") %>' + '?d_buque=' + buque + '&c_imo=' + c_imo + '&c_llegada=' + c_llegada + '&f_llegada=' + f_llegada + '&arch_susti=' + arch_susti + '&susti=1' + "&aduana=0" + '&proceso=1' + '&sidunea=' + check + '&booking=' + b_booking,
+                                url: '<%= ResolveClientUrl("~/FileUploadHandler.ashx") %>' + '?d_buque=' + buque + '&c_imo=' + c_imo + '&c_llegada=' + c_llegada + '&f_llegada=' + f_llegada + '&arch_susti=' + arch_susti + '&susti=1' + "&aduana=0" + '&proceso=1' + '&sidunea=' + check + '&booking=' + b_booking + '&c_naviera=' + c_naviera + '&c_iso_navi=' + c_iso_navi,
                                 type: "POST",
                                 data: data,
                                 contentType: false,

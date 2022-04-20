@@ -294,9 +294,9 @@ namespace CEPA.CCO.DAL
                 _command.Parameters.Add(new SqlParameter("@n_manif", n_manifiesto));
                 _command.Parameters.Add(new SqlParameter("@c_navi", c_naviera));
                 _command.Parameters.Add(new SqlParameter("@a_manifiesto", a_manifiesto));
-
+                _command.CommandTimeout = 120;
                 SqlDataReader _reader = _command.ExecuteReader();
-
+                
 
                 while (_reader.Read())
                 {

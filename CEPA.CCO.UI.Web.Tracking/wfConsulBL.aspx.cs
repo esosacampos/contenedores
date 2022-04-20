@@ -1,12 +1,10 @@
-﻿using System;
+﻿using CEPA.CCO.DAL;
+using CEPA.CCO.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
-using CEPA.CCO.Entidades;
-using CEPA.CCO.DAL;
 
 namespace CEPA.CCO.UI.Web.Tracking
 {
@@ -91,7 +89,7 @@ namespace CEPA.CCO.UI.Web.Tracking
                                  n_BL = b.c_bl,
                                  n_contenedor = a.n_contenedor,
                                  c_tamaño = a.c_tamaño,
-                                 v_peso = b.v_peso,
+                                 v_peso = b.v_peso,  //cambiar por a si es peso listado
                                  v_teus = a.v_teus,
                                  c_trafico = a.c_trafico,
                                  f_salidas = a.f_salida.ToString("dd/MM/yyyy HH:mm"),

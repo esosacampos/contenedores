@@ -220,6 +220,7 @@
                 <asp:ScriptReference Path="~/dist/js/jquery.blockui.js" />
                 <asp:ScriptReference Path="~/js/bootstrap-select.min.js" />
                 <asp:ScriptReference Path="~/js/bootstrap-filestyle.min.js" />
+                <asp:ScriptReference Path="~/js/autocomplete.js" />
             </Scripts>
         </asp:ScriptManager>
         <div id="wrapper">
@@ -289,6 +290,14 @@
                                             placeholder="Ingrese # de Manifiesto 202X-XXXX" Text=""></asp:TextBox>
                                     </div>
                                     <div class="form-group">
+                                        <label>NIT</label>
+                                        <asp:TextBox ID="txtNIT" runat="server" class="form-control" autocomplete="off"
+                                            placeholder="Ingrese # NIT de cliente a facturar" Text=""></asp:TextBox>
+                                        <label>CLIENTE</label>
+                                        <asp:TextBox ID="txtCliente" runat="server" class="form-control" autocomplete="off"
+                                            placeholder="Digitar nombre del cliente a facturar si este no se muestra" Text=""></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
                                         <label># de Contenedor</label>
                                         <asp:TextBox ID="txtContenedor" runat="server" class="form-control" autocomplete="off"
                                             placeholder="Ingrese # Contenedor XYZUXXXXXX"></asp:TextBox>
@@ -300,11 +309,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Nombre del Solicitante</label>
-                                        <asp:TextBox ID="txtContacto" runat="server" CssClass="form-control" placeholder="ABC SA DE CV" autocomplete="off"></asp:TextBox>
+                                        <asp:TextBox ID="txtContacto" runat="server" CssClass="form-control" placeholder="Nombre de la persona que solicita (Ej. Juan Pérez)" autocomplete="off"></asp:TextBox>
                                     </div>
                                     <div class="form-group">
                                         <label>Teléfono de Solicitante</label>
-                                        <asp:TextBox ID="txtTel" runat="server" CssClass="form-control" placeholder="9999-9999" autocomplete="off"></asp:TextBox>
+                                        <asp:TextBox ID="txtTel" runat="server" CssClass="form-control" placeholder="Número de teléfono de la persona que solicita (Ej. 9999-9999)" autocomplete="off"></asp:TextBox>
                                     </div>
                                     <div class="form-group">
                                         <label>Correo Electrónico</label>
@@ -373,10 +382,49 @@
         });
 
 
-
+        var searchRequest = null;
 
         $(document).ready(function () {
 
+           
+
+            $("#txtNIT").keyup(function () {
+                var that = this,
+                    value = $(this).val().replace("-", "");
+
+
+                if (value.length == 14) {
+                    var params = new Object();
+                    params.n_nit = value;
+                    params = JSON.stringify(params);
+                    $.ajax({
+                        url: '<%=ResolveUrl("~/wfSolicitud.aspx/getCliente") %>',
+                            data: params,
+                            dataType: "json",
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (response) {
+                                var pagos = (typeof response.d) == "string" ? eval('(' + response.d + ')') : response.d;
+                                                               
+
+                                if (pagos.length > 0) {
+                                    for (var i = 0; pagos.length; i++) {
+                                        $("#txtCliente").val(pagos[i].s_nombre);                                    
+                                        break;
+                                    }
+                                   
+                                }
+                            },
+                            error: function (response) {
+                                //bootbox.alert("CEPA - Contenedores: Alerta!! Se ha producido un error vuelva a intertarlo o reporte a Informática");
+                            },
+                            failure: function (response) {
+                                bootbox.alert(response.responseText);
+                            }
+                        });
+                }
+
+            });           
 
             $('#fileUpload').filestyle({
                 iconName: "glyphicon glyphicon-inbox",
@@ -398,6 +446,7 @@
             $('#txtMani').inputmask('9999-9999');
             $('#txtMail').inputmask('email');
             $('#txtTel').inputmask('9999-9999');
+            $('#txtNIT').inputmask('9999-999999-999-9');
 
 
 
@@ -445,6 +494,12 @@
                     ddlTipoVac: {
                         required: true
                     },
+                    txtNIT: {
+                        required: true
+                    },
+                    txtCliente: {
+                        required: true
+                    },
                     txtContacto: {
                         required: true
                     },
@@ -461,6 +516,8 @@
                     txtMani: "Por favor ingrese el número de manifiesto",
                     txtMail: "Por favor ingrese correo electrónico",
                     txtContenedor: "Por favor ingrese número de contenedor",
+                    txtNIT: "Por favor ingrese el número de identificación tributaria sin guíones 9999-999999-999-9",
+                    txtCliente: "Por favor ingrese el nombre del cliente para facturar el servicio",
                     txtContacto: {
                         required: "Por favor ingrese nombre de contacto"
                     },

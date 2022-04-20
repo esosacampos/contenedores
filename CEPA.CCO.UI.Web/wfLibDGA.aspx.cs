@@ -105,10 +105,10 @@ namespace CEPA.CCO.UI.Web
             GridView1.HeaderRow.Cells[0].Attributes["data-class"] = "expand";
 
             // GridView1.HeaderRow.Cells[1].Attributes["data-hide"] = "phone";
-            GridView1.HeaderRow.Cells[3].Attributes["data-hide"] = "phone";
+            //GridView1.HeaderRow.Cells[3].Attributes["data-hide"] = "phone";
             GridView1.HeaderRow.Cells[4].Attributes["data-hide"] = "phone";
             GridView1.HeaderRow.Cells[5].Attributes["data-hide"] = "phone";
-            GridView1.HeaderRow.Cells[6].Attributes["data-hide"] = "phone";
+            //GridView1.HeaderRow.Cells[6].Attributes["data-hide"] = "phone";
 
             GridView1.HeaderRow.TableSection = TableRowSection.TableHeader;
 

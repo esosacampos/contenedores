@@ -109,7 +109,19 @@
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:Button ID="lnkList" runat="server" CausesValidation="false" CommandName="btnList" CssClass="btn btn-sample btn xs"
-                                Text="L. Operaciones" CommandArgument='<%# Eval("c_llegada") %>' OnClientClick="return confirmaSave(this.id);" />
+                                Text="L. Operaciones Imp" CommandArgument='<%# Eval("c_llegada") %>' OnClientClick="return confirmaSave(this.id);" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:Button ID="lnkLstExp" runat="server" CausesValidation="false" CommandName="btnListExp" CssClass="btn btn-primary btn xs"
+                                Text="L. Operaciones Exp" CommandArgument='<%# Eval("c_llegada") %>' OnClientClick="return confirmaSave(this.id);" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:Button ID="lnkLstED" runat="server" CausesValidation="false" CommandName="btnListExpED" CssClass="btn btn-warning btn xs"
+                                Text="L. Operaciones ED Exp" CommandArgument='<%# Eval("c_llegada") %>' OnClientClick="return confirmaSave(this.id);" />
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField>

@@ -145,6 +145,8 @@
     <script src="<%= ResolveUrl("~/Scripts/calendar-es.js") %>" type="text/javascript"></script>--%>
     <script type="text/javascript" src="<%= ResolveUrl("~/Scripts/jquery.blockui.js") %>"></script>
     <script type="text/javascript">
+const { data } = require("jquery");
+
 
         function iniciaVariable() {
             $.session.set("_conteVar", '');
@@ -197,8 +199,10 @@
                 //If checked change color to Aqua
                 row.style.backgroundColor = "aqua";
 
+                var str99 = objRef.id.replace('CheckBox1', 'ddlRevision');
+                var txtTipoRevision = $("select#" + str99);
 
-                if (row.children[6].innerText == '') {
+                if (row.children[6].innerText == '' && txtTipoRevision[0].selectedIndex != 4) {
                     bootbox.alert("Indique fecha inicio de tramite");
                     objRef.checked = false;
                     row.style.backgroundColor = "#efefef";
@@ -209,7 +213,7 @@
                 var str1 = objRef.id.replace('CheckBox1', 'txtDOB1');
 
                 var txtAmountReceive = $("input#" + str1);
-                if (txtAmountReceive[0].value == '') {
+                if (txtAmountReceive[0].value == '' && txtTipoRevision[0].selectedIndex != 4) {
                     bootbox.alert("Indique fecha inicio de revision");
                     objRef.checked = false;
                     row.style.backgroundColor = "#efefef";
@@ -230,7 +234,7 @@
                 var str3 = objRef.id.replace('CheckBox1', 'ddlDetalle');
 
                 var txtAmountReceive = $("select#" + str3);
-                if (txtAmountReceive[0].selectedIndex == 0) {
+                if (txtAmountReceive[0].selectedIndex == 0 && txtTipoRevision[0].selectedIndex != 4) {
                     bootbox.alert("Indique detalles de liberación");
                     objRef.checked = false;
                     row.style.backgroundColor = "#efefef";
@@ -310,7 +314,6 @@
             }
         }
 
-
         function changeInput2(objDropDown) {
             var parentRow = objDropDown.parentNode.parentNode.parentNode;
            
@@ -331,7 +334,6 @@
 
             $('input[id=' + idHi + ']').val(objDropDown.value);
         }
-
 
         Page = Sys.WebForms.PageRequestManager.getInstance();
         Page.add_beginRequest(OnBeginRequest);

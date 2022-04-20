@@ -68,6 +68,9 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>..\packages\Microsoft.Office.Interop.Excel.14.0.0.1\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Sybase.AdoNet4.AseClient, Version=16.0.2.2, Culture=neutral, PublicKeyToken=95d94fac46c88e1e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\sybase\DataAccess\ADONET\dll\Sybase.AdoNet4.AseClient.dll</HintPath>
@@ -92,6 +95,7 @@
     <Compile Include="BlDAL.cs" />
     <Compile Include="ClienteDAL.cs" />
     <Compile Include="ContenedorDAL.cs" />
+    <Compile Include="Cont_ExpDAL.cs" />
     <Compile Include="CorreoErroresDAL.cs" />
     <Compile Include="DanEstadisticaDAL.cs" />
     <Compile Include="DataSet\dsData.Designer.cs">
@@ -118,6 +122,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RecepEstaDAL.cs" />
     <Compile Include="ResulNavieraDAL.cs" />
     <Compile Include="ResultadoValidacionDAL.cs" />
     <Compile Include="SqlWhereIn.cs" />

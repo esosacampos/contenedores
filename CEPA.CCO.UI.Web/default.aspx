@@ -94,16 +94,22 @@
 
         /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
         .row.content {
-            height: 450px;
+            height: calc(100% - 50px);
         }
+
+        .nav > li > a {
+            position: relative;
+            display: block;
+            padding: 5px 5px;
+        }
+
 
         /* Set gray background color and 100% height */
         .sidenav {
             padding-top: 5px;
             background-color: #f1f1f1;
-            height: 100%;
-            min-height: 1200px;
-
+            height: calc(100% - 50px);
+            min-height: 650px;
         }
 
         #anim {
@@ -322,6 +328,7 @@
                             </div>
                             <div class="item">
                                 <img class="img-responsive" src="CSS/Imag/005.jpg" alt="Third slide" style="margin: -152px -36px -17px 1px; height: 100%; width: 100%;">
+                                <%--style="margin: -152px -36px -17px 1px; height: 100%; width: 100%;"--%>
                             </div>
                             <div class="item">
                                 <img class="img-responsive" src="CSS/Imag/006.jpg" alt="Third slide" style="margin: -84px -5px -5px 1px; width: 100%;">
@@ -342,13 +349,13 @@
         </div>
         <footer class="footer">
             <div class="container">
-              <div class="form-inline">
+                <div class="form-inline">
                     <div class="form-group">
                         <%--<div id="DigiCertClickID_0bcATRpn3"></div>--%>
                     </div>
                     <div class="form-group">
                         <p class="text-muted">
-                            © 2013 CEPA / Puerto de Acajutla, El Salvador v3.0 para Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv - (+503) 7070 - 8256</a>                           
+                            © 2013 CEPA / Puerto de Acajutla, El Salvador v3.0 - Para asistencia técnica favor escribir al correo <a href="#">informática.acajutla@cepa.gob.sv</a>
                         </p>
                     </div>
                 </div>

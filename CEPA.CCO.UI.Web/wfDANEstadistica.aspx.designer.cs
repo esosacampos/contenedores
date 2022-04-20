@@ -7,11 +7,13 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace CEPA.CCO.UI.Web {
-    
-    
-    public partial class wfDANEstadistica {
-        
+namespace CEPA.CCO.UI.Web
+{
+
+
+    public partial class wfDANEstadistica
+    {
+
         /// <summary>
         /// Control txtBuscar.
         /// </summary>
@@ -20,7 +22,16 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBuscar;
-        
+
+        /// <summary>
+        /// Control ddlClaves.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlClaves;
+
         /// <summary>
         /// Control btnBuscar.
         /// </summary>
@@ -29,7 +40,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnBuscar;
-        
+
         /// <summary>
         /// Control EmployeesUpdatePanel.
         /// </summary>
@@ -38,7 +49,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel EmployeesUpdatePanel;
-        
+
         /// <summary>
         /// Control GridView1.
         /// </summary>
@@ -47,7 +58,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView GridView1;
-        
+
         /// <summary>
         /// Control lblMensaje.
         /// </summary>

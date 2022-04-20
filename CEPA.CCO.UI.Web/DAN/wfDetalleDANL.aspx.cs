@@ -170,7 +170,11 @@ namespace CEPA.CCO.UI.Web.DAN
 
                         int _resultado = 0;
 
-                        if (item.t_revision > 0 && item.f_revision != null)
+                        if(item.t_revision == 4)
+                        {
+                            _resultado = Convert.ToInt32(DetaNavieraDAL.ActualizarDANL(DBComun.Estado.verdadero, item.IdDeta, User.Identity.Name, DateTime.Now.ToString("dd/MM/yyyy HH:mm"), item.t_revision, 4, item.s_marchamo));
+                        }
+                        else if (item.t_revision > 0 && item.f_revision != null)
                         {
                             _resultado = Convert.ToInt32(DetaNavieraDAL.ActualizarDANL(DBComun.Estado.verdadero, item.IdDeta,  User.Identity.Name, item.f_revision.ToString("dd/MM/yyyy HH:mm"), item.t_revision, item.t_detalle, item.s_marchamo));
 

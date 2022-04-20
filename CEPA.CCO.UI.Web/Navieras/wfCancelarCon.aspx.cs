@@ -39,6 +39,8 @@ namespace CEPA.CCO.UI.Web.Navieras
                                 c_llegada.Text = item.c_llegada;
                                 c_viaje.Value = item.c_voyage;
                                 c_prefijo.Value = item.c_prefijo;
+                                c_prefijo_txt.Text = item.c_prefijo;
+                                hNaviera.Value = item.c_cliente;
                                 break;
                             }
 
@@ -56,7 +58,7 @@ namespace CEPA.CCO.UI.Web.Navieras
 
         private void Cargar()
         {
-            GridView1.DataSource = DetaNavieraDAL.ObtenerDetalleCancel(Convert.ToInt32(Request.QueryString["IdReg"])).OrderBy(a=> a.c_correlativo);
+            GridView1.DataSource = DetaNavieraDAL.ObtenerDetalleCancel(Convert.ToInt32(Request.QueryString["IdReg"]));
             GridView1.DataBind();
 
             GridView1.HeaderRow.Cells[0].Attributes["data-class"] = "expand";
@@ -81,7 +83,7 @@ namespace CEPA.CCO.UI.Web.Navieras
             CargarArchivosLINQ _cargar = new CargarArchivosLINQ();
             try
             {
-               
+
                 int cantidad = GridView1.Rows.Count;
                 List<int> pListDeta = new List<int>();
                 List<string> pListCon = new List<string>();
@@ -96,26 +98,21 @@ namespace CEPA.CCO.UI.Web.Navieras
                 {
                     foreach (DetaNaviera item in _lit)
                     {
-                        if (item.b_retenido != "RETENIDO")
-                        {
-                            if (item.s_observaciones != null && item.s_observaciones.Trim().TrimEnd().TrimStart().Length > 0)
-                            {
-                                int _resultado = Convert.ToInt32(DetaNavieraDAL.ActualizarCancelarId(DBComun.Estado.verdadero, item.IdDeta, item.s_observaciones, User.Identity.Name));
 
-                                if (_resultado > 0)
-                                {
-                                    pListDeta.Add(item.IdDeta);
-                                }
-                            }
-                            else
+                        if (item.s_observaciones != null && item.s_observaciones.Trim().TrimEnd().TrimStart().Length > 0)
+                        {
+                            int _resultado = Convert.ToInt32(DetaNavieraDAL.ActualizarCancelarId(DBComun.Estado.verdadero, item.IdDeta, item.s_observaciones, User.Identity.Name));
+
+                            if (_resultado > 0)
                             {
-                                throw new Exception(string.Format("El contenedor {0} no posee justificación de su cancelación.", item.n_contenedor));
+                                pListDeta.Add(item.IdDeta);
                             }
                         }
                         else
                         {
-                            throw new Exception(string.Format("El contenedor {0} se encuentra solicitado para revisión, proceder con la solicitud a la DAN de su liberación; luego realizar cancelación", item.n_contenedor));
+                            throw new Exception(string.Format("El contenedor {0} no posee justificación de su cancelación.", item.n_contenedor));
                         }
+
 
                     }
 
@@ -123,10 +120,10 @@ namespace CEPA.CCO.UI.Web.Navieras
                     {
 
 
-                        EnviarCorreo(d_buque.Text, pListDeta.Count, cantidad, _lit, Session["c_naviera"].ToString());
-                        
+                        EnviarCorreo(d_buque.Text, pListDeta.Count, cantidad, _lit, hNaviera.Value);
+
                         //_cargar.Clear("wfConsultaCancel.aspx");
-                        
+
 
                         ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('Cantidad de contenedores cancelados " + pListDeta.Count + "');", true);
                         Cargar();
@@ -158,9 +155,9 @@ namespace CEPA.CCO.UI.Web.Navieras
             {
 
                 Html = "<dir style=\"font-family: 'Arial'; font-size: 12px; line-height: 1.2em\">";
-                Html += "MÓDULO : LISTADO DE CONTENEDORES CANCELADOS  <br />";
-                Html += "TIPO DE MENSAJE : NOTIFICACIÓN DE CONTENEDORES CANCELADOS <br /><br />";
-                Html += string.Format("El presente listado de contenedores correspondientes al barco {0} han sido cancelados {1} de {2} contenedores correspondientes a este barco.-", d_buque, pValor, pCantidad);
+                Html += "MÓDULO : LISTADO DE CONTENEDORES DE EXPORTACION CANCELADOS  <br />";
+                Html += "TIPO DE MENSAJE : NOTIFICACIÓN DE CONTENEDORES DE EXPORTACION CANCELADOS <br /><br />";
+                Html += string.Format("El presente listado de contenedores de exportación correspondientes al barco {0} han sido cancelados {1} de {2} contenedores correspondientes a este barco.-", d_buque, pValor, pCantidad);
                 Html += "<br /><br/>";
 
                 if (pLista == null)
@@ -178,7 +175,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                     Html += "<td width=\"30%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TAMAÑO</font></th>";
                     Html += "<td width=\"30%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>JUSTIFICACIÓN</font></th>";
                     Html += "</center>";
-                    Html += "</tr>";   
+                    Html += "</tr>";
                     foreach (DetaNaviera item in pLista)
                     {
                         Html += "<tr>";
@@ -189,28 +186,17 @@ namespace CEPA.CCO.UI.Web.Navieras
                         Html += "<td width=\"35%\" style=\"border-right: thin solid #4F81BD\"><font size = 2 color=blue>" + item.s_observaciones + "</font></td>";
                         Html += "</center>";
                         Html += "</tr>";
-                        Html += "</font>";  
+                        Html += "</font>";
                     }
                 }
                 Html += "</table><br /><br/>";
                 Html += "<br />";
                 Html += "<br />";
-               
-                _correo.Subject = string.Format("CANCELADOS: Listado de Contenedores Cancelados de {0} para el buque {1}, # de Viaje {2}", c_prefijo.Value, d_buque, c_viaje.Value);
-                //_correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_cancela", DBComun.Estado.verdadero, c_cliente);
-                //_correo.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_cancela", DBComun.Estado.verdadero, c_cliente);
 
-                Notificaciones noti = new Notificaciones
-                {
-                    sMail = "elsa.sosa@cepa.gob.sv",
-                    dMail = "Elsa Sosa"
-                };
-
-                List<Notificaciones> pLisN = new List<Notificaciones>();
-
-                pLisN.Add(noti);
-
-                _correo.ListaNoti = pLisN;
+                _correo.Subject = string.Format("CANCELADOS: Listado de Contenedores de Exportación Cancelados de {0} para el buque {1}, # de Viaje {2}", c_prefijo.Value, d_buque, c_viaje.Value);
+                _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_cancela", DBComun.Estado.verdadero, c_cliente);
+                _correo.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_cancela", DBComun.Estado.verdadero, c_cliente);
+                              
 
                 _correo.Asunto = Html;
                 _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);

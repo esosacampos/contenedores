@@ -7,11 +7,31 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace CEPA.CCO.UI.Web {
-    
-    
-    public partial class wfConsultaTrans {
-        
+namespace CEPA.CCO.UI.Web
+{
+
+
+    public partial class wfConsultaTrans
+    {
+
+        /// <summary>
+        /// Control hBuque.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hBuque;
+
+        /// <summary>
+        /// Control hLlegada.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hLlegada;
+
         /// <summary>
         /// Control c_imo.
         /// </summary>
@@ -20,7 +40,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label c_imo;
-        
+
         /// <summary>
         /// Control d_buque.
         /// </summary>
@@ -29,7 +49,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label d_buque;
-        
+
         /// <summary>
         /// Control c_llegada.
         /// </summary>
@@ -38,7 +58,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label c_llegada;
-        
+
         /// <summary>
         /// Control f_llegada.
         /// </summary>
@@ -47,7 +67,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label f_llegada;
-        
+
         /// <summary>
         /// Control tot_lineasa.
         /// </summary>
@@ -56,7 +76,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label tot_lineasa;
-        
+
         /// <summary>
         /// Control tot_cancel.
         /// </summary>
@@ -65,7 +85,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label tot_cancel;
-        
+
         /// <summary>
         /// Control tot_imp.
         /// </summary>
@@ -74,7 +94,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label tot_imp;
-        
+
         /// <summary>
         /// Control HiddenField1.
         /// </summary>
@@ -83,7 +103,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField HiddenField1;
-        
+
         /// <summary>
         /// Control tot_trans.
         /// </summary>
@@ -92,7 +112,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label tot_trans;
-        
+
         /// <summary>
         /// Control lblPP.
         /// </summary>
@@ -101,7 +121,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblPP;
-        
+
         /// <summary>
         /// Control total_arco.
         /// </summary>
@@ -110,7 +130,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label total_arco;
-        
+
         /// <summary>
         /// Control lblPO.
         /// </summary>
@@ -119,7 +139,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblPO;
-        
+
         /// <summary>
         /// Control EmployeesUpdatePanel.
         /// </summary>
@@ -128,7 +148,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel EmployeesUpdatePanel;
-        
+
         /// <summary>
         /// Control GridView1.
         /// </summary>
@@ -137,7 +157,7 @@ namespace CEPA.CCO.UI.Web {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView GridView1;
-        
+
         /// <summary>
         /// Control btnRegresar.
         /// </summary>

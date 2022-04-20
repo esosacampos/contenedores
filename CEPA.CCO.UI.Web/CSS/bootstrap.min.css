@@ -4290,7 +4290,7 @@ select[multiple].input-group-sm > .form-control, select[multiple].input-group-sm
         .nav > li > a {
             position: relative;
             display: block;
-            padding: 10px 15px
+            padding: 5px 5px
         }
 
             .nav > li > a:focus, .nav > li > a:hover {

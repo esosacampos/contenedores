@@ -188,5 +188,21 @@ namespace CEPA.CCO.UI.Web.Bodega
                 throw new Exception(Ex.Message);
             }
         }
+
+        [WebMethod]
+        [System.Web.Script.Services.ScriptMethod()]
+        public static string getCliente(string n_nit)
+        {
+            var query = (from a in ClienteDAL.getTipoCliente(DBComun.Estado.verdadero)
+                         where a.s_nit == n_nit
+                         select new
+                         {
+                             s_nombre = a.s_nombre_comercial
+                         }).FirstOrDefault();
+
+
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(query);
+        }
     }
 }

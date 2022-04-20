@@ -201,11 +201,9 @@
             vertical-align: middle;
             font-weight: bold;
         }
-
         #detaClien tr:nth-child(even) {
             background: #FFFAFA;
         }
-
         #detaNavi tr:nth-child(even) {
             background: #FFFAFA;
         }

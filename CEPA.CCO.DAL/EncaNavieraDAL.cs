@@ -51,7 +51,7 @@ namespace CEPA.CCO.DAL
                 using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
                 {
                     _conn.Open();
-                    SqlCommand _command = new SqlCommand("pa_enca_exp_navi_save", _conn as SqlConnection);
+                    SqlCommand _command = new SqlCommand("pa_enca_exp_naviera_save", _conn as SqlConnection);
                     _command.CommandType = CommandType.StoredProcedure;
 
                     _command.Parameters.Add(new SqlParameter("@c_imo", _Encanaviera.c_imo));
@@ -106,11 +106,11 @@ namespace CEPA.CCO.DAL
             {
                 _conn.Open();
                 string _consulta = @"DECLARE @CANTIDAD INT
-										SET @CANTIDAD = (SELECT COUNT(IdReg) FROM CCO_ENCA_EXPO_NAVI WHERE c_imo = '{0}' AND c_llegada = '{1}' AND c_naviera = '{2}')
+										SET @CANTIDAD = (SELECT COUNT(IdReg) FROM CCO_ENCA_EXP_NAVIERAS WHERE c_imo = '{0}' AND c_llegada = '{1}' AND c_naviera = '{2}')
 										IF @CANTIDAD = 0
 											SELECT 0
 										ELSE
-											SELECT IdReg FROM CCO_ENCA_EXPO_NAVI WHERE c_imo = '{0}' AND c_llegada = '{1}' AND c_naviera = '{2}' ";
+											SELECT IdReg FROM CCO_ENCA_EXP_NAVIERAS WHERE c_imo = '{0}' AND c_llegada = '{1}' AND c_naviera = '{2}' ";
 
 
                 SqlCommand _command = new SqlCommand(string.Format(_consulta, c_imo, c_llegada, c_naviera), _conn as SqlConnection);
@@ -290,11 +290,66 @@ namespace CEPA.CCO.DAL
                                     WHERE b_noti = 1 AND a.IdReg IN (SELECT IdReg FROM CCO_DETA_NAVIERAS WHERE b_autorizado = 0 AND b_cancelado = 0)
                                     GROUP BY a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera, n_manifiesto"; and a.idReg = 663 --*/
 
-                string consulta = @"SELECT COUNT(b.IdDoc) CantArch, a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera, a.c_voyage
-                                    FROM CCO_ENCA_EXPO_NAVI a INNER JOIN CCO_DETA_DOC_EXP_NAVI b ON  a.IdReg = b.IdReg
-                                    WHERE b_noti = 1 AND b_sustitucion = 0 AND a.IdReg != 18 AND b.b_estado = 1 and b.b_valid != 1 AND b.IdDoc NOT IN (SELECT IsNull(IdDoc, 0) FROM CCO_DETA_EXPO_NAVI WHERE b_autorizado = 1 OR b_cancelado = 1 OR b_detenido = 1 GROUP BY IsNull(IdDoc, 0))
-                                    GROUP BY a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera, a.c_voyage";
+                string consulta = @"SELECT a.IdReg, a.c_llegada, a.c_imo, f_llegada, a.c_naviera, b.IdDoc, c_voyage
+                                    FROM CCO_ENCA_EXP_NAVIERAS a INNER JOIN CCO_DETA_DOC_EXP_NAVI b ON  a.IdReg = b.IdReg
+                                    INNER JOIN CCO_DETA_EXP_NAVIERAS c ON b.IdDoc = c.IdDoc AND a.IdReg = c.IdReg
+                                    WHERE b_noti = 1 AND b_sustitucion = 0 AND b.b_estado = 1 and ISNULL(b.b_valid,0) = 0 AND c.c_estatus = 0
+                                    GROUP BY a.IdReg, a.c_llegada, a.c_imo, f_llegada, a.c_naviera, b.IdDoc, c_voyage";
 
+                SqlCommand _command = new SqlCommand(consulta, _conn as SqlConnection);
+                _command.CommandType = CommandType.Text;
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    EncaNaviera _notificacion = new EncaNaviera                    {
+                        
+                        IdReg = (int)_reader.GetInt32(0),
+                        c_llegada = _reader.GetString(1),
+                        c_imo = _reader.GetString(2),
+                        f_llegada = (DateTime)_reader.GetDateTime(3),
+                        c_naviera = _reader.GetString(4),
+                        IdDoc = (int)_reader.GetInt32(5),
+                        c_voyage = _reader.GetString(6)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
+        public static List<EncaNaviera> ObtenerCabeceraExAuto(DBComun.Estado pEstado)
+        {
+            List<EncaNaviera> notiLista = new List<EncaNaviera>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+                /*string consulta = @"SELECT COUNT(b.IdDoc) CantArch, a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera, ISNULL(b.n_manifiesto, 0)
+                                    FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_DOC_NAVI b ON  a.IdReg = b.IdReg
+                                    WHERE b_noti = 1 AND a.IdReg IN (SELECT IdReg FROM CCO_DETA_NAVIERAS WHERE b_autorizado = 0 AND b_cancelado = 0)
+                                    GROUP BY a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera, n_manifiesto"; and a.idReg = 663 --*/
+
+                string consulta = @"SELECT a.IdReg, a.c_llegada, a.c_imo, f_llegada, a.c_naviera, b.IdDoc, c_voyage
+                                    FROM CCO_ENCA_EXP_NAVIERAS a INNER JOIN CCO_DETA_DOC_EXP_NAVI b ON  a.IdReg = b.IdReg
+                                    INNER JOIN CCO_DETA_EXP_NAVIERAS c ON b.IdDoc = c.IdDoc AND a.IdReg = c.IdReg
+                                    WHERE b_noti = 1 AND b_sustitucion = 0 AND b.b_estado = 1 and ISNULL(b.b_valid,0) = 1 AND c.c_estatus = 0
+                                    GROUP BY a.IdReg, a.c_llegada, a.c_imo, f_llegada, a.c_naviera, b.IdDoc, c_voyage";
+
+                ////// PRUEBA - 23/02/2022 - HENRY WENDIX
+                //string consulta = @"SELECT TOP 5 a.IdReg, a.c_llegada, a.c_imo, f_llegada, a.c_naviera, b.IdDoc, c_voyage
+                //                    FROM CCO_ENCA_EXP_NAVIERAS a INNER JOIN CCO_DETA_DOC_EXP_NAVI b ON  a.IdReg = b.IdReg
+                //                    INNER JOIN CCO_DETA_EXP_NAVIERAS c ON b.IdDoc = c.IdDoc AND a.IdReg = c.IdReg
+                //                    WHERE b_noti = 1 AND b_sustitucion = 0 AND b.b_estado = 1 and ISNULL(b.b_valid,0) = 1 
+                //                    GROUP BY a.IdReg, a.c_llegada, a.c_imo, f_llegada, a.c_naviera, b.IdDoc, c_voyage
+                //                    order by f_llegada desc";
+                //// PRUEBA - 23/02/2022 - HENRY WENDIX
                 SqlCommand _command = new SqlCommand(consulta, _conn as SqlConnection);
                 _command.CommandType = CommandType.Text;
 
@@ -304,12 +359,60 @@ namespace CEPA.CCO.DAL
                 {
                     EncaNaviera _notificacion = new EncaNaviera
                     {
-                        CantArch = (int)_reader.GetInt32(0),
-                        IdReg = (int)_reader.GetInt32(1),
-                        c_llegada = _reader.GetString(2),
-                        c_imo = _reader.GetString(3),
-                        f_llegada = (DateTime)_reader.GetDateTime(4),
-                        c_naviera = _reader.GetString(5),
+
+                        IdReg = (int)_reader.GetInt32(0),
+                        c_llegada = _reader.GetString(1),
+                        c_imo = _reader.GetString(2),
+                        f_llegada = (DateTime)_reader.GetDateTime(3),
+                        c_naviera = _reader.GetString(4),
+                        IdDoc = (int)_reader.GetInt32(5),
+                        c_voyage = _reader.GetString(6)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
+        public static List<EncaNaviera> ObtenerCabeceraExSta(DBComun.Estado pEstado, int pIdDoc)
+        {
+            List<EncaNaviera> notiLista = new List<EncaNaviera>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+                /*string consulta = @"SELECT COUNT(b.IdDoc) CantArch, a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera, ISNULL(b.n_manifiesto, 0)
+                                    FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_DOC_NAVI b ON  a.IdReg = b.IdReg
+                                    WHERE b_noti = 1 AND a.IdReg IN (SELECT IdReg FROM CCO_DETA_NAVIERAS WHERE b_autorizado = 0 AND b_cancelado = 0)
+                                    GROUP BY a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera, n_manifiesto"; and a.idReg = 663 --*/
+
+                string consulta = @"SELECT a.IdReg, a.c_llegada, a.c_imo, f_llegada, a.c_naviera, b.IdDoc, c_voyage
+                                    FROM CCO_ENCA_EXP_NAVIERAS a INNER JOIN CCO_DETA_DOC_EXP_NAVI b ON  a.IdReg = b.IdReg
+                                    INNER JOIN CCO_DETA_EXP_NAVIERAS c ON b.IdDoc = c.IdDoc AND a.IdReg = c.IdReg
+                                    WHERE b.IdDoc = {0}
+                                    GROUP BY a.IdReg, a.c_llegada, a.c_imo, f_llegada, a.c_naviera, b.IdDoc, c_voyage";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pIdDoc), _conn as SqlConnection);
+                _command.CommandType = CommandType.Text;
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    EncaNaviera _notificacion = new EncaNaviera
+                    {
+
+                        IdReg = (int)_reader.GetInt32(0),
+                        c_llegada = _reader.GetString(1),
+                        c_imo = _reader.GetString(2),
+                        f_llegada = (DateTime)_reader.GetDateTime(3),
+                        c_naviera = _reader.GetString(4),
+                        IdDoc = (int)_reader.GetInt32(5),
                         c_voyage = _reader.GetString(6)
                     };
 
@@ -335,13 +438,12 @@ namespace CEPA.CCO.DAL
                                     WHERE b_noti = 1 AND a.IdReg IN (SELECT IdReg FROM CCO_DETA_NAVIERAS WHERE b_autorizado = 0 AND b_cancelado = 0)
                                     GROUP BY a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera, n_manifiesto"; and a.idReg = 663 --*/
 
-                string consulta = @"SELECT COUNT(b.IdDoc) CantArch, a.IdReg, b.c_llegada, a.c_imo, a.c_naviera, c_voyage, c_prefijo
-                                    FROM CCO_DETA_DOC_NAVI b INNER JOIN CCO_ENCA_NAVIERAS a ON b.IdReg = a.IdReg 
-                                    INNER JOIN CCO_USUARIOS_NAVIERAS d ON d.c_naviera = a.c_naviera 
-                                    WHERE b.IdReg IN(SELECT IdReg FROM CCO_DETA_NAVIERAS WHERE b_autorizado = 1 AND b_cancelado = 0 AND f_rpatio IS NULL) AND b.a_manifiesto >= year(getdate())
-                                    AND b.b_estado = 1 AND f_valid IS NOT NULL 
-                                    GROUP BY a.IdReg, b.c_llegada, a.c_imo, c_voyage, a.c_naviera, c_voyage, c_prefijo
-                                    ORDER BY A.IdReg DESC";
+                string consulta = @"SELECT DISTINCT c.IdDoc, a.IdReg, b.c_llegada, a.c_imo, a.c_naviera, c_voyage, c_prefijo
+                                FROM CCO_DETA_DOC_EXP_NAVI b INNER JOIN CCO_ENCA_EXP_NAVIERAS a ON b.IdReg = a.IdReg 
+                                INNER JOIN CCO_USUARIOS_NAVIERAS d ON d.c_naviera = a.c_naviera 
+                                INNER JOIN CCO_DETA_EXP_NAVIERAS c ON a.IdReg = a.IdReg AND b.IdDoc = c.IdDoc
+                                WHERE ISNULL(b_cancelado, 0) = 0 AND c_estatus = 1 
+                                ORDER BY A.IdReg ";
 
                 SqlCommand _command = new SqlCommand(consulta, _conn as SqlConnection);
                 _command.CommandType = CommandType.Text;
@@ -352,13 +454,13 @@ namespace CEPA.CCO.DAL
                 {
                     EncaNaviera _notificacion = new EncaNaviera
                     {
-                        CantArch = (int)_reader.GetInt32(0),
+                        IdDoc = (int)_reader.GetInt32(0),
                         IdReg = (int)_reader.GetInt32(1),
                         c_llegada = _reader.GetString(2),
-                        c_imo = _reader.GetString(3),                        
-                        c_naviera = _reader.GetString(4),
-                        c_voyage = _reader.GetString(5),
-                        d_naviera_p = _reader.GetString(6) 
+                        c_imo = _reader.GetString(3),                              
+                        c_naviera = _reader.GetString(4),                        
+                        c_voyage = _reader.GetString(5),  
+                        d_naviera_p = _reader.GetString(6)
                     };
 
                     notiLista.Add(_notificacion);
@@ -501,13 +603,12 @@ namespace CEPA.CCO.DAL
                                      WHERE a.IdReg IN (SELECT IdReg FROM CCO_DETA_NAVIERAS WHERE b_cancelado = 0)
                                      GROUP BY a.IdReg, a.c_llegada, a.c_imo, f_llegada, c_naviera, b.n_manifiesto";*/
 
-                string consulta = @"SELECT COUNT(b.IdDoc) CantArch, a.IdReg, b.c_llegada, a.c_imo, a.c_naviera, c_voyage, c_prefijo
-                                    FROM CCO_DETA_DOC_NAVI b INNER JOIN CCO_ENCA_NAVIERAS a ON b.IdReg = a.IdReg 
+                string consulta = @"SELECT DISTINCT c.IdDoc, a.IdReg, b.c_llegada, a.c_imo, a.c_naviera, c_voyage, c_prefijo
+                                    FROM CCO_DETA_DOC_EXP_NAVI b INNER JOIN CCO_ENCA_EXP_NAVIERAS a ON b.IdReg = a.IdReg 
                                     INNER JOIN CCO_USUARIOS_NAVIERAS d ON d.c_naviera = a.c_naviera 
-                                    WHERE b.IdReg IN(SELECT IdReg FROM CCO_DETA_NAVIERAS WHERE b_autorizado = 1 AND b_cancelado = 0 AND f_rpatio IS NULL) AND b.a_manifiesto >= year(getdate())
-                                    AND b.b_estado = 1 AND f_valid IS NOT NULL 
-                                    GROUP BY a.IdReg, b.c_llegada, a.c_imo, c_voyage, a.c_naviera, c_voyage, c_prefijo
-                                    ORDER BY A.IdReg DESC";
+                                    INNER JOIN CCO_DETA_EXP_NAVIERAS c ON a.IdReg = a.IdReg AND b.IdDoc = c.IdDoc
+                                    WHERE ISNULL(b_cancelado, 0) = 0 AND c_estatus = 1 
+                                    ORDER BY A.IdReg ";
 
                 SqlCommand _command = new SqlCommand(consulta, _conn as SqlConnection);
                 _command.CommandType = CommandType.Text;
@@ -518,7 +619,7 @@ namespace CEPA.CCO.DAL
                 {
                     EncaNaviera _notificacion = new EncaNaviera
                     {
-                        CantArch = (int)_reader.GetInt32(0),
+                        IdDoc = (int)_reader.GetInt32(0),
                         IdReg = (int)_reader.GetInt32(1),
                         c_llegada = _reader.GetString(2),
                         c_imo = _reader.GetString(3),                        
@@ -606,7 +707,13 @@ namespace CEPA.CCO.DAL
                 string consulta = @"SELECT a.c_llegada, a.c_imo, convert(char(10), a.f_llegada, 103) + ' 00:00:00'
                                     FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_DOC_NAVI b ON  a.IdReg = b.IdReg
                                     INNER JOIN CCO_DETA_NAVIERAS z ON b.IdReg = z.IdReg AND b.IdDoc = z.IdDoc
-                                    WHERE b_noti = 1  AND b.b_estado = 1 AND b_autorizado = 1 AND b_cancelado = 0 --AND a.IdReg IN (SELECT IdReg FROM CCO_DETA_NAVIERAS WHERE b_autorizado = 1 AND b_cancelado = 0)
+                                    WHERE b_noti = 1  AND b.b_estado = 1 AND b_autorizado = 1 AND b_cancelado = 0 AND YEAR(f_autorizacion) BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE())
+                                    GROUP BY a.c_llegada, a.c_imo, convert(char(10), a.f_llegada, 103)
+                                    UNION ALL
+                                    SELECT a.c_llegada, a.c_imo, convert(char(10), a.f_llegada, 103) + ' 00:00:00'
+                                    FROM CCO_ENCA_EXP_NAVIERAS a INNER JOIN CCO_DETA_DOC_EXP_NAVI b ON  a.IdReg = b.IdReg
+                                    INNER JOIN CCO_DETA_EXP_NAVIERAS z ON b.IdReg = z.IdReg AND b.IdDoc = z.IdDoc
+                                    WHERE b_noti = 1  AND b.b_estado = 1 AND b_autorizado = 1 AND ISNULL(b_cancelado,0) = 0 AND YEAR(f_autorizacion) BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE())
                                     GROUP BY a.c_llegada, a.c_imo, convert(char(10), a.f_llegada, 103)";
 
                 SqlCommand _command = new SqlCommand(consulta, _conn as SqlConnection);
@@ -1212,6 +1319,29 @@ namespace CEPA.CCO.DAL
             }
         }
 
+        public static string ActSustitucionExp(int idReg, int b_susti)
+        {
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                SqlCommand _command = new SqlCommand("PA_ACT_BSUSTI_EXP", _conn as SqlConnection);
+                _command.CommandType = CommandType.StoredProcedure;
+
+                _command.Parameters.Add(new SqlParameter("@IdReg", idReg));
+                _command.Parameters.Add(new SqlParameter("@b_susti", b_susti));
+
+
+                //   _command.Parameters.Add(new SqlParameter("@n_manifiesto", _Encanaviera.num_manif));
+
+
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
+
         public static List<EncaNaviera> ObtenerCambiosTransi(DBComun.Estado pEstado)
         {
             List<EncaNaviera> notiLista = new List<EncaNaviera>();
@@ -1334,6 +1464,72 @@ namespace CEPA.CCO.DAL
                         c_naviera = _reader.GetString(6),
                         num_manif = (int)_reader.GetInt32(7),                        
                         a_manifiesto = _reader.GetString(8)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
+        public static List<EncaNaviera> GetNavieras(DBComun.Estado pEstado)
+        {
+            List<EncaNaviera> notiLista = new List<EncaNaviera>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+              
+                SqlCommand _command = new SqlCommand("PA_OBT_NAVI", _conn as SqlConnection);
+                _command.CommandType = CommandType.StoredProcedure;
+                                
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    EncaNaviera _notificacion = new EncaNaviera
+                    {
+
+                        c_naviera = _reader.GetString(0),
+                        d_naviera_p = _reader.GetString(1),
+                        c_iso_navi = _reader.GetString(2)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
+        public static List<EncaNaviera> getDetaUsr(DBComun.Estado pEstado)
+        {
+            List<EncaNaviera> notiLista = new List<EncaNaviera>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+
+                SqlCommand _command = new SqlCommand("PA_OBT_DETA_USR", _conn as SqlConnection);
+                _command.CommandType = CommandType.StoredProcedure;
+
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    EncaNaviera _notificacion = new EncaNaviera
+                    {
+                        c_naviera = _reader.GetString(0),
+                        c_usuario = _reader.GetString(1)
                     };
 
                     notiLista.Add(_notificacion);

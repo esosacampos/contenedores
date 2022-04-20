@@ -7,9 +7,38 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace CEPA.CCO.UI.Web {
-    
-    
-    public partial class wfConsulExport {
+namespace CEPA.CCO.UI.Web
+{
+
+
+    public partial class wfConsulExport
+    {
+
+        /// <summary>
+        /// Control txt_Contenedor.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txt_Contenedor;
+
+        /// <summary>
+        /// Control Button1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button1;
+
+        /// <summary>
+        /// Control Rpt_lista.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater Rpt_lista;
     }
 }

@@ -65,6 +65,7 @@
     <Compile Include="ArchivoExcel.cs" />
     <Compile Include="Autorizacion.cs" />
     <Compile Include="BL.cs" />
+    <Compile Include="Conte_Exp.cs" />
     <Compile Include="CorreoError.cs" />
     <Compile Include="DANEstadistica.cs" />
     <Compile Include="DetaBooking.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Pais.cs" />
     <Compile Include="PrimeraPos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecepEsta.cs" />
     <Compile Include="ResulNaviera.cs" />
     <Compile Include="ResultadoValidacion.cs" />
     <Compile Include="TEUSAna.cs" />

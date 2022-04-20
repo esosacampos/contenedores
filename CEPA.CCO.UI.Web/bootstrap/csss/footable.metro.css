@@ -27,8 +27,6 @@
 }
 .footable > tbody > tr:hover:not(.footable-row-detail) > td {
   color: #31708f;
-  font-weight:bold;
-  /*border-color:#bce8f1;*/
 }
 .footable > tbody > tr:last-child > td {
   border-bottom: none;

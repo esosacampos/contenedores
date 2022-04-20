@@ -159,6 +159,54 @@ namespace CEPA.CCO.DAL
             }
         }
 
+        public static List<DetaNaviera> GetContePatio(string prefix)
+        {
+            List<DetaNaviera> pLista = new List<DetaNaviera>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                /*string _consulta = @"SELECT a.n_contenedor, a.IdDeta, b.c_llegada
+                                    FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
+                                    WHERE a.b_autorizado = 1 AND b_cotecna = 1 AND b_cancelado = 0 AND b_recepcion = 0
+                                    AND a.n_contenedor  LIKE '_______{0}%'
+                                    ORDER BY IdDeta DESC ";*/
+
+                /*string _consulta = @"SELECT a.n_contenedor, a.IdDeta, b.c_llegada
+                                    FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
+                                    WHERE a.b_autorizado = 1 AND a.b_recepcion = 0 AND b_cancelado = 0
+                                    AND a.n_contenedor LIKE '_______{0}%' AND b.c_llegada = '4.11877'";*/
+
+                SqlCommand _command = new SqlCommand("pa_getContePatio", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@prefix", prefix));
+
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+
+                    //pLista.Add(string.Format("{0}-{1}", _reader.IsDBNull(0) ? "" : _reader.GetString(0), _reader.IsDBNull(1) ? "0" : Convert.ToString(_reader.GetInt32(1))));
+                    DetaNaviera _tmp = new DetaNaviera
+                    {
+                        n_contenedor = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
+                        IdDeta = _reader.IsDBNull(1) ? 0 : _reader.GetInt32(1),
+                        c_llegada = _reader.IsDBNull(2) ? "" : _reader.GetString(2)
+                    };
+
+                    pLista.Add(_tmp);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return pLista;
+            }
+        }
+
 
         public static List<DetaNaviera> GetContenedorDecla(string prefix, int years)
         {
@@ -277,6 +325,51 @@ namespace CEPA.CCO.DAL
                         b_style = _reader.IsDBNull(9) ? "" : _reader.GetString(9),
                         b_aduana = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
                         b_staduana = _reader.IsDBNull(11) ? "" : _reader.GetString(11)
+                    };
+
+                    pLista.Add(_tmp);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return pLista;
+            }
+        }
+
+        public static List<InfOperaciones> GetContenedorInforPatio(string n_contenedor)
+        {
+            List<InfOperaciones> pLista = new List<InfOperaciones>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+
+                SqlCommand _command = new SqlCommand("PA_MOV_RECEP_PATIO", _conn as SqlConnection);
+                _command.CommandType = CommandType.StoredProcedure;
+
+                _command.Parameters.Add(new SqlParameter("@n_contenedor", n_contenedor));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+
+                    InfOperaciones _tmp = new InfOperaciones
+                    {
+                        c_tamaño = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
+                        v_tara = _reader.IsDBNull(1) ? 0 : (int)_reader.GetInt32(1),
+                        c_trafico = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
+                        c_llegada = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        c_estado = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                        c_naviera = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
+                        c_cliente = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
+                        IdDeta = _reader.IsDBNull(7) ? 0 : (int)_reader.GetInt32(7),
+                        b_detenido = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
+                        b_style = _reader.IsDBNull(9) ? "" : _reader.GetString(9),
+                        b_aduana = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
+                        b_staduana = _reader.IsDBNull(11) ? "" : _reader.GetString(11),
+                        c_correlativo = _reader.IsDBNull(12) ? 0 : (int)_reader.GetInt32(12),
+                        v_peso = _reader.IsDBNull(13) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(13))
                     };
 
                     pLista.Add(_tmp);
@@ -563,6 +656,208 @@ namespace CEPA.CCO.DAL
                 return resultado;
 
             }
+        }
+
+        public static List<Ubicaciones> getUbicacion()
+        {
+            List<Ubicaciones> pLista = new List<Ubicaciones>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                string _consulta = @"select IdZona, Zona, Carril, Posicion, Nivel
+                                      from cco_ubicacion_patio";
+
+
+                SqlCommand _command = new SqlCommand(_consulta, _conn as SqlConnection);
+                _command.CommandType = CommandType.Text;
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+
+                    Ubicaciones _tmp = new Ubicaciones
+                    {
+                        IdZona = _reader.IsDBNull(0) ? 0 : (int)_reader.GetInt32(0),
+                        Zona = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        Carril = _reader.IsDBNull(2) ? 0 : (int)_reader.GetInt32(2),
+                        Posicion = _reader.IsDBNull(3) ? 0 : (int)_reader.GetInt32(3),
+                        Nivel = _reader.IsDBNull(4) ? 0 : (int)_reader.GetInt32(4)                        
+                    };
+
+                    pLista.Add(_tmp);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return pLista;
+            }
+        }
+
+        public static string getCarril(int pIdZona)
+        {
+            List<Ubicaciones> pLista = new List<Ubicaciones>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                string _consulta = @"select Carril
+                                    from CCO_UBICACION_PATIO
+                                    where IdZona = @IdZona";
+
+
+                SqlCommand _command = new SqlCommand(_consulta, _conn as SqlConnection);
+                _command.CommandType = CommandType.Text;
+
+                _command.Parameters.AddWithValue("@IdZona", pIdZona);
+                
+
+                _command.CommandType = CommandType.Text;
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                               
+
+                return _reader;
+            }
+        }
+
+        public static string getPosicion(int pIdZona)
+        {
+            List<Ubicaciones> pLista = new List<Ubicaciones>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                string _consulta = @"select Posicion
+                                    from CCO_UBICACION_PATIO
+                                    where IdZona = @IdZona";
+
+
+                SqlCommand _command = new SqlCommand(_consulta, _conn as SqlConnection);
+                _command.CommandType = CommandType.Text;
+
+                _command.Parameters.AddWithValue("@IdZona", pIdZona);
+
+
+                _command.CommandType = CommandType.Text;
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+
+
+                return _reader;
+            }
+        }
+
+        public static string getNivel(int pIdZona)
+        {
+            List<Ubicaciones> pLista = new List<Ubicaciones>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                string _consulta = @"select Nivel
+                                    from CCO_UBICACION_PATIO
+                                    where IdZona = @IdZona";
+
+
+                SqlCommand _command = new SqlCommand(_consulta, _conn as SqlConnection);
+                _command.CommandType = CommandType.Text;
+
+                _command.Parameters.AddWithValue("@IdZona", pIdZona);
+
+
+                _command.CommandType = CommandType.Text;
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+
+
+                return _reader;
+            }
+        }
+
+        public static List<Gruas> getGruas()
+        {
+            List<Gruas> pLista = new List<Gruas>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+                string _consulta = @"SELECT IdGrua, Nombre FROM CCO_GRUAS";
+
+
+                SqlCommand _command = new SqlCommand(_consulta, _conn as SqlConnection);
+                _command.CommandType = CommandType.Text;
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+
+                    Gruas _tmp = new Gruas
+                    {
+                        IdGrua = _reader.IsDBNull(0) ? 0 : (int)_reader.GetInt32(0),
+                        Nombre = _reader.IsDBNull(1) ? "" : _reader.GetString(1)                        
+                    };
+
+                    pLista.Add(_tmp);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return pLista;
+            }
+        }
+
+        public static string saveConfirPatio(Confirmacion pDatos)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
+            {
+                _conn.Open();
+
+                string consulta = @"DECLARE @a_tara INT
+                                    DECLARE @b_daño BIT
+                                    SET @a_tara = (SELECT v_tara FROM CCO_DETA_NAVIERAS WHERE IdDeta = @IdDeta)
+                                    SET @b_daño = (SELECT CASE WHEN LEN(@s_condicion) > 0 THEN 1 ELSE 0 END)
+
+                                    UPDATE CCO_DETA_NAVIERAS
+                                    SET b_recep_patio = 1, IdZona = @IdZona, Carril = @Carril, Posicion = @Posicion, Nivel = @Nivel, f_recep_patio = GETDATE(),
+                                    v_tara = @v_tara, v_tara_lst = @a_tara, c_marca_patio = @c_marcacion, b_daño = @b_daño, IdGrua = @IdGrua, s_condicion = @s_condicion,
+                                    b_sobredi_patio = @b_sobre
+                                    WHERE IdDeta = @IdDeta
+
+                                    SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(consulta, _conn as SqlConnection);
+
+                _command.Parameters.AddWithValue("@IdDeta", pDatos.IdDeta);
+                _command.Parameters.AddWithValue("@s_condicion", pDatos.s_condicion);
+                _command.Parameters.AddWithValue("@c_marcacion", pDatos.c_marcacion);
+                _command.Parameters.AddWithValue("@IdZona", pDatos.IdZona);
+                _command.Parameters.AddWithValue("@Carril", pDatos.Carril);
+                _command.Parameters.AddWithValue("@Posicion", pDatos.Posicion);
+                _command.Parameters.AddWithValue("@Nivel", pDatos.Nivel);
+                _command.Parameters.AddWithValue("@v_tara", pDatos.v_tara);
+                _command.Parameters.AddWithValue("@IdGrua", pDatos.IdGrua);
+                _command.Parameters.AddWithValue("@b_sobre", pDatos.b_sobredimensionado);
+
+
+                _command.CommandType = CommandType.Text;
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+
+                //if (b_directo == "1")
+                //{
+                //    SaveVFPDirecto(pIdDeta);                    
+                //}
+
+                return _reader;
+            }
+
         }
     }
 }

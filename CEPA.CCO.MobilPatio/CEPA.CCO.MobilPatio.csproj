@@ -1,0 +1,344 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{018D5FCF-98F3-4F18-9A3D-E8026A90D305}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CEPA.CCO.MobilConte</RootNamespace>
+    <AssemblyName>CEPA.CCO.MobilConte</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit">
+      <HintPath>..\packages\AjaxControlToolkitBinary\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bootstrap\csss\bootstrap-datetimepicker.css" />
+    <Content Include="bootstrap\csss\bootstrap-responsive.css" />
+    <Content Include="bootstrap\csss\bootstrap-select.css" />
+    <Content Include="bootstrap\csss\bootstrap-theme.css" />
+    <Content Include="bootstrap\csss\bootstrap-theme.min.css" />
+    <Content Include="bootstrap\csss\bootstrap.css" />
+    <Content Include="bootstrap\csss\bootstrap.fd.css" />
+    <Content Include="bootstrap\csss\bootstrap.min.css" />
+    <Content Include="bootstrap\csss\demo.css" />
+    <Content Include="bootstrap\csss\estiloLogin.css" />
+    <Content Include="bootstrap\csss\estilowrapper.css" />
+    <Content Include="bootstrap\csss\font-awesome.min.css" />
+    <Content Include="bootstrap\csss\autocompleteText.css" />
+    <Content Include="bootstrap\csss\fonts\footable.svg" />
+    <Content Include="bootstrap\csss\footable-demos.css" />
+    <Content Include="bootstrap\csss\footable.core.css" />
+    <Content Include="bootstrap\csss\footable.metro.css" />
+    <Content Include="bootstrap\csss\images\ui-bg_highlight-hard_100_eeeeee_1x100.png" />
+    <Content Include="bootstrap\csss\images\ui-bg_highlight-hard_100_f6f6f6_1x100.png" />
+    <Content Include="bootstrap\csss\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="bootstrap\csss\normalize.css" />
+    <Content Include="bootstrap\csss\slicknav.min.css" />
+    <Content Include="bootstrap\csss\todc-bootstrap.min.css" />
+    <Content Include="bootstrap\csss\vertical-responsive-menu.min.css" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="bootstrap\js\autocomplete.js" />
+    <Content Include="bootstrap\js\bootbox.min.js" />
+    <Content Include="bootstrap\js\bootstrap-datetimepicker.js" />
+    <Content Include="bootstrap\js\bootstrap-select.min.js" />
+    <Content Include="bootstrap\js\bootstrap.fd.js" />
+    <Content Include="bootstrap\js\bootstrap.js" />
+    <Content Include="bootstrap\js\bootstrap.min.js" />
+    <Content Include="bootstrap\js\footable.filter.js" />
+    <Content Include="bootstrap\js\footable.js" />
+    <Content Include="bootstrap\js\footable.paginate.js" />
+    <Content Include="bootstrap\js\html5shiv.min.js" />
+    <Content Include="bootstrap\js\ie10-viewport.js" />
+    <Content Include="bootstrap\js\jquery-1.11.2.min.js" />
+    <Content Include="bootstrap\js\jquery.placeholder.js" />
+    <Content Include="bootstrap\js\jquery.simplePagination.js" />
+    <Content Include="bootstrap\js\moment-with-locales.min.js" />
+    <Content Include="bootstrap\js\moment.min.js" />
+    <Content Include="bootstrap\js\npm.js" />
+    <Content Include="bootstrap\js\respond.min.js" />
+    <Content Include="bootstrap\js\slicknav.min.js" />
+    <Content Include="bootstrap\js\vertical-responsive-menu.min.js" />
+    <Content Include="css\images\ajax-loader.gif" />
+    <Content Include="css\images\icons-png\action-black.png" />
+    <Content Include="css\images\icons-png\action-white.png" />
+    <Content Include="css\images\icons-png\alert-black.png" />
+    <Content Include="css\images\icons-png\alert-white.png" />
+    <Content Include="css\images\icons-png\arrow-d-black.png" />
+    <Content Include="css\images\icons-png\arrow-d-l-black.png" />
+    <Content Include="css\images\icons-png\arrow-d-l-white.png" />
+    <Content Include="css\images\icons-png\arrow-d-r-black.png" />
+    <Content Include="css\images\icons-png\arrow-d-r-white.png" />
+    <Content Include="css\images\icons-png\arrow-d-white.png" />
+    <Content Include="css\images\icons-png\arrow-l-black.png" />
+    <Content Include="css\images\icons-png\arrow-l-white.png" />
+    <Content Include="css\images\icons-png\arrow-r-black.png" />
+    <Content Include="css\images\icons-png\arrow-r-white.png" />
+    <Content Include="css\images\icons-png\arrow-u-black.png" />
+    <Content Include="css\images\icons-png\arrow-u-l-black.png" />
+    <Content Include="css\images\icons-png\arrow-u-l-white.png" />
+    <Content Include="css\images\icons-png\arrow-u-r-black.png" />
+    <Content Include="css\images\icons-png\arrow-u-r-white.png" />
+    <Content Include="css\images\icons-png\arrow-u-white.png" />
+    <Content Include="css\images\icons-png\audio-black.png" />
+    <Content Include="css\images\icons-png\audio-white.png" />
+    <Content Include="css\images\icons-png\back-black.png" />
+    <Content Include="css\images\icons-png\back-white.png" />
+    <Content Include="css\images\icons-png\bars-black.png" />
+    <Content Include="css\images\icons-png\bars-white.png" />
+    <Content Include="css\images\icons-png\bullets-black.png" />
+    <Content Include="css\images\icons-png\bullets-white.png" />
+    <Content Include="css\images\icons-png\calendar-black.png" />
+    <Content Include="css\images\icons-png\calendar-white.png" />
+    <Content Include="css\images\icons-png\camera-black.png" />
+    <Content Include="css\images\icons-png\camera-white.png" />
+    <Content Include="css\images\icons-png\carat-d-black.png" />
+    <Content Include="css\images\icons-png\carat-d-white.png" />
+    <Content Include="css\images\icons-png\carat-l-black.png" />
+    <Content Include="css\images\icons-png\carat-l-white.png" />
+    <Content Include="css\images\icons-png\carat-r-black.png" />
+    <Content Include="css\images\icons-png\carat-r-white.png" />
+    <Content Include="css\images\icons-png\carat-u-black.png" />
+    <Content Include="css\images\icons-png\carat-u-white.png" />
+    <Content Include="css\images\icons-png\check-black.png" />
+    <Content Include="css\images\icons-png\check-white.png" />
+    <Content Include="css\images\icons-png\clock-black.png" />
+    <Content Include="css\images\icons-png\clock-white.png" />
+    <Content Include="css\images\icons-png\cloud-black.png" />
+    <Content Include="css\images\icons-png\cloud-white.png" />
+    <Content Include="css\images\icons-png\comment-black.png" />
+    <Content Include="css\images\icons-png\comment-white.png" />
+    <Content Include="css\images\icons-png\delete-black.png" />
+    <Content Include="css\images\icons-png\delete-white.png" />
+    <Content Include="css\images\icons-png\edit-black.png" />
+    <Content Include="css\images\icons-png\edit-white.png" />
+    <Content Include="css\images\icons-png\eye-black.png" />
+    <Content Include="css\images\icons-png\eye-white.png" />
+    <Content Include="css\images\icons-png\forbidden-black.png" />
+    <Content Include="css\images\icons-png\forbidden-white.png" />
+    <Content Include="css\images\icons-png\forward-black.png" />
+    <Content Include="css\images\icons-png\forward-white.png" />
+    <Content Include="css\images\icons-png\gear-black.png" />
+    <Content Include="css\images\icons-png\gear-white.png" />
+    <Content Include="css\images\icons-png\grid-black.png" />
+    <Content Include="css\images\icons-png\grid-white.png" />
+    <Content Include="css\images\icons-png\heart-black.png" />
+    <Content Include="css\images\icons-png\heart-white.png" />
+    <Content Include="css\images\icons-png\home-black.png" />
+    <Content Include="css\images\icons-png\home-white.png" />
+    <Content Include="css\images\icons-png\info-black.png" />
+    <Content Include="css\images\icons-png\info-white.png" />
+    <Content Include="css\images\icons-png\location-black.png" />
+    <Content Include="css\images\icons-png\location-white.png" />
+    <Content Include="css\images\icons-png\lock-black.png" />
+    <Content Include="css\images\icons-png\lock-white.png" />
+    <Content Include="css\images\icons-png\mail-black.png" />
+    <Content Include="css\images\icons-png\mail-white.png" />
+    <Content Include="css\images\icons-png\minus-black.png" />
+    <Content Include="css\images\icons-png\minus-white.png" />
+    <Content Include="css\images\icons-png\navigation-black.png" />
+    <Content Include="css\images\icons-png\navigation-white.png" />
+    <Content Include="css\images\icons-png\phone-black.png" />
+    <Content Include="css\images\icons-png\phone-white.png" />
+    <Content Include="css\images\icons-png\plus-black.png" />
+    <Content Include="css\images\icons-png\plus-white.png" />
+    <Content Include="css\images\icons-png\power-black.png" />
+    <Content Include="css\images\icons-png\power-white.png" />
+    <Content Include="css\images\icons-png\recycle-black.png" />
+    <Content Include="css\images\icons-png\recycle-white.png" />
+    <Content Include="css\images\icons-png\refresh-black.png" />
+    <Content Include="css\images\icons-png\refresh-white.png" />
+    <Content Include="css\images\icons-png\search-black.png" />
+    <Content Include="css\images\icons-png\search-white.png" />
+    <Content Include="css\images\icons-png\shop-black.png" />
+    <Content Include="css\images\icons-png\shop-white.png" />
+    <Content Include="css\images\icons-png\star-black.png" />
+    <Content Include="css\images\icons-png\star-white.png" />
+    <Content Include="css\images\icons-png\tag-black.png" />
+    <Content Include="css\images\icons-png\tag-white.png" />
+    <Content Include="css\images\icons-png\user-black.png" />
+    <Content Include="css\images\icons-png\user-white.png" />
+    <Content Include="css\images\icons-png\video-black.png" />
+    <Content Include="css\images\icons-png\video-white.png" />
+    <Content Include="css\jquery.mobile.icons.min.css" />
+    <Content Include="css\jquery.mobile.structure-1.4.5.min.css" />
+    <Content Include="css\mobilCEPA.css" />
+    <Content Include="css\mobilCEPA.min.css" />
+    <Content Include="DATA\xmlConfig.xml" />
+    <Content Include="images\cepa_logo_blanco.png" />
+    <Content Include="images\fondo.png" />
+    <Content Include="images\fondo_principal.png" />
+    <Content Include="images\fond_cepa.png" />
+    <Content Include="images\fondo_principal1.png" />
+    <Content Include="images\fond_cepa11.png" />
+    <Content Include="js\index.js" />
+    <Content Include="js\jquery-1.11.1.min.js" />
+    <Content Include="js\jquery-1.11.3.min.js" />
+    <Content Include="js\jquery.js" />
+    <Content Include="js\jquery.mobile-1.4.5.min.js" />
+    <Content Include="mfDefault.aspx" />
+    <Content Include="mfInicio.aspx" />
+    <Content Include="mfRecepcionImport.aspx" />
+    <Content Include="mfRecepInfor.aspx" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="mfDefault.aspx.cs">
+      <DependentUpon>mfDefault.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mfDefault.aspx.designer.cs">
+      <DependentUpon>mfDefault.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mfInicio.aspx.cs">
+      <DependentUpon>mfInicio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mfInicio.aspx.designer.cs">
+      <DependentUpon>mfInicio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mfRecepcionImport.aspx.cs">
+      <DependentUpon>mfRecepcionImport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mfRecepcionImport.aspx.designer.cs">
+      <DependentUpon>mfRecepcionImport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="mfRecepInfor.aspx.cs">
+      <DependentUpon>mfRecepInfor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mfRecepInfor.aspx.designer.cs">
+      <DependentUpon>mfRecepInfor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bootstrap\csss\bootstrap-theme.css.map" />
+    <Content Include="bootstrap\csss\bootstrap.css.map" />
+    <Content Include="bootstrap\csss\fonts\footable.eot" />
+    <Content Include="bootstrap\csss\fonts\footable.ttf" />
+    <Content Include="bootstrap\csss\fonts\footable.woff" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="css\fonts\Bembo-Std.ttf" />
+    <Content Include="css\fonts\BemboStd-Bold.otf" />
+    <Content Include="css\fonts\BemboStd-SemiboldItalic.otf" />
+    <Content Include="css\fonts\MuseoSans-300[1].otf" />
+    <Content Include="css\fonts\MuseoSans_500.otf" />
+    <Content Include="css\fonts\MuseoSans_900.otf" />
+    <None Include="Properties\PublishProfiles\MobilLocal.pubxml" />
+    <None Include="Properties\PublishProfiles\MobilWeb.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CEPA.CCO.BL\CEPA.CCO.BL.csproj">
+      <Project>{15457455-ad5f-410c-aded-bfb964451a02}</Project>
+      <Name>CEPA.CCO.BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CEPA.CCO.DAL\CEPA.CCO.DAL.csproj">
+      <Project>{2ffbbb22-7c92-4c98-b1a8-145de0ecd864}</Project>
+      <Name>CEPA.CCO.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CEPA.CCO.Entidades\CEPA.CCO.Entidades.csproj">
+      <Project>{6c666892-7a38-44ad-a43c-9be068cf8b37}</Project>
+      <Name>CEPA.CCO.Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CEPA.CCO.Linq\CEPA.CCO.Linq.csproj">
+      <Project>{24be033e-8bd5-4a18-8274-c2b501b32571}</Project>
+      <Name>CEPA.CCO.Linq</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>59703</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:59703/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

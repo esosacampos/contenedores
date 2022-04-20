@@ -9,6 +9,81 @@ namespace CEPA.CCO.DAL
 {
     public class EncaBuqueDAL
     {
+        public static List<EncaBuque> ObtenerBuquesConce(DBComun.Estado pTipo, List<string> c_cliente)
+        {
+            List<EncaBuque> _empleados = new List<EncaBuque>();
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SyBaseNET, pTipo))
+            {
+
+
+                _conn.Open();
+
+                string cc_cliente = null;
+                foreach (var item in c_cliente)
+                {
+                    cc_cliente = item;
+                    break;
+                }
+
+                string _consulta = null;
+                AseCommand _command = null;
+                if (cc_cliente == "219" || cc_cliente == "289")
+                {
+                    _consulta = @"SELECT a.c_llegada, b.c_buque, b.s_nom_buque, d.c_cliente, c.s_razon_social, a.f_llegada, ISNULL(b.c_imo, '')
+                                FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
+                                INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
+                                INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
+                                LEFT JOIN  fa_llegadas e ON a.c_llegada = e.c_llegada 
+                                WHERE a.c_empresa = '04' AND a.f_llegada >= DATEADD( dd, -40, getdate()) AND e.f_desatraque IS NULL
+                                ORDER BY f_llegada ";
+                    _command = new AseCommand(_consulta, _conn as AseConnection);
+
+                }
+                else
+                {
+                    _consulta = @"SELECT a.c_llegada, b.c_buque, b.s_nom_buque, d.c_cliente, c.s_razon_social, a.f_llegada, ISNULL(b.c_imo, '')
+                                FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
+                                INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
+                                INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
+                                LEFT JOIN  fa_llegadas e ON a.c_llegada = e.c_llegada 
+                                WHERE a.c_empresa = '04' AND c.c_cliente IN({0}) AND a.f_llegada >= DATEADD( dd, -40, getdate()) --AND e.f_desatraque IS NULL
+                                ORDER BY f_llegada DESC";
+
+
+                    string parameterPrefix = "c_cliente";
+
+                    _consulta = SqlWhereIn.BuildWhereInClause(_consulta, parameterPrefix, c_cliente);
+                    _command = new AseCommand(_consulta, _conn as AseConnection);
+                    _command.AddParamsToCommand(parameterPrefix, c_cliente);
+                }
+
+                _command.CommandType = CommandType.Text;
+
+                AseDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    EncaBuque _tmpEmpleado = new EncaBuque
+                    {
+                        c_llegada = _reader.GetString(0),
+                        c_buque = _reader.GetString(1),
+                        d_buque = _reader.GetString(2),
+                        c_cliente = _reader.GetString(3),
+                        d_cliente = _reader.GetString(4),
+                        f_llegada = Convert.ToDateTime(_reader.GetDateTime(5), CultureInfo.CreateSpecificCulture("es-SV")),
+                        c_imo = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
+                    };
+
+                    _empleados.Add(_tmpEmpleado);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return _empleados;
+            }
+        }
         public static List<EncaBuque> ObtenerBuques(DBComun.Estado pTipo, string c_cliente)
         {
             List<EncaBuque> _empleados = new List<EncaBuque>();
@@ -25,12 +100,12 @@ namespace CEPA.CCO.DAL
                 if (c_cliente == "219" || c_cliente == "289")
                 {                 
                     _consulta = @"SELECT a.c_llegada, b.c_buque, b.s_nom_buque, d.c_cliente, c.s_razon_social, a.f_llegada, ISNULL(b.c_imo, '')
-                                FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque 
+                                FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                                 INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                                 INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
                                 LEFT JOIN  fa_llegadas e ON a.c_llegada = e.c_llegada 
                                 WHERE a.c_empresa = '04' AND a.f_llegada >= DATEADD( dd, -30, getdate()) AND e.f_desatraque IS NULL
-                                ORDER BY a.f_llegada DESC";
+                                ORDER BY f_llegada ";
                     _command = new AseCommand(_consulta, _conn as AseConnection);
 
                 }
@@ -62,7 +137,7 @@ namespace CEPA.CCO.DAL
                         c_cliente = _reader.GetString(3),
                         d_cliente = _reader.GetString(4),
                         f_llegada = Convert.ToDateTime(_reader.GetDateTime(5), CultureInfo.CreateSpecificCulture("es-SV")),
-                        c_imo = _reader.GetString(6),
+                        c_imo = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
                     };
 
                     _empleados.Add(_tmpEmpleado);
@@ -117,13 +192,13 @@ namespace CEPA.CCO.DAL
                 {
                     EncaBuque _tmpEmpleado = new EncaBuque
                     {
-                        c_llegada = _reader.GetString(0),
-                        c_buque = _reader.GetString(1),
-                        d_buque = _reader.GetString(2),
-                        c_cliente = _reader.GetString(3),
-                        d_cliente = _reader.GetString(4),
+                        c_llegada = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
+                        c_buque = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        d_buque = _reader.IsDBNull(2) ? "" :  _reader.GetString(2),
+                        c_cliente = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        d_cliente = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
                         f_llegada = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5),
-                        c_imo = _reader.GetString(6)
+                        c_imo = _reader.IsDBNull(6) ? "" : _reader.GetString(6)
                     };
 
                     _empleados.Add(_tmpEmpleado);
@@ -199,13 +274,61 @@ namespace CEPA.CCO.DAL
                 {
                     EncaBuque _tmpEmpleado = new EncaBuque
                     {
-                        c_llegada = _reader.GetString(0),
-                        c_buque = _reader.GetString(1),
-                        d_buque = _reader.GetString(2),
-                        c_cliente = _reader.GetString(3),
-                        d_cliente = _reader.GetString(4),
+                        c_llegada = _reader.IsDBNull(0) ? "": _reader.GetString(0),
+                        c_buque = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        d_buque = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
+                        c_cliente = _reader.IsDBNull(3) ? "" : _reader.GetString(3),                      
+                        d_cliente = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
                         f_llegada = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5),
-                        c_imo = _reader.GetString(6)
+                        c_imo = _reader.IsDBNull(6) ? "" :  _reader.GetString(6)
+                    };
+
+                    _empleados.Add(_tmpEmpleado);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return _empleados;
+            }
+        }
+
+        public static List<EncaBuque> ObtenerBuquesJoinDAN(DBComun.Estado pEstado)
+        {
+            List<EncaBuque> _empleados = new List<EncaBuque>();
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SyBaseNET, pEstado))
+            {
+                _conn.Open();
+                string _consulta = null;
+                AseCommand _command = null;
+
+                _consulta = @"SELECT a.c_llegada, b.c_buque, b.s_nom_buque, d.c_cliente, c.s_razon_social, a.f_llegada, ISNULL(b.c_imo, '') c_imo
+                            FROM fa_aviso_lleg a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
+                            INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
+                            INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
+                            WHERE a.c_empresa = '04' AND YEAR(a.f_llegada) BETWEEN YEAR(GETDATE()) - 1  AND YEAR(GETDATE())
+                            ORDER BY f_llegada DESC";
+
+
+                _command = new AseCommand(_consulta, _conn as AseConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                AseDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    EncaBuque _tmpEmpleado = new EncaBuque
+                    {
+                        c_llegada = _reader.IsDBNull(0) ? "" :_reader.GetString(0),
+                        c_buque = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        d_buque = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
+                        c_cliente = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        d_cliente = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                        f_llegada = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5),
+                        c_imo = _reader.IsDBNull(6) ? "" : _reader.GetString(6)
                     };
 
                     _empleados.Add(_tmpEmpleado);
@@ -247,13 +370,13 @@ namespace CEPA.CCO.DAL
                 {
                     EncaBuque _tmpEmpleado = new EncaBuque
                     {
-                        c_llegada = _reader.GetString(0),
-                        c_buque = _reader.GetString(1),
-                        d_buque = _reader.GetString(2),
-                        c_cliente = _reader.GetString(3),
-                        d_cliente = _reader.GetString(4),
+                        c_llegada = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
+                        c_buque = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        d_buque = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
+                        c_cliente = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        d_cliente = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
                         f_llegada = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5),
-                        c_imo = _reader.GetString(6)
+                        c_imo = _reader.IsDBNull(6) ? "" : _reader.GetString(6)
                     };
 
                     _empleados.Add(_tmpEmpleado);
@@ -298,13 +421,13 @@ namespace CEPA.CCO.DAL
                 {
                     EncaBuque _tmpEmpleado = new EncaBuque
                     {
-                        c_llegada = _reader.GetString(0),
-                        c_buque = _reader.GetString(1),
-                        d_buque = _reader.GetString(2),
-                        c_cliente = _reader.GetString(3),
-                        d_cliente = _reader.GetString(4),
+                        c_llegada = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
+                        c_buque = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        d_buque = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
+                        c_cliente = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        d_cliente = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
                         f_llegada = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5),
-                        c_imo = _reader.GetString(6),
+                        c_imo = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
                         f_desatraque = _reader.IsDBNull(7) ? Convert.ToDateTime(_reader.GetDateTime(7)) : _reader.GetDateTime(7)
                     };
 
@@ -345,10 +468,10 @@ namespace CEPA.CCO.DAL
                 {
                     EncaBuque _tmpEmpleado = new EncaBuque
                     {
-                        c_llegada = _reader.GetString(0),
-                        c_buque = _reader.GetString(1),
-                        d_buque = _reader.GetString(2),                        
-                        c_imo = _reader.GetString(3)
+                        c_llegada = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
+                        c_buque = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        d_buque = _reader.IsDBNull(2) ? "" : _reader.GetString(2),                        
+                        c_imo = _reader.IsDBNull(3) ? "" : _reader.GetString(3)
                     };
 
                     _empleados.Add(_tmpEmpleado);
@@ -389,13 +512,13 @@ namespace CEPA.CCO.DAL
                 {
                     EncaBuque _tmpEmpleado = new EncaBuque
                     {
-                        c_llegada = _reader.GetString(0),
-                        c_buque = _reader.GetString(1),
-                        d_buque = _reader.GetString(2),
-                        c_cliente = _reader.GetString(3),
-                        d_cliente = _reader.GetString(4),
+                        c_llegada = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
+                        c_buque = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        d_buque = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
+                        c_cliente = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        d_cliente = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
                         f_llegada = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5),
-                        c_imo = _reader.GetString(6)
+                        c_imo = _reader.IsDBNull(6) ? "" : _reader.GetString(6)
                     };
 
                     _empleados.Add(_tmpEmpleado);
@@ -475,13 +598,13 @@ namespace CEPA.CCO.DAL
                 {
                     EncaBuque _tmpEmpleado = new EncaBuque
                     {
-                        c_llegada = _reader.GetString(0),
-                        c_buque = _reader.GetString(1),
-                        d_buque = _reader.GetString(2),
-                        c_cliente = _reader.GetString(3),
-                        d_cliente = _reader.GetString(4),
+                        c_llegada = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
+                        c_buque = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        d_buque = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
+                        c_cliente = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        d_cliente = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
                         f_llegada = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5),
-                        c_imo = _reader.GetString(6)
+                        c_imo = _reader.IsDBNull(6) ? "" : _reader.GetString(6)
                     };
 
                     _empleados.Add(_tmpEmpleado);
@@ -667,10 +790,29 @@ namespace CEPA.CCO.DAL
                             set @c_bl = (select c_bl from fa_bl_det a, fa_enc_manifies b, fa_manifiestos c where  b.c_manifiesto=c.c_manifiesto and
                             c.c_tarja=a.c_tarja and b.b_mani_embar='2' and b.c_llegada = @c_llegada and a.c_contenedor = @c_contenedor)
 
-                        
-                            select c.c_bl, a.c_tarja, a.c_contenedor, a.d_clase_contenido, c.f_tarja, b.c_llegada, a.v_pes_rec from fa_bl_det a, fa_enc_manifies b, fa_manifiestos c
-                            where  b.c_manifiesto=c.c_manifiesto and
-                            c.c_tarja=a.c_tarja and b.b_mani_embar='2' and b.c_llegada = @c_llegada and c.c_bl = @c_bl ";
+
+                         select c.c_bl, a.c_tarja, a.c_contenedor, a.d_clase_contenido, c.f_tarja, b.c_llegada, a.v_pes_rec, 
+                        case when c_cliente_light IS NOT NULL THEN c_cliente_light ELSE c_cliente END c_cliente, 
+                        case when c_cliente_light IS NOT NULL THEN 'L' ELSE 'N' END tipo
+                        from fa_bl_det a, fa_enc_manifies b, fa_manifiestos c
+                        where  b.c_manifiesto=c.c_manifiesto and
+                        c.c_tarja=a.c_tarja and b.b_mani_embar='2' and b.c_llegada = @c_llegada and c.c_bl = @c_bl";
+
+
+                //_consulta = @"set nocount on
+                //                declare @c_llegada varchar(20)                           
+                //                declare @c_bl varchar(30) 
+                //                declare @c_contenedor varchar(20)     
+                //                set @c_llegada = '{0}'    
+                //                set @c_contenedor = '{1}'
+
+
+
+                //                select c.c_bl, a.c_tarja, a.c_contenedor, a.d_clase_contenido, c.f_tarja, b.c_llegada, a.v_pes_rec, case when c_cliente_light IS NOT NULL THEN c_cliente_light ELSE c_cliente END c_cliente 
+                //                from fa_bl_det a, fa_enc_manifies b, fa_manifiestos c
+                //                where  b.c_manifiesto=c.c_manifiesto and
+                //                c.c_tarja=a.c_tarja and b.b_mani_embar='2' and b.c_llegada = @c_llegada and c.c_bl in(select c_bl from fa_bl_det a, fa_enc_manifies b, fa_manifiestos c where  b.c_manifiesto=c.c_manifiesto and
+                //                c.c_tarja=a.c_tarja and b.b_mani_embar='2' and b.c_llegada = @c_llegada and a.c_contenedor = @c_contenedor)";
 
                 _command = new AseCommand(string.Format(_consulta, c_llegada, n_contenedor), _conn as AseConnection)
                 {
@@ -689,7 +831,9 @@ namespace CEPA.CCO.DAL
                         s_descripcion = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
                         f_tarja = _reader.GetDateTime(4),
                         c_llegada = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
-                        v_peso = _reader.IsDBNull(6) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(6))
+                        v_peso = _reader.IsDBNull(6) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(6)),
+                        c_cliente = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        tcliente = _reader.IsDBNull(8) ? "L" : _reader.GetString(8)
                     };
 
                     _empleados.Add(_tmpEmpleado);
@@ -713,7 +857,7 @@ namespace CEPA.CCO.DAL
                 AseCommand _command = null;
 
 
-                _consulta = @"select a.c_factura, s_pre_imp_du, f_factura, a.s_complementarios, v_factura_total, a.c_tarja
+                _consulta = @"select a.c_factura, s_pre_imp_du, f_factura, a.s_complementarios, v_factura_total, a.c_tarja, a.f_calc_retiro
                                 from fa_enc_factura a, fa_det_factura b, cg_ctas_conta c, fa_cat_servicios d
                                 where a.c_factura = b.c_factura
                                 and b.c_servicio = d.c_servicio
@@ -735,7 +879,8 @@ namespace CEPA.CCO.DAL
                         c_preimpreso = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
                         f_factura = _reader.GetDateTime(2),
                         s_detalle = _reader.IsDBNull(3) ? "" : _reader.GetString(3),                        
-                        t_factura = _reader.IsDBNull(4) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(4))
+                        t_factura = _reader.IsDBNull(4) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(4)),
+                        f_calc_retiro = _reader.GetDateTime(6)
                     };
 
                     _empleados.Add(_tmpEmpleado);
@@ -831,7 +976,8 @@ namespace CEPA.CCO.DAL
 
                 _consulta = @"select a.c_llegada, b.s_nom_buque, a.*
                             from fa_llegadas a, fa_buques b
-                            where a.c_buque=b.c_buque and a.c_empresa='04' /*and a.c_operadora<>'14'*/ and a.f_desatraque is null and year(a.f_atraque)BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE()) AND MONTH(a.f_atraque) BETWEEN MONTH(GETDATE()) - 1 AND MONTH(GETDATE()) and a.c_llegada is not null
+                            where a.c_buque=b.c_buque and a.c_empresa='04' /*and a.c_operadora<>'14'*/ and a.f_desatraque is null and year(a.f_atraque)BETWEEN YEAR(GETDATE()) - 1 AND YEAR(GETDATE()) 
+                            /*AND MONTH(a.f_atraque) BETWEEN MONTH(GETDATE()) - 1 AND MONTH(GETDATE())*/ and a.c_llegada is not null
                             order by a.f_atraque desc";
 
                 /*_consulta = @"select a.c_llegada, b.s_nom_buque
@@ -986,7 +1132,7 @@ namespace CEPA.CCO.DAL
                         c_cliente = _reader.GetString(3),
                         d_cliente = _reader.GetString(4),
                         f_llegada = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5),
-                        c_imo = _reader.GetString(6)
+                        c_imo = _reader.IsDBNull(6) ? "" : _reader.GetString(6)
                     };
 
                     _empleados.Add(_tmpEmpleado);

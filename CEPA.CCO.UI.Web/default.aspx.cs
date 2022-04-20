@@ -43,6 +43,7 @@ namespace CEPA.CCO.UI.Web
                 {
                     ObtenerMenu();
                     //sessionId.InnerText = Session["c_usuario"].ToString();
+                    
                     sessionInput.InnerText = Session["d_usuario"].ToString().ToUpper();
                 }
             }

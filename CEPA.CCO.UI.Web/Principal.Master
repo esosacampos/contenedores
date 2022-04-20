@@ -100,16 +100,22 @@
 
         /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
         .row.content {
-            height: 450px;
+            height: 100%;
         }
 
         /* Set gray background color and 100% height */
         .sidenav {
-            padding-top: 5px;
+           /* padding-top: 5px;
             background-color: #f1f1f1;
             height: 100%;
-            min-height: 1200px;
+            min-height: 550px;*/
+            padding-top: 5px;
+            background-color: rgb(241, 241, 241);
+            height: calc(100% - 50px);
+            min-height: 650px;
         }
+
+
 
         #anim {
             font-size: 2em;
@@ -342,7 +348,7 @@
                 <div class="form-inline">
                     <div class="form-group">
                         <%--<div id="DigiCertClickID_0bcATRpn3"></div>--%>
-                       <%-- <script type="text/javascript"> //<![CDATA[
+                        <%-- <script type="text/javascript"> //<![CDATA[
                             var tlJsHost = ((window.location.protocol == "https:") ? "https://secure.trust-provider.com/" : "http://www.trustlogo.com/");
                             document.write(unescape("%3Cscript src='" + tlJsHost + "trustlogo/javascript/trustlogo.js' type='text/javascript'%3E%3C/script%3E"));
 //]]></script>
@@ -352,7 +358,8 @@
                     </div>
                     <div class="form-group">
                         <p class="text-muted">
-                            © 2013 CEPA / Puerto de Acajutla, El Salvador v3.0 para Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv - (+503) 7070 - 8256</a>
+                            <%--© 2013 CEPA / Puerto de Acajutla, El Salvador v3.0 para Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática elsa.sosa@cepa.gob.sv - (+503) 7070 - 8256</a>--%>
+                            © 2013 CEPA / Puerto de Acajutla, El Salvador v3.0 - Para asistencia técnica favor escribir al correo <a href="#">informática.acajutla@cepa.gob.sv</a>
                         </p>
                     </div>
                 </div>
@@ -367,7 +374,7 @@
             var y = 0;
             var size = 0;
 
-           // var __dcid = __dcid || []; __dcid.push(["DigiCertClickID_0bcATRpn3", "10", "s", "white", "0bcATRpn"]); (function () { var cid = document.createElement("script"); cid.async = true; cid.src = "//seal.digicert.com/seals/cascade/seal.min.js"; var s = document.getElementsByTagName("script"); var ls = s[(s.length - 1)]; ls.parentNode.insertBefore(cid, ls.nextSibling); }());
+            // var __dcid = __dcid || []; __dcid.push(["DigiCertClickID_0bcATRpn3", "10", "s", "white", "0bcATRpn"]); (function () { var cid = document.createElement("script"); cid.async = true; cid.src = "//seal.digicert.com/seals/cascade/seal.min.js"; var s = document.getElementsByTagName("script"); var ls = s[(s.length - 1)]; ls.parentNode.insertBefore(cid, ls.nextSibling); }());
 
             $(function () {
 

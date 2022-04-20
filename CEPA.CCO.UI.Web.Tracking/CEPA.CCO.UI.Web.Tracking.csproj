@@ -171,6 +171,9 @@
     <Content Include="Connected Services\CepaSW\CEPA.CCO.UI.Web.Tracking.CepaSW.entradaBodegaResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="Connected Services\CepaSW\CEPA.CCO.UI.Web.Tracking.CepaSW.getDocTransporteDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Connected Services\CepaSW\configuration91.svcinfo" />
     <None Include="Connected Services\CepaSW\configuration.svcinfo" />
     <None Include="Connected Services\CepaSW\Reference.svcmap">
@@ -341,6 +344,8 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="wfConsulBLNvo.aspx" />
+    <Content Include="wfConsulBLTmp.aspx" />
     <Content Include="wfConsulBL.aspx" />
     <Content Include="wfAyuda.aspx" />
     <Content Include="wfTracking.aspx" />
@@ -355,6 +360,20 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="wfConsulBLNvo.aspx.cs">
+      <DependentUpon>wfConsulBLNvo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfConsulBLNvo.aspx.designer.cs">
+      <DependentUpon>wfConsulBLNvo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfConsulBLTmp.aspx.cs">
+      <DependentUpon>wfConsulBLTmp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfConsulBLTmp.aspx.designer.cs">
+      <DependentUpon>wfConsulBLTmp.aspx</DependentUpon>
+    </Compile>
     <Compile Include="wfConsulBL.aspx.cs">
       <DependentUpon>wfConsulBL.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

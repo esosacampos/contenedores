@@ -9,6 +9,15 @@
     <div class="table-responsive">
         <table class="table">
             <tr>
+                <td>AGENCIA
+                </td>
+                <td>
+                 <asp:HiddenField ID="hNaviera" runat="server" Value="" />
+                    <asp:HiddenField ID="hIsoNavi" runat="server" Value="" />
+                    <asp:Label ID="c_prefijo_txt" runat="server" Text=""></asp:Label>
+                </td>
+            </tr>
+            <tr>
                 <td>IMO
                 </td>
                 <td>
@@ -54,10 +63,9 @@
                 data-filter="#filter" ShowFooter="true"
                 data-page-size="10" CssClass="footable" OnRowCreated="onRowCreate">
                 <Columns>
-                    <asp:BoundField DataField="IdDeta" HeaderText="ID"></asp:BoundField>
+                    <asp:BoundField DataField="c_correlativo" HeaderText="No."></asp:BoundField>
                     <asp:BoundField DataField="n_contenedor" HeaderText="CONTENEDOR"></asp:BoundField>
-                    <asp:BoundField DataField="c_tamaño" HeaderText="TAMAÑO"></asp:BoundField>
-                    <asp:BoundField DataField="b_retenido" HeaderText="RETENCION"></asp:BoundField>
+                    <asp:BoundField DataField="c_tamaño" HeaderText="TAMAÑO"></asp:BoundField>                    
                     <asp:TemplateField HeaderText="CANCELAR">
                         <ItemTemplate>
                             <asp:CheckBox ID="CheckBox1" runat="server" onclick="Check_Click(this)" />

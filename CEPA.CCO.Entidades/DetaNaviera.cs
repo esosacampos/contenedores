@@ -254,7 +254,7 @@ namespace CEPA.CCO.Entidades
         public string f_cancelado { get; set; }
         public string f_cambio { get; set; }
 
-
+        public string f_recepAA { get; set; }
         public string f_ret_ucc { get; set; }
         public DateTime? f_tramite_ucc { get; set; }
         public DateTime? f_liberado_ucc { get; set; }
@@ -265,6 +265,8 @@ namespace CEPA.CCO.Entidades
 
         public string f_retencion_dga { get; set; }
         public string f_lib_dga { get; set; }
+
+        public string n_BL { get; set; }
     }
 
     public class ProvisionalesEnca
@@ -309,6 +311,8 @@ namespace CEPA.CCO.Entidades
         public string c_contenedor { get; set; }
         public int con_tarjas { get; set; }
         public string c_bl { get; set; }
+        public string c_cliente { get; set; }
+        public string tcliente { get; set; }
 
     }
 
@@ -321,6 +325,13 @@ namespace CEPA.CCO.Entidades
 
     }
 
+    public class TipoClaves
+    {
+        public string Clave { get; set; }
+        public string Tipo { get; set; }
+        public int MyProperty { get; set; }
+    }
+
     public class FacturasTarjas
     {
         public string c_factura { get; set; }
@@ -331,6 +342,7 @@ namespace CEPA.CCO.Entidades
         public double t_factura { get; set; }
 
         public string fa_factura { get; set; }
+        public DateTime f_calc_retiro { get; set; }
     }
 
 }

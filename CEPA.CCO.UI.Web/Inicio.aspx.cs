@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+
 
 #region "Namespace Usados"
-using System.Web.Configuration;
-using System.DirectoryServices;
-using System.DirectoryServices.ActiveDirectory;
-using System.Security;
-using System.Security.Permissions;
-using System.Configuration;
-using System.Web.UI.HtmlControls;
-using System.Text;
 using System.Web.Security;
 using CEPA.CCO.Entidades;
 using CEPA.CCO.BL;
@@ -95,7 +86,7 @@ namespace CEPA.CCO.UI.Web
                             {
                                 Session["c_naviera"] = item.c_naviera;
                                 Session["c_usuario"] = item.c_usuario;
-                                Session["d_usuario"] = string.Concat(" ", item.d_usuario, " - ", item.c_navi_corto, " ");
+                                Session["d_usuario"] = item.d_usuario;
                                 //Session["s_email_reg"] = item.c_mail;
                                 Session["c_iso_navi"] = item.c_iso_navi;
                                 Session["c_navi_corto"] = item.c_navi_corto;

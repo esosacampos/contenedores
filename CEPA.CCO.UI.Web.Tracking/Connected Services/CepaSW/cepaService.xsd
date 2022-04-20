@@ -8,6 +8,8 @@
   <xs:element name="getCepaDataResponse" type="tns:getCepaDataResponse" />
   <xs:element name="getContenedorData" type="tns:getContenedorData" />
   <xs:element name="getContenedorDataResponse" type="tns:getContenedorDataResponse" />
+  <xs:element name="getDocTransporteData" type="tns:getDocTransporteData" />
+  <xs:element name="getDocTransporteDataResponse" type="tns:getDocTransporteDataResponse" />
   <xs:element name="getDocumentoInfoDocumento" type="tns:getDocumentoInfoDocumento" />
   <xs:element name="getDocumentoInfoDocumentoResponse" type="tns:getDocumentoInfoDocumentoResponse" />
   <xs:element name="insertContenedorDAN" type="tns:insertContenedorDAN" />
@@ -26,6 +28,16 @@
       <xs:element minOccurs="0" name="return" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="getCepaData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="xmlData" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCepaDataResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="updateCepaData">
     <xs:sequence>
       <xs:element minOccurs="0" name="xmlData" type="xs:string" />
@@ -36,12 +48,12 @@
       <xs:element minOccurs="0" name="return" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="getCepaData">
+  <xs:complexType name="getDocTransporteData">
     <xs:sequence>
       <xs:element minOccurs="0" name="xmlData" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="getCepaDataResponse">
+  <xs:complexType name="getDocTransporteDataResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="xs:string" />
     </xs:sequence>

@@ -20,6 +20,8 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,7 +65,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="wsCEPA.asmx" />
-    <Content Include="DATA\Web.config">
+    <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
@@ -79,10 +81,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\ServiceADUANA.pubxml" />
-    <None Include="DATA\Web.Debug.config">
+    <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <None Include="DATA\Web.Release.config">
+    <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>

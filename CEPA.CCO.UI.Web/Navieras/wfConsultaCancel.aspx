@@ -5,7 +5,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>
-        Lista de Importacion Autorizados</h2>
+        Lista de Exportación Autorizados</h2>
     <div class="form-group" style="margin-left: 15px;">
         <label for="texto">
             Buscar</label>
@@ -17,12 +17,12 @@
                 data-filter="#filter" ShowFooter="true"
                 data-page-size="10" CssClass="footable" OnRowCreated="onRowCreate">
                 <Columns>
+                    <asp:BoundField DataField="c_prefijo" HeaderText="AGENCIA"></asp:BoundField>
                     <asp:BoundField DataField="c_imo" HeaderText="COD. IMO"></asp:BoundField>
                     <asp:BoundField DataField="c_llegada" HeaderText="COD. DE LLEGADA"></asp:BoundField>
                     <asp:BoundField DataField="d_buque" HeaderText="NOMBRE DEL BUQUE"></asp:BoundField>
                     <asp:BoundField DataField="f_llegada" DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"
-                        HeaderText="FECHA DE LLEGADA"></asp:BoundField>
-                    <asp:BoundField DataField="CantArchivo" HeaderText="# DE ARCHIVOS"></asp:BoundField>
+                        HeaderText="FECHA DE LLEGADA"></asp:BoundField>                    
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:HyperLink ID="Link1" runat="server" CssClass="btn btn-primary btn xs" NavigateUrl='<%# DataBinder.Eval(Container.DataItem,"IdReg", "/Navieras/wfCancelarCon.aspx?IdReg={0}") %>'

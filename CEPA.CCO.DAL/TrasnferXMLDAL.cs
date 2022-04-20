@@ -638,7 +638,7 @@ namespace CEPA.CCO.DAL
                 string _consulta = null;
                 AseCommand _command = null;
 
-                _consulta = @"SELECT a.c_nul, a.c_llegada, b.s_nom_buque, d.c_cliente, c.s_razon_social, a.f_atraque
+                _consulta = @"SELECT a.c_nul, a.c_llegada, b.s_nom_buque, d.c_cliente, c.s_razon_social, ISNULL(a.f_atraque, '') f_atraque
                             FROM fa_llegadas a INNER JOIN fa_buques b ON a.c_buque = b.c_buque
                             INNER JOIN fa_tarifa_unica d ON a.c_llegada = d.c_llegada 
                             INNER JOIN cn_cliente c ON d.c_cliente = c.c_cliente
@@ -657,11 +657,11 @@ namespace CEPA.CCO.DAL
                 {
                     CorteCOTECNA _tmpEmpleado = new CorteCOTECNA
                     {
-                        c_nul = _reader.GetString(0),
-                        c_llegada = _reader.GetString(1),
-                        d_buque = _reader.GetString(2),
-                        c_cliente = _reader.GetString(3),
-                        d_cliente = _reader.GetString(4),
+                        c_nul = _reader.IsDBNull(0) ? "": _reader.GetString(0),
+                        c_llegada = _reader.IsDBNull(1)? "":  _reader.GetString(1),
+                        d_buque = _reader.IsDBNull(2)? "":_reader.GetString(2),
+                        c_cliente = _reader.IsDBNull(3)? "" : _reader.GetString(3),
+                        d_cliente = _reader.IsDBNull(4)? "" : _reader.GetString(4),
                         f_atraque = _reader.IsDBNull(5) ? Convert.ToDateTime(_reader.GetDateTime(5)) : _reader.GetDateTime(5)
                         
                     };
@@ -767,6 +767,55 @@ namespace CEPA.CCO.DAL
 
         }
 
+        public static List<CorteCOTECNA> CorteLlegadasExp(DBComun.Estado pEstado, string c_llegada)
+        {
+            List<CorteCOTECNA> notiLista = new List<CorteCOTECNA>();
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+                /*string consulta = @"SELECT a.c_llegada, a.c_naviera, c.a_manifiesto + CAST(c.n_manifiesto AS VARCHAR(4)) mani, COUNT(b.n_contenedor) Total, d.c_prefijo
+                                    FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_NAVIERAS b ON a.IdReg = b.IdReg
+                                    INNER JOIN CCO_DETA_DOC_NAVI c ON b.IdDoc = c.IdDoc AND a.IdReg = c.IdReg  
+                                    INNER JOIN CCO_USUARIOS_NAVIERAS d ON a.c_naviera = d.c_naviera
+                                    WHERE a.c_llegada = '{0}' AND b.b_autorizado = 1 AND c_correlativo IS NOT NULL AND a.b_cotecna = 0
+                                    GROUP BY a.c_llegada, a.c_naviera, c.n_manifiesto, c.a_manifiesto, d.c_prefijo
+                                    ORDER BY A.c_llegada DESC";*/
+
+                SqlCommand _command = new SqlCommand("PA_COTECNA_ALERTA_EXP", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_llegada", c_llegada));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+
+
+                    CorteCOTECNA _notificacion = new CorteCOTECNA
+                    {
+                        c_llegada = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
+                        c_cliente = _reader.IsDBNull(1) ? "" : _reader.GetString(1),                        
+                        t_contenedores = _reader.IsDBNull(2) ? 0 : _reader.GetInt32(2),
+                        t_ed = _reader.IsDBNull(3) ? 0 : _reader.GetInt32(3),
+                        t_pc = _reader.IsDBNull(4) ? 0 : _reader.GetInt32(4),
+                        c_prefijo = _reader.IsDBNull(5) ? "" : _reader.GetString(5)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
         public static string ActCOTECNA(string c_llegada, string c_nul)
         {
 
@@ -790,6 +839,28 @@ namespace CEPA.CCO.DAL
             }
         }
 
+        public static string ActCOTECNAExp(string c_llegada, string c_nul)
+        {
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.falso))
+            {
+                _conn.Open();
+                string _consulta = @"UPDATE CCO_ENCA_EXP_NAVIERAS
+                                    SET b_cotecna = 1, f_cotecna = GETDATE(), c_nul = '{0}'
+                                    WHERE c_llegada = '{1}'
+                                    SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(string.Format(_consulta, c_nul, c_llegada), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
         public static string ActNotiCOTECNA(string c_llegada)
         {
 
@@ -843,6 +914,29 @@ namespace CEPA.CCO.DAL
             {
                 _conn.Open();
                 string _consulta = @"UPDATE CCO_ENCA_NAVIERAS
+                                    SET b_liquid = 1, f_liquid = GETDATE()
+                                    WHERE c_llegada = '{0}'
+                                    SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(string.Format(_consulta, c_llegada), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
+
+        public static string ActLIQUIDExp(string c_llegada)
+        {
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.falso))
+            {
+                _conn.Open();
+                string _consulta = @"UPDATE CCO_ENCA_EXP_NAVIERAS
                                     SET b_liquid = 1, f_liquid = GETDATE()
                                     WHERE c_llegada = '{0}'
                                     SELECT @@ROWCOUNT";
@@ -915,6 +1009,41 @@ namespace CEPA.CCO.DAL
                 _conn.Open();
 
                 SqlCommand _command = new SqlCommand("pa_cotecna_resumen", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+
+
+                    CorteCOTECNA _notificacion = new CorteCOTECNA
+                    {
+                        c_llegada = _reader.GetString(0)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
+        public static List<CorteCOTECNA> CodLlegadasGroupExp(DBComun.Estado pEstado)
+        {
+            List<CorteCOTECNA> notiLista = new List<CorteCOTECNA>();
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+
+                SqlCommand _command = new SqlCommand("pa_cotecna_resumen_exp", _conn as SqlConnection)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
@@ -1029,6 +1158,58 @@ namespace CEPA.CCO.DAL
             }
 
         }
+
+        public static List<DetaillLiquid> LiquidDetalleExp(DBComun.Estado pEstado, string c_llegada)
+        {
+            List<DetaillLiquid> notiLista = new List<DetaillLiquid>();
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+                /*string consulta = @"SELECT a.c_llegada, a.c_naviera, c.a_manifiesto + CAST(c.n_manifiesto AS VARCHAR(4)) mani, COUNT(b.n_contenedor) Total, d.c_prefijo
+                                    FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_NAVIERAS b ON a.IdReg = b.IdReg
+                                    INNER JOIN CCO_DETA_DOC_NAVI c ON b.IdDoc = c.IdDoc AND a.IdReg = c.IdReg  
+                                    INNER JOIN CCO_USUARIOS_NAVIERAS d ON a.c_naviera = d.c_naviera
+                                    WHERE a.c_llegada = '{0}' AND b.b_autorizado = 1 AND c_correlativo IS NOT NULL AND a.b_cotecna = 0
+                                    GROUP BY a.c_llegada, a.c_naviera, c.n_manifiesto, c.a_manifiesto, d.c_prefijo
+                                    ORDER BY A.c_llegada DESC";*/
+
+                SqlCommand _command = new SqlCommand("PA_LIQUID_ALERTA_DETALLE_EXP", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_llegada", c_llegada));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+
+
+                    DetaillLiquid _notificacion = new DetaillLiquid
+                    {
+                        c_correlativo = _reader.IsDBNull(0) ? 0 : _reader.GetInt32(0),                        
+                        d_cliente = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        n_contenedor = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
+                        c_naviera = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        c_llegada = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                        c_corr_lst = _reader.IsDBNull(5) ? 0 : _reader.GetInt32(5),
+                        t_doc = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
+                        n_doc = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        s_justificacion = _reader.IsDBNull(8) ? "" : _reader.GetString(8)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
         public static List<LiquidADUANA> LiquidResumen(DBComun.Estado pEstado, string c_llegada)
         {
             List<LiquidADUANA> notiLista = new List<LiquidADUANA>();
@@ -1066,6 +1247,57 @@ namespace CEPA.CCO.DAL
                         t_recibidos = _reader.IsDBNull(3) ? 0 : _reader.GetInt32(3),
                         t_cancelados = _reader.IsDBNull(4) ? 0 : _reader.GetInt32(4),
                         c_prefijo = _reader.IsDBNull(5) ? "" : _reader.GetString(5)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
+        public static List<LiquidADUANA> LiquidResumenExp(DBComun.Estado pEstado, string c_llegada)
+        {
+            List<LiquidADUANA> notiLista = new List<LiquidADUANA>();
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+                /*string consulta = @"SELECT a.c_llegada, a.c_naviera, c.a_manifiesto + CAST(c.n_manifiesto AS VARCHAR(4)) mani, COUNT(b.n_contenedor) Total, d.c_prefijo
+                                    FROM CCO_ENCA_NAVIERAS a INNER JOIN CCO_DETA_NAVIERAS b ON a.IdReg = b.IdReg
+                                    INNER JOIN CCO_DETA_DOC_NAVI c ON b.IdDoc = c.IdDoc AND a.IdReg = c.IdReg  
+                                    INNER JOIN CCO_USUARIOS_NAVIERAS d ON a.c_naviera = d.c_naviera
+                                    WHERE a.c_llegada = '{0}' AND b.b_autorizado = 1 AND c_correlativo IS NOT NULL AND a.b_cotecna = 0
+                                    GROUP BY a.c_llegada, a.c_naviera, c.n_manifiesto, c.a_manifiesto, d.c_prefijo
+                                    ORDER BY A.c_llegada DESC";*/
+
+                SqlCommand _command = new SqlCommand("PA_LIQUID_ALERTA_EXP", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_llegada", c_llegada));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+
+
+                    LiquidADUANA _notificacion = new LiquidADUANA
+                    {
+                        c_llegada = _reader.IsDBNull(0) ? "" : _reader.GetString(0),
+                        c_cliente = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        t_cargados = _reader.IsDBNull(2) ? 0 : _reader.GetInt32(2),
+                        t_cancelados = _reader.IsDBNull(3) ? 0 : _reader.GetInt32(3),
+                        t_embarcados = _reader.IsDBNull(4) ? 0 : _reader.GetInt32(4),
+                        t_ed = _reader.IsDBNull(5) ? 0 : _reader.GetInt32(5),
+                        t_pc = _reader.IsDBNull(6) ? 0 : _reader.GetInt32(6),
+                        c_prefijo = _reader.IsDBNull(7) ? "" : _reader.GetString(7)
                     };
 
                     notiLista.Add(_notificacion);

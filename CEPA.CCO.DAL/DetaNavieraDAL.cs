@@ -84,41 +84,48 @@ namespace CEPA.CCO.DAL
 
                         if (_Encanaviera.b_estado == "E")
                         {
-                            _Encanaviera.b_transferencia = "Y";
-                            _Encanaviera.b_manejo = "Y";
-                            _Encanaviera.b_recepcion = "Y";
+                            _Encanaviera.s_almacenaje = "Y";
+                            _Encanaviera.s_transferencia = "Y";
+                            _Encanaviera.s_manejo = "Y";
+                            _Encanaviera.s_recepcion = "Y";
                         }
 
                         _command.Parameters.Add(new SqlParameter("@IdReg", IdReg));
-                        _command.Parameters.Add(new SqlParameter("@n_BL", _Encanaviera.n_BL));
                         _command.Parameters.Add(new SqlParameter("@n_booking", _Encanaviera.n_booking));
                         _command.Parameters.Add(new SqlParameter("@n_contenedor", _Encanaviera.n_contenedor));
                         _command.Parameters.Add(new SqlParameter("@c_tamaño", _Encanaviera.c_tamaño));
-                        _command.Parameters.Add(new SqlParameter("@v_peso", _Encanaviera.v_peso));
+                        _command.Parameters.Add(new SqlParameter("@v_peso", Convert.ToDecimal(_Encanaviera.v_peso)));
                         _command.Parameters.Add(new SqlParameter("@b_estado", _Encanaviera.b_estado));
-                        _command.Parameters.Add(new SqlParameter("@s_exportador", _Encanaviera.s_exportador));
                         _command.Parameters.Add(new SqlParameter("@s_consignatario", _Encanaviera.s_consignatario));
-                        _command.Parameters.Add(new SqlParameter("@s_notificador", _Encanaviera.s_notificador));
+                        _command.Parameters.Add(new SqlParameter("@s_exportador", _Encanaviera.s_exportador));
+                        _command.Parameters.Add(new SqlParameter("@nit_exportador", _Encanaviera.nit_exportador.Replace("-", "")));
+                        _command.Parameters.Add(new SqlParameter("@tel_exportador", _Encanaviera.tel_exportador.Replace("-","")));
+                        _command.Parameters.Add(new SqlParameter("@em_exportador", _Encanaviera.em_exportador));
                         _command.Parameters.Add(new SqlParameter("@n_sello", _Encanaviera.n_sello));
-                        _command.Parameters.Add(new SqlParameter("@c_pais_destino", _Encanaviera.c_pais_destino));
-                        _command.Parameters.Add(new SqlParameter("@c_detalle_pais", _Encanaviera.c_detalle_puerto));
-                        _command.Parameters.Add(new SqlParameter("@s_comodity", _Encanaviera.s_comodity));
-                        _command.Parameters.Add(new SqlParameter("@s_promanifiesto", _Encanaviera.s_prodmanifestado));
-                        _command.Parameters.Add(new SqlParameter("@v_tara", _Encanaviera.v_tara));
-                        _command.Parameters.Add(new SqlParameter("@b_reef", _Encanaviera.b_reef));
-                        _command.Parameters.Add(new SqlParameter("@b_emb_dir", _Encanaviera.b_emb_dir));
-                        _command.Parameters.Add(new SqlParameter("@c_tipo_doc", _Encanaviera.c_tipo_doc));
-                        _command.Parameters.Add(new SqlParameter("@c_arivu", _Encanaviera.c_arivu));
-                        _command.Parameters.Add(new SqlParameter("@c_fauca", _Encanaviera.c_fauca));
-                        _command.Parameters.Add(new SqlParameter("@c_dm", _Encanaviera.c_dm));
-                        _command.Parameters.Add(new SqlParameter("@c_dut", _Encanaviera.c_dut));
-                        _command.Parameters.Add(new SqlParameter("@c_dmti", _Encanaviera.c_dmti));
-                        _command.Parameters.Add(new SqlParameter("@c_manifiesto", _Encanaviera.c_manifiesto)); ;
                         _command.Parameters.Add(new SqlParameter("@c_pais_origen", _Encanaviera.c_pais_origen));
-                        _command.Parameters.Add(new SqlParameter("@b_transferencia", _Encanaviera.b_transferencia));
-                        _command.Parameters.Add(new SqlParameter("@b_manejo", _Encanaviera.b_manejo));
-                        _command.Parameters.Add(new SqlParameter("@b_recepcion", _Encanaviera.b_recepcion));
+                        _command.Parameters.Add(new SqlParameter("@c_pais_destino", _Encanaviera.c_pais_destino));                        
+                        _command.Parameters.Add(new SqlParameter("@c_pais_trasbordo", _Encanaviera.c_pais_trasbordo));
+                        _command.Parameters.Add(new SqlParameter("@c_puerto_trasbordo", _Encanaviera.c_puerto_trasbordo));
+                        _command.Parameters.Add(new SqlParameter("@s_comodity", _Encanaviera.s_comodity));
+                        _command.Parameters.Add(new SqlParameter("@v_tara", Convert.ToInt32(_Encanaviera.v_tara)));
+                        _command.Parameters.Add(new SqlParameter("@c_imo_imd", _Encanaviera.c_imo_imd));
+                        _command.Parameters.Add(new SqlParameter("@c_un_number", _Encanaviera.c_un_number));
+                        _command.Parameters.Add(new SqlParameter("@c_condicion", _Encanaviera.c_condicion));
+                        _command.Parameters.Add(new SqlParameter("@b_emb_dir", _Encanaviera.b_emb_dir));
+                        _command.Parameters.Add(new SqlParameter("@t_doc", _Encanaviera.c_tipo_doc));
+                        _command.Parameters.Add(new SqlParameter("@n_doc", _Encanaviera.n_documento));
+                        _command.Parameters.Add(new SqlParameter("@b_shipper", _Encanaviera.b_shipper));
+                        _command.Parameters.Add(new SqlParameter("@s_almacenaje", _Encanaviera.s_almacenaje.Trim().TrimEnd().TrimStart()));
+                        _command.Parameters.Add(new SqlParameter("@s_transferencia", _Encanaviera.s_transferencia.Trim().TrimEnd().TrimStart()));
+                        _command.Parameters.Add(new SqlParameter("@s_manejo", _Encanaviera.s_manejo.Trim().TrimEnd().TrimStart()));
+                        _command.Parameters.Add(new SqlParameter("@s_recepcion", _Encanaviera.s_recepcion.Trim().TrimEnd().TrimStart()));                        
                         _command.Parameters.Add(new SqlParameter("@IdDoc", IdDoc));
+                        _command.Parameters.Add(new SqlParameter("@b_trans", _Encanaviera.b_transhipment));
+                        _command.Parameters.Add(new SqlParameter("@s_nom_predio", _Encanaviera.s_nom_predio));                     
+
+                        SqlParameter param = new SqlParameter("@f_venc_arivu", SqlDbType.Date);
+                        param.Value = _Encanaviera.f_venc_arivu; 
+                        _command.Parameters.Add(param);
 
 
                         // _command.Parameters.Add(new SqlParameter("@c_correlativo", _Encanaviera.c_correlativo));
@@ -204,17 +211,62 @@ namespace CEPA.CCO.DAL
             }
         }
 
-        public static string ObtenerCorrelativoEx(string pC_imo, string pC_llegada, string pC_naviera, DBComun.Estado pTipo)
+        public static string ObtenerCorrelativoEx(string pC_imo, string pC_llegada, string pC_naviera, DBComun.Estado pTipo, string cadena)
         {
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
             {
                 _conn.Open();
-                string consulta = @"SELECT ISNULL(MAX(c_correlativo), 0) FROM CCO_DETA_EXPO_NAVI WHERE IdReg 
-                                    IN (SELECT IdReg FROM CCO_ENCA_EXPO_NAVI WHERE c_imo = '{0}' 
-                                    AND c_llegada = '{1}' AND c_naviera = '{2}')
- ";
+                string consulta = @"SELECT ISNULL(MAX(c_correlativo), 0) FROM CCO_DETA_EXP_NAVIERAS WHERE IdReg 
+                            IN (SELECT IdReg FROM CCO_ENCA_EXP_NAVIERAS WHERE c_imo = '{0}' 
+                            AND c_llegada = '{1}' AND c_naviera = '{2}') AND b_emb_dir = 'Y'";
 
-                SqlCommand _command = new SqlCommand(string.Format(consulta, pC_imo, pC_llegada, pC_naviera), _conn as SqlConnection)
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pC_imo, pC_llegada, pC_naviera, cadena), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
+
+        public static string ObtenerCorrelativoExPC(string pC_imo, string pC_llegada, string pC_naviera, DBComun.Estado pTipo, string cadena)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+                string consulta = @"SELECT ISNULL(MAX(c_corr_previo), 0) FROM CCO_DETA_EXP_NAVIERAS WHERE IdReg 
+                            IN (SELECT IdReg FROM CCO_ENCA_EXP_NAVIERAS WHERE c_imo = '{0}' 
+                            AND c_llegada = '{1}' AND c_naviera = '{2}') AND b_emb_dir = ''";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pC_imo, pC_llegada, pC_naviera, cadena), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+
+                string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
+
+        public static string ObtenerCorrelativoExSta(int pId, int pIdDoc, DBComun.Estado pTipo)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+                string consulta = @"UPDATE CCO_DETA_EXP_NAVIERAS
+                                    SET c_correlativo = NULL
+                                    WHERE IdDoc = {0};
+                                    SELECT ISNULL(MAX(c_correlativo), 0) FROM CCO_DETA_EXP_NAVIERAS WHERE IdReg 
+                                    IN (SELECT IdReg FROM CCO_ENCA_EXP_NAVIERAS WHERE IdReg = {1}) AND b_emb_dir = ''";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pIdDoc, pId), _conn as SqlConnection)
                 {
                     CommandType = CommandType.Text
                 };
@@ -274,9 +326,9 @@ namespace CEPA.CCO.DAL
 
         }
 
-        public static List<DetaNaviera> ObtenerDetalleEx(int pId)
+        public static List<ArchivoExport> ObtenerDetalleEx(int pId)
         {
-            List<DetaNaviera> notiLista = new List<DetaNaviera>();
+            List<ArchivoExport> notiLista = new List<ArchivoExport>();
 
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
             {
@@ -287,14 +339,15 @@ namespace CEPA.CCO.DAL
                                     INNER JOIN CCO_ENCA_CON_WIDTH d ON SUBSTRING(c_tamaño, 2, 1) = d.IdValue
                                     WHERE b_autorizado = 0 AND a.IdReg = {0} AND b_cancelado = 0  ";*/
 
-                string consulta = @"SELECT a.IdReg, IdDeta, n_BL, n_contenedor, CASE WHEN b_reef = 'Y' OR b_reef = 'N' THEN  d.d_descripcion + ' ' + 'HREF' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'U1' THEN d.d_descripcion + ' OPENTOP'  ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'T1' THEN d.d_descripcion + ' TANQUE' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'P1' THEN d.d_descripcion + ' FLAT' ELSE  CASE WHEN e.d_tipo = 'HC' THEN d.d_descripcion + ' HC' ELSE d.d_descripcion + ' ' + e.d_tipo END END END END END c_tamaño, b.IdDoc,
-                                    b.v_peso, UPPER(g.CountryName) PaisDestino, b.c_detalle_pais
-                                    FROM CCO_DETA_EXPO_NAVI b INNER JOIN CCO_ENCA_EXPO_NAVI a ON a.IdReg = b.IdReg
+                string consulta = @"SELECT case when b.c_correlativo > 0 then b.c_correlativo else b.c_corr_previo end c_correlativo, a.IdReg, IdDeta, n_Booking, n_contenedor, CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'U1' THEN d.d_descripcion + ' OPENTOP'  ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'T1' THEN d.d_descripcion + ' TANQUE' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'P1' THEN d.d_descripcion + ' FLAT' ELSE  CASE WHEN e.d_tipo = 'HC' THEN d.d_descripcion + ' HC' ELSE d.d_descripcion + ' ' + e.d_tipo END END END END c_tamaño, b.IdDoc,
+                                    b.v_peso, UPPER(g.CountryName) PaisDestino, UPPER(b.d_puerto_trasbordo), t_doc, n_doc, v_tara, CASE WHEN LEN(c_imo_imd) > 0 THEN CONCAT(c_imo_imd, '-',  c_un_number) ELSE '' END peli,
+                                    CASE WHEN b_transhipment = 'Y' THEN 'TRANSBORDO' ELSE CASE WHEN b_emb_dir = 'Y' THEN 'EMBARQUE DIRECTO' ELSE 'PATIO CEPA' END END trafico, s_consignatario, CASE WHEN s_almacenaje = '' THEN 'CLIENTE' ELSE '' END s_alma, CASE WHEN s_manejo = '' THEN 'CLIENTE' ELSE '' END s_manejo
+                                    FROM CCO_DETA_EXP_NAVIERAS b INNER JOIN CCO_ENCA_EXP_NAVIERAS a ON a.IdReg = b.IdReg
                                     INNER JOIN CCO_ENCA_CON_LEN d ON SUBSTRING(c_tamaño, 1, 1) = d.IdValue
                                     INNER JOIN CCO_ENCA_CON_WIDTH e ON SUBSTRING(c_tamaño, 2, 1) = e.IdValue
-                                    INNER JOIN CCO_COD_PAISES g ON c_pais_destino = g.CountryCode
-                                    WHERE b_autorizado = 0 AND a.IdReg = {0} AND b_cancelado = 0
-                                    ORDER BY c_tamaño";
+                                    INNER JOIN CCO_COD_PAISES g ON c_pais_trasbordo = g.CountryCode
+                                    WHERE b_autorizado = 1 AND a.IdReg = {0} AND ISNULL(b_cancelado, 0) = 0 AND c_estatus = 0
+                                    ORDER BY 1";
 
                 SqlCommand _command = new SqlCommand(string.Format(consulta, pId), _conn as SqlConnection)
                 {
@@ -305,17 +358,26 @@ namespace CEPA.CCO.DAL
 
                 while (_reader.Read())
                 {
-                    DetaNaviera _notificacion = new DetaNaviera
+                    ArchivoExport _notificacion = new ArchivoExport
                     {
-                        IdReg = _reader.GetInt32(0),
-                        IdDeta = _reader.GetInt32(1),
-                        n_BL = _reader.GetString(2),
-                        n_contenedor = _reader.GetString(3),
-                        c_tamaño = _reader.GetString(4),
-                        IdDoc = _reader.GetInt32(5),
-                        v_peso = (double)_reader.GetDecimal(6),
-                        c_pais_destino = _reader.GetString(7),
-                        c_detalle_pais = _reader.GetString(8)
+                        c_correlativo = _reader.IsDBNull(0) ? 0 :_reader.GetInt32(0),
+                        IdReg = _reader.IsDBNull(1) ? 0 : _reader.GetInt32(1),
+                        IdDeta = _reader.IsDBNull(2) ? 0 : _reader.GetInt32(2),
+                        n_booking = _reader.IsDBNull(3) ? 0 : Convert.ToInt32(_reader.GetString(3)),
+                        n_contenedor = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                        c_tamaño = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
+                        IdDoc = _reader.IsDBNull(6) ? 0 : _reader.GetInt32(6),
+                        v_peso = _reader.IsDBNull(7) ? 0.00 : (double)_reader.GetDecimal(7),
+                        c_pais_destino = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
+                        c_puerto_trasbordo = _reader.IsDBNull(9) ? "" : _reader.GetString(9),
+                        c_tipo_doc = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
+                        n_documento = _reader.IsDBNull(11) ? "" : _reader.GetString(11),
+                        v_tara = _reader.IsDBNull(12) ? 0 : _reader.GetInt32(12),
+                        c_imo_imd = _reader.IsDBNull(13) ? "" : _reader.GetString(13),
+                        s_trafico = _reader.IsDBNull(14) ? "" : _reader.GetString(14),
+                        s_consignatario = _reader.IsDBNull(15) ? "" : _reader.GetString(15),
+                        s_almacenaje = _reader.IsDBNull(16) ? "" : _reader.GetString(16),
+                        s_manejo = _reader.IsDBNull(17) ? "" : _reader.GetString(17)
                     };
 
                     notiLista.Add(_notificacion);
@@ -384,12 +446,12 @@ namespace CEPA.CCO.DAL
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
             {
                 _conn.Open();
-                string consulta = @"SELECT a.IdReg, IdDeta, n_BL, n_contenedor, CASE WHEN b_reef = 'Y' OR b_reef = 'N' THEN  d.d_descripcion + ' ' + 'HREF' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'U1' THEN d.d_descripcion + ' OPENTOP'  ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'T1' THEN d.d_descripcion + ' TANQUE' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'P1' THEN d.d_descripcion + ' FLAT' ELSE  CASE WHEN e.d_tipo = 'HC' THEN d.d_descripcion + ' HC' ELSE d.d_descripcion + ' ' + e.d_tipo END END END END END c_tamaño, CASE WHEN b_detenido = 1 THEN 'RETENIDO' ELSE 'NADA' END b_detenido, c_correlativo
-                                    FROM CCO_DETA_NAVIERAS b INNER JOIN CCO_ENCA_NAVIERAS a ON a.IdReg = b.IdReg
+                string consulta = @"SELECT a.IdReg, IdDeta, n_Booking, n_contenedor, CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 3) = 'R' THEN  d.d_descripcion + ' ' + 'HREF' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'U1' THEN d.d_descripcion + ' OPENTOP'  ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'T1' THEN d.d_descripcion + ' TANQUE' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'P1' THEN d.d_descripcion + ' FLAT' ELSE  CASE WHEN e.d_tipo = 'HC' THEN d.d_descripcion + ' HC' ELSE d.d_descripcion + ' ' + e.d_tipo END END END END END c_tamaño, c_correlativo
+                                    FROM CCO_DETA_EXP_NAVIERAS b INNER JOIN CCO_ENCA_EXP_NAVIERAS a ON a.IdReg = b.IdReg
                                     INNER JOIN CCO_ENCA_CON_LEN d ON SUBSTRING(c_tamaño, 1, 1) = d.IdValue
                                     INNER JOIN CCO_ENCA_CON_WIDTH e ON SUBSTRING(c_tamaño, 2, 1) = e.IdValue
-                                    WHERE a.IdReg = {0} AND b_cancelado = 0 AND f_rpatio IS NULL
-                                    ORDER BY n_contenedor";
+                                    WHERE a.IdReg = {0} AND ISNULL(b_cancelado, 0) = 0 AND c_estatus = 1
+                                    ORDER BY c_correlativo";
 
                 SqlCommand _command = new SqlCommand(string.Format(consulta, pId), _conn as SqlConnection)
                 {
@@ -406,9 +468,8 @@ namespace CEPA.CCO.DAL
                         IdDeta = _reader.GetInt32(1),
                         n_BL = _reader.GetString(2),
                         n_contenedor = _reader.GetString(3),
-                        c_tamaño = _reader.GetString(4),
-                        b_retenido = _reader.IsDBNull(5) ? "" : _reader.GetString(5) == "NADA" ? "" : "RETENIDO",
-                        c_correlativo = _reader.GetInt32(6)
+                        c_tamaño = _reader.GetString(4),                       
+                        c_correlativo = _reader.GetInt32(5)
                     };
 
                     notiLista.Add(_notificacion);
@@ -443,6 +504,147 @@ namespace CEPA.CCO.DAL
 
                 _conn.Close();
                 return _reader;
+            }
+
+        }
+
+        public static string ActualizarDetaExp(DBComun.Estado pEstado, int pId, int pIdDoc)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+
+
+
+                string consulta = @"UPDATE CCO_DETA_EXP_NAVIERAS 
+                                    SET b_autorizado = 1 
+                                    WHERE IdReg = {0} AND isnull(b_autorizado, 0) = 0 AND isnull(b_cancelado,0) = 0 AND IdDoc = {1}; 
+                                    SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pId, pIdDoc), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                return _reader;
+            }
+
+        }
+
+        public static string ActualizarDetaExpAuto(DBComun.Estado pEstado, int pId, string s_usuario)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+
+
+                string consulta = @"UPDATE CCO_DETA_EXP_NAVIERAS 
+                                    SET c_estatus = 1, f_reg_estatus = GETDATE(), us_estatus = '{0}' 
+                                    WHERE IdDeta = {1} AND isnull(b_autorizado, 0) = 1; 
+                                    SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, s_usuario, pId), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                return _reader;
+            }
+
+        }
+
+        public static string ActualizarDetaExpAutoNo(DBComun.Estado pEstado, int pId, string t_estatus, string s_usuario)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+
+
+                string consulta = @"UPDATE CCO_DETA_EXP_NAVIERAS 
+                                    SET c_estatus = 2, f_reg_estatus = GETDATE(), t_estatus = '{0}', us_estatus = '{1}' 
+                                    WHERE IdDeta = {2} AND isnull(b_autorizado, 0) = 1; 
+                                    SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, t_estatus, s_usuario, pId), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                return _reader;
+            }
+
+        }
+
+        public static string actGenListExp(DBComun.Estado pEstado, int pId)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+
+
+                string consulta = @"UPDATE CCO_DETA_EXP_NAVIERAS 
+                                    SET f_gen_listado = GETDATE()
+                                    WHERE IdDoc = {0}; 
+                                    SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pId), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                return _reader;
+            }
+
+        }
+
+        public static List<ArchivoExport> obtNoAutoEx(int pIdDoc, DBComun.Estado pTipo)
+        {
+            List<ArchivoExport> notiLista = new List<ArchivoExport>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+                string consulta = @"SELECT IdDeta, IdReg, n_contenedor, c_tamaño, t_estatus
+                                    FROM CCO_DETA_EXP_NAVIERAS 
+                                    WHERE ISNULL(b_autorizado, 0) = 1 AND IdDoc = {0} AND c_estatus = 2";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pIdDoc), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    ArchivoExport _notificacion = new ArchivoExport
+                    {
+                        IdDeta = _reader.GetInt32(0),
+                        IdReg = _reader.GetInt32(1),                      
+                        n_contenedor = _reader.IsDBNull(2) ? "" : _reader.GetString(2),
+                        c_tamaño = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        t_estatus = _reader.IsDBNull(4) ? "" : _reader.GetString(4)
+                    };
+
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
             }
 
         }
@@ -484,6 +686,32 @@ namespace CEPA.CCO.DAL
 									SET b_autorizado = 0, c_correlativo = NULL 
 									WHERE IdReg = {0} AND IdDoc = {1}; 
 									SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pId, pIdDoc), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                return _reader;
+            }
+
+        }
+
+        public static string RevertirDetaEx(DBComun.Estado pEstado, int pId, int pIdDoc)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+
+
+
+                string consulta = @"UPDATE CCO_DETA_EXP_NAVIERAS
+                                    SET b_autorizado = 0, c_correlativo = NULL, c_corr_previo = NULL 
+                                    WHERE IdReg = {0} AND IdDoc = {1}; 
+                                    SELECT @@ROWCOUNT";
 
                 SqlCommand _command = new SqlCommand(string.Format(consulta, pId, pIdDoc), _conn as SqlConnection)
                 {
@@ -578,10 +806,10 @@ namespace CEPA.CCO.DAL
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
             {
                 _conn.Open();
-                string consulta = @"UPDATE CCO_DETA_NAVIERAS 
-									SET b_cancelado = 1, s_observaciones = '{0}', f_cancelado = GETDATE(), us_cancelado = '{1}'
-									WHERE IdDeta = {2}; 
-									SELECT @@ROWCOUNT";
+                string consulta = @"UPDATE CCO_DETA_EXP_NAVIERAS 
+                                    SET b_cancelado = 1, s_observaciones = '{0}', f_cancelado = GETDATE(), us_cancelado = '{1}'
+                                    WHERE IdDeta = {2}; 
+                                    SELECT @@ROWCOUNT";
 
                 SqlCommand _command = new SqlCommand(string.Format(consulta, pObservacion, c_usuarios, pId), _conn as SqlConnection)
                 {
@@ -706,18 +934,20 @@ namespace CEPA.CCO.DAL
 
         }
 
-        public static List<DetaNaviera> ObtenerAutorizadosEx(int pId, DBComun.Estado pTipo)
+        public static List<ArchivoExport> ObtenerAutorizadosEx(int pId, int pIdDoc, DBComun.Estado pTipo)
         {
-            List<DetaNaviera> notiLista = new List<DetaNaviera>();
+            List<ArchivoExport> notiLista = new List<ArchivoExport>();
 
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
             {
                 _conn.Open();
-                string consulta = @"SELECT IdDeta, IdReg, n_BL, n_contenedor, c_tamaño, v_peso, b_estado, s_consignatario, n_sello, c_pais_destino, c_pais_origen, c_detalle_pais, s_comodity, s_prodmanifestado, v_tara, ISNULL(b_reef, '') b_reef, ISNULL(b_emb_dir, '') b_emb_dir
-                                    FROM CCO_DETA_EXPO_NAVI 
-                                    WHERE b_autorizado = 1 AND IdReg = {0} AND b_cancelado = 0 AND c_correlativo IS NULL";
+                string consulta = @"SELECT IdDeta, IdReg, n_Booking, n_contenedor, c_tamaño, v_peso, b_estado, s_consignatario, n_sello, c_pais_destino, c_pais_origen, c_pais_trasbordo, d_puerto_trasbordo, s_comodity, v_tara, ISNULL(b_emb_dir, '') b_emb_dir, c_imo_imd, c_un_number, c_condicion, s_recepcion, s_manejo, s_transferencia, s_almacenaje, b_shipper, b_transhipment, 
+                                    CASE WHEN b_transhipment = 'Y' THEN 'TRANSBORDO' ELSE CASE WHEN b_emb_dir = 'Y' THEN 'EMBARQUE DIRECTO' ELSE 'PATIO CEPA' END END trafico, c_correlativo, c_corr_previo,
+                                    case when b_estado = 'F' then CONVERT(NUMERIC(15,2), (v_peso - v_tara)) else 0.00 end Peso_Sin, b.Nombre Predio, t_doc, n_doc, CONVERT(varchar(10), f_venc_arivu, 103) f_venc_arivu
+                                    FROM CCO_DETA_EXP_NAVIERAS a LEFT JOIN CCO_PREDIOS b ON a.IdPredio = b.IdPredio
+                                    WHERE ISNULL(b_autorizado, 0) = 1 AND IdReg = {0} AND ISNULL(b_cancelado, 0) = 0 AND IdDoc = {1}";
 
-                SqlCommand _command = new SqlCommand(string.Format(consulta, pId), _conn as SqlConnection)
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pId, pIdDoc), _conn as SqlConnection)
                 {
                     CommandType = CommandType.Text
                 };
@@ -726,26 +956,110 @@ namespace CEPA.CCO.DAL
 
                 while (_reader.Read())
                 {
-                    DetaNaviera _notificacion = new DetaNaviera
+                    ArchivoExport _notificacion = new ArchivoExport
                     {
                         IdDeta = _reader.GetInt32(0),
                         IdReg = _reader.GetInt32(1),
-                        n_BL = _reader.GetString(2),
-                        n_contenedor = _reader.GetString(3),
-                        c_tamaño = _reader.GetString(4),
+                        n_booking = Convert.ToInt32(_reader.GetString(2)),
+                        n_contenedor = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        c_tamaño = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
                         v_peso = Convert.ToDouble(_reader.GetDecimal(5)),
-                        b_estado = _reader.GetString(6),
+                        b_estado = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
                         s_consignatario = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
-                        n_sello = _reader.GetString(8),
-                        c_pais_destino = _reader.GetString(9),
-                        c_pais_origen = _reader.GetString(10),
-                        c_detalle_pais = _reader.GetString(11),
-                        s_comodity = _reader.GetString(12),
-                        s_prodmanifestado = _reader.IsDBNull(13) ? "" : _reader.GetString(13),
-                        v_tara = Convert.ToDouble(_reader.GetInt32(14)),
-                        b_reef = _reader.IsDBNull(15) ? "" : _reader.GetString(15).Trim().TrimEnd().TrimStart().ToUpper(),
-                        b_emb_dir = _reader.IsDBNull(16) ? "" : _reader.GetString(16).Trim().TrimEnd().TrimStart().ToUpper()
+                        n_sello = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
+                        c_pais_destino = _reader.IsDBNull(9) ? "" : _reader.GetString(9).Trim().ToUpper(),
+                        c_pais_origen = _reader.IsDBNull(10) ? "" :_reader.GetString(10).Trim().ToUpper(),                       
+                        c_pais_trasbordo = _reader.IsDBNull(11) ? "" : _reader.GetString(11).Trim().ToUpper(),
+                        c_puerto_trasbordo = _reader.IsDBNull(12) ? "": _reader.GetString(12).Trim().ToUpper(),
+                        s_comodity = _reader.IsDBNull(13) ? "" :_reader.GetString(13),                        
+                        v_tara = Convert.ToDouble(_reader.GetInt32(14)),                       
+                        b_emb_dir = _reader.IsDBNull(15) ? "" : _reader.GetString(15).Trim().ToUpper(),
+                        c_imo_imd = _reader.IsDBNull(16) ? "" : _reader.GetString(16),
+                        c_un_number = _reader.IsDBNull(17) ? "" : _reader.GetString(17),
+                        c_condicion = _reader.IsDBNull(18) ? "" : _reader.GetString(18),
+                        s_recepcion = _reader.IsDBNull(19) ? "" : _reader.GetString(19),
+                        s_manejo = _reader.IsDBNull(20) ? "" : _reader.GetString(20),
+                        s_transferencia = _reader.IsDBNull(21) ? "" : _reader.GetString(21),
+                        s_almacenaje = _reader.IsDBNull(22) ? "" : _reader.GetString(22),
+                        b_shipper = _reader.IsDBNull(23) ? "" : _reader.GetString(23),
+                        b_transhipment = _reader.IsDBNull(24) ? "" : _reader.GetString(24),
+                        s_trafico = _reader.IsDBNull(25) ? "" : _reader.GetString(25),
+                        c_correlativo = _reader.IsDBNull(26) ? 0 : _reader.GetInt32(26),
+                        c_corr_previo = _reader.IsDBNull(27) ? 0 : _reader.GetInt32(27),
+                        v_peso_st = _reader.IsDBNull(28) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(28)),
+                        s_nom_predio = _reader.IsDBNull(29) ? "" : _reader.GetString(29),
+                        c_tipo_doc = _reader.IsDBNull(30) ? "" : _reader.GetString(30),
+                        n_documento = _reader.IsDBNull(31) ? "" : _reader.GetString(31),
+                        s_fec_venc = _reader.IsDBNull(32) ? "" : _reader.GetString(32)
                     };
+
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
+        public static List<ArchivoExport> ObtenerAutorizadosExSta(int pId, int pIdDoc, DBComun.Estado pTipo)
+        {
+            List<ArchivoExport> notiLista = new List<ArchivoExport>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+                string consulta = @"SELECT IdDeta, IdReg, n_Booking, n_contenedor, c_tamaño, v_peso, b_estado, s_consignatario, n_sello, c_pais_destino, c_pais_origen, c_pais_trasbordo, d_puerto_trasbordo, s_comodity, v_tara, ISNULL(b_emb_dir, '') b_emb_dir, c_imo_imd, c_un_number, c_condicion, s_recepcion, s_manejo, s_transferencia, s_almacenaje, b_shipper, b_transhipment, 
+                                    CASE WHEN b_transhipment = 'Y' THEN 'TRANSBORDO' ELSE CASE WHEN b_emb_dir = 'Y' THEN 'EMBARQUE DIRECTO' ELSE 'PATIO CEPA' END END trafico, c_correlativo, c_corr_previo,
+                                    case when b_estado = 'F' then CONVERT(NUMERIC(15,2), (v_peso - v_tara)) else 0.00 end Peso_Sin, b.Nombre Predio
+                                    FROM CCO_DETA_EXP_NAVIERAS a LEFT JOIN CCO_PREDIOS b ON a.IdPredio = b.IdPredio
+                                    WHERE c_estatus = 1 AND IdReg = {0} AND ISNULL(b_cancelado, 0) = 0 AND IdDoc = {1}";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pId, pIdDoc), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    ArchivoExport _notificacion = new ArchivoExport
+                    {
+                        IdDeta = _reader.GetInt32(0),
+                        IdReg = _reader.GetInt32(1),
+                        n_booking = Convert.ToInt32(_reader.GetString(2)),
+                        n_contenedor = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        c_tamaño = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                        v_peso = Convert.ToDouble(_reader.GetDecimal(5)),
+                        b_estado = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
+                        s_consignatario = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        n_sello = _reader.IsDBNull(8) ? "" : _reader.GetString(8),
+                        c_pais_destino = _reader.IsDBNull(9) ? "" : _reader.GetString(9).Trim().ToUpper(),
+                        c_pais_origen = _reader.IsDBNull(10) ? "" : _reader.GetString(10).Trim().ToUpper(),                       
+                        c_pais_trasbordo = _reader.IsDBNull(11) ? "" : _reader.GetString(11).Trim().ToUpper(),
+                        c_puerto_trasbordo = _reader.IsDBNull(12) ? "" : _reader.GetString(12).Trim().ToUpper(),
+                        s_comodity = _reader.IsDBNull(13) ? "" : _reader.GetString(13),
+                        v_tara = Convert.ToDouble(_reader.GetInt32(14)),
+                        b_emb_dir = _reader.IsDBNull(15) ? "" : _reader.GetString(15).Trim().ToUpper(),
+                        c_imo_imd = _reader.IsDBNull(16) ? "" : _reader.GetString(16),
+                        c_un_number = _reader.IsDBNull(17) ? "" : _reader.GetString(17),
+                        c_condicion = _reader.IsDBNull(18) ? "" : _reader.GetString(18),
+                        s_recepcion = _reader.IsDBNull(19) ? "" : _reader.GetString(19),
+                        s_manejo = _reader.IsDBNull(20) ? "" : _reader.GetString(20),
+                        s_transferencia = _reader.IsDBNull(21) ? "" : _reader.GetString(21),
+                        s_almacenaje = _reader.IsDBNull(22) ? "" : _reader.GetString(22),
+                        b_shipper = _reader.IsDBNull(23) ? "" : _reader.GetString(23),
+                        b_transhipment = _reader.IsDBNull(24) ? "" : _reader.GetString(24),
+                        s_trafico = _reader.IsDBNull(25) ? "" : _reader.GetString(25),
+                        c_correlativo = _reader.IsDBNull(26) ? 0 : _reader.GetInt32(26),
+                        c_corr_previo = _reader.IsDBNull(27) ? 0 : _reader.GetInt32(27),
+                        v_peso_st = _reader.IsDBNull(28) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(28)),
+                        s_nom_predio = _reader.IsDBNull(29) ? "" : _reader.GetString(29)
+                    };
+
 
                     notiLista.Add(_notificacion);
                 }
@@ -780,14 +1094,60 @@ namespace CEPA.CCO.DAL
 
         }
 
-        public static string ActualizarCorrelativoEx(DBComun.Estado pEstado, int pCorrelativo, int pId)
+        public static string ActualizarCorrelativoExPR(DBComun.Estado pEstado, int pCorrelativo, int pId)
         {
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
             {
                 _conn.Open();
-                string consulta = @"UPDATE CCO_DETA_EXPO_NAVI 
-                                    SET c_correlativo = {0}, f_autorizacion = GETDATE()  
+                string consulta = @"UPDATE CCO_DETA_EXP_NAVIERAS 
+                                    SET c_correlativo = {0}, f_autorizacion = GETDATE(), c_estatus = 1, f_reg_estatus = GETDATE()  
                                     WHERE IdDeta = {1} AND b_autorizado = 1; 
+                                    SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pCorrelativo, pId), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                return _reader;
+            }
+
+        }
+
+        public static string ActualizarCorrelativoExPC(DBComun.Estado pEstado, int pCorrelativo, int pId)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+                string consulta = @"UPDATE CCO_DETA_EXP_NAVIERAS 
+                                    SET c_corr_previo = {0}, f_autorizacion = GETDATE()  
+                                    WHERE IdDeta = {1} AND b_autorizado = 1 AND b_emb_dir = ''; 
+                                    SELECT @@ROWCOUNT";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pCorrelativo, pId), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                string _reader = _command.ExecuteScalar().ToString();
+
+                _conn.Close();
+                return _reader;
+            }
+
+        }
+
+        public static string ActualizarCorrelativoEx2(DBComun.Estado pEstado, int pCorrelativo, int pId)
+        {
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+                string consulta = @"UPDATE CCO_DETA_EXP_NAVIERAS 
+                                    SET c_correlativo = {0}  
+                                    WHERE IdDeta = {1} AND c_estatus = 1; 
                                     SELECT @@ROWCOUNT";
 
                 SqlCommand _command = new SqlCommand(string.Format(consulta, pCorrelativo, pId), _conn as SqlConnection)
@@ -865,6 +1225,215 @@ namespace CEPA.CCO.DAL
                         c_condicion = _reader.IsDBNull(34) ? "" : _reader.GetString(34),
                         b_req_tarja = _reader.IsDBNull(35) ? "" : _reader.GetString(35),
                         b_shipper = _reader.IsDBNull(36) ? "" : _reader.GetString(36)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
+                return notiLista;
+            }
+
+        }
+        public static List<ArchivoExport> ObtenerResultadoExAll(int pId, int pInferior, int pSuperior, DBComun.Estado pTipo)
+        {
+            List<ArchivoExport> notiLista = new List<ArchivoExport>();
+
+            System.Globalization.CultureInfo CurrentCI = System.Threading.Thread.CurrentThread.CurrentCulture;
+
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-SV");
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+
+
+                SqlCommand _command = new SqlCommand("PA_MATRIZ_LISTADOS_EXP_ALL", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@IdReg", pId));
+                _command.Parameters.Add(new SqlParameter("@pInferior", pInferior));
+                _command.Parameters.Add(new SqlParameter("@pSuperior", pSuperior));
+            
+
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    ArchivoExport _notificacion = new ArchivoExport
+                    {
+                        c_correlativo = _reader.IsDBNull(0) ? 0 : _reader.GetInt32(0),
+                        c_imo = Convert.ToDouble(_reader.GetString(1)),
+                        c_voyage = _reader.GetString(2),
+                        n_booking = Convert.ToInt32(_reader.GetString(3)),
+                        n_contenedor = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                        c_tamaño_c = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
+                        v_peso = _reader.IsDBNull(6) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(6)),
+                        b_estado_c = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        s_exportador = _reader.IsDBNull(8) ? "" : _reader.GetString(8).Trim().ToUpper(),
+                        s_consignatario = _reader.IsDBNull(9) ? "" : _reader.GetString(9).Trim().ToUpper(),
+                        nit_exportador = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
+                        tel_exportador = _reader.IsDBNull(11) ? "" : _reader.GetString(11),
+                        em_exportador = _reader.IsDBNull(12) ? "" : _reader.GetString(12),
+                        n_sello = _reader.IsDBNull(13) ? "" : _reader.GetString(13),
+                        c_pais_origen = _reader.IsDBNull(14) ? "" : _reader.GetString(14).Trim().ToUpper(),
+                        c_pais_destino = _reader.IsDBNull(15) ? "" : _reader.GetString(15).Trim().ToUpper(),
+                        c_pais_trasbordo = _reader.IsDBNull(16) ? "" : _reader.GetString(16).Trim().ToUpper(),
+                        c_puerto_trasbordo = _reader.IsDBNull(17) ? "" : _reader.GetString(17).Trim().ToUpper(),
+                        s_comodity = _reader.IsDBNull(18) ? "" : _reader.GetString(18).Trim().ToUpper(),
+                        v_tara = Convert.ToDouble(_reader.GetInt32(19)),
+                        b_emb_dir = _reader.IsDBNull(20) ? "" : _reader.GetString(20).Trim().ToUpper(),
+                        c_imo_imd = _reader.IsDBNull(21) ? "" : _reader.GetString(21),
+                        c_un_number = _reader.IsDBNull(22) ? "" : _reader.GetString(22),
+                        c_tipo_doc = _reader.IsDBNull(23) ? "" : _reader.GetString(23),
+                        n_documento = _reader.IsDBNull(24) ? "" : _reader.GetString(24),
+                        c_condicion = _reader.IsDBNull(25) ? "" : _reader.GetString(25).Trim().ToUpper(),
+                        s_recepcion = _reader.IsDBNull(26) ? "" : _reader.GetString(26),
+                        s_manejo = _reader.IsDBNull(27) ? "" : _reader.GetString(27),
+                        s_transferencia = _reader.IsDBNull(28) ? "" : _reader.GetString(28),
+                        s_almacenaje = _reader.IsDBNull(29) ? "" : _reader.GetString(29),
+                        b_shipper = _reader.IsDBNull(30) ? "" : _reader.GetString(30),
+                        b_estado = _reader.IsDBNull(31) ? "" : _reader.GetString(31),
+                        c_tamaño = _reader.IsDBNull(32) ? "" : _reader.GetString(32),
+                        b_transhipment = _reader.IsDBNull(33) ? "" : _reader.GetString(33),
+                        s_trafico = _reader.IsDBNull(34) ? "" : _reader.GetString(34)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
+                return notiLista;
+            }
+
+        }
+
+        public static List<ArchivoExport> getLstARIVU(string c_llegada, DBComun.Estado pTipo)
+        {
+            List<ArchivoExport> notiLista = new List<ArchivoExport>();
+
+            System.Globalization.CultureInfo CurrentCI = System.Threading.Thread.CurrentThread.CurrentCulture;
+
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-SV");
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+
+
+                SqlCommand _command = new SqlCommand("PA_LST_EXP_ARIVUS", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_llegada", c_llegada));
+         
+
+
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    ArchivoExport _notificacion = new ArchivoExport
+                    {
+                        c_correlativo = _reader.IsDBNull(0) ? 0 : _reader.GetInt32(0),                        
+                        n_contenedor = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        c_tamaño = _reader.IsDBNull(2) ? "" : _reader.GetString(2),                       
+                        n_documento = _reader.IsDBNull(3) ? "" : _reader.GetString(3),
+                        s_fec_venc = _reader.IsDBNull(4) ? "" : _reader.GetString(4).Trim().ToUpper(),
+                        c_llegada = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
+                        c_prefijo = _reader.IsDBNull(6) ? "" : _reader.GetString(6),
+                        s_nom_predio = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        c_naviera = _reader.IsDBNull(8) ? "" : _reader.GetString(8)                        
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
+                return notiLista;
+            }
+
+        }
+        public static List<ArchivoExport> ObtenerResultadoEx(int pId, int pInferior, int pSuperior, DBComun.Estado pTipo, string b_emb_dir)
+        {
+            List<ArchivoExport> notiLista = new List<ArchivoExport>();
+
+            System.Globalization.CultureInfo CurrentCI = System.Threading.Thread.CurrentThread.CurrentCulture;
+
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-SV");
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+
+
+                SqlCommand _command = new SqlCommand("PA_MATRIZ_LISTADOS_EXP", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@IdReg", pId));
+                _command.Parameters.Add(new SqlParameter("@pInferior", pInferior));
+                _command.Parameters.Add(new SqlParameter("@pSuperior", pSuperior));
+                _command.Parameters.Add(new SqlParameter("@b_emb_dir", b_emb_dir));
+
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    ArchivoExport _notificacion = new ArchivoExport
+                    {
+                        c_correlativo = _reader.IsDBNull(0) ? 0 :  _reader.GetInt32(0),                      
+                        c_imo = Convert.ToDouble(_reader.GetString(1)),
+                        c_voyage = _reader.IsDBNull(2) ? "": _reader.GetString(2),
+                        n_booking = _reader.IsDBNull(3) ? 0 : Convert.ToInt32(_reader.GetString(3)),
+                        n_contenedor = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                        c_tamaño_c = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
+                        v_peso = _reader.IsDBNull(6) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(6)),
+                        b_estado_c = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        s_exportador = _reader.IsDBNull(8) ? "" : _reader.GetString(8).Trim().ToUpper(),
+                        s_consignatario = _reader.IsDBNull(9) ? "" : _reader.GetString(9).Trim().ToUpper(),
+                        nit_exportador = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
+                        tel_exportador = _reader.IsDBNull(11) ? "" : _reader.GetString(11),
+                        em_exportador = _reader.IsDBNull(12) ? "" : _reader.GetString(12),
+                        n_sello = _reader.IsDBNull(13) ? "" : _reader.GetString(13),
+                        c_pais_origen = _reader.IsDBNull(14) ? "" : _reader.GetString(14).Trim().ToUpper(),
+                        c_pais_destino = _reader.IsDBNull(15) ? "" : _reader.GetString(15).Trim().ToUpper(),
+                        c_pais_trasbordo = _reader.IsDBNull(16) ? "" : _reader.GetString(16).Trim().ToUpper(),
+                        c_puerto_trasbordo = _reader.IsDBNull(17) ? "" : _reader.GetString(17).Trim().ToUpper(),
+                        s_comodity = _reader.IsDBNull(18) ? "" : _reader.GetString(18).Trim().ToUpper(),
+                        v_tara = Convert.ToDouble(_reader.GetInt32(19)),
+                        b_emb_dir = _reader.IsDBNull(20) ? "" : _reader.GetString(20).Trim().ToUpper(),
+                        c_imo_imd = _reader.IsDBNull(21) ? "" : _reader.GetString(21),
+                        c_un_number = _reader.IsDBNull(22) ? "" : _reader.GetString(22),
+                        c_tipo_doc = _reader.IsDBNull(23) ? "" : _reader.GetString(23),
+                        n_documento = _reader.IsDBNull(24) ? "" : _reader.GetString(24),
+                        c_condicion = _reader.IsDBNull(25) ? "" : _reader.GetString(25).Trim().ToUpper(),
+                        s_recepcion = _reader.IsDBNull(26) ? "" : _reader.GetString(26),
+                        s_manejo = _reader.IsDBNull(27) ? "" : _reader.GetString(27),
+                        s_transferencia = _reader.IsDBNull(28) ? "" : _reader.GetString(28),
+                        s_almacenaje = _reader.IsDBNull(29) ? "" : _reader.GetString(29),
+                        b_shipper = _reader.IsDBNull(30) ? "" : _reader.GetString(30),
+                        b_estado = _reader.IsDBNull(31) ? "" : _reader.GetString(31),
+                        c_tamaño = _reader.IsDBNull(32) ? "" : _reader.GetString(32),
+                        b_transhipment = _reader.IsDBNull(33) ? "" : _reader.GetString(33),
+                        s_trafico = _reader.IsDBNull(34) ? "" : _reader.GetString(34),
+                        c_corr_previo = _reader.IsDBNull(35) ? 0 : _reader.GetInt32(35),
+                        v_peso_st = _reader.IsDBNull(36) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(36)),
+                        s_nom_predio = _reader.IsDBNull(37) ? "" : _reader.GetString(37),
+                        s_fec_venc = _reader.IsDBNull(38) ? "" : _reader.GetString(38)
                     };
 
                     notiLista.Add(_notificacion);
@@ -1098,6 +1667,160 @@ namespace CEPA.CCO.DAL
 
         }
 
+        public static List<ArchivoExport> getOpeListExp(int pId, DBComun.Estado pTipo)
+        {
+            List<ArchivoExport> notiLista = new List<ArchivoExport>();
+
+            System.Globalization.CultureInfo CurrentCI = System.Threading.Thread.CurrentThread.CurrentCulture;
+
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-SV");
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+
+
+                SqlCommand _command = new SqlCommand("PA_MATRIZ_LISTADOS_WEB_EXP", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@IdReg", pId));
+
+
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    ArchivoExport _notificacion = new ArchivoExport
+                    {
+                        c_correlativo = _reader.IsDBNull(0) ? 0 : _reader.GetInt32(0),
+                        c_imo = Convert.ToDouble(_reader.GetString(1)),
+                        c_voyage = _reader.GetString(2),
+                        n_booking = Convert.ToInt32(_reader.GetString(3)),
+                        n_contenedor = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                        c_tamaño_c = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
+                        v_peso = _reader.IsDBNull(6) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(6)),
+                        b_estado_c = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        s_exportador = _reader.IsDBNull(8) ? "" : _reader.GetString(8).Trim().ToUpper(),
+                        s_consignatario = _reader.IsDBNull(9) ? "" : _reader.GetString(9).Trim().ToUpper(),
+                        nit_exportador = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
+                        tel_exportador = _reader.IsDBNull(11) ? "" : _reader.GetString(11),
+                        em_exportador = _reader.IsDBNull(12) ? "" : _reader.GetString(12),
+                        n_sello = _reader.IsDBNull(13) ? "" : _reader.GetString(13),
+                        c_pais_origen = _reader.IsDBNull(14) ? "" : _reader.GetString(14).Trim().ToUpper(),
+                        c_pais_destino = _reader.IsDBNull(15) ? "" : _reader.GetString(15).Trim().ToUpper(),                        
+                        c_pais_trasbordo = _reader.IsDBNull(16) ? "" : _reader.GetString(16).Trim().ToUpper(),
+                        c_puerto_trasbordo = _reader.IsDBNull(17) ? "" : _reader.GetString(17).Trim().ToUpper(),
+                        s_comodity = _reader.IsDBNull(18) ? "" : _reader.GetString(18).Trim().ToUpper(),
+                        v_tara = Convert.ToDouble(_reader.GetInt32(19)),
+                        b_emb_dir = _reader.IsDBNull(20) ? "" : _reader.GetString(20).Trim().ToUpper(),
+                        c_imo_imd = _reader.IsDBNull(21) ? "" : _reader.GetString(21),
+                        c_un_number = _reader.IsDBNull(22) ? "" : _reader.GetString(22),
+                        c_tipo_doc = _reader.IsDBNull(23) ? "" : _reader.GetString(23),
+                        n_documento = _reader.IsDBNull(24) ? "" : _reader.GetString(24),
+                        c_condicion = _reader.IsDBNull(25) ? "" : _reader.GetString(25).Trim().ToUpper(),
+                        s_recepcion = _reader.IsDBNull(26) ? "" : _reader.GetString(26),
+                        s_manejo = _reader.IsDBNull(27) ? "" : _reader.GetString(27),
+                        s_transferencia = _reader.IsDBNull(28) ? "" : _reader.GetString(28),
+                        s_almacenaje = _reader.IsDBNull(29) ? "" : _reader.GetString(29),
+                        b_shipper = _reader.IsDBNull(30) ? "" : _reader.GetString(30),
+                        b_estado = _reader.IsDBNull(31) ? "" : _reader.GetString(31),
+                        c_tamaño = _reader.IsDBNull(32) ? "" : _reader.GetString(32),
+                        b_transhipment = _reader.IsDBNull(33) ? "" : _reader.GetString(33),
+                        s_trafico = _reader.IsDBNull(34) ? "" : _reader.GetString(34)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
+                return notiLista;
+            }
+
+        }
+
+        public static List<ArchivoExport> getOpeListExpED(int pId, DBComun.Estado pTipo)
+        {
+            List<ArchivoExport> notiLista = new List<ArchivoExport>();
+
+            System.Globalization.CultureInfo CurrentCI = System.Threading.Thread.CurrentThread.CurrentCulture;
+
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-SV");
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+
+
+                SqlCommand _command = new SqlCommand("PA_MATRIZ_LISTADOS_WEB_EXP_ED", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@IdReg", pId));
+
+
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    ArchivoExport _notificacion = new ArchivoExport
+                    {
+                        c_correlativo = _reader.IsDBNull(0) ? 0 : _reader.GetInt32(0),
+                        c_imo = Convert.ToDouble(_reader.GetString(1)),
+                        c_voyage = _reader.GetString(2),
+                        n_booking = Convert.ToInt32(_reader.GetString(3)),
+                        n_contenedor = _reader.IsDBNull(4) ? "" : _reader.GetString(4),
+                        c_tamaño_c = _reader.IsDBNull(5) ? "" : _reader.GetString(5),
+                        v_peso = _reader.IsDBNull(6) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(6)),
+                        b_estado_c = _reader.IsDBNull(7) ? "" : _reader.GetString(7),
+                        s_exportador = _reader.IsDBNull(8) ? "" : _reader.GetString(8).Trim().ToUpper(),
+                        s_consignatario = _reader.IsDBNull(9) ? "" : _reader.GetString(9).Trim().ToUpper(),
+                        nit_exportador = _reader.IsDBNull(10) ? "" : _reader.GetString(10),
+                        tel_exportador = _reader.IsDBNull(11) ? "" : _reader.GetString(11),
+                        em_exportador = _reader.IsDBNull(12) ? "" : _reader.GetString(12),
+                        n_sello = _reader.IsDBNull(13) ? "" : _reader.GetString(13),
+                        c_pais_origen = _reader.IsDBNull(14) ? "" : _reader.GetString(14).Trim().ToUpper(),
+                        c_pais_destino = _reader.IsDBNull(15) ? "" : _reader.GetString(15).Trim().ToUpper(),
+                        c_pais_trasbordo = _reader.IsDBNull(16) ? "" : _reader.GetString(16).Trim().ToUpper(),
+                        c_puerto_trasbordo = _reader.IsDBNull(17) ? "" : _reader.GetString(17).Trim().ToUpper(),
+                        s_comodity = _reader.IsDBNull(18) ? "" : _reader.GetString(18).Trim().ToUpper(),
+                        v_tara = Convert.ToDouble(_reader.GetInt32(19)),
+                        b_emb_dir = _reader.IsDBNull(20) ? "" : _reader.GetString(20).Trim().ToUpper(),
+                        c_imo_imd = _reader.IsDBNull(21) ? "" : _reader.GetString(21),
+                        c_un_number = _reader.IsDBNull(22) ? "" : _reader.GetString(22),
+                        c_tipo_doc = _reader.IsDBNull(23) ? "" : _reader.GetString(23),
+                        n_documento = _reader.IsDBNull(24) ? "" : _reader.GetString(24),
+                        c_condicion = _reader.IsDBNull(25) ? "" : _reader.GetString(25).Trim().ToUpper(),
+                        s_recepcion = _reader.IsDBNull(26) ? "" : _reader.GetString(26),
+                        s_manejo = _reader.IsDBNull(27) ? "" : _reader.GetString(27),
+                        s_transferencia = _reader.IsDBNull(28) ? "" : _reader.GetString(28),
+                        s_almacenaje = _reader.IsDBNull(29) ? "" : _reader.GetString(29),
+                        b_shipper = _reader.IsDBNull(30) ? "" : _reader.GetString(30),
+                        b_estado = _reader.IsDBNull(31) ? "" : _reader.GetString(31),
+                        c_tamaño = _reader.IsDBNull(32) ? "" : _reader.GetString(32),
+                        b_transhipment = _reader.IsDBNull(33) ? "" : _reader.GetString(33),
+                        s_trafico = _reader.IsDBNull(34) ? "" : _reader.GetString(34),
+                        s_fec_venc = _reader.IsDBNull(37) ? "" : _reader.GetString(37),
+                        s_nom_predio = _reader.IsDBNull(38) ? "" : _reader.GetString(38)
+
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
+                return notiLista;
+            }
+
+        }
         public static List<ArchivoAduana> getBL_SADFI(int pId, int pInferior, int pSuperior, DBComun.Estado pTipo)
         {
             List<ArchivoAduana> notiLista = new List<ArchivoAduana>();
@@ -1169,84 +1892,7 @@ namespace CEPA.CCO.DAL
             }
 
         }
-
-
-        public static List<ArchivoExport> ObtenerResultadoEx(int pId, int pInferior, int pSuperior, DBComun.Estado pTipo)
-        {
-            List<ArchivoExport> notiLista = new List<ArchivoExport>();
-
-            System.Globalization.CultureInfo CurrentCI = System.Threading.Thread.CurrentThread.CurrentCulture;
-
-            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-SV");
-
-            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
-            {
-                _conn.Open();
-                string consulta = @"SELECT c_correlativo, n_contenedor, UPPER(b.CountryName) PaisDestino, CASE WHEN r.b_estado = 'F' THEN 'LLENO' ELSE 'VACIO' END b_estadoc, 
-                                    CASE WHEN SUBSTRING(RTRIM(LTRIM(c_tamaño)), 3, 1) = 'R' THEN  d.d_descripcion + ' ' + 'HREF' ELSE CASE WHEN SUBSTRING(RTRIM(LTRIM(c_tamaño)), 3, 1) = 'U' THEN d.d_descripcion + ' OPENTOP'  ELSE CASE WHEN SUBSTRING(RTRIM(LTRIM(c_tamaño)), 3, 1) = 'T' THEN d.d_descripcion + ' TANQUE' ELSE CASE WHEN SUBSTRING(RTRIM(LTRIM(c_tamaño)), 3, 1) = 'P' THEN d.d_descripcion + ' FLAT' ELSE  CASE WHEN e.d_tipo = 'HC' THEN d.d_descripcion + ' HC' ELSE d.d_descripcion + ' ' + e.d_tipo END END END END END c_tamañoc, ISNULL(ROUND(v_peso, 2, 0), 0.00) v_peso, s_consignatario, 
-                                    v_tara, UPPER(f.CountryName) PaisOrigen, r.b_estado, c_tamaño, CASE WHEN b_reef = 'Y' THEN 'SI' ELSE CASE WHEN b_reef = 'N' THEN 'NO' ELSE '' END END b_reef, CASE WHEN b_emb_dir = 'Y' THEN 'SI' ELSE CASE WHEN b_emb_dir = 'N' THEN 'NO' ELSE '' END END b_emb_dirc, h.c_imo, c_voyage, n_BL, n_sello, s_comodity, s_prodmanifestado, 
-                                    CASE WHEN SUBSTRING(RTRIM(LTRIM(c_tamaño)), 3, 1) = 'U' THEN 1 ELSE CASE WHEN SUBSTRING(RTRIM(LTRIM(c_tamaño)), 3, 1) = 'T' THEN 2 ELSE CASE WHEN SUBSTRING(RTRIM(LTRIM(c_tamaño)), 3, 1) = 'P' THEN 3 ELSE  CASE WHEN e.d_tipo = 'HC' THEN 4 ELSE 0 END END END END c_tipos,
-                                    CASE WHEN LEFT(d.d_descripcion, 2) = '40' OR  LEFT(d.d_descripcion, 2) = '45' THEN 2 ELSE CASE WHEN  LEFT(d.d_descripcion, 2) = '20' THEN 1 END END c_longitud,
-                                    CASE WHEN LEFT(d.d_descripcion, 2) = '40' THEN 0 ElSE CASE WHEN LEFT(d.d_descripcion, 2) = '45' THEN 45 ELSE 0 END END c_otro, c_pais_destino, c_pais_origen, b_autorizado, c_detalle_pais, ISNULL(s_transferencia, '') s_transferencia, ISNULL(s_manejo, '') s_manejo, ISNULL(s_recepcion, '') s_recepcion
-                                    FROM CCO_DETA_EXPO_NAVI r  INNER JOIN CCO_COD_PAISES b ON c_pais_destino = b.CountryCode
-                                    INNER JOIN CCO_ENCA_CON_LEN d ON SUBSTRING(c_tamaño, 1, 1) = d.IdValue
-                                    INNER JOIN CCO_ENCA_CON_WIDTH e ON SUBSTRING(c_tamaño, 2, 1) = e.IdValue
-                                    INNER JOIN CCO_COD_PAISES f ON SUBSTRING(c_pais_origen, 1, 2) = f.CountryCode
-                                    INNER JOIN CCO_ENCA_EXPO_NAVI h ON h.IdReg = r.IdReg
-                                    INNER JOIN CCO_DETA_DOC_EXP_NAVI z ON h.IdReg = z.IdReg AND r.IdDoc = z.IdDoc
-                                    WHERE b_autorizado = 1 AND r.IdReg = {0} AND b_cancelado = 0   AND c_correlativo BETWEEN {1} AND {2}
-                                    ORDER BY c_correlativo  ";
-
-                SqlCommand _command = new SqlCommand(string.Format(consulta, pId, pInferior, pSuperior), _conn as SqlConnection)
-                {
-                    CommandType = CommandType.Text
-                };
-
-                SqlDataReader _reader = _command.ExecuteReader();
-
-                while (_reader.Read())
-                {
-                    ArchivoExport _notificacion = new ArchivoExport
-                    {
-                        c_correlativo = _reader.GetInt32(0),
-                        n_contenedor = _reader.GetString(1),
-                        d_pais_destino = _reader.GetString(2),
-                        b_estado_c = _reader.GetString(3),
-                        c_tamaño_c = _reader.GetString(4),
-                        v_peso = _reader.IsDBNull(5) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(5)),
-                        s_consignatario = _reader.GetString(6),
-                        s_notificador = _reader.GetString(7),
-                        s_exportador = _reader.GetString(8),
-                        v_tara = _reader.GetInt32(9),
-                        d_pais_origen = _reader.GetString(10),
-                        b_estado = _reader.GetString(11),
-                        c_tamaño = _reader.GetString(12),
-                        b_reef = _reader.IsDBNull(13) ? "" : _reader.GetString(13),
-                        b_emb_dir = _reader.IsDBNull(14) ? "" : _reader.GetString(14),
-                        c_imo = _reader.IsDBNull(15) ? 0.00 : Convert.ToDouble(_reader.GetDecimal(15)),
-                        c_voyage = _reader.IsDBNull(16) ? "" : _reader.GetString(16),
-                        n_BL = _reader.IsDBNull(17) ? "" : _reader.GetString(17),
-                        n_sello = _reader.IsDBNull(18) ? "" : _reader.GetString(18),
-                        s_comodity = _reader.IsDBNull(19) ? "" : _reader.GetString(19),
-                        s_prodmanifestado = _reader.IsDBNull(20) ? "" : _reader.GetString(20),
-                        c_pais_destino = _reader.IsDBNull(24) ? "" : _reader.GetString(24),
-                        c_pais_origen = _reader.IsDBNull(25) ? "" : _reader.GetString(25),
-                        c_detalle_puerto = _reader.IsDBNull(27) ? "" : _reader.GetString(27),
-                        b_transferencia = _reader.IsDBNull(28) ? "" : _reader.GetString(28).Trim().TrimEnd().TrimStart(),
-                        b_manejo = _reader.IsDBNull(29) ? "" : _reader.GetString(29).Trim().TrimEnd().TrimStart(),
-                        b_recepcion = _reader.IsDBNull(30) ? "" : _reader.GetString(30).Trim().TrimEnd().TrimStart()
-                    };
-
-                    notiLista.Add(_notificacion);
-                }
-
-                _reader.Close();
-                _conn.Close();
-                System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
-                return notiLista;
-            }
-
-        }
+              
 
         public static List<DetaNaviera> ObtenerAEnviar(int pId, int pInferior, int pSuperior)
         {
@@ -1790,8 +2436,8 @@ namespace CEPA.CCO.DAL
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
             {
                 _conn.Open();
-                string consulta = @"SELECT IdDeta, n_contenedor FROM CCO_ENCA_EXPO_NAVI a INNER JOIN CCO_DETA_EXPO_NAVI b ON a.IdReg = b.IdReg
-                                    WHERE  c_imo = '{0}' AND c_llegada = '{1}' /*AND c_naviera = '{2}'*/ AND c_voyage = '{2}'";
+                string consulta = @"SELECT IdDeta, n_contenedor FROM CCO_ENCA_EXP_NAVIERAS a INNER JOIN CCO_DETA_EXP_NAVIERAS b ON a.IdReg = b.IdReg
+                                    WHERE  c_imo = '{0}' AND c_llegada = '{1}' AND c_voyage = '{2}'";
 
                 SqlCommand _command = new SqlCommand(string.Format(consulta, c_imo, c_llegada, c_voyage), _conn as SqlConnection)
                 {
@@ -1824,11 +2470,11 @@ namespace CEPA.CCO.DAL
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
             {
                 _conn.Open();
-                string consulta = @"SELECT  MAX(a.c_navi_corto) c_navi_corto, b.n_manifiesto, c.c_voyage 
+                string consulta = @"SELECT  MAX(a.c_navi_corto) c_navi_corto, b.n_manifiesto, c.c_voyage, b.a_manifiesto 
                                     FROM cco_usuarios a INNER JOIN cco_enca_navieras c on a.c_naviera = c.c_naviera
                                     INNER JOIN cco_deta_doc_navi b on b.Idreg = c.IdReg
                                     WHERE IdDoc = {0}
-                                    GROUP BY b.n_manifiesto, c.c_voyage";
+                                    GROUP BY b.n_manifiesto, c.c_voyage, b.a_manifiesto";
 
                 SqlCommand _command = new SqlCommand(string.Format(consulta, pIdDoc), _conn as SqlConnection)
                 {
@@ -1843,7 +2489,45 @@ namespace CEPA.CCO.DAL
                     {
                         c_naviera_corto = _reader.GetString(0),
                         n_manifiesto = _reader.GetInt32(1),
-                        c_voyaje = _reader.GetString(2)
+                        c_voyaje = _reader.GetString(2),
+                        an_manifiesto = _reader.GetString(3)
+                    };
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
+        public static List<EnvioAuto> ObtenerDocAuExp(int pIdDoc, DBComun.Estado pEstado)
+        {
+            List<EnvioAuto> notiLista = new List<EnvioAuto>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+                string consulta = @"SELECT  MAX(a.c_navi_corto) c_navi_corto, c.c_voyage 
+                                    FROM cco_usuarios a INNER JOIN CCO_ENCA_EXP_NAVIERAS c on a.c_naviera = c.c_naviera
+                                    INNER JOIN CCO_DETA_EXP_NAVIERAS b on b.Idreg = c.IdReg
+                                    WHERE IdDoc = {0}
+                                    GROUP BY c.c_voyage";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pIdDoc), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    EnvioAuto _notificacion = new EnvioAuto
+                    {
+                        c_naviera_corto = _reader.GetString(0),                        
+                        c_voyaje = _reader.GetString(1)
                     };
                     notiLista.Add(_notificacion);
                 }
@@ -1887,6 +2571,43 @@ namespace CEPA.CCO.DAL
                         c_voyaje = _reader.GetString(1),
                         IdReg = _reader.GetInt32(2),
                         an_manifiesto = _reader.GetString(3)
+                    };
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
+        public static List<EnvioAuto> ObtenerEncAuExp(int pIdReg, DBComun.Estado pEstado)
+        {
+            List<EnvioAuto> notiLista = new List<EnvioAuto>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pEstado))
+            {
+                _conn.Open();
+                string consulta = @"SELECT DISTINCT a.c_navi_corto, c.c_voyage, c.IdReg
+                                    FROM cco_usuarios a INNER JOIN CCO_ENCA_EXP_NAVIERAS c on a.c_naviera = c.c_naviera
+                                    INNER JOIN CCO_DETA_DOC_EXP_NAVI b on b.Idreg = c.IdReg
+                                    WHERE c.IdReg = {0} and b.b_estado = 1 and b.f_valid is not null";
+
+                SqlCommand _command = new SqlCommand(string.Format(consulta, pIdReg), _conn as SqlConnection)
+                {
+                    CommandType = CommandType.Text
+                };
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    EnvioAuto _notificacion = new EnvioAuto
+                    {
+                        c_naviera_corto = _reader.GetString(0),
+                        c_voyaje = _reader.GetString(1),
+                        IdReg = _reader.GetInt32(2)                        
                     };
                     notiLista.Add(_notificacion);
                 }
@@ -2830,7 +3551,7 @@ namespace CEPA.CCO.DAL
                 if (c_naviera != "11" && c_naviera != "289" && c_naviera != "216")
                 {
                     string sql = @"SELECT a.iddeta, n_contenedor, CASE WHEN b_reef = 'Y' OR b_reef = 'N' THEN  d.d_descripcion + ' ' + 'HREF' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'U1' THEN d.d_descripcion + ' OPENTOP'  ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'T1' THEN d.d_descripcion + ' TANQUE' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'P1' THEN d.d_descripcion + ' FLAT' ELSE  CASE WHEN e.d_tipo = 'HC' THEN d.d_descripcion + ' HC' ELSE d.d_descripcion + ' ' + e.d_tipo END END END END END c_tamaño, c_naviera, b.c_llegada, f_llegada,
-                                CASE WHEN b_ret_dir = 'Y' THEN 'RETIRO DIRECTO' ELSE CASE WHEN rtrim(ltrim(b_transhipment)) = 'Y' THEN 'TRASBORDO' ELSE  'PATIO CEPA' END END b_trafico, CASE WHEN rtrim(ltrim(a.b_estado)) = 'F' THEN 'LLENO' ELSE 'VACIO' END + CASE WHEN c_condicion = 'F' THEN '/FCL' ELSE CASE WHEN c_condicion = 'L' THEN '/LCL' ELSE '' END END b_estado, a_manifiesto + '-' +  CONVERT(VARCHAR(4), n_manifiesto) manifiesto, ISNULL(a.n_sello, 'NA') s_marchamo
+                                CASE WHEN b_ret_dir = 'Y' THEN 'RETIRO DIRECTO' ELSE CASE WHEN rtrim(ltrim(b_transhipment)) = 'Y' THEN 'TRASBORDO' ELSE  'PATIO CEPA' END END b_trafico, CASE WHEN rtrim(ltrim(a.b_estado)) = 'F' THEN 'LLENO' ELSE 'VACIO' END + CASE WHEN c_condicion = 'F' THEN '/FCL' ELSE CASE WHEN c_condicion = 'L' THEN '/LCL' ELSE '' END END b_estado, a_manifiesto + '-' +  CONVERT(VARCHAR(4), n_manifiesto) manifiesto, CASE WHEN b_cancelado = 1 THEN 'CANCELADO' ELSE '' END b_cancelado, ISNULL(a.n_sello, 'NA') s_marchamo
                                 FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
                                 INNER JOIN CCO_ENCA_CON_LEN d ON SUBSTRING(c_tamaño, 1, 1) = d.IdValue
                                 INNER JOIN CCO_ENCA_CON_WIDTH e ON SUBSTRING(c_tamaño, 2, 1) = e.IdValue
@@ -2846,7 +3567,7 @@ namespace CEPA.CCO.DAL
                 else
                 {
                     string sql = @"SELECT a.iddeta, n_contenedor, CASE WHEN b_reef = 'Y' OR b_reef = 'N' THEN  d.d_descripcion + ' ' + 'HREF' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'U1' THEN d.d_descripcion + ' OPENTOP'  ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'T1' THEN d.d_descripcion + ' TANQUE' ELSE CASE WHEN RIGHT(RTRIM(LTRIM(c_tamaño)), 2) = 'P1' THEN d.d_descripcion + ' FLAT' ELSE  CASE WHEN e.d_tipo = 'HC' THEN d.d_descripcion + ' HC' ELSE d.d_descripcion + ' ' + e.d_tipo END END END END END c_tamaño, c_naviera, b.c_llegada, f_llegada,
-                                CASE WHEN b_ret_dir = 'Y' THEN 'RETIRO DIRECTO' ELSE CASE WHEN rtrim(ltrim(b_transhipment)) = 'Y' THEN 'TRASBORDO' ELSE  'PATIO CEPA' END END b_trafico, CASE WHEN rtrim(ltrim(a.b_estado)) = 'F' THEN 'LLENO' ELSE 'VACIO' END + CASE WHEN c_condicion = 'F' THEN '/FCL' ELSE CASE WHEN c_condicion = 'L' THEN '/LCL' ELSE '' END END b_estado, a_manifiesto + '-' +  CONVERT(VARCHAR(4), n_manifiesto) manifiesto, ISNULL(a.n_sello, 'NA') s_marchamo
+                                CASE WHEN b_ret_dir = 'Y' THEN 'RETIRO DIRECTO' ELSE CASE WHEN rtrim(ltrim(b_transhipment)) = 'Y' THEN 'TRASBORDO' ELSE  'PATIO CEPA' END END b_trafico, CASE WHEN rtrim(ltrim(a.b_estado)) = 'F' THEN 'LLENO' ELSE 'VACIO' END + CASE WHEN c_condicion = 'F' THEN '/FCL' ELSE CASE WHEN c_condicion = 'L' THEN '/LCL' ELSE '' END END b_estado, a_manifiesto + '-' +  CONVERT(VARCHAR(4), n_manifiesto) manifiesto, CASE WHEN b_cancelado = 1 THEN 'CANCELADO' ELSE '' END b_cancelado, ISNULL(a.n_sello, 'NA') s_marchamo
                                 FROM CCO_DETA_NAVIERAS a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
                                 INNER JOIN CCO_ENCA_CON_LEN d ON SUBSTRING(c_tamaño, 1, 1) = d.IdValue
                                 INNER JOIN CCO_ENCA_CON_WIDTH e ON SUBSTRING(c_tamaño, 2, 1) = e.IdValue
@@ -2915,6 +3636,7 @@ namespace CEPA.CCO.DAL
                 b_estado = Convert.ToString(reader["b_estado"]),
                 b_trafico = Convert.ToString(reader["b_trafico"]),
                 n_manifiesto = Convert.ToString(reader["manifiesto"]),
+                b_cancelado = Convert.ToString(reader["b_cancelado"]),
                 s_marchamo = Convert.ToString(reader["s_marchamo"])
             };
             item.TrackingList = GetOrderDetailsByOrder(item.IdDeta, pBD, item.n_manifiesto, a_dm, s_dm, c_dm);
@@ -3061,23 +3783,23 @@ namespace CEPA.CCO.DAL
             {
                 n_oficio = reader["n_folio"] is DBNull ? "" : Convert.ToString(reader["n_folio"]),
                 IdDeta = Convert.ToInt32(reader["IdDeta"]),
-                f_rep_naviera = reader["f_recep_patio"] is DBNull ? (DateTime?)null : Convert.ToDateTime(reader["f_rep_navi"]),
-                f_aut_aduana = reader["f_aut_aduana"] is DBNull ? (DateTime?)null : Convert.ToDateTime(reader["f_aut_aduana"]),
-                f_recep_patio = reader["f_recep_patio"] is DBNull ? (DateTime?)null : Convert.ToDateTime(reader["f_recep_patio"]),
+                f_rep_naviera = reader["f_rep_navi"] is DBNull ? (DateTime?)null : Convert.ToDateTime(reader["f_rep_navi"], CultureInfo.InvariantCulture),
+                f_aut_aduana = reader["f_aut_aduana"] is DBNull ? (DateTime?)null : Convert.ToDateTime(reader["f_aut_aduana"], CultureInfo.InvariantCulture),
+                f_recep_patio = reader["f_recep_patio"] is DBNull ? (DateTime?)null : Convert.ToDateTime(reader["f_recep_patio"], CultureInfo.InvariantCulture),
                 f_ret_dan = reader["f_reg_dan"] is DBNull ? "" : Convert.ToString(reader["f_reg_dan"]),
-                f_tramite_dan = reader.IsDBNull(6) ? (DateTime?)null : Convert.ToDateTime(reader["f_tramite"]),
-                f_liberado_dan = reader.IsDBNull(7) ? (DateTime?)null : Convert.ToDateTime(reader["f_liberado"]),
+                f_tramite_dan = reader.IsDBNull(6) ? (DateTime?)null : Convert.ToDateTime(reader["f_tramite"], CultureInfo.InvariantCulture),
+                f_liberado_dan = reader.IsDBNull(7) ? (DateTime?)null : Convert.ToDateTime(reader["f_liberado"], CultureInfo.InvariantCulture),
                 f_salida_carga = Convert.ToString(reader["f_salida_carga"], CultureInfo.InvariantCulture),
-                f_solic_ingreso = reader.IsDBNull(9) ? (DateTime?)null : Convert.ToDateTime(reader["f_solic_ingre"]),
-                f_auto_patio = reader.IsDBNull(10) ? (DateTime?)null : Convert.ToDateTime(reader["f_aut_patio"]),
-                f_puerta1 = reader.IsDBNull(11) ? (DateTime?)null : Convert.ToDateTime(reader["f_confir_puerta"]),
+                f_solic_ingreso = reader.IsDBNull(9) ? (DateTime?)null : Convert.ToDateTime(reader["f_solic_ingre"], CultureInfo.InvariantCulture),
+                f_auto_patio = reader.IsDBNull(10) ? (DateTime?)null : Convert.ToDateTime(reader["f_aut_patio"], CultureInfo.InvariantCulture),
+                f_puerta1 = reader.IsDBNull(11) ? (DateTime?)null : Convert.ToDateTime(reader["f_confir_puerta"], CultureInfo.InvariantCulture),
                 c_llegada = reader["c_llegada"] is DBNull ? "" : Convert.ToString(reader["c_llegada"]),
                 n_contenedor = reader["n_contenedor"] is DBNull ? "" : Convert.ToString(reader["n_contenedor"]),
                 c_naviera = reader["c_naviera"] is DBNull ? "" : Convert.ToString(reader["c_naviera"])
             };
             //item.ubicacion = ObtenerUbicacion(item.c_llegada, item.n_contenedor, item.c_naviera);
             item.s_comentarios = reader["s_comentarios"] is DBNull ? "" : Convert.ToString(reader["s_comentarios"]);
-            item.f_trans_aduana = reader.IsDBNull(16) ? (DateTime?)null : Convert.ToDateTime(reader["f_trasmision"]);
+            item.f_trans_aduana = reader.IsDBNull(16) ? (DateTime?)null : Convert.ToDateTime(reader["f_trasmision"], CultureInfo.InvariantCulture);
             item.s_consignatario = reader["s_consignatario"] is DBNull ? "" : Convert.ToString(reader["s_consignatario"]);
             item.descripcion = reader["s_comodity"] is DBNull ? "" : Convert.ToString(reader["s_comodity"]);
             item.f_caseta = reader.IsDBNull(19) ? (DateTime?)null : Convert.ToDateTime(reader["f_caseta"]);
@@ -3085,19 +3807,20 @@ namespace CEPA.CCO.DAL
             item.f_recepA = reader.IsDBNull(21) ? (DateTime?)null : Convert.ToDateTime(reader["f_recepcion"]);
             item.f_reg_aduana = reader["f_reg_aduana"] is DBNull ? "" : Convert.ToString(reader["f_reg_aduana"]);
             item.f_reg_selectivo = reader["f_reg_selectivo"] is DBNull ? "" : Convert.ToString(reader["f_reg_selectivo"]);
-            item.f_lib_aduana = reader.IsDBNull(24) ? (DateTime?)null : Convert.ToDateTime(reader["f_lib_aduana"]);
-            item.f_ret_mag = reader.IsDBNull(25) ? (DateTime?)null : Convert.ToDateTime(reader["f_ret_mag"]);
-            item.f_lib_mag = reader.IsDBNull(26) ? (DateTime?)null : Convert.ToDateTime(reader["f_lib_mag"]);
+            item.f_lib_aduana = reader.IsDBNull(24) ? (DateTime?)null : Convert.ToDateTime(reader["f_lib_aduana"], CultureInfo.InvariantCulture);
+            item.f_ret_mag = reader.IsDBNull(25) ? (DateTime?)null : Convert.ToDateTime(reader["f_ret_mag"], CultureInfo.InvariantCulture);
+            item.f_lib_mag = reader.IsDBNull(26) ? (DateTime?)null : Convert.ToDateTime(reader["f_lib_mag"], CultureInfo.InvariantCulture);
             item.f_ret_ucc = reader["f_retencion_ucc"] is DBNull ? "" : Convert.ToString(reader["f_retencion_ucc"]);
-            item.f_tramite_ucc = reader.IsDBNull(28) ? (DateTime?)null : Convert.ToDateTime(reader["f_trami_ucc"]);
-            item.f_liberado_ucc = reader.IsDBNull(29) ? (DateTime?)null : Convert.ToDateTime(reader["f_liberado_ucc"]);
+            item.f_tramite_ucc = reader.IsDBNull(28) ? (DateTime?)null : Convert.ToDateTime(reader["f_trami_ucc"], CultureInfo.InvariantCulture);
+            item.f_liberado_ucc = reader.IsDBNull(29) ? (DateTime?)null : Convert.ToDateTime(reader["f_liberado_ucc"], CultureInfo.InvariantCulture);
             item.f_marchamo_ucc = reader["f_marchamo_ucc"] is DBNull ? "" : Convert.ToString(reader["f_marchamo_ucc"]);
             item.f_cancelado = reader["f_cancelado"] is DBNull ? "" : Convert.ToString(reader["f_cancelado"]);
             item.f_deta_dan = reader["f_lib_Dan_det"] is DBNull ? "" : Convert.ToString(reader["f_lib_Dan_det"]);
             item.f_deta_ucc = reader["f_lib_UCC_det"] is DBNull ? "" : Convert.ToString(reader["f_lib_UCC_det"]);
             item.f_retencion_dga = reader["f_ret_dga"] is DBNull ? "" : Convert.ToString(reader["f_ret_dga"]);
             item.f_lib_dga = reader["f_lib_dga"] is DBNull ? "" : Convert.ToString(reader["f_lib_dga"]);
-            
+            item.n_BL = reader["n_BL"] is DBNull ? "" : Convert.ToString(reader["n_BL"]);
+
             return item;
         }
 
@@ -3138,6 +3861,7 @@ namespace CEPA.CCO.DAL
             item.f_deta_ucc = Convert.ToString(reader["f_lib_UCC_det"]);
             item.f_retencion_dga = Convert.ToString(reader["f_ret_dga"]);
             item.f_lib_dga = Convert.ToString(reader["f_lib_dga"]);
+            item.n_BL = Convert.ToString(reader["n_BL"]);
             //item.f_reg_aduana = Convert.ToString(reader["f_reg_aduana"]);
             //item.f_reg_selectivo = Convert.ToString(reader["f_reg_selectivo"]);
             //item.f_lib_aduana = Convert.ToDateTime(reader["f_lib_aduana"]);
@@ -3511,6 +4235,12 @@ namespace CEPA.CCO.DAL
 
                 AseParameter p_naduana = _command.Parameters.Add("@s_naduana", AseDbType.VarChar);
                 p_naduana.Value = "02";
+
+                AseParameter p_b_ret_directo = _command.Parameters.Add("@b_ret_directo", AseDbType.Char);
+                p_b_ret_directo.Value = (pDeta.b_ret_dir=="SI") ? "1" : "0";
+
+                AseParameter p_b_transbordo = _command.Parameters.Add("@b_transbordo", AseDbType.Char);
+                p_b_transbordo.Value = (pDeta.b_transhipment=="SI") ? "1" : "0";
 
                 string resultado = _command.ExecuteScalar().ToString();
                 _conn.Close();
@@ -4079,7 +4809,6 @@ namespace CEPA.CCO.DAL
             }
             return notiLista;
         }
-
 
         public static List<DetaNaviera> detaDGACnt(int pId)
         {

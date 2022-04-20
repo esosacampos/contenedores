@@ -53,6 +53,8 @@ namespace CEPA.CCO.UI.Web
                                     _cargar.c_llegada = context.Request.QueryString["c_llegada"].ToString();
                                     _cargar.f_llegada = Convert.ToDateTime(context.Request.QueryString["f_llegada"].ToString(), CultureInfo.CreateSpecificCulture("es-SV"));
                                     _cargar.sustitucion = Convert.ToInt32(context.Request.QueryString["susti"].ToString());
+                                    _cargar.c_naviera = context.Request.QueryString["c_naviera"].ToString();
+                                    _cargar.c_iso_navi = context.Request.QueryString["c_iso_navi"].ToString();
 
                                     if (_cargar.sustitucion == 1)
                                         _cargar.arch_susti = context.Request.QueryString["arch_susti"].ToString();

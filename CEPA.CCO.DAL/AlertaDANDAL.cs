@@ -226,6 +226,75 @@ namespace CEPA.CCO.DAL
 
         }
 
+        public static List<DetaNaviera> getNavierasOpeExp(DBComun.Estado pTipo, string c_llegada)
+        {
+            List<DetaNaviera> notiLista = new List<DetaNaviera>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+                SqlCommand _command = new SqlCommand("PA_NALIST_OPERACIONES_EXP", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_llegada", c_llegada));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    DetaNaviera _notificacion = new DetaNaviera
+                    {
+                        IdReg = _reader.GetInt32(0),
+                        c_navi = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        c_llegada = _reader.IsDBNull(2) ? "" : _reader.GetString(2)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
+
+        public static List<DetaNaviera> getNavierasOpeExpED(DBComun.Estado pTipo, string c_llegada)
+        {
+            List<DetaNaviera> notiLista = new List<DetaNaviera>();
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+                SqlCommand _command = new SqlCommand("PA_NALIST_OPERACIONES_EXP_ED", _conn as SqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                _command.Parameters.Add(new SqlParameter("@c_llegada", c_llegada));
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    DetaNaviera _notificacion = new DetaNaviera
+                    {
+                        IdReg = _reader.GetInt32(0),
+                        c_navi = _reader.IsDBNull(1) ? "" : _reader.GetString(1),
+                        c_llegada = _reader.IsDBNull(2) ? "" : _reader.GetString(2)
+                    };
+
+                    notiLista.Add(_notificacion);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return notiLista;
+            }
+
+        }
         public static List<EncaNaviera> getPrefiNavi(DBComun.Estado pTipo)
         {
             List<EncaNaviera> notiLista = new List<EncaNaviera>();

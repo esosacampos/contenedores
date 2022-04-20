@@ -44,6 +44,9 @@ namespace CEPA.CCO.Entidades
         public int IdDoc { get; set; }
 
         public string c_nul { get; set; }
+
+        public int t_ed { get; set; }
+        public int t_pc { get; set; }
     }
 
     public class EncaLiquid
@@ -79,6 +82,11 @@ namespace CEPA.CCO.Entidades
         public string b_solidga { get; set; }
         public string c_voyage { get; set; }
         public int IdDoc { get; set; }
+
+        public int t_cargados { get; set; }
+        public int t_embarcados { get; set; }
+        public int t_ed { get; set; }
+        public int t_pc { get; set; }
     }
 
     public class DetaillLiquid
@@ -90,6 +98,13 @@ namespace CEPA.CCO.Entidades
         public string d_cliente { get; set; }
         public string n_contenedor { get; set; }
         public string c_naviera { get; set; }
+
+        public int c_corr_lst { get; set; }
+
+        public string t_doc { get; set; }
+        public string n_doc { get; set; }
+        public string s_justificacion { get; set; }
+
     }
 
     public class AlertaDANTarja

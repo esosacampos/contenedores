@@ -107,8 +107,9 @@ namespace CEPA.CCO.Linq
 
                 List<ResultadoValidacion> resulVal = ResultadoValidacionDAL.ValidarArchivoExport(pListaC);
 
-
                 List<ResultadoValidacion> resulRe = ResultadoValidacionDAL.ValoresRepetidosEx(pListaC);
+
+                List<ResultadoValidacion> lstRetenidos = ResultadoValidacionDAL.ValidarRetenidosCEPAExport(pListaC);
 
                 if (resulVal.Count > 0)
                 {
@@ -118,6 +119,11 @@ namespace CEPA.CCO.Linq
                 if (resulRe.Count > 0)
                 {
                     listaCurrent.AddRange(resulRe);
+                }
+
+                if (lstRetenidos.Count > 0)
+                {
+                    listaCurrent.AddRange(lstRetenidos);
                 }
             }
 
@@ -311,12 +317,12 @@ namespace CEPA.CCO.Linq
         }
 
 
-        public static List<DetaNaviera> AlmacenarArchivoEx(List<DetaNaviera> pLista, DBComun.Estado pEstado, int pCondicion)
+        public static List<ArchivoExport> AlmacenarArchivoEx(List<ArchivoExport> pLista, DBComun.Estado pEstado, int pCondicion)
         {
 
 
-            List<DetaNaviera> listResul = new List<DetaNaviera>();
-            List<DetaNaviera> list = new List<DetaNaviera>();
+            List<ArchivoExport> listResul = new List<ArchivoExport>();
+            List<ArchivoExport> list = new List<ArchivoExport>();
 
             list = (from a in pLista
                     join b in ContenedorDAL.ObtenerPrimerPos(pEstado) on a.c_tamaño.Substring(1 - 1, 1) equals b.IdValue
@@ -329,30 +335,42 @@ namespace CEPA.CCO.Linq
                       c.IdValue,
                       d.IdCode,
                       a.n_contenedor
-                    select new DetaNaviera
+                    select new ArchivoExport
                     {
                         IdDeta = a.IdDeta,
                         IdReg = a.IdReg,
-                        n_BL = a.n_BL,
+                        n_booking = a.n_booking,
                         n_contenedor = a.n_contenedor,
-                        c_tamaño = a.c_tamaño,
+                        c_tamaño_c = a.c_tamaño_c,
                         v_peso = a.v_peso,
-                        b_estado = a.b_estado,
+                        b_estado_c = a.b_estado_c,
                         s_consignatario = a.s_consignatario,
                         n_sello = a.n_sello,
                         c_pais_destino = a.c_pais_destino,
-                        c_pais_origen = a.c_pais_origen,
-                        c_detalle_pais = a.c_detalle_pais,
+                        c_pais_origen = a.c_pais_origen,                        
+                        c_pais_trasbordo = a.c_pais_trasbordo,
+                        c_puerto_trasbordo = a.c_puerto_trasbordo,
                         s_comodity = a.s_comodity,
                         s_prodmanifestado = a.s_prodmanifestado,
                         v_tara = a.v_tara,
                         b_reef = a.b_reef,
-                        b_ret_dir = a.b_ret_dir,
+                        b_emb_dir = a.b_emb_dir,
                         c_imo_imd = a.c_imo_imd,
-                        c_un_number = a.c_un_number,
-                        b_transhipment = a.b_transhipment,
+                        c_un_number = a.c_un_number,                        
                         c_condicion = a.c_condicion,
-                        c_correlativo = a.c_correlativo
+                        c_correlativo = a.c_correlativo,
+                        b_estado = a.b_estado,
+                        c_tamaño = a.c_tamaño,
+                        b_transhipment = a.b_transhipment,
+                        s_trafico = a.s_trafico,
+                        c_corr_previo =a.c_corr_previo,
+                        v_peso_st = a.v_peso_st,
+                        s_nom_predio = a.s_nom_predio,
+                        s_pe = a.s_pe,
+                        s_posicion = a.s_posicion,
+                        c_tipo_doc = a.c_tipo_doc,
+                        n_documento = a.n_documento,
+                        s_fec_venc = a.s_fec_venc                       
                     }).ToList();
 
 
@@ -361,16 +379,12 @@ namespace CEPA.CCO.Linq
             {
                 // Llenos
                 case 1:
-                    listResul = list.Where(a => a.b_estado.Contains('F') && !a.b_reef.Contains('Y')).ToList();
+                    listResul = list.Where(a => a.b_estado == "F").ToList();
                     break;
                 // Vacios
                 case 2:
-                    listResul = list.Where(a => a.b_estado.Contains('E') && !a.b_reef.Contains('Y')).ToList();
-                    break;
-                // Reef
-                case 3:
-                    listResul = list.Where(a => a.b_reef.Contains('Y')).ToList();
-                    break;
+                    listResul = list.Where(a => a.b_estado == "E").ToList();
+                    break;               
             }
 
             // Revisar si es la misma cantidad que entro al orden numerico
@@ -480,6 +494,71 @@ namespace CEPA.CCO.Linq
                 // Peligrosidad
                 case 7:
                     listResul = list.Where(a => a.c_imo_imd != "").ToList();
+                    break;
+            }
+
+            // Revisar si es la misma cantidad que entro al orden numerico
+            return listResul;
+        }
+
+        public static List<ArchivoExport> EnvioArchivoEx(List<ArchivoExport> pLista, DBComun.Estado pEstado, int pCondicion)
+        {
+            List<ArchivoExport> listResul = new List<ArchivoExport>();
+            List<ArchivoExport> list = new List<ArchivoExport>();
+
+            list = (from a in pLista
+                    join b in ContenedorDAL.ObtenerPrimerPos(pEstado) on a.c_tamaño.Substring(1 - 1, 1) equals b.IdValue
+                    join c in ContenedorDAL.ObtenerSegundaPos(pEstado) on a.c_tamaño.Substring(2 - 1, 1) equals c.IdValue
+                    join d in ContenedorDAL.ObtenerTerceraPos(pEstado) on a.c_tamaño.Substring(3 - 1, 1) equals d.IdCode
+                    join f in ContenedorDAL.ObtenerOrden(pEstado) on a.b_estado.ToUpper() equals f.Valor.ToUpper()
+                    orderby
+                      f.Orden,
+                      b.IdValue,
+                      c.IdValue,
+                      d.IdCode,
+                      a.n_contenedor
+                    select new ArchivoExport
+                    {
+                        n_contenedor = a.n_contenedor,
+                        c_tamaño = a.c_tamaño,
+                        v_peso = a.v_peso,
+                        b_estado = a.b_estado,
+                        s_consignatario = a.s_consignatario,
+                        c_pais_destino = a.c_pais_destino,
+                        c_pais_origen = a.c_pais_origen,
+                        v_tara = a.v_tara,
+                        b_reef = a.b_reef,
+                        b_emb_dir = a.b_emb_dir,                      
+                        c_condicion = a.c_condicion,
+                        c_correlativo = a.c_correlativo,
+                        c_tamaño_c = a.c_tamaño_c,
+                        b_estado_c = a.b_estado_c,
+                        c_imo_imd = a.c_imo_imd,
+                        c_un_number = a.c_un_number,
+                        n_sello = a.n_sello,
+                        s_comodity = a.s_comodity,                       
+                        s_transferencia = a.s_transferencia,
+                        s_manejo = a.s_manejo,
+                        s_recepcion = a.s_recepcion,
+                        s_almacenaje = a.s_almacenaje,
+                        b_shipper = a.b_shipper
+                    }).ToList();
+
+
+
+            switch (pCondicion)
+            {
+                // Llenos
+                case 1:
+                    listResul = list.Where(a => a.b_estado.Contains('F') && !a.b_reef.Contains('Y')).ToList();
+                    break;
+                // Vacios
+                case 2:
+                    listResul = list.Where(a => a.b_estado.Contains('E') && !a.b_reef.Contains('Y')).ToList();
+                    break;
+                // Reef
+                case 3:
+                    listResul = list.Where(a => a.b_reef.Contains('Y')).ToList();
                     break;
             }
 

@@ -10,19 +10,26 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>Reporte Consolidado Contenedores Retenidos DAN</h2>
     <hr />
-    <div class="col-lg-9">
-        <div class="input-group">
-            <asp:TextBox ID="txtBuscar" runat="server" MaxLength="4" class="form-control" placeholder="introducir año (mínimo permitido 2014)"></asp:TextBox>
-            <span class="input-group-btn">
-                <asp:Button ID="btnBuscar" runat="server" class="btn btn-default" Text="Consultar"
-                    OnClick="btnBuscar_Click" />
-            </span>
-        </div>
-        <!-- /input-group -->
-    </div>
-    <!-- /.col-lg-6 -->
-    <br />
-    <br />
+    
+            <div class="col-lg-12">
+                <div class="form-inline">
+                    <div class="form-group" style="width: 35%">
+                        <asp:TextBox ID="txtBuscar" runat="server" MaxLength="4" class="form-control" autocomplete="off" placeholder="introducir año (mínimo permitido 2014)" Style="width: 100%"></asp:TextBox>
+                    </div>
+                    <div class="form-group">
+                        <asp:DropDownList ID="ddlClaves" runat="server" AutoPostBack="false" class="selectpicker show-tick seleccion" data-style="btn-default">
+                        </asp:DropDownList>
+                    </div>
+                    <div class="form-group">
+                        <asp:Button ID="btnBuscar" runat="server" class="btn btn-default" Text="Consultar"
+                            OnClick="btnBuscar_Click" />
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-lg-6 -->
+            <br />
+            <br />
+
     <asp:UpdatePanel ID="EmployeesUpdatePanel" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
             <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="mes"
@@ -44,7 +51,9 @@
             </asp:GridView>
         </ContentTemplate>
         <Triggers>
+            
             <asp:AsyncPostBackTrigger ControlID="btnBuscar" EventName="Click" />
+        
         </Triggers>
     </asp:UpdatePanel>
     <br />

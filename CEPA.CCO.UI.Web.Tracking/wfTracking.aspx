@@ -59,10 +59,11 @@
         }
 
         #btnBancos {
-            height: 40px;
+            height: 35px;
             width: 100px;
             white-space: normal;
             padding: 1px;
+            font-size: 12px;
         }
 
         table.table-bordered th:last-child,
@@ -413,8 +414,10 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right list">
                     <li>
-                        <center><a href="https://www.websmultimedia.com/contador-de-visitas-gratis" title="">
-                            <img style="border: 0px solid; display: inline; width:120px; height:25px;" alt="" src="https://www.websmultimedia.com/contador-de-visitas.php?id=258647"></a><br><a href='http://www.websmultimedia.com/registro-de-marcas-y-logotipos' style="color: #777;font-size: 20px;font-weight: bold;">Visitantes</a></center>
+                        <center>
+                            <a href="https://www.websmultimedia.com/contador-de-visitas-gratis" title="">
+                                <img style="border: 0px solid; display: inline; width: 120px; height: 25px;" alt="" src="https://www.websmultimedia.com/contador-de-visitas.php?id=560"></a><br>
+                            <a href='http://www.websmultimedia.com/registro-de-marcas-y-logotipos' style="color: #777; font-size: 20px; font-weight: bold;">Visitantes</a></center>
                     </li>
                 </ul>
                 <div class="navbar-default sidebar hidden-xs" role="navigation">
@@ -488,8 +491,8 @@
                             <div class="col-lg-4" style="width: 47%; padding-right: 4px; padding-top: 1.8%;">
                                 <div class="form-inline" style="font-size: 12px;">
                                     <div id="googleRecaptchadiv">
-                                        <!-- BEGIN: ReCAPTCHA implementation example. -->
-                                        <div id="recaptcha-demo" class="g-recaptcha" data-sitekey="6LfrpzEUAAAAAE7ID9J6bhWi26WXJuKFKGHRpE81" data-callback="onSuccess" data-bind="recaptcha_demo_submit"></div>
+                                        <!-- BEGIN: ReCAPTCHA implementation example. 6LcLJ0UeAAAAAG9ZafCHqikVMTLTOhvRI6yT14K0 anerio 6LfrpzEUAAAAAE7ID9J6bhWi26WXJuKFKGHRpE81-->
+                                        <div id="recaptcha-demo" class="g-recaptcha" data-sitekey="6LcLJ0UeAAAAAG9ZafCHqikVMTLTOhvRI6yT14K0" data-callback="onSuccess" data-bind="recaptcha_demo_submit"></div>
                                         <script>
                                             var onSuccess = function (response) {
                                                 debugger;
@@ -514,12 +517,8 @@
                                         <asp:Button ID="btnClrear" runat="server" CssClass="btn btn-success" Text="Limpiar" OnClick="btnLimpiar_Click" />
                                         <%--   <button id="btnClear" class="btn btn btn-success">Limpiar</button> class="d-inline-block material-tooltip-smaller"--%>
                                         <input type="button" id="exportpdf" value="Imprimir" class="btn btn-info">
-                                    </div>
-                                    <div class="form-group">
                                         <button id="btnVEA" type="button" class="btn btn-success" data-toggle="tooltip" title="Clic ir a VEA de la DGA" onclick="shwwindow()" disabled></button>
                                         <%--<span id="badgeNN" class="badgeNO badge-notify">New</span>--%>
-                                    </div>
-                                    <div class="form-group">
                                         <button id="btnBancos" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalBancos" disabled>Cuentas Colectoras</button>
                                         <span id="badgeNN" class="badgeNO badge-notify">New</span>
                                     </div>
@@ -573,6 +572,7 @@
                                                                             <div style="position: relative;">
                                                                                 <asp:DetailsView ID="dtTracking" runat="server" AutoGenerateRows="False" DataKeyNames="IdDeta" CssClass="table table-striped table-bordered table-hover" CellPadding="0" GridLines="None">
                                                                                     <Fields>
+                                                                                        <asp:BoundField DataField="n_BL" HeaderText="BLs Asociados" ReadOnly="True" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="s_consignatario" HeaderText="Consignatario" ReadOnly="True" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="descripcion" HeaderText="Descripcion" ReadOnly="True" HeaderStyle-Font-Bold="true"></asp:BoundField>
                                                                                         <asp:BoundField DataField="f_rep_naviera" HeaderText="Anuncio Contenedor a Bordo por NAVIERA" ReadOnly="True" DataFormatString="{0:f}" ItemStyle-CssClass="alignCells" HeaderStyle-Font-Bold="true"></asp:BoundField>
@@ -727,10 +727,11 @@
                         © 2013 CEPA / Puerto de Acajutla, El Salvador v3.0
                     </p>
                     <p class="text-justify" style="font-size: 11px;">
-                        Para mayor información contactar: Gerente Portuario <a href="#">Roberto de Jesús Mendoza - 7070-8013 - roberto.mendoza@cepa.gob.sv</a> / Jefe Análisis de Gestión <a href="#">Omar Ivan Castillo - 7070-8243 - omar.castillo@cepa.gob.sv</a>
+                        Para mayor información contactar: Gerente Portuario <a href="#">Roberto de Jesús Mendoza - 7070-8013 - roberto.mendoza@cepa.gob.sv</a>
                     </p>
                     <p class="text-justify" style="font-size: 11px;">
-                        Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática - 7070-8256 - elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 27 de Abril de 2021
+                        <%--Soporte Técnico <a href="#">Elsa B. Sosa - Sección Informática - 7070-8256 - elsa.sosa@cepa.gob.sv</a> / Ultima actualización : Acajutla, 13 de Julio de 2021--%>
+                        Para asistencia técnica - <a href="#">7070-8059 - informática.acajutla@cepa.gob.sv</a> / Ultima actualización : Acajutla, 28 de Marzo de 2022
                     </p>
                 </div>
             </div>
@@ -918,7 +919,9 @@
 
 
 
-
+            function doosomething() {
+                document.getElementById("tooltop").enabled = true;
+            }
 
 
             function endRequest(sender, args) {
@@ -950,10 +953,16 @@
                 var c_llegada = row.cells[2].innerHTML;
                 var contenedor = row.cells[3].innerHTML;
                 var c_tarja = row.cells[4].innerHTML;
+                var hEstado = row.cells[0].childNodes[5].value;
                 var url = 'llegada=' + c_llegada + '&contenedor=' + contenedor
 
                 if (c_tarja != "&nbsp;")
-                    window.open('wfConsulBL.aspx?' + url, '_blank');
+                    if (hEstado != "CANCELADO") {
+                        window.open('wfConsulBLNvo.aspx?' + url, '_blank');
+                    }
+                    else {
+                        bootbox.alert("CEPA - Contenedores: no puede proceder porque este contenedor fue CANCELADO")
+                    }
                 else
                     bootbox.alert("CEPA - Contenedores: no puede proceder porque no se posee tarja vuelva intentar mas tarde.")
             }

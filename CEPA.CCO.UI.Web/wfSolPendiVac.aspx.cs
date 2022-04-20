@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using CEPA.CCO.Entidades;
-using CEPA.CCO.BL;
 using CEPA.CCO.DAL;
-using System.Data.SqlClient;
 using CEPA.CCO.Linq;
-using System.Threading;
-using System.Globalization;
-using System.Drawing;
 
-using Newtonsoft.Json;
 using System.Xml;
 using System.Configuration;
 using System.IO;
@@ -25,6 +17,7 @@ namespace CEPA.CCO.UI.Web
 {
     public partial class wfSolPendiVac : System.Web.UI.Page
     {
+        public List<Vaciado> pDescon1 { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -76,11 +69,19 @@ namespace CEPA.CCO.UI.Web
 
                 insertMani(mani[1].ToString(), mani[0].ToString());
 
+                List<Vaciado> pDescon = new List<Vaciado>();               
 
-                List<Vaciado> pDescon = new List<Vaciado>();
-
+                List<Vaciado> pDesconCopy = new List<Vaciado>();
 
                 pDescon = VaciadoDAL.getBLVaciado(DBComun.Estado.verdadero, n_contenedor, n_manifiesto);
+
+                pDesconCopy = pDescon.Where(a => a.t_bl == "BLN").ToList();
+
+                if (pDesconCopy.Count > 0)
+                {
+                    pDescon = pDesconCopy;
+                }
+                
 
                 var query = Newtonsoft.Json.JsonConvert.SerializeObject(pDescon);
 
@@ -113,7 +114,7 @@ namespace CEPA.CCO.UI.Web
             int b_sidunea = 1;
             string _mensaje = null;
 
-            string resul = ResulNavieraDAL.EliminarManifiesto(DBComun.Estado.verdadero, Convert.ToInt32(n_manifiesto), a_manifiesto, b_sidunea);
+            
             MemoryStream memoryStream = new MemoryStream();
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
             xmlWriterSettings.Encoding = new UTF8Encoding(false);
@@ -170,6 +171,7 @@ namespace CEPA.CCO.UI.Web
 
             if (doc.ChildNodes.Count > 0)
             {
+                string resul = ResulNavieraDAL.EliminarManifiesto(DBComun.Estado.verdadero, Convert.ToInt32(n_manifiesto), a_manifiesto, b_sidunea);
                 XmlNodeList listEnca = doc.SelectNodes("MdsParts/MDS4");
 
                 XmlNode xEnca;

@@ -113,6 +113,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="EXP_PLANTILLA.xlsx" />
     <None Include="packages.config" />
     <None Include="Service References\CepaSiduneaWorld\cepaService.xsd">
       <SubType>Designer</SubType>

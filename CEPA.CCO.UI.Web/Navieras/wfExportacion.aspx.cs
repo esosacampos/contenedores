@@ -32,6 +32,7 @@ namespace CEPA.CCO.UI.Web.Navieras
         private void Cargar()
         {
             EncaBuqueBL _encaBL = new EncaBuqueBL();
+            //string navi = Session["c_naviera"].ToString();
             GridView1.DataSource = DocBuqueLINQ.ObtenerBuqueDocEx(Session["c_naviera"].ToString());
             GridView1.DataBind();
 

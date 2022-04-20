@@ -34,5 +34,7 @@ namespace CEPA.CCO.Entidades
 
         public int b_sidunea { get; set; }
         public int b_DP { get; set; }
+
+        public string c_iso_navi { get; set; }
     }
 }

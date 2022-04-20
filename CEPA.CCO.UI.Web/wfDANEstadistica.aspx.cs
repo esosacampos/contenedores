@@ -15,7 +15,16 @@ namespace CEPA.CCO.UI.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if(!IsPostBack)
+            {
+                ddlClaves.DataSource = TipoRevisionesDAL.getClaves();
+                ddlClaves.DataTextField = "Tipo";
+                ddlClaves.DataValueField = "Clave";
+                ddlClaves.DataBind();
 
+                ddlClaves.Items.Insert(0, new ListItem("-- Seleccionar Tipo Retencion -- "));
+                ddlClaves.Items.Insert(1, new ListItem("Todos"));
+            }
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
@@ -25,10 +34,11 @@ namespace CEPA.CCO.UI.Web
                 GridView1.DataSource = null;
                 GridView1.DataBind();
                 int a_valor = Convert.ToInt32(txtBuscar.Text);
+                string clave_val = ddlClaves.SelectedValue.ToString();
 
                 if (a_valor >= 2014)
                 {
-                    GridView1.DataSource = DanEstadisticaDAL.ObtenerEstadistica(txtBuscar.Text, "11");
+                    GridView1.DataSource = DanEstadisticaDAL.ObtenerEstadisticaCL(txtBuscar.Text, "11", clave_val);
                     GridView1.DataBind();
 
                     if (GridView1.Rows.Count > 0)

@@ -268,7 +268,7 @@ namespace CEPA.CCO.DAL
                 {
                     _conn.Open();
 
-                    string _consulta = @"IF EXISTS(SELECT c_imo FROM CCO_ENCA_EXPO_NAVI WHERE c_imo = '{0}' AND c_voyage = '{1}' AND c_naviera = '{2}')
+                    string _consulta = @"IF EXISTS(SELECT c_imo FROM CCO_ENCA_EXP_NAVIERAS WHERE c_imo = '{0}' AND c_voyage = '{1}' AND c_naviera = '{2}')
                                     BEGIN
 	                                    SELECT 'ESTE IMO YA PRESENTO ESTE NÚMERO DE VIAJE'
                                     END
@@ -581,57 +581,72 @@ namespace CEPA.CCO.DAL
 
         }
 
+        public static DateTime fechaRe(double dia)
+        {
+            DateTime fec = new DateTime();
+            fec.AddDays(dia);
+
+            fec.ToShortDateString();
+
+            return fec;
+        }
         public static List<ArchivoExport> ConvertToList(System.Data.DataTable dt)
         {
             List<ArchivoExport> pLista = new List<ArchivoExport>();
 
-            int valor = 0;
-            double valorD, valorD1, valorD2 = 0.00;
+            int valor = 0, valor1 = 0;
+            double valorD = 0.00, valorD1 = 0.00, valorD2 = 0.00;
             int n_fila = 2;
-            
+            DateTime f_ven = new DateTime();
+
             foreach (DataRow row in dt.Rows)
             {
-
-                double.TryParse(row[0].ToString(), out valorD);
-                double.TryParse(row[6].ToString(), out valorD1);
-                double.TryParse(row[16].ToString(), out valorD2);
-                int.TryParse(row[3].ToString(), out valor);
+                double.TryParse(row[0].ToString(), out valorD1);
+                double.TryParse(row[5].ToString(), out valorD);              
+                int.TryParse(row[18].ToString(), out valor);
+                int.TryParse(row[2].ToString(), out valor1);
+                double.TryParse(row[32].ToString(), out valorD2);
+                if (valorD2 > 0.00)
+                    f_ven = DateTime.FromOADate(valorD2);
+             
 
                 pLista.Add(new ArchivoExport
                 {
-                    
-                    c_imo = valorD,
-                    c_voyage = row.IsNull(1) ? "" : row[1].ToString(),                 
-                    n_BL = row.IsNull(2) ? "" : row[2].ToString(),
-                    n_booking = valor,
-                    n_contenedor = row.IsNull(4) ? "" : row[4].ToString(),
-                    c_tamaño = row.IsNull(5) ? "" : row[5].ToString(),
-                    v_peso = valorD1,
-                    b_estado = row.IsNull(7) ? "" : row[7].ToString(),
-                    s_exportador = row.IsNull(8) ? "" : row[8].ToString(),
-                    s_consignatario = row.IsNull(9) ? "" : row[9].ToString(),
-                    s_notificador = row.IsNull(10) ? "" : row[10].ToString(),
-                    n_sello = row.IsNull(11) ? "" : row[11].ToString(),
-                    c_pais_destino = row.IsNull(12) ? "" : row[12].ToString(),
-                    c_detalle_puerto = row.IsNull(13) ? "" : row[13].ToString(),
-                    s_comodity = row.IsNull(14) ? "" : row[14].ToString(),
-                    s_prodmanifestado = row.IsNull(15) ? "" : row[15].ToString(),
-                    v_tara = valorD2,
-                    b_emb_dir = row.IsNull(17) ? "" : row[17].ToString(),
-                    b_reef = row.IsNull(18) ? "" : row[18].ToString(),
-                    c_tipo_doc = row.IsNull(19) ? "" : row[19].ToString(),
-                    c_arivu = row.IsNull(20) ? "" : row[20].ToString(),
-                    c_fauca = row.IsNull(21) ? "" : row[21].ToString(),
-                    c_dm = row.IsNull(22) ? "" : row[22].ToString(),
-                    c_dut = row.IsNull(23) ? "" : row[23].ToString(),
-                    c_dmti = row.IsNull(24) ? "" : row[24].ToString(),
-                    c_manifiesto = row.IsNull(25) ? "" : row[25].ToString(),
-                    c_pais_origen = row.IsNull(26) ? "" : row[26].ToString(),
-                    b_transferencia = row.IsNull(27) ? "" : row[27].ToString(),
-                    b_manejo = row.IsNull(28) ? "" : row[28].ToString(),
-                    b_recepcion = row.IsNull(29) ? "" : row[29].ToString(),     
+                    c_imo = valorD1,
+                    c_voyage = row.IsNull(1) ? "" : row[1].ToString(),
+                    n_booking = valor1,
+                    n_contenedor = row.IsNull(3) ? "" : row[3].ToString(),
+                    c_tamaño = row.IsNull(4) ? "" : row[4].ToString(),
+                    v_peso = valorD,
+                    b_estado = row.IsNull(6) ? "" : row[6].ToString(),
+                    s_exportador = row.IsNull(7) ? "" : row[7].ToString(),
+                    s_consignatario = row.IsNull(8) ? "" : row[8].ToString(),
+                    nit_exportador = row.IsNull(9) ? "" : row[9].ToString(),
+                    tel_exportador = row.IsNull(10) ? "" : row[10].ToString(),
+                    em_exportador = row.IsNull(11) ? "" : row[11].ToString(),
+                    n_sello = row.IsNull(12) ? "" : row[12].ToString(),
+                    c_pais_origen = row.IsNull(13) ? "" : row[13].ToString(),
+                    c_pais_destino = row.IsNull(14) ? "" : row[14].ToString(),
+                    c_pais_trasbordo = row.IsNull(15) ? "" : row[15].ToString(),
+                    c_puerto_trasbordo = row.IsNull(16) ? "" : row[16].ToString(),
+                    s_comodity = row.IsNull(17) ? "" : row[17].ToString(),
+                    v_tara = valor,
+                    b_emb_dir = row.IsNull(19) ? "" : row[19].ToString(),
+                    c_imo_imd = row.IsNull(20) ? "" : row[20].ToString(),
+                    c_un_number = row.IsNull(21) ? "" : row[21].ToString(),
+                    c_tipo_doc = row.IsNull(22) ? "" : row[22].ToString(),
+                    n_documento = row.IsNull(23) ? "" : row[23].ToString(),
+                    c_condicion = row.IsNull(24) ? "" : row[24].ToString(),
+                    s_recepcion = row.IsNull(25) ? "" : row[25].ToString(),
+                    s_manejo = row.IsNull(26) ? "" : row[26].ToString(),
+                    s_transferencia = row.IsNull(27) ? "" : row[27].ToString(),
+                    s_almacenaje = row.IsNull(28) ? "" : row[28].ToString(),
+                    b_shipper = row.IsNull(29) ? "" : row[29].ToString(),
+                    b_transhipment = row.IsNull(30) ? "" : row[30].ToString(),
+                    s_nom_predio = row.IsNull(31) ? "" : row[31].ToString(),
+                    f_venc_arivu = row.IsNull(32) ? (DateTime)default : f_ven,
                     num_fila = n_fila
-                });
+                }) ;
 
                 n_fila = n_fila + 1;
             }  

@@ -13,5 +13,11 @@ namespace CEPA.CCO.Entidades
         public string Campo { get; set; }
         public int Resultado { get; set; }
         public string NumCelda { get; set; }
-    }    
+    }
+    
+    public class RetenidoCEPA
+    {
+        public string contenedor { get; set; }
+        public string motivo { get; set; }
+    }
 }

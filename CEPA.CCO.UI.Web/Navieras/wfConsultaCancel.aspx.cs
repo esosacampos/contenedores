@@ -26,7 +26,7 @@ namespace CEPA.CCO.UI.Web.Navieras
                 }
                 catch (Exception ex)
                 {
-                    ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + ex.Message + "');", true);
+                    ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('" + ex.Message.Replace("'", "") + "');", true);
                 }
             }
         }
@@ -34,7 +34,7 @@ namespace CEPA.CCO.UI.Web.Navieras
         private void Cargar()
         {
             EncaBuqueBL _encaBL = new EncaBuqueBL();
-            GridView1.DataSource = DocBuqueLINQ.ObtenerCancel(DBComun.Estado.verdadero, Session["c_naviera"].ToString());
+            GridView1.DataSource = DocBuqueLINQ.ObtenerCancel(DBComun.Estado.verdadero, Session["c_naviera"].ToString(), Session["c_usuario"].ToString());
             GridView1.DataBind();
 
             GridView1.HeaderRow.Cells[0].Attributes["data-class"] = "expand";

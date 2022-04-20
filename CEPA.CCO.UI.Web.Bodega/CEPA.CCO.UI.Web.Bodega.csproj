@@ -106,6 +106,7 @@
     <Content Include="dist\js\sb-admin-2.js" />
     <Content Include="dist\js\sb-admin-2.min.js" />
     <Content Include="Global.asax" />
+    <Content Include="js\autocomplete.js" />
     <Content Include="js\bootstrap-select.min.js" />
     <Content Include="js\additional-methods.min.js" />
     <Content Include="js\bootstrap-filestyle.min.js" />

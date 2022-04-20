@@ -126,19 +126,17 @@ namespace CEPA.CCO.UI.Web
             List<DetaNaviera> uncheckedProd = (from item in grid.Rows.Cast<GridViewRow>()
                                                let check = (CheckBox)item.FindControl("CheckBox1")
                                                let contenedor = Convert.ToString(item.Cells[1].Text ?? string.Empty)
-                                               let observacion = (TextBox)item.FindControl("txtObservaciones")
-                                               let retenido = Convert.ToString(item.Cells[3].Text ?? string.Empty)
+                                               let observacion = (TextBox)item.FindControl("txtObservaciones")                                              
                                                let correlativo = (HiddenField)item.FindControl("hCorre")
-                                               let c_size = Convert.ToString(item.Cells[2].Text ?? string.Empty)
+                                               let size = Convert.ToString(item.Cells[2].Text ?? string.Empty)
                                                where check.Checked
                                                select new DetaNaviera
                                                {
-                                                   IdDeta = Convert.ToInt32(grid.DataKeys[item.RowIndex].Value),
+                                                   IdDeta = Convert.ToInt32(grid.DataKeys[item.RowIndex].Value),                                                   
+                                                   s_observaciones = observacion.Text,                                                 
+                                                   c_correlativo = Convert.ToInt32(correlativo.Value),
                                                    n_contenedor = contenedor,
-                                                   s_observaciones = observacion.Text,
-                                                   b_retenido = retenido,
-                                                   c_tamaño = c_size,
-                                                   c_correlativo = Convert.ToInt32(correlativo.Value)
+                                                   c_tamaño = size
                                                }).ToList();
 
 
@@ -335,31 +333,53 @@ namespace CEPA.CCO.UI.Web
             // se obtienen los id de producto checkeados de la pagina actual
             //
             List<DetaNaviera> uncheckedProd = (from item in grid.Rows.Cast<GridViewRow>()
-                                               let check = (CheckBox)item.FindControl("CheckBox1")
-                                               let contenedor = Convert.ToString(item.Cells[0].Text ?? string.Empty)
+                                               let check = (CheckBox)item.FindControl("CheckBox1")                                               
                                                let iddoc = (HiddenField)item.FindControl("Hidden2")
                                                let idreg = (HiddenField)item.FindControl("Hidden1")
                                                let iddeta = (HiddenField)item.FindControl("Hidden3")
-                                               let v_peso = Convert.ToDouble(item.Cells[2].Text ?? string.Empty)
-                                               let c_tamaño = Convert.ToString(item.Cells[1].Text ?? string.Empty)
-                                               let c_pais_destino = Convert.ToString(item.Cells[3].Text ?? string.Empty)
-                                               let c_detalle_pais = Convert.ToString(item.Cells[4].Text ?? string.Empty)
+                                               let t_Auto = (HiddenField)item.FindControl("hTipoAuto")
                                                where check.Checked
                                                select new DetaNaviera
                                                {
                                                    IdDeta = Convert.ToInt32(iddeta.Value),
-                                                   n_contenedor = contenedor,
                                                    IdDoc = Convert.ToInt32(iddoc.Value),
                                                    IdReg = Convert.ToInt32(idreg.Value),
-                                                   v_peso = v_peso,
-                                                   c_tamaño = c_tamaño,
-                                                   c_pais_destino = c_pais_destino,
-                                                   c_detalle_pais = c_detalle_pais
+                                                   TipoRevision = t_Auto.Value
                                                }).ToList();
 
 
 
             HttpContext.Current.Session["Exportados"] = uncheckedProd;
+
+        }
+
+        public static void NoAutoExport(GridView grid)
+        {
+
+            List<DetaNaviera> _listaContenedores = new List<DetaNaviera>();
+            //
+            // se obtienen los id de producto checkeados de la pagina actual
+            //
+            List<DetaNaviera> uncheckedProd = (from item in grid.Rows.Cast<GridViewRow>()
+                                               let check = (CheckBox)item.FindControl("CheckBox1")
+                                               let iddoc = (HiddenField)item.FindControl("Hidden2")
+                                               let idreg = (HiddenField)item.FindControl("Hidden1")
+                                               let iddeta = (HiddenField)item.FindControl("Hidden3")
+                                               let t_Auto = (HiddenField)item.FindControl("hTipoAuto")
+                                               let contenedor = Convert.ToString(item.Cells[2].Text ?? string.Empty)
+                                               where !check.Checked
+                                               select new DetaNaviera
+                                               {
+                                                   IdDeta = Convert.ToInt32(iddeta.Value),
+                                                   IdDoc = Convert.ToInt32(iddoc.Value),
+                                                   IdReg = Convert.ToInt32(idreg.Value),
+                                                   TipoRevision = t_Auto.Value,
+                                                   n_contenedor = contenedor
+                                               }).ToList();
+
+
+
+            HttpContext.Current.Session["NoExportados"] = uncheckedProd;
 
         }
 

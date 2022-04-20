@@ -103,7 +103,7 @@ namespace CEPA.CCO.UI.Web.Tracking
         {
             bool Valid = false;
             string Response = Request["g-recaptcha-response"];//Getting Response String Append to Post Method
-            string url = @"https://www.google.com/recaptcha/api/siteverify?secret=6Lc_mh8TAAAAAG9wxfSWQDNVsENJ60DtqWO05lzK&response=" + Response + @"&remoteip=" + ipAddress;
+            string url = @"https://www.google.com/recaptcha/api/siteverify?secret=6LcLJ0UeAAAAAG9ZafCHqikVMTLTOhvRI6yT14K0&response=" + Response + @"&remoteip=" + ipAddress;
             //Request to Google Server
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
 
@@ -504,6 +504,18 @@ namespace CEPA.CCO.UI.Web.Tracking
 
                 string vFecha = null;
 
+                HiddenField hEstado = (HiddenField)e.Row.FindControl("hEstado");
+
+                if (hEstado.Value == "CANCELADO")
+                {
+                    e.Row.BackColor = Color.FromName("#EB7A7A");
+                    e.Row.ForeColor = Color.White;
+                   
+                   // ScriptManager.RegisterStartupScript(this, typeof(string), "", "bootbox.alert('Favor!! Intente de nuevo se produjo un error, o consultar a Informatica CEPA/Acajutla');", true);
+                }
+                
+
+
                 if (lblFecha.Text.Contains("VERDE"))
                 {
 
@@ -538,13 +550,7 @@ namespace CEPA.CCO.UI.Web.Tracking
                     lblSelec.Font.Bold = true;
                 }
 
-                HiddenField hEstado = (HiddenField)e.Row.FindControl("hEstado") as HiddenField;
-
-                if (hEstado.Value == "CANCELADO")
-                {
-                    e.Row.BackColor = Color.FromName("#EB7A7A");
-                    e.Row.ForeColor = Color.White;
-                }
+                
 
 
                 //ScriptManager.RegisterStartupScript(this, typeof(string), "", "almacenando();", true);
@@ -563,6 +569,14 @@ namespace CEPA.CCO.UI.Web.Tracking
                         }
                     }
 
+                    if (hEstado.Value != "CANCELADO")
+                    {
+                        if ((Convert.ToString(item.Cells[0].Text) == "Recepcion Contenedor" && Convert.ToString(item.Cells[1].Text) == ""))
+                        {
+                            item.Cells[1].Text = "CONTENEDOR AUN NO RECIBIDO EN PUERTO";
+                        }
+                    }
+
                     Label lblUbica = (Label)gvDetails.FindControl("lblUbica") as Label;
 
                     if (lblUbica.Text == "")
@@ -571,7 +585,7 @@ namespace CEPA.CCO.UI.Web.Tracking
                 }
 
 
-                GridView gvProvisionales = (GridView)gvDetails.Rows[31].Cells[1].FindControl("grvProv");
+                GridView gvProvisionales = (GridView)gvDetails.Rows[32].Cells[1].FindControl("grvProv");
 
                 if (gvProvisionales != null)
                 {

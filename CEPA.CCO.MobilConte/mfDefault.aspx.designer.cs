@@ -7,7 +7,7 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace CEPA.CCO.MobilConte {
+namespace CEPA.CCO.MobilPatio {
     
     
     public partial class mfDefault {

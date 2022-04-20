@@ -26,9 +26,7 @@ using Office = Microsoft.Office.Core;
 using VBIDE = Microsoft.Vbe.Interop;
 using Microsoft.Vbe.Interop;
 using System.Threading;
-
-
-
+//using ClosedXML.Excel;
 
 namespace CEPA.CCO.Linq
 {
@@ -44,6 +42,11 @@ namespace CEPA.CCO.Linq
 
         string fullPathCO = System.Configuration.ConfigurationManager.AppSettings["fullPathCO"];
 
+        string fullEXP_PREV = System.Configuration.ConfigurationManager.AppSettings["fullExpPre"];
+        string fullEXP_AUTO = System.Configuration.ConfigurationManager.AppSettings["fullExpAut"];
+
+        string fullEXP_ARIVU = System.Configuration.ConfigurationManager.AppSettings["fullExpArivu"];
+
 
 
         int Hoja = 3;
@@ -52,7 +55,7 @@ namespace CEPA.CCO.Linq
         public void GenerarAplicacionCX(List<ArchivoAduana> pLista, string c_cliente, string d_naviera, string c_llegada, int IdReg, string d_buque,
               DateTime f_llegada, int pValor, int pCantidad, List<DetaNaviera> pCancelados, int b_sidunea)
         {
-           
+
 
             const int ROWS_FIRST = 1;
             const int ROWS_START = 8;
@@ -80,7 +83,7 @@ namespace CEPA.CCO.Linq
             string _f5save = string.Format("{0}{1}", fullPath, "ACO2_" + c_cliente + "_" + DateTime.Now.ToString("MMyyhhmmss", CultureInfo.CreateSpecificCulture("es-SV")) + "_" + c_llegada + ".xls");
             string _f6save = string.Format("{0}{1}", fullPath, "ACO3_" + c_cliente + "_" + DateTime.Now.ToString("MMyyhhmmss", CultureInfo.CreateSpecificCulture("es-SV")) + "_" + c_llegada + ".xls");
 
-            
+
 
 
             string ruta = null;
@@ -140,7 +143,7 @@ namespace CEPA.CCO.Linq
 
                         if (ordenar.Count > 0)
                         {
-                            
+
                             if (Cuenta <= 3)
                             {
                                 Filas = ordenar.Count + ROWS_START;
@@ -155,16 +158,16 @@ namespace CEPA.CCO.Linq
                                 GenerarExcel2CX(ordenar, c_llegada, ROWS_FIRST, ROWS_START, Filas, d_buque, Cuenta, oWB1, fechaC, j, iRow, d_naviera, b_sidunea);
                                 Aumenta = Aumenta + 1;
                             }
-                            
+
                             foreach (var item_C in ordenar)
                             {
                                 pLista.RemoveAll(rt => rt.n_contenedor.ToUpper() == item_C.n_contenedor.ToUpper());
                             }
                         }
                     }
-                }           
+                }
 
-                
+
                 oWB.SaveAs(_f2save);
                 oWB1.SaveAs(_f4save);
 
@@ -172,9 +175,9 @@ namespace CEPA.CCO.Linq
 
                 //Load Workbook
                 string _ruta = "@" + _f2save;
-                           
-              
-               
+
+
+
                 ConvertExcelToPdf(_f4save, _f3save);
 
 
@@ -189,7 +192,7 @@ namespace CEPA.CCO.Linq
                     ruta = GenerarPeligrosidadCX(_list, c_cliente, d_naviera, c_llegada, IdReg, d_buque, f_llegada, pValor, pCantidad, n_manifiesto, c_viaje);
                 }
 
-               
+
 
                 //COTECNA 
                 List<ArchivoAduana> pCotecna = new List<ArchivoAduana>();
@@ -211,13 +214,13 @@ namespace CEPA.CCO.Linq
 
                 //List<string> pPDF = new List<string>();                
 
-                EnviarCorreo(pRutas, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, n_manifiesto, pSize);
+                EnviarCorreo(pRutas, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, string.Concat(a_manifiesto, "-", n_manifiesto), pSize);
 
                 //pPDF.Add(_f3save);
 
                 //EnviarCorreoCO(pPDF, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, n_manifiesto);
 
-               EnviarCorreoCOTEC(pCotecLst, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, n_manifiesto, a_manifiesto);
+                EnviarCorreoCOTEC(pCotecLst, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, n_manifiesto, a_manifiesto);
 
                 System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
 
@@ -257,12 +260,12 @@ namespace CEPA.CCO.Linq
                 if (Nombre == "Hoja1" || Nombre == "Hoja2" || Nombre == "Hoja3")
                 {
                     ((Microsoft.Office.Interop.Excel._Worksheet)oXL.ActiveWorkbook.Sheets[i]).Delete();
-                }               
+                }
             }
             return oSheet;
         }
-               
-        public void EnviarCorreo(List<string> pArchivo, string d_buque, int pValor, int pCantidad, List<DetaNaviera> pLista, string c_cliente, string c_llegada, string c_navi_corto, string c_viaje, int n_manifiesto, List<string> pValidacion)
+
+        public void EnviarCorreo(List<string> pArchivo, string d_buque, int pValor, int pCantidad, List<DetaNaviera> pLista, string c_cliente, string c_llegada, string c_navi_corto, string c_viaje, string n_manifiesto, List<string> pValidacion)
         {
             string Html;
             int i = 1;
@@ -298,17 +301,17 @@ namespace CEPA.CCO.Linq
                     Html += "<font color=red> Este manifiesto no posee contenedores clasificados con peligrosidad </font><br/> ";
                 }
 
-                if(pValidacion.Count > 0)
+                if (pValidacion.Count > 0)
                 {
                     Html += "<br /><br/>";
-                    Html += "<p style='background-color: #ffffcc'><font color:'#000000;'>";                    
+                    Html += "<p style='background-color: #ffffcc'><font color:'#000000;'>";
                     Html += "Los siguientes contenedores presentaron inconsistencia en su tamaño según historial, y para su revisión se detallan a continuación : ";
                     Html += "<UL>";
-                    foreach(string itemS in pValidacion)
+                    foreach (string itemS in pValidacion)
                     {
                         Html += "<LI>" + itemS;
                     }
-                    Html += "</UL>";                   
+                    Html += "</UL>";
                     Html += "<br/><br/>";
                     Html += "</font></p>";
                 }
@@ -318,11 +321,11 @@ namespace CEPA.CCO.Linq
                 Html += "<font style=\"color:#1F497D;\"><b> TODOS: </b></font><br />";
                 Html += "<font color=blue>Impresión de los listados para ser utilizado en la operación del buque</font><br /><br />";
                 Html += "<font style=\"color:#1F497D;\"><b> NAVIERA: </b></font><br />";
-                Html += "<font color=blue><b>Remitir a CEPA:</b> a) Dos copias impresas del Manifiesto de Carga; b) Por correo electrónico, en formato digital, el Manifiesto de Carga. </font><br /><br />";
+                Html += "<font color=blue><b>Remitir a CEPA:</b> a) Una copia impresa del Manifiesto de Carga; b) Por correo electrónico, en formato digital, el Manifiesto de Carga. </font><br /><br />";
                 Html += "<font color=blue><b>ADUANA:</b> No requiere copia impresa del Manifiesto de Carga </font><br /><br />";
 
-                
-                _correo.Subject = string.Format("PASO 4 de 4: Autorización de Listado de Importación de {0} para el Buque: {1}, # de Viaje {2}, Cod. de Llegada # {3}, Manifiesto de Aduana # {4}", c_navi_corto, d_buque, c_viaje, c_llegada, n_manifiesto);
+
+                _correo.Subject = string.Format("PASO 4 de 4: Autorización de Listado de IMPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}, Cod. de Llegada # {3}, Manifiesto de Aduana # {4}", c_navi_corto, d_buque, c_viaje, c_llegada, n_manifiesto);
                 //_correo.Subject = string.Format("Listado de Contenedores Autorizados {0} con C. Llegada {1} ", d_buque, c_llegada);
                 _correo.ListArch = pArchivo;
 
@@ -355,7 +358,7 @@ namespace CEPA.CCO.Linq
                 //_correo.ListaNoti = pLisN;
 
                 _correo.Asunto = Html;
-                _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.falso);                
+                _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.falso);
             }
             catch (Exception Ex)
             {
@@ -424,7 +427,7 @@ namespace CEPA.CCO.Linq
                 errorMessage = String.Concat(errorMessage, theException.Source);
                 throw new Exception(errorMessage);
             }
-                
+
             finally
             {
                 ((Excel._Application)excel).Quit();
@@ -446,10 +449,10 @@ namespace CEPA.CCO.Linq
                 excel = null;
             }
         }
-                       
+
         private static void GenerarExcelCX(List<ArchivoAduana> pAduana, string c_llegada, int ROWS_FIRST, int ROWS_START, int Filas, string d_buque, int cuenta, cxExcel.XLWorkbook oWB, /* Microsoft.Office.Interop.Excel._Worksheet oSheet, Microsoft.Office.Interop.Excel.Range oRng,*/ string _Fecha, int pValor, int iRow, string d_naviera, bool Imdg, int n_manif, string c_viaje)
         {
-            
+
             string nombreSheet = null;
             string valorCabecera = null;
             try
@@ -458,11 +461,11 @@ namespace CEPA.CCO.Linq
                 {
                     case 1:
                         nombreSheet = "LLENOS";
-                        valorCabecera = "LISTADO DE CONTENEDORES DE IMPORTACIÓN LLENOS";                       
+                        valorCabecera = "LISTADO DE CONTENEDORES DE IMPORTACIÓN LLENOS";
                         break;
                     case 2:
                         nombreSheet = "VACIOS";
-                        valorCabecera = "LISTADO DE CONTENEDORES DE IMPORTACIÓN VACÍOS";              
+                        valorCabecera = "LISTADO DE CONTENEDORES DE IMPORTACIÓN VACÍOS";
                         //oSheet.Cell(6, 1).Value = "LISTADO DE CONTENEDORES DE IMPORTACIÓN VACÍOS";              
                         break;
                     case 3:
@@ -474,7 +477,7 @@ namespace CEPA.CCO.Linq
                     case 4:
                         nombreSheet = "TRASBORDO";
                         valorCabecera = "LISTADO DE CONTENEDORES DE IMPORTACIÓN TRANSBORDO";
-                        break;                   
+                        break;
                     case 5:
                         nombreSheet = "RET_DIR";
                         valorCabecera = "LISTADO DE CONTENEDORES DE IMPORTACIÓN DESPACHO DIRECTO LLENOS";
@@ -483,22 +486,22 @@ namespace CEPA.CCO.Linq
                         nombreSheet = "RET_DIR_VACIO";
                         valorCabecera = "LISTADO DE CONTENEDORES DE IMPORTACIÓN DESPACHO DIRECTO VACÍOS";
                         break;
-                    
+
                     case 7:
                         nombreSheet = "CONTE_PELIGROSIDAD";
-                        valorCabecera = "LISTADO DE CONTENEDORES DE IMPORTACIÓN PELIGROSIDAD";                        
+                        valorCabecera = "LISTADO DE CONTENEDORES DE IMPORTACIÓN PELIGROSIDAD";
                         break;
                     default:
                         break;
-                    
+
                 }
 
                 var oSheet = oWB.Worksheets.Add(nombreSheet);
-                                
+
 
                 oSheet.Cell(6, 1).Value = valorCabecera;
 
-                
+
                 string _rango = null;
 
                 if (Imdg == true)
@@ -509,7 +512,7 @@ namespace CEPA.CCO.Linq
                     _rango = "M";
 
 
-                oSheet.Cell(3, 12).Value = "Manif. ADUANA : " + n_manif;               
+                oSheet.Cell(3, 12).Value = "Manif. ADUANA : " + n_manif;
                 oSheet.Range("L3", "M3").Merge();
                 oSheet.Range("L3", "M3").Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
                 oSheet.Range("L3", "M3").Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Left);
@@ -527,7 +530,7 @@ namespace CEPA.CCO.Linq
                 oSheet.Range("A6", string.Format("{0}6", _rango)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
                 oSheet.Range("A6", string.Format("{0}6", _rango)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Center);
                 oSheet.Range("A6", string.Format("{0}6", _rango)).Style.Font.FontSize = 18;
-                
+
                 //Add table headers going cell by cell.
                 oSheet.Cell(ROWS_FIRST, 1).Value = d_naviera;
 
@@ -543,17 +546,20 @@ namespace CEPA.CCO.Linq
                 oSheet.Range("A3", "B3").Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
                 oSheet.Range("A3", "B3").Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Center);
 
+
+
                 oSheet.Cell(4, 1).Value = c_llegada;
                 oSheet.Range("A4", "B4").Merge();
                 oSheet.Range("A4", "B4").Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
                 oSheet.Range("A4", "B4").Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Center);
+
 
                 oSheet.Cell(5, 1).Value = _Fecha;
                 oSheet.Range("A5", "B5").Merge();
                 oSheet.Range("A5", "B5").Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
                 oSheet.Range("A5", "B5").Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Center);
 
-                oSheet.Range("A4", "A4").Style.NumberFormat.SetFormat("0.0000");
+                oSheet.Range("A4", "A4").Style.NumberFormat.SetFormat("@");
                 oSheet.Range("A5", "A5").Style.NumberFormat.SetFormat("dd/mm/yyyy");
                 oSheet.Range("A3", "A5").Style.Font.Bold = true;
                 oSheet.Range("A3", "A5").Style.Font.FontSize = 13;
@@ -565,14 +571,14 @@ namespace CEPA.CCO.Linq
                 oSheet.Cell(ROWS_START, 3).Value = "TIPO";
                 oSheet.Cell(ROWS_START, 4).Value = "PESO EN KG";
                 oSheet.Cell(ROWS_START, 5).Value = "TARA";
-                oSheet.Cell(ROWS_START, 6).Value = "CONDICION";               
+                oSheet.Cell(ROWS_START, 6).Value = "CONDICION";
                 oSheet.Cell(ROWS_START, 7).Value = "CONSIGNATARIO";
                 oSheet.Cell(ROWS_START, 8).Value = "DESCRIPCIÓN DE MERCADERÍA";
                 oSheet.Cell(ROWS_START, 9).Value = "PAÍS DE PROCEDENCIA";
                 oSheet.Cell(ROWS_START, 10).Value = "PAÍS DE DESTINO";
                 oSheet.Cell(ROWS_START, 11).Value = "TRANSFERENCIA";
                 oSheet.Cell(ROWS_START, 12).Value = "MANEJO";
-                
+
 
                 if (Imdg == true)
                 {
@@ -586,7 +592,7 @@ namespace CEPA.CCO.Linq
                 oSheet.Range("E8", "E8").Style.Alignment.WrapText = true;
                 oSheet.Range("A1", string.Format("{0}1", _rango)).Style.Font.Bold = true;
                 oSheet.Range("A6", string.Format("{0}6", _rango)).Style.Font.Bold = true;
-                oSheet.Range("A8", string.Format("{0}8", _rango)).Style.Font.Bold = true;                
+                oSheet.Range("A8", string.Format("{0}8", _rango)).Style.Font.Bold = true;
                 oSheet.Range("A8", string.Format("{0}8", _rango)).Style.Fill.BackgroundColor = cxExcel.XLColor.LightGray;
 
                 oSheet.Range("A8", string.Format("{0}8", _rango)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
@@ -601,16 +607,16 @@ namespace CEPA.CCO.Linq
                 //oRng.EntireColumn.AutoFit();
 
                 oSheet.Range("M9", string.Concat("M", Filas)).Style.NumberFormat.SetFormat("0");
-                
+
 
                 var oRng = oSheet.Range("A8", string.Concat(string.Format("{0}", _rango), Filas));
 
                 oRng.Style.Border.DiagonalDown = false;
                 oRng.Style.Border.DiagonalUp = false;
-               /* oRng.Style.Border.BottomBorder = cxExcel.XLBorderStyleValues.Medium;
-                oRng.Style.Border.LeftBorder = cxExcel.XLBorderStyleValues.Medium;
-                oRng.Style.Border.TopBorder = cxExcel.XLBorderStyleValues.Medium;
-                oRng.Style.Border.RightBorder = cxExcel.XLBorderStyleValues.Medium;*/
+                /* oRng.Style.Border.BottomBorder = cxExcel.XLBorderStyleValues.Medium;
+                 oRng.Style.Border.LeftBorder = cxExcel.XLBorderStyleValues.Medium;
+                 oRng.Style.Border.TopBorder = cxExcel.XLBorderStyleValues.Medium;
+                 oRng.Style.Border.RightBorder = cxExcel.XLBorderStyleValues.Medium;*/
                 oRng.Style.Border.InsideBorder = cxExcel.XLBorderStyleValues.Thin;
                 oRng.Style.Border.OutsideBorder = cxExcel.XLBorderStyleValues.Medium;
 
@@ -620,7 +626,7 @@ namespace CEPA.CCO.Linq
                 //oRng.Style.Border.SetOutsideBorder(cxExcel.XLBorderStyleValues.Medium);
                 oRng.Style.Border.SetInsideBorderColor(cxExcel.XLColor.Black);
                 oRng.Style.Border.SetOutsideBorderColor(cxExcel.XLColor.Black);
-                
+
 
                 oRng = oSheet.Range("D9", string.Format("E{0}", Filas));
                 oRng.Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Right;
@@ -631,7 +637,7 @@ namespace CEPA.CCO.Linq
                 oRng.Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Bottom;
 
                 oRng = oSheet.Range("A8", string.Format("N{0}", Filas));
-                oRng.Style.Font.FontSize = 8;                
+                oRng.Style.Font.FontSize = 8;
 
                 //oSheet.Range(string.Format("{0}9", _rango), string.Format("{0}{1}", _rango, Filas)).Style.Font.FontSize = 12;
                 //oSheet.Range(string.Format("{0}9", _rango), string.Format("{0}{1}", _rango, Filas)).Style.Font.Bold = true;         
@@ -654,13 +660,13 @@ namespace CEPA.CCO.Linq
                 oSheet.PageSetup.Footer.Center.AddText(cxExcel.XLHFPredefinedText.NumberOfPages, cxExcel.XLHFOccurrence.AllPages);
 
                 //oSheet.Range("M9", string.Concat("M", Filas)).Style.Font.Bold = false;
-                
+
                 oSheet.Column(1).Width = 3;
                 oSheet.Column(2).Width = 20;
                 oSheet.Column(3).Width = 10;
                 oSheet.Column(4).Width = 8;
                 oSheet.Column(5).Width = 5;
-                oSheet.Column(6).Width = 8;                
+                oSheet.Column(6).Width = 8;
                 oSheet.Column(7).Width = 29;
                 oSheet.Column(8).Width = 29;
                 oSheet.Column(9).Width = 20;
@@ -696,13 +702,13 @@ namespace CEPA.CCO.Linq
                         c = "SI";
                     else
                         c = "NO";
-                    
+
                     oSheet.Cell(iCurrent, 1).Value = item.c_correlativo;
                     oSheet.Cell(iCurrent, 2).Value = item.n_contenedor;
                     oSheet.Cell(iCurrent, 3).Value = item.c_tamaño_c;
                     oSheet.Cell(iCurrent, 4).Value = item.v_peso;
                     oSheet.Cell(iCurrent, 5).Value = item.v_tara;
-                    oSheet.Cell(iCurrent, 6).Value = item.b_condicion;                    
+                    oSheet.Cell(iCurrent, 6).Value = item.b_condicion;
                     oSheet.Cell(iCurrent, 7).Value = item.s_consignatario;
                     oSheet.Cell(iCurrent, 8).Value = item.s_comodity;
                     oSheet.Cell(iCurrent, 9).Value = item.n_pais_origen;
@@ -719,7 +725,7 @@ namespace CEPA.CCO.Linq
                         //    oSheet.Cell(iCurrent, 15).Value = "LCL";
                         //else
                         //    oSheet.Cell(iCurrent, 15).Value = "";
-                        
+
                     }
                     else
                     {
@@ -731,10 +737,10 @@ namespace CEPA.CCO.Linq
                         oSheet.Cell(iCurrent, 13).Value = c;
                     }
 
-                    iRow = iRow + 1;                    
+                    iRow = iRow + 1;
                 }
 
-               
+
 
             }
             catch (Exception Ex)
@@ -783,7 +789,7 @@ namespace CEPA.CCO.Linq
                         break;
                     case 6:
                         nombreSheet = "RET_DIR_VACIO";
-                        valorCabecera = "LISTADO DE CONTENEDORES DE IMPORTACIÓN DESPACHO DIRECTO VACÍOS" + v_Sidunea; 
+                        valorCabecera = "LISTADO DE CONTENEDORES DE IMPORTACIÓN DESPACHO DIRECTO VACÍOS" + v_Sidunea;
                         break;
                     case 7:
                         nombreSheet = "CONTE_PELIGROSIDAD";
@@ -842,10 +848,10 @@ namespace CEPA.CCO.Linq
                 //oRng = oSheet.get_Range("A1", string.Concat("D", Filas));
                 //oRng.EntireColumn.AutoFit();
                 oSheet.Range("H9", string.Concat("H", Filas)).Style.Font.Bold = true;
-                oSheet.Range("H9", string.Concat("H", Filas)).Style.Font.FontSize = 12;               
+                oSheet.Range("H9", string.Concat("H", Filas)).Style.Font.FontSize = 12;
                 oSheet.Range("H9", string.Format("H{0}", Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Justify);
-                oSheet.Range("H9", string.Format("H{0}", Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Left);                       
-                
+                oSheet.Range("H9", string.Format("H{0}", Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Left);
+
                 var oRng = oSheet.Range("A8", string.Concat(string.Format("{0}", _rango), Filas));
 
                 oRng.Style.Border.DiagonalDown = false;
@@ -871,14 +877,14 @@ namespace CEPA.CCO.Linq
                 oSheet.Range("H9", string.Concat("H", Filas)).Style.Font.Bold = true;
                 oSheet.Range("H9", string.Concat("H", Filas)).Style.Font.FontSize = 12;
                 oSheet.Range("H9", string.Format("H{0}", Filas)).Style.Alignment.SetVertical(cxExcel.XLAlignmentVerticalValues.Center);
-                oSheet.Range("H9", string.Format("H{0}", Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Left);                       
-                
+                oSheet.Range("H9", string.Format("H{0}", Filas)).Style.Alignment.SetHorizontal(cxExcel.XLAlignmentHorizontalValues.Left);
+
 
 
                 /*oRng = oSheet.Range("A8", string.Format("G{0}", Filas));
                 oRng.Style.Font.FontSize = 12;
                 //oSheet.RowHeight = 38;*/
-                
+
 
                 oSheet.Column(1).Width = 6;
                 oSheet.Column(2).Width = 29;
@@ -886,7 +892,7 @@ namespace CEPA.CCO.Linq
                 oSheet.Column(4).Width = 15;
                 oSheet.Column(5).Width = 8;
                 oSheet.Column(6).Width = 6;
-                oSheet.Column(7).Width = 25;                
+                oSheet.Column(7).Width = 25;
                 oSheet.Column(8).Width = 44;
 
                 oSheet.PageSetup.Footer.Left.AddText(string.Format("&B Buque : {0} Fecha : {1} &B", d_buque, _Fecha));
@@ -895,7 +901,7 @@ namespace CEPA.CCO.Linq
                 oSheet.PageSetup.Footer.Center.AddText(" de ", cxExcel.XLHFOccurrence.AllPages);
                 oSheet.PageSetup.Footer.Center.AddText(cxExcel.XLHFPredefinedText.NumberOfPages, cxExcel.XLHFOccurrence.AllPages);
 
-                
+
 
                 foreach (var item in pAduana)
                 {
@@ -905,16 +911,16 @@ namespace CEPA.CCO.Linq
                     oSheet.Cell(iCurrent, 2).Value = item.n_contenedor;
                     oSheet.Cell(iCurrent, 3).Value = item.c_tamaño_c;
                     oSheet.Cell(iCurrent, 4).Value = item.v_peso;
-                    oSheet.Cell(iCurrent, 5).Value =item.v_tara; 
+                    oSheet.Cell(iCurrent, 5).Value = item.v_tara;
                     oSheet.Cell(iCurrent, 6).Value = item.c_imo_imd;
                     oSheet.Cell(iCurrent, 7).Value = "";
                     if (pValor != 4 && item.b_condicion.Substring(0, 3) == "LCL")
                         oSheet.Cell(iCurrent, 8).Value = "LCL";
                     else if (pValor == 4 && item.b_reef.Contains("SI"))
                         oSheet.Cell(iCurrent, 8).Value = "A CONECTAR";
-                    else if(item.v_peso + item.v_tara > 30000.00)
+                    else if (item.v_peso + item.v_tara > 30000.00)
                         oSheet.Cell(iCurrent, 8).Value = "ADVERTENCIA DE PESO (PESO + TARA): " + String.Format("{0:0,0.00}", item.v_peso + item.v_tara);
-                    else if(item.b_shipper == "SI")
+                    else if (item.b_shipper == "SI")
                         oSheet.Cell(iCurrent, 8).Value = "SHIPPER OWNED";
                     else
                         oSheet.Cell(iCurrent, 8).Value = "";
@@ -927,15 +933,15 @@ namespace CEPA.CCO.Linq
                 oSheet.Range("H9", string.Format("H{0}", Filas)).Style.Alignment.SetWrapText(true);
 
                 oSheet.PageSetup.PageOrientation = cxExcel.XLPageOrientation.Portrait;
-                oSheet.PageSetup.AdjustTo(59);                                
+                oSheet.PageSetup.AdjustTo(59);
                 oSheet.PageSetup.PaperSize = cxExcel.XLPaperSize.LetterPaper;
                 oSheet.PageSetup.VerticalDpi = 600;
                 oSheet.PageSetup.HorizontalDpi = 600;
                 oSheet.PageSetup.Margins.Top = 0.3;
                 oSheet.PageSetup.Margins.Header = 0.40;
                 oSheet.PageSetup.Margins.Footer = 0.20;
-                
-                                                
+
+
 
                 oSheet.Row(ROWS_START).Height = 42;
                 var oRng2 = oSheet.Range("A8", string.Concat(string.Format("{0}", _rango), Filas));
@@ -980,12 +986,12 @@ namespace CEPA.CCO.Linq
             const int ROWS_FIRST = 1;
             const int ROWS_START = 8;
             int Filas = 0;
-            int iRow = 1;            
+            int iRow = 1;
 
             var oWB = new cxExcel.XLWorkbook();
-                                
 
-            
+
+
             List<ArchivoAduana> _list = new List<ArchivoAduana>();
 
             string _f4save = string.Format("{0}{1}", fullIMDG, "IMDG_" + c_cliente + "_" + DateTime.Now.ToString("MMyyhhmmss", CultureInfo.CreateSpecificCulture("es-SV")) + "_" + c_llegada + ".xlsx");
@@ -993,7 +999,7 @@ namespace CEPA.CCO.Linq
             try
             {
 
-                
+
                 string fechaC = f_llegada.ToString("dd/MM/yy HH:mm", CultureInfo.CreateSpecificCulture("es-SV"));
 
 
@@ -1002,15 +1008,15 @@ namespace CEPA.CCO.Linq
                 if (pLista.Count > 0)
                 {
 
-                    
+
                     Filas = pLista.Count + ROWS_START;
-                    
+
 
                     GenerarExcelCX(pLista, c_llegada, ROWS_FIRST, ROWS_START, Filas, d_buque, 7, oWB, fechaC, 7, iRow, d_naviera, true, n_manif, c_viaje);
 
-                    oWB.SaveAs(_f4save);                
+                    oWB.SaveAs(_f4save);
 
-                    
+
                 }
                 else
                 {
@@ -1040,9 +1046,9 @@ namespace CEPA.CCO.Linq
                 throw new Exception(errorMessage);
             }
             finally
-            {            
+            {
 
-               
+
 
             }
 
@@ -1052,11 +1058,11 @@ namespace CEPA.CCO.Linq
         {
 
             string nombreSheet = null;
-           
+
             try
             {
                 nombreSheet = "COTECNA";
-               
+
 
                 var oSheet = oWB.Worksheets.Add(nombreSheet);
 
@@ -1109,7 +1115,7 @@ namespace CEPA.CCO.Linq
                 //oRng.Style.Border.SetOutsideBorder(cxExcel.XLBorderStyleValues.Medium);
                 oRng.Style.Border.SetInsideBorderColor(cxExcel.XLColor.Black);
                 oRng.Style.Border.SetOutsideBorderColor(cxExcel.XLColor.Black);
- 
+
                 oSheet.Column(1).Width = 6;
                 oSheet.Column(2).Width = 17;
                 oSheet.Column(3).Width = 9;
@@ -1287,7 +1293,7 @@ namespace CEPA.CCO.Linq
                     }
                 }
 
-                
+
                 Html += "<br /><br />";
                 Html += "<font style=\"color:#1F497D;\"><b> ACCIONES A REALIZAR: </b></font><br /><br />";
                 Html += "<font style=\"color:#1F497D;\"><b> TODOS: </b></font><br />";
@@ -1296,7 +1302,7 @@ namespace CEPA.CCO.Linq
                 Html += "<font color=blue><b>Remitir a CEPA:</b> a) Dos copias impresas del Manifiesto de Carga; b) Por correo electrónico, en formato digital, el Manifiesto de Carga. </font><br /><br />";
                 Html += "<font color=blue><b>ADUANA:</b> No requiere copia impresa del Manifiesto de Carga </font><br /><br />";
 
-                _correo.Subject = string.Format("PASO 4 de 4: Autorización de Listado de Importación de {0} para el Buque: {1}, # de Viaje {2}, Cod. de Llegada # {3}, Manifiesto de Aduana # {4}", c_navi_corto, d_buque, c_viaje, c_llegada, n_manifiesto);
+                _correo.Subject = string.Format("PASO 4 de 4: Autorización de Listado de IMPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}, Cod. de Llegada # {3}, Manifiesto de Aduana # {4}", c_navi_corto, d_buque, c_viaje, c_llegada, n_manifiesto);
                 //_correo.Subject = string.Format("Listado de Contenedores Autorizados {0} con C. Llegada {1} ", d_buque, c_llegada);
                 _correo.ListArch = pArchivo;
                 _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_contratista", DBComun.Estado.falso, "17");
@@ -1363,8 +1369,8 @@ namespace CEPA.CCO.Linq
 
 
                 Html += "<br /><br />";
-               
-                _correo.Subject = string.Format("COTECNA: Autorización de Listado de Importación de {0} para el Buque: {1}, Manifiesto de Aduana # {2}", c_navi_corto, d_buque, n_manifiesto);
+
+                _correo.Subject = string.Format("COTECNA: Autorización de Listado de IMPORTACIÓN de {0} para el Buque: {1}, Manifiesto de Aduana # {2}", c_navi_corto, d_buque, n_manifiesto);
                 //_correo.Subject = string.Format("Listado de Contenedores Autorizados {0} con C. Llegada {1} ", d_buque, c_llegada);
                 _correo.ListArch = pArchivo;
                 _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_cotec_lst", DBComun.Estado.falso, "219");
@@ -1396,6 +1402,995 @@ namespace CEPA.CCO.Linq
                 throw new Exception(Ex.Message);
             }
         }
+
+        public void GenerarAplicacionEX(List<ArchivoExport> pLista, string c_cliente, string d_naviera, string c_llegada, int IdReg, string d_buque,
+              DateTime f_llegada, int pValor, int pCantidad, List<DetaNaviera> pCancelados, string c_voyage, string trafico)
+        {
+
+
+            const int ROWS_FIRST = 1;
+            const int ROWS_START = 10;
+            int Filas = 0;
+            int iRow = 1;
+            pRutas = null;
+
+
+            System.Globalization.CultureInfo CurrentCI = System.Threading.Thread.CurrentThread.CurrentCulture;
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-SV");
+            System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
+            System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyDecimalSeparator = ".";
+
+            //string s_archivo = System.Windows.Forms.Application.StartupPath + "\\EXP_PLANTILLA.xlsx";
+
+            var oWB = new cxExcel.XLWorkbook();
+
+            List<ArchivoExport> _list = new List<ArchivoExport>();
+
+
+
+
+            string ruta = null;
+            string _Exf1save = null;
+            string _Exf2save = null;
+            string _Exf3save = null;
+            string _Exf4save = null;
+            int contador = 1;
+            string _ruta = null;
+            try
+            {
+
+
+                List<EnvioAuto> listAuto = new List<EnvioAuto>();
+                if (IdDoc > 0)
+                    listAuto = DetaNavieraDAL.ObtenerDocAuExp(IdDoc, DBComun.Estado.falso);
+
+                string c_navi_corto = null, c_viaje = null;
+
+                foreach (var item in listAuto)
+                {
+                    c_navi_corto = item.c_naviera_corto;
+                    c_viaje = item.c_voyaje;
+                    break;
+                }
+
+                _Exf1save = string.Format("{0}{1}", fullEXP_PREV, "EXP_PREV_" + c_navi_corto + "_" + DateTime.Now.ToString("MMyyhhmmss", CultureInfo.CreateSpecificCulture("es-SV")) + "_" + c_llegada + ".xlsx");
+                _Exf2save = string.Format("{0}{1}", fullEXP_PREV, "EXP_PREV_" + c_navi_corto + "_" + DateTime.Now.ToString("MMyyhhmmss", CultureInfo.CreateSpecificCulture("es-SV")) + "_" + c_llegada + ".pdf");
+
+                _Exf3save = string.Format("{0}{1}", fullEXP_AUTO, "EXP_AUTO_" + c_navi_corto + "_" + DateTime.Now.ToString("MMyyhhmmss", CultureInfo.CreateSpecificCulture("es-SV")) + "_" + c_llegada + ".xlsx");
+                _Exf4save = string.Format("{0}{1}", fullEXP_AUTO, "EXP_AUTO_" + c_navi_corto + "_" + DateTime.Now.ToString("MMyyhhmmss", CultureInfo.CreateSpecificCulture("es-SV")) + "_" + c_llegada + ".pdf");
+
+
+                string fechaC = f_llegada.Day + "/" + f_llegada.Month + "/" + f_llegada.Year;
+
+                int Cuenta = 1;
+
+                if (trafico == "PC")
+                {
+                    contador = 1;
+                    var _destinos = (from a in pLista.OrderBy(a => a.c_corr_previo)
+                                     group a by a.c_puerto_trasbordo into g
+                                     select new
+                                     {
+                                         c_puerto_trasbordo = g.Key
+                                     }).ToList();
+
+                    List<ArchivoExport> _listOr = new List<ArchivoExport>();
+                    List<ArchivoExport> _listaAOrdenar1 = new List<ArchivoExport>();
+
+                    pLista = pLista.OrderBy(a => a.c_corr_previo).ToList();
+
+
+                    for (int d = 1; d <= 2; d++)
+                    {
+                        if (d == 1)
+                            _listaAOrdenar1 = pLista.Where(f => f.s_trafico == "PATIO CEPA").ToList();
+                        else if (d == 2)
+                            _listaAOrdenar1 = pLista.Where(f => f.s_trafico == "TRANSBORDO").ToList();
+
+                        if (_listaAOrdenar1.Count > 0)
+                        {
+                            for (int i = 1; i <= 2; i++)
+                            {
+                                var consulta = DetaNavieraLINQ.AlmacenarArchivoEx(_listaAOrdenar1, DBComun.Estado.falso, i);
+
+                                if (_destinos.Count() > 0 && consulta.Count() > 0)
+                                {
+                                    foreach (var item in _destinos)
+                                    {
+
+                                        var _trafico = consulta.Where(c => c.c_puerto_trasbordo.Equals(item.c_puerto_trasbordo)).ToList();
+
+                                        Filas = _trafico.Count + ROWS_START;
+                                        if (_trafico.Count() > 0)
+                                        {
+                                            GenerarExcel2CXExp(_trafico, c_llegada, ROWS_FIRST, ROWS_START, Filas, d_buque, Cuenta, oWB, fechaC, i, iRow, d_naviera, c_voyage, contador, "");
+                                            Cuenta = Cuenta + 1;
+                                            contador += 1;
+
+
+                                            foreach (var item_C in _listaAOrdenar1)
+                                            {
+                                                pLista.RemoveAll(rt => rt.n_contenedor.ToUpper() == item_C.n_contenedor.ToUpper());
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+
+
+                    oWB.SaveAs(_Exf1save);
+                    //  oWB1.SaveAs(_f4save);
+
+
+
+                    //Load Workbook
+                    _ruta = "@" + _Exf1save;
+
+
+
+
+                    ConvertExcelToPdf(_Exf1save, _Exf2save);
+                    //ExportWorkbookToPdf(_Exf1save, _Exf2save);
+
+                    pRutas = new List<string>();
+
+                    //pRutas.Add(_Exf1save);
+                    pRutas.Add(_Exf2save);
+
+
+
+                    //List<string> pPDF = new List<string>();                
+
+                    //CORREO ENVIAR
+                    EnviarCorreoEx(pRutas, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje);
+                }
+                else
+                {
+                    contador = 1;
+                    var _destinos = (from a in pLista.OrderBy(a => a.c_correlativo)
+                                     group a by a.c_puerto_trasbordo into g
+                                     select new
+                                     {
+                                         c_puerto_trasbordo = g.Key
+                                     }).ToList();
+
+                    var _predios = (from a in pLista.OrderBy(a => a.c_correlativo)
+                                    group a by a.s_nom_predio into g
+                                    select new
+                                    {
+                                        s_nom_predio = g.Key
+                                    }).ToList();
+
+                    List<ArchivoExport> _listOr = new List<ArchivoExport>();
+                    List<ArchivoExport> _listaAOrdenar1 = new List<ArchivoExport>();
+
+                    pLista = pLista.OrderBy(a => a.c_correlativo).ToList();
+
+                    if (_predios.Count() > 0 && _destinos.Count() > 0)
+                    {
+                        foreach (var itemPre in _predios)
+                        {
+                            foreach (var item in _destinos)
+                            {
+                                for (int i = 1; i <= 2; i++)
+                                {
+                                    var consulta = DetaNavieraLINQ.AlmacenarArchivoEx(pLista, DBComun.Estado.falso, i);
+
+                                    if (consulta.Count() > 0)
+                                    {
+
+                                        var _trafico = consulta.Where(f => f.s_nom_predio == itemPre.s_nom_predio && f.c_puerto_trasbordo == item.c_puerto_trasbordo).ToList();
+                                        
+                                        Filas = _trafico.Count + ROWS_START;
+                                        if (_trafico.Count() > 0)
+                                        {
+                                            GenerarExcel2CXExp(_trafico, c_llegada, ROWS_FIRST, ROWS_START, Filas, d_buque, Cuenta, oWB, fechaC, i, iRow, d_naviera, c_voyage, contador, itemPre.s_nom_predio);
+                                            Cuenta = Cuenta + 1;
+                                            contador += 1;
+
+
+                                            foreach (var item_C in _trafico)
+                                            {
+                                                consulta.RemoveAll(rt => rt.n_contenedor.ToUpper() == item_C.n_contenedor.ToUpper());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    oWB.SaveAs(_Exf3save);
+                    //  oWB1.SaveAs(_f4save);
+
+
+
+                    //Load Workbook
+                    _ruta = "@" + _Exf3save;
+
+
+
+
+                    ConvertExcelToPdf(_Exf3save, _Exf4save);
+                    //ExportWorkbookToPdf(_Exf1save, _Exf2save);
+
+
+                    pRutas = new List<string>();
+
+                    //pRutas.Add(_Exf1save);
+                    pRutas.Add(_Exf3save);
+                    pRutas.Add(_Exf4save);
+
+
+
+                    //List<string> pPDF = new List<string>();                
+
+                    //CORREO ENVIAR
+                    EnviarCorreoExPR(pRutas, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje);
+                }
+
+
+
+
+                //pPDF.Add(_f3save);
+
+                //EnviarCorreoCO(pPDF, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, n_manifiesto);
+
+                //EnviarCorreoCOTEC(pCotecLst, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, n_manifiesto, a_manifiesto);
+
+                System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
+
+            }
+            catch (Exception theException)
+            {
+                String errorMessage;
+                errorMessage = "Error: ";
+                errorMessage = String.Concat(errorMessage, theException.Message);
+                errorMessage = String.Concat(errorMessage, " Line: ");
+                errorMessage = String.Concat(errorMessage, theException.Source);
+                throw new Exception(errorMessage);
+            }
+            finally
+            {
+
+            }
+        }
+
+        private static void GenerarExcel2CXExp(List<ArchivoExport> pAduana, string c_llegada, int ROWS_FIRST, int ROWS_START, int Filas, string d_buque, int cuenta, cxExcel.XLWorkbook oWB, string _Fecha, int pValor, int iRow, string d_naviera, string c_voyage, int contador, string predioPrin)
+        {
+
+            string nombreSheet = null;
+            string valorCabecera = null;
+
+            string puerto_destino = null;
+            string ubicacion = null;
+            try
+            {
+                foreach (var details in pAduana)
+                {
+                    puerto_destino = details.c_puerto_trasbordo;
+                    ubicacion = details.s_trafico;
+                    break;
+                }
+
+                string ubi = ubicacion == "TRANSBORDO" ? "TR" : ubicacion == "PATIO CEPA" ? "PC" : "ED";
+
+                switch (pValor)
+                {
+                    case 1:
+                        nombreSheet = "LLENOS";
+                        valorCabecera = "LISTADO " + ((ubi != "ED") ? "PRELIMINAR " : "") + "DE CONTENEDORES DE EXPORTACIÓN LLENOS" + " " + ubicacion;
+                        break;
+                    case 2:
+                        nombreSheet = "VACIOS";
+                        valorCabecera = "LISTADO " + ((ubi != "ED") ? "PRELIMINAR " : "") + "DE CONTENEDORES DE EXPORTACIÓN VACÍOS " + ubicacion;
+                        //oSheet.Cell(6, 1).Value = "LISTADO DE CONTENEDORES DE IMPORTACIÓN VACÍOS";              
+                        break;
+                    case 3:
+                        nombreSheet = "TRANSBORDOS";
+                        valorCabecera = "LISTADO " + ((ubi != "ED") ? "PRELIMINAR " : "") + "DE CONTENEDORES DE EXPORTACIÓN TRANSBORDOS";
+                        //oSheet.Cell(6, 1).Value = "LISTADO DE CONTENEDORES DE IMPORTACIÓN VACÍOS";              
+                        break;
+                    default:
+                        break;
+                }
+
+                //string ubi = ubicacion == "TRANSBORDO" ? "TR" : ubicacion == "PATIO CEPA" ? "PC" : "ED";
+                string valSheet = puerto_destino.Substring(0, 3) + "_" + nombreSheet.Substring(0, 3) + "_" + ubi + contador;
+                var oSheet = oWB.Worksheets.Add(valSheet);
+                oSheet.PageSetup.Header.Clear();
+
+                oSheet.Range("A1", "H2").Merge();
+                oSheet.Cell("A1").Value = valorCabecera;
+                oSheet.Cell("A1").Style.Font.Bold = true;
+                oSheet.Cell("A1").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+                oSheet.Cell("A1").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
+                oSheet.Cell("A1").Style.Font.FontSize = 16;
+
+                oSheet.Range("A4", "B4").Merge();
+                oSheet.Range("A5", "B5").Merge();
+                oSheet.Range("A6", "B6").Merge();
+                oSheet.Range("A7", "B7").Merge();
+                oSheet.Range("A8", "B8").Merge();
+
+                oSheet.Cell("A4").Value = "AGENCIA";
+                oSheet.Cell("A5").Value = "VAPOR - VIAJE";
+                oSheet.Cell("A6").Value = "DESTINO";
+                oSheet.Cell("A7").Value = "UBICACION";
+                oSheet.Cell("A8").Value = "FECHA DE ARRIBO";
+                oSheet.Range("A4", "H8").Style.Font.FontSize = 14;
+
+                oSheet.Range("C4", "H4").Merge().Style.Border.BottomBorder = cxExcel.XLBorderStyleValues.Medium;
+                oSheet.Range("C5", "H5").Merge().Style.Border.BottomBorder = cxExcel.XLBorderStyleValues.Medium;
+                oSheet.Range("C6", "H6").Merge().Style.Border.BottomBorder = cxExcel.XLBorderStyleValues.Medium;
+                oSheet.Range("C7", "H7").Merge().Style.Border.BottomBorder = cxExcel.XLBorderStyleValues.Medium;
+                oSheet.Range("C8", "H8").Merge().Style.Border.BottomBorder = cxExcel.XLBorderStyleValues.Medium;
+
+                string ubiFinal = null;
+                if (ubi != "ED")
+                    ubiFinal = ubicacion;
+                else if (ubi == "ED")
+                    ubiFinal = ubicacion + " - (" + predioPrin.ToUpper() + ")";
+
+
+
+                oSheet.Cell("C4").Value = d_naviera;
+                oSheet.Cell("C4").Style.Font.Bold = true;
+                oSheet.Cell("C5").Value = d_buque + " - " + c_voyage;
+                oSheet.Cell("C5").Style.Font.Bold = true;
+                oSheet.Cell("C6").Value = puerto_destino;
+                oSheet.Cell("C6").Style.Font.Bold = true;
+                oSheet.Cell("C7").Value = ubiFinal;
+                oSheet.Cell("C7").Style.Font.Bold = true;
+                oSheet.Cell("C8").Value = _Fecha;
+                oSheet.Cell("C8").Style.Font.Bold = true;
+
+
+                if (ubi != "ED")
+                {
+                    oSheet.Cell("A10").Value = "No.";
+                    oSheet.Cell("B10").Value = "CONTENEDOR";
+                    oSheet.Cell("C10").Value = "TAMAÑO";
+                    oSheet.Cell("D10").Value = "PESO";
+                    oSheet.Cell("E10").Value = "TARA";
+                    oSheet.Cell("F10").Value = "POSICIÓN";
+                    oSheet.Cell("G10").Value = "PE";
+                    oSheet.Cell("H10").Value = "OBSERVACIÓN";
+                }
+                else if (ubi == "ED")
+                {
+                    oSheet.Cell("A10").Value = "No.";
+                    oSheet.Cell("B10").Value = "CONTENEDOR";
+                    oSheet.Cell("C10").Value = "TAMAÑO";
+                    oSheet.Cell("D10").Value = "TARA";
+                    oSheet.Cell("E10").Value = "ARIVU";
+                    oSheet.Cell("F10").Value = "FECHA VENCIMIENTO";
+                    oSheet.Cell("G10").Value = "POSICIÓN";
+                    oSheet.Cell("H10").Value = "OBSERVACIÓN";
+
+                    oSheet.Cell("F10").Style.Alignment.SetWrapText(true);
+                }
+
+                oSheet.Range("A10", "H10").Style.Fill.BackgroundColor = cxExcel.XLColor.LightGray;
+                oSheet.Range("A10", "H10").Style.Font.Bold = true;
+                oSheet.Range("A10", "H10").Style.Font.FontSize = 14;
+                oSheet.Range("A10", "H10").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+                oSheet.Range("A10", "H10").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
+                //oSheet.Range("A8", "H8").Style.Border.InsideBorder = cxExcel.XLBorderStyleValues.Thin;
+                //oSheet.Range("A8", "H8").Style.Border.OutsideBorder = cxExcel.XLBorderStyleValues.Medium;
+
+                if (ubi != "ED")
+                {
+                    oSheet.Column(1).Width = 7;
+                    oSheet.Column(2).Width = 21;
+                    oSheet.Column(3).Width = 12;
+                    oSheet.Column(4).Width = 15;
+                    oSheet.Column(5).Width = 8;
+                    oSheet.Column(6).Width = 23;
+                    oSheet.Column(7).Width = 3;
+                    oSheet.Column(8).Width = 20;
+
+                    oSheet.Range("D11", string.Concat("D", Filas)).Style.NumberFormat.SetFormat("#,##0.00");
+                    oSheet.Range("E11", string.Concat("E", Filas)).Style.NumberFormat.SetFormat("#,##0");
+                }
+                else if (ubi == "ED")
+                {
+                    oSheet.Column(1).Width = 7;
+                    oSheet.Column(2).Width = 21;
+                    oSheet.Column(3).Width = 12;
+                    oSheet.Column(4).Width = 8;
+                    oSheet.Column(5).Width = 13;
+                    oSheet.Column(6).Width = 17;
+                    oSheet.Column(7).Width = 20;
+                    oSheet.Column(8).Width = 20;
+
+                    oSheet.Range("D11", string.Concat("D", Filas)).Style.NumberFormat.SetFormat("#,##0");
+                    oSheet.Range("E11", string.Concat("E", Filas)).Style.NumberFormat.SetFormat("@");
+                }
+
+
+                oSheet.Range("A11", string.Concat("H", Filas)).Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
+                oSheet.Range("A11", string.Concat("H", Filas)).Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+
+                oSheet.Range("A10", string.Concat("H", Filas)).Style.Border.InsideBorder = cxExcel.XLBorderStyleValues.Thin;
+                oSheet.Range("A10", string.Concat("H", Filas)).Style.Border.OutsideBorder = cxExcel.XLBorderStyleValues.Medium;
+
+
+                int iCurrent = 0;
+                if (ubi != "ED")
+                {
+                    foreach (var item in pAduana)
+                    {
+                        iCurrent = ROWS_START + iRow;
+                        oSheet.Row(iCurrent).Height = 40;
+                        oSheet.Cell(iCurrent, 1).Value = ubi != "ED" ? item.c_corr_previo : item.c_correlativo;
+                        oSheet.Cell(iCurrent, 2).Value = item.n_contenedor;
+                        oSheet.Cell(iCurrent, 3).Value = item.c_tamaño_c;
+                        oSheet.Cell(iCurrent, 4).Value = item.v_peso;
+                        oSheet.Cell(iCurrent, 5).Value = item.v_tara;
+                        oSheet.Cell(iCurrent, 6).Value = "";
+                        oSheet.Cell(iCurrent, 7).Value = "";
+                        if (Convert.ToDouble(item.v_peso) > 30000.00)
+                            oSheet.Cell(iCurrent, 8).Value = "ADVERTENCIA DE PESO (PESO + TARA): " + String.Format("{0:0,0.00}", Convert.ToDouble(item.v_peso).ToString("0,0.00"));
+                        else if (item.b_shipper == "SI")
+                            oSheet.Cell(iCurrent, 8).Value = "SHIPPER OWNED";
+                        else
+                            oSheet.Cell(iCurrent, 8).Value = "";
+
+                        oSheet.Cell(iCurrent, 8).Style.Alignment.SetWrapText(true);
+
+                        iRow = iRow + 1;
+                    }
+                }
+                else if (ubi == "ED")
+                {
+                    foreach (var item in pAduana)
+                    {
+                        iCurrent = ROWS_START + iRow;
+                        oSheet.Row(iCurrent).Height = 40;
+                        oSheet.Cell(iCurrent, 1).Value = item.c_correlativo;
+                        oSheet.Cell(iCurrent, 2).Value = item.n_contenedor;
+                        oSheet.Cell(iCurrent, 3).Value = item.c_tamaño_c;
+                        oSheet.Cell(iCurrent, 4).Value = item.v_tara;
+                        oSheet.Cell(iCurrent, 5).Value = item.n_documento;
+                        oSheet.Cell(iCurrent, 6).Value = item.s_fec_venc;
+                        oSheet.Cell(iCurrent, 7).Value = "";
+                        oSheet.Cell(iCurrent, 8).Value = "";
+
+                        oSheet.Cell(iCurrent, 6).Style.Alignment.SetWrapText(true);
+
+                        iRow = iRow + 1;
+                    }
+                }
+
+
+                //oSheet.Cell(iCurrent + 2, 1).Value = "Referencias: PE Pedido especial";
+                oSheet.Cell(iCurrent + 2, 1).Style.Font.Bold = true;
+                oSheet.Range("A11", string.Concat("H", Filas)).Style.Font.FontSize = 14;
+                oSheet.Range("B11", string.Concat("B", Filas)).Style.Font.FontSize = 18;
+
+
+
+
+
+                //oSheet.Range("H9", string.Format("H{0}", Filas)).Style.Alignment.SetWrapText(true);
+                oSheet.Range("A1", string.Concat("H", Filas + 2)).Style.Font.FontName = "Trebuchet MS";
+
+                oSheet.Cell("C3").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+                oSheet.Cell("C4").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+                oSheet.Cell("C5").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+                oSheet.Cell("C6").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+                oSheet.Cell("C7").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+                oSheet.Cell("C8").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+
+                oSheet.Cell("A3").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Right;
+                oSheet.Cell("A4").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Right;
+                oSheet.Cell("A5").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Right;
+                oSheet.Cell("A6").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Right;
+                oSheet.Cell("A7").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Right;
+                oSheet.Cell("A8").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Right;
+
+                oSheet.PageSetup.Footer.Left.AddText(string.Format("Buque : {0} - Cod. Llegada : {1}", d_buque, c_llegada));
+                oSheet.PageSetup.Footer.Center.AddText(cxExcel.XLHFPredefinedText.PageNumber, cxExcel.XLHFOccurrence.AllPages);
+                oSheet.PageSetup.Footer.Center.AddText(" / ", cxExcel.XLHFOccurrence.AllPages);
+                oSheet.PageSetup.Footer.Center.AddText(cxExcel.XLHFPredefinedText.NumberOfPages, cxExcel.XLHFOccurrence.AllPages);
+                oSheet.PageSetup.Footer.Right.AddText(string.Format("Fecha : {0}", _Fecha));
+
+
+                oSheet.PageSetup.PageOrientation = cxExcel.XLPageOrientation.Portrait;
+                oSheet.PageSetup.AdjustTo(72);
+                oSheet.PageSetup.PaperSize = cxExcel.XLPaperSize.LetterPaper;
+                oSheet.PageSetup.VerticalDpi = 600;
+                oSheet.PageSetup.HorizontalDpi = 600;
+                oSheet.PageSetup.Margins.Top = 0.3;
+                oSheet.PageSetup.Margins.Header = 0.40;
+                oSheet.PageSetup.Margins.Footer = 0.20;
+
+            }
+            catch (Exception Ex)
+            {
+                throw new Exception(Ex.Message);
+            }
+        }
+
+        public void EnviarCorreoEx(List<string> pArchivo, string d_buque, int pValor, int pCantidad, List<DetaNaviera> pLista, string c_cliente, string c_llegada, string c_navi_corto, string c_viaje)
+        {
+            string Html;
+            int i = 1;
+            EnvioCorreo _correo = new EnvioCorreo();
+            try
+            {
+
+                Html = "<dir style=\"font-family: 'Arial'; font-size: 12px; line-height: 1.2em\">";
+                Html += "MÓDULO : LISTADO PREVIO DE CONTENEDORES DE EXPORTACIÓN  <br />";
+                Html += "TIPO DE MENSAJE : NOTIFICACIÓN DE LISTADO PREVIO DE CONTENEDORES DE EXPORTACIÓN <br /><br />";
+                Html += string.Format("El presente listado de contenedores correspondientes a {0} para el barco {1}, con # de Viaje {2}, han sido validados {3} de {4} contenedores correspondientes a este barco.-", c_navi_corto, d_buque, c_viaje, pValor, pCantidad);
+                Html += "<br /><br/>";
+
+                Html += "<br /><br />";
+                Html += "<font style=\"color:#1F497D;\"><b> ACCIONES A REALIZAR: </b></font><br /><br />";
+                Html += "<font style=\"color:#1F497D;\"><b> NAVIERA: </b></font><br />";
+                Html += "<font color=blue><b>Remitir:</b> Por correo electrónico, en formato digital enviar los documentos que validen el embarque en el orden proporcionado en el listado; </font><br /><br />";
+
+
+                _correo.Subject = string.Format("PASO 3 de 4: Generación Automática de Listado Previo de EXPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}, Cod. de Llegada # {3}", c_navi_corto, d_buque, c_viaje, c_llegada);
+                //_correo.Subject = string.Format("Listado de Contenedores Autorizados {0} con C. Llegada {1} ", d_buque, c_llegada);
+                _correo.ListArch = pArchivo;
+
+                _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_auto_ex_3", DBComun.Estado.falso, c_cliente);
+
+
+                List<Notificaciones> _listaCC = new List<Notificaciones>();
+
+                if (c_cliente != "11" && c_cliente != "216")
+                    _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_auto_ex_3", DBComun.Estado.falso, c_cliente);
+
+                if (_listaCC == null)
+                    _listaCC = new List<Notificaciones>();
+
+                _listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_auto_ex_3", DBComun.Estado.falso, "219"));
+
+                //_listaCC.Remove(_listaCC.Where(x => x.sMail.Equals("supervisor.muelles@cepa.gob.sv")).FirstOrDefault());
+
+                _correo.ListaCC = _listaCC;
+
+                //LIMITE
+
+                //Notificaciones noti = new Notificaciones
+                //{
+                //    sMail = "elsa.sosa@cepa.gob.sv",
+                //    dMail = "Elsa Sosa"
+                //};
+
+                //List<Notificaciones> pLisN = new List<Notificaciones>();
+
+                //pLisN.Add(noti);
+
+                //_correo.ListaNoti = pLisN;
+
+                _correo.Asunto = Html;
+                _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.falso);
+            }
+            catch (Exception Ex)
+            {
+                throw new Exception(Ex.Message);
+            }
+        }
+
+        public void EnviarCorreoExPR(List<string> pArchivo, string d_buque, int pValor, int pCantidad, List<DetaNaviera> pLista, string c_cliente, string c_llegada, string c_navi_corto, string c_viaje)
+        {
+            string Html;
+            int i = 1;
+            EnvioCorreo _correo = new EnvioCorreo();
+            try
+            {
+
+                Html = "<dir style=\"font-family: 'Arial'; font-size: 12px; line-height: 1.2em\">";
+                Html += "MÓDULO : LISTADO PREVIO DE CONTENEDORES DE EXPORTACIÓN  <br />";
+                Html += "TIPO DE MENSAJE : NOTIFICACIÓN DE LISTADO AUTORIZADO DE CONTENEDORES DE EXPORTACIÓN <br /><br />";
+                Html += string.Format("El presente listado de contenedores correspondientes a {0} para el barco {1}, con # de Viaje {2}, han sido validados {3} de {4} contenedores correspondientes a este barco.-", c_navi_corto, d_buque, c_viaje, pValor, pCantidad);
+                Html += "<br /><br/>";
+
+                Html += "<br /><br />";
+                Html += "<font style=\"color:#1F497D;\"><b> ACCIONES A REALIZAR: </b></font><br /><br />";
+                Html += "<font style=\"color:#1F497D;\"><b> NAVIERA: </b></font><br />";
+                Html += "<font color=blue><b>Remitir:</b> Por correo electrónico, en formato digital enviar los documentos que validen el embarque en el orden proporcionado en el listado; </font><br /><br />";
+
+
+                _correo.Subject = string.Format("PASO 4 de 4: Generación Automática de Listado Autorizado de EXPORTACIÓN EMBARQUE DIRECTO de {0} para el Buque: {1}, # de Viaje {2}, Cod. de Llegada # {3}", c_navi_corto, d_buque, c_viaje, c_llegada);
+                //_correo.Subject = string.Format("Listado de Contenedores Autorizados {0} con C. Llegada {1} ", d_buque, c_llegada);
+                _correo.ListArch = pArchivo;
+
+                _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_auto_ex", DBComun.Estado.falso, c_cliente);
+
+
+                List<Notificaciones> _listaCC = new List<Notificaciones>();
+
+                if (c_cliente != "11" && c_cliente != "216")
+                    _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_auto_ex", DBComun.Estado.falso, c_cliente);
+
+                if (_listaCC == null)
+                    _listaCC = new List<Notificaciones>();
+
+                _listaCC.AddRange(NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_auto_ex", DBComun.Estado.falso, "219"));
+                _correo.ListaCC = _listaCC;
+
+                //LIMITE
+
+                //Notificaciones noti = new Notificaciones
+                //{
+                //    sMail = "elsa.sosa@cepa.gob.sv",
+                //    dMail = "Elsa Sosa"
+                //};
+
+                //List<Notificaciones> pLisN = new List<Notificaciones>();
+
+                //pLisN.Add(noti);
+
+                //_correo.ListaNoti = pLisN;
+
+                _correo.Asunto = Html;
+                _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.falso);
+            }
+            catch (Exception Ex)
+            {
+                throw new Exception(Ex.Message);
+            }
+        }
+        public bool ExportWorkbookToPdf(string workbookPath, string outputPath)
+        {
+            // If either required string is null or empty, stop and bail out
+            if (string.IsNullOrEmpty(workbookPath) || string.IsNullOrEmpty(outputPath))
+            {
+                return false;
+            }
+
+            // Create COM Objects
+            Microsoft.Office.Interop.Excel.Application excelApplication;
+            Microsoft.Office.Interop.Excel.Workbook excelWorkbook;
+
+            // Create new instance of Excel
+            excelApplication = new Microsoft.Office.Interop.Excel.Application();
+
+            // Make the process invisible to the user
+            excelApplication.ScreenUpdating = false;
+
+            // Make the process silent
+            excelApplication.DisplayAlerts = false;
+
+            // Open the workbook that you wish to export to PDF
+            excelWorkbook = excelApplication.Workbooks.Open(workbookPath);
+
+            // If the workbook failed to open, stop, clean up, and bail out
+            if (excelWorkbook == null)
+            {
+                excelApplication.Quit();
+
+                excelApplication = null;
+                excelWorkbook = null;
+
+                return false;
+            }
+
+            var exportSuccessful = true;
+            try
+            {
+                // Call Excel's native export function (valid in Office 2007 and Office 2010, AFAIK)
+                excelWorkbook.ExportAsFixedFormat(Microsoft.Office.Interop.Excel.XlFixedFormatType.xlTypePDF, outputPath);
+            }
+            catch (System.Exception ex)
+            {
+                // Mark the export as failed for the return value...
+                exportSuccessful = false;
+
+                // Do something with any exceptions here, if you wish...
+                // MessageBox.Show...        
+            }
+            finally
+            {
+                // Close the workbook, quit the Excel, and clean up regardless of the results...
+                excelWorkbook.Close();
+                excelApplication.Quit();
+
+                excelApplication = null;
+                excelWorkbook = null;
+            }
+
+            // You can use the following method to automatically open the PDF after export if you wish
+            // Make sure that the file actually exists first...
+            if (System.IO.File.Exists(outputPath))
+            {
+                System.Diagnostics.Process.Start(outputPath);
+            }
+
+            return exportSuccessful;
+        }
+
+        private static void generarExcelARIVU(List<ArchivoExport> pAduana, int ROWS_FIRST, int ROWS_START, int Filas, int cuenta, cxExcel.XLWorkbook oWB, int iRow, EncaLiquid pEncabezado)
+        {
+
+            string nombreSheet = null;
+            string valorCabecera = null;
+            string predio = null;
+            string naviera = null;
+
+
+
+            try
+            {
+
+                foreach (var datos in pAduana)
+                {
+                    predio = datos.s_nom_predio;
+                    naviera = datos.c_prefijo;
+                    break;
+                }
+
+                valorCabecera = "LISTADO DE ARIVUS";
+
+                string valSheet = naviera + "_" + predio;
+                var oSheet = oWB.Worksheets.Add(valSheet);
+                oSheet.PageSetup.Header.Clear();
+
+                oSheet.Range("A1", "F2").Merge();
+                oSheet.Cell("A1").Value = valorCabecera;
+                oSheet.Cell("A1").Style.Font.Bold = true;
+                oSheet.Cell("A1").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+                oSheet.Cell("A1").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
+                oSheet.Cell("A1").Style.Font.FontSize = 18;
+
+                oSheet.Range("A4", "B4").Merge();
+                oSheet.Range("A5", "B5").Merge();
+                oSheet.Range("A6", "B6").Merge();
+                oSheet.Range("A7", "B7").Merge();
+                oSheet.Range("A8", "B8").Merge();
+
+                oSheet.Cell("A4").Value = "AGENCIA";
+                oSheet.Cell("A5").Value = "VAPOR";
+                oSheet.Cell("A6").Value = "PREDIO";
+                oSheet.Cell("A7").Value = "FECHA DE ATRAQUE";
+                oSheet.Cell("A8").Value = "FECHA DE DESATRAQUE";
+                oSheet.Range("A4", "F8").Style.Font.FontSize = 14;
+
+                oSheet.Range("C4", "F4").Merge().Style.Border.BottomBorder = cxExcel.XLBorderStyleValues.Medium;
+                oSheet.Range("C5", "F5").Merge().Style.Border.BottomBorder = cxExcel.XLBorderStyleValues.Medium;
+                oSheet.Range("C6", "F6").Merge().Style.Border.BottomBorder = cxExcel.XLBorderStyleValues.Medium;
+                oSheet.Range("C7", "F7").Merge().Style.Border.BottomBorder = cxExcel.XLBorderStyleValues.Medium;
+                oSheet.Range("C8", "F8").Merge().Style.Border.BottomBorder = cxExcel.XLBorderStyleValues.Medium;
+
+
+                oSheet.Cell("C4").Value = naviera;
+                oSheet.Cell("C4").Style.Font.Bold = true;
+                oSheet.Cell("C5").Value = pEncabezado.n_buque;
+                oSheet.Cell("C5").Style.Font.Bold = true;
+                oSheet.Cell("C6").Value = predio;
+                oSheet.Cell("C6").Style.Font.Bold = true;
+                oSheet.Cell("C7").Value = pEncabezado.s_atraque;
+                oSheet.Cell("C7").Style.Font.Bold = true;
+                oSheet.Cell("C8").Value = pEncabezado.s_desatraque;
+                oSheet.Cell("C8").Style.Font.Bold = true;
+
+
+
+                oSheet.Cell("A10").Value = "CORR.";
+                oSheet.Cell("B10").Value = "CONTENEDOR";
+                oSheet.Cell("C10").Value = "TAMAÑO";
+                oSheet.Cell("D10").Value = "ARIVU";
+                oSheet.Cell("E10").Value = "F. VENCIMIENTO";
+                oSheet.Cell("F10").Value = "F. FIN OPERACION";
+
+
+                oSheet.Cell("F10").Style.Alignment.SetWrapText(true);
+                oSheet.Cell("E10").Style.Alignment.SetWrapText(true);
+
+
+                oSheet.Range("A10", "F10").Style.Fill.BackgroundColor = cxExcel.XLColor.LightGray;
+                oSheet.Range("A10", "F10").Style.Font.Bold = true;
+                oSheet.Range("A10", "F10").Style.Font.FontSize = 14;
+                oSheet.Range("A10", "F10").Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+                oSheet.Range("A10", "F10").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
+                //oSheet.Range("A8", "H8").Style.Border.InsideBorder = cxExcel.XLBorderStyleValues.Thin;
+                //oSheet.Range("A8", "H8").Style.Border.OutsideBorder = cxExcel.XLBorderStyleValues.Medium;
+
+
+                oSheet.Column(1).Width = 7;
+                oSheet.Column(2).Width = 21;
+                oSheet.Column(3).Width = 15;
+                oSheet.Column(4).Width = 15;
+                oSheet.Column(5).Width = 25;
+                oSheet.Column(6).Width = 25;
+
+                oSheet.Range("A11", string.Concat("F", Filas)).Style.NumberFormat.SetFormat("@");
+
+
+                oSheet.Range("A11", string.Concat("F", Filas)).Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Center;
+                oSheet.Range("A11", string.Concat("F", Filas)).Style.Alignment.Vertical = cxExcel.XLAlignmentVerticalValues.Center;
+
+                oSheet.Range("A10", string.Concat("F", Filas)).Style.Border.InsideBorder = cxExcel.XLBorderStyleValues.Thin;
+                oSheet.Range("A10", string.Concat("F", Filas)).Style.Border.OutsideBorder = cxExcel.XLBorderStyleValues.Medium;
+
+
+                int iCurrent = 0;
+
+                foreach (var item in pAduana)
+                {
+                    iCurrent = ROWS_START + iRow;
+                    oSheet.Row(iCurrent).Height = 20;
+                    oSheet.Cell(iCurrent, 1).Value = item.c_correlativo;
+                    oSheet.Cell(iCurrent, 2).Value = item.n_contenedor;
+                    oSheet.Cell(iCurrent, 3).Value = item.c_tamaño;
+                    oSheet.Cell(iCurrent, 4).Value = item.n_documento;
+                    oSheet.Cell(iCurrent, 5).Value = item.s_fec_venc;
+                    oSheet.Cell(iCurrent, 6).Value = pEncabezado.s_desatraque;
+
+
+                    oSheet.Cell(iCurrent, 6).Style.Alignment.SetWrapText(true);
+
+                    iRow = iRow + 1;
+                }
+
+
+                //oSheet.Cell(iCurrent + 2, 1).Value = "Referencias: PE Pedido especial";
+                oSheet.Cell(iCurrent + 2, 1).Style.Font.Bold = true;
+                oSheet.Range("A11", string.Concat("F", Filas)).Style.Font.FontSize = 14;
+
+                //oSheet.Range("H9", string.Format("H{0}", Filas)).Style.Alignment.SetWrapText(true);
+                oSheet.Range("A1", string.Concat("F", Filas + 2)).Style.Font.FontName = "Trebuchet MS";
+
+
+                oSheet.Cell("C4").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+                oSheet.Cell("C5").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+                oSheet.Cell("C6").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+                oSheet.Cell("C7").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+                oSheet.Cell("C8").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Left;
+
+
+                oSheet.Cell("A4").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Right;
+                oSheet.Cell("A5").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Right;
+                oSheet.Cell("A6").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Right;
+                oSheet.Cell("A7").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Right;
+                oSheet.Cell("A8").Style.Alignment.Horizontal = cxExcel.XLAlignmentHorizontalValues.Right;
+
+
+                oSheet.PageSetup.PageOrientation = cxExcel.XLPageOrientation.Portrait;
+                oSheet.PageSetup.FitToPages(1, 2);
+                oSheet.PageSetup.PaperSize = cxExcel.XLPaperSize.LetterPaper;
+                oSheet.PageSetup.VerticalDpi = 600;
+                oSheet.PageSetup.HorizontalDpi = 600;
+                oSheet.PageSetup.Margins.Top = 0.3;
+                oSheet.PageSetup.Margins.Header = 0.40;
+                oSheet.PageSetup.Margins.Footer = 0.20;
+
+            }
+            catch (Exception Ex)
+            {
+                throw new Exception(Ex.Message);
+            }
+        }
+        public string generarARIVUS(List<ArchivoExport> pLista, EncaLiquid pEncabezado)
+        {
+
+
+            const int ROWS_FIRST = 1;
+            const int ROWS_START = 10;
+            int Filas = 0;
+            int iRow = 1;
+            pRutas = null;
+
+
+            System.Globalization.CultureInfo CurrentCI = System.Threading.Thread.CurrentThread.CurrentCulture;
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-SV");
+            System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
+            System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyDecimalSeparator = ".";
+
+            //string s_archivo = System.Windows.Forms.Application.StartupPath + "\\EXP_PLANTILLA.xlsx";
+
+            var oWB = new cxExcel.XLWorkbook();
+
+            List<ArchivoExport> _list = new List<ArchivoExport>();
+
+                        
+            string _Exf5save = null;
+            int contador = 1;
+           
+            try
+            {
+
+
+
+                _Exf5save = string.Format("{0}{1}", fullEXP_ARIVU, "EXP_ARIVU_" + pEncabezado.n_buque + "_" + DateTime.Now.ToString("MMyyhhmmss", CultureInfo.CreateSpecificCulture("es-SV")) +  ".xlsx");
+
+
+                //string fechaC = f_llegada.Day + "/" + f_llegada.Month + "/" + f_llegada.Year;
+
+                int Cuenta = 1;
+
+
+                contador = 1;
+                var _predios = (from a in pLista.OrderBy(a => a.c_corr_previo)
+                                group a by a.s_nom_predio into g
+                                select new
+                                {
+                                    s_nom_predio = g.Key
+                                }).ToList();
+
+                var _clientes = (from a in pLista.OrderBy(a => a.c_prefijo)
+                                 group a by a.c_prefijo into g
+                                 select new
+                                 {
+                                     c_prefijo = g.Key
+                                 }).ToList();
+
+                List<ArchivoExport> _listOr = new List<ArchivoExport>();
+                List<ArchivoExport> _listaAOrdenar1 = new List<ArchivoExport>();
+
+                pLista = pLista.OrderBy(a => a.c_correlativo).ToList();
+
+
+
+                if (_predios.Count() > 0 && _clientes.Count() > 0)
+                {
+                    foreach (var item in _clientes)
+                    {
+                        foreach (var itemPredios in _predios)
+                        {
+                            var _lista = pLista.Where(c => c.c_prefijo.Equals(item.c_prefijo) && c.s_nom_predio.Equals(itemPredios.s_nom_predio)).ToList();
+
+                            if (_lista.Count() > 0)
+                            {
+                                Filas = _lista.Count + ROWS_START;
+
+                                generarExcelARIVU(_lista, ROWS_FIRST, ROWS_START, Filas, Cuenta, oWB, iRow, pEncabezado);
+                                Cuenta = Cuenta + 1;
+                                contador += 1;
+
+
+                                foreach (var item_C in _lista)
+                                {
+                                    pLista.RemoveAll(rt => rt.n_contenedor.ToUpper() == item_C.n_contenedor.ToUpper());
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+
+                oWB.SaveAs(_Exf5save);
+                //  oWB1.SaveAs(_f4save);
+
+                System.Threading.Thread.CurrentThread.CurrentCulture = CurrentCI;
+                return _Exf5save;
+
+
+                //pPDF.Add(_f3save);
+
+                //EnviarCorreoCO(pPDF, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, n_manifiesto);
+
+                //EnviarCorreoCOTEC(pCotecLst, d_buque, pValor, pCantidad, pCancelados, c_cliente, c_llegada, c_navi_corto, c_viaje, n_manifiesto, a_manifiesto);
+
+               
+
+            }
+            catch (Exception theException)
+            {
+                String errorMessage;
+                errorMessage = "Error: ";
+                errorMessage = String.Concat(errorMessage, theException.Message);
+                errorMessage = String.Concat(errorMessage, " Line: ");
+                errorMessage = String.Concat(errorMessage, theException.Source);
+                throw new Exception(errorMessage);
+            }
+            finally
+            {
+
+            }
+        }
+
     }
 }
 

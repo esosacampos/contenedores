@@ -2,6 +2,14 @@
     CodeBehind="wfPrincipalNavi.aspx.cs" Inherits="CEPA.CCO.UI.Web.wfPrincipalNavi" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style type="text/css">     
+        .footable > tbody > tr > td {
+            border-top: 1px solid #dddddd;
+            padding: 5px;
+            text-align: center;
+            border-left: none;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2>Lista de Buques Anunciados Importación</h2>
@@ -17,9 +25,10 @@
         <ContentTemplate>
             <%--<asp:Timer ID="Timer1" runat="server" Interval="4000" OnTick="Timer1_Tick">
                 </asp:Timer>--%>
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CssClass="footable"
+            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CssClass="footable" Style="font-size: 0.75em;"
                 DataKeyNames="c_buque" OnRowDataBound="GridView1_RowDataBound" data-filter="#filter" ShowFooter="true" data-page-size="10" OnRowCreated="onRowCreate">
                 <Columns>
+                    <asp:BoundField DataField="c_prefijo" HeaderText="AGENCIA"></asp:BoundField>
                     <asp:BoundField DataField="c_imo" HeaderText="COD. IMO"></asp:BoundField>
                     <asp:BoundField DataField="c_llegada" HeaderText="COD. DE LLEGADA"></asp:BoundField>
                     <asp:BoundField DataField="d_buque" HeaderText="NOMBRE DEL BUQUE"></asp:BoundField>
@@ -31,44 +40,45 @@
                             <th colspan="2">IMPORTACIÓN</th>
                         </HeaderTemplate>
                         <ItemTemplate>
+                            <asp:HiddenField ID="hidden" runat="server" Value='<%#Eval("c_cliente")%>' />
                             <td>
-                                <asp:HyperLink ID="Link" runat="server" Style="margin-right: 2px;" NavigateUrl='<%# DataBinder.Eval(Container.DataItem,"c_buque", "/Navieras/wfSustituirArch.aspx?c_buque={0}&c_llegada=" + DataBinder.Eval(Container.DataItem, "c_llegada")) %>'
+                                <asp:HyperLink ID="Link" runat="server" Style="margin-right: 2px;" NavigateUrl='<%# DataBinder.Eval(Container.DataItem,"c_buque", "/Navieras/wfSustituirArch.aspx?c_buque={0}&c_llegada=" + DataBinder.Eval(Container.DataItem, "c_llegada") + "&c_cliente=" + DataBinder.Eval(Container.DataItem, "c_cliente")) %>'
                                     Text="">
-                            <span class="glyphicon glyphicon-export" style="font-size: 17px; color: #1771f8; cursor: pointer;">
+                            <span class="glyphicon glyphicon-export" style="font-size: 15px; color: #1771f8; cursor: pointer;">
                                 Sustituir
                                 </span>
                                 </asp:HyperLink></td>
                             <td>
-                                <asp:HyperLink ID="Link1" runat="server" Style="margin-right: 2px;" NavigateUrl='<%# DataBinder.Eval(Container.DataItem,"c_buque", "/Navieras/wfCargar.aspx?c_buque={0}&c_llegada=" + DataBinder.Eval(Container.DataItem, "c_llegada")) %>'
+                                <asp:HyperLink ID="Link1" runat="server" Style="margin-right: 2px;" NavigateUrl='<%# DataBinder.Eval(Container.DataItem,"c_buque", "/Navieras/wfCargar.aspx?c_buque={0}&c_llegada=" + DataBinder.Eval(Container.DataItem, "c_llegada") + "&c_cliente=" + DataBinder.Eval(Container.DataItem, "c_cliente")) %>'
                                     Text="">
-                            <span class="glyphicon glyphicon-import" style="font-size: 17px; color: #1771f8; cursor: pointer;">
+                            <span class="glyphicon glyphicon-import" style="font-size: 15px; color: #1771f8; cursor: pointer;">
                                     Agregar
                             </span>
                                 </asp:HyperLink></td>
                         </ItemTemplate>
                     </asp:TemplateField>
-                   <%-- <asp:BoundField DataField="CantRemo" HeaderText="# ARCH. IMP. REESTIBA"></asp:BoundField>
+                    <asp:BoundField DataField="CantExport" HeaderText="# ARCH. EXPORTACION"></asp:BoundField>
                     <asp:TemplateField>
                         <HeaderTemplate>
-                            <th colspan="2">I. REESTIBA</th>
+                            <th colspan="2">EXPORTACION</th>
                         </HeaderTemplate>
                         <ItemTemplate>
                             <td>
-                                <asp:HyperLink ID="Link" runat="server" Style="margin-right: 2px;" NavigateUrl='<%# DataBinder.Eval(Container.DataItem,"c_buque", "/Navieras/wfSustituirArch.aspx?c_buque={0}&c_llegada=" + DataBinder.Eval(Container.DataItem, "c_llegada")) %>'
+                                <asp:HyperLink ID="lknSustituir" runat="server" Style="margin-right: 2px;" NavigateUrl='<%# DataBinder.Eval(Container.DataItem,"c_buque", "/Navieras/wfSustituirArchEx.aspx?c_buque={0}&c_llegada=" + DataBinder.Eval(Container.DataItem, "c_llegada") + "&c_cliente=" + DataBinder.Eval(Container.DataItem, "c_cliente")) %>'
                                     Text="">
-                            <span class="glyphicon glyphicon-export" style="font-size: 17px; color: #1771f8; cursor: pointer;">
+                            <span class="glyphicon glyphicon-export" style="font-size: 15px; color: #1771f8; cursor: pointer;">
                                 Sustituir
                                 </span>
                                 </asp:HyperLink></td>
                             <td>
-                                <asp:HyperLink ID="Link1" runat="server" Style="margin-right: 2px;" NavigateUrl='<%# DataBinder.Eval(Container.DataItem,"c_buque", "/Navieras/wfCargarReestiba.aspx?c_buque={0}&c_llegada=" + DataBinder.Eval(Container.DataItem, "c_llegada")) %>'
+                                <asp:HyperLink ID="lknCargar" runat="server" Style="margin-right: 2px;" NavigateUrl='<%# DataBinder.Eval(Container.DataItem,"c_buque", "/Navieras/wfCargarEx.aspx?c_buque={0}&c_llegada=" + DataBinder.Eval(Container.DataItem, "c_llegada") + "&c_cliente=" + DataBinder.Eval(Container.DataItem, "c_cliente")) %>'
                                     Text="">
-                            <span class="glyphicon glyphicon-import" style="font-size: 17px; color: #1771f8; cursor: pointer;">
+                            <span class="glyphicon glyphicon-import" style="font-size: 15px; color: #1771f8; cursor: pointer;">
                                     Agregar
                             </span>
                                 </asp:HyperLink></td>
                         </ItemTemplate>
-                    </asp:TemplateField>--%>
+                    </asp:TemplateField>
                 </Columns>
             </asp:GridView>
         </ContentTemplate>

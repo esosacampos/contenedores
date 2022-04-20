@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace CEPA.CCO.MobilConte
+namespace CEPA.CCO.MobilPatio
 {
     public partial class mfDefault : System.Web.UI.Page
     {

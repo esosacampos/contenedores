@@ -32,7 +32,7 @@ namespace CEPA.CCO.UI.Web
 
                 if (!IsPostBack)
                 {
-                    if (Request.QueryString["c_buque"] == null || Request.QueryString["c_llegada"] == null)
+                    if (Request.QueryString["c_buque"] == null || Request.QueryString["c_llegada"] == null || Request.QueryString["c_cliente"] == null)
                     {
                         throw new Exception("Falta código de buque");
                     }
@@ -75,18 +75,25 @@ namespace CEPA.CCO.UI.Web
         {
             EncaBuqueBL _encaBL = new EncaBuqueBL();
             List<EncaBuque> _encaList = new List<EncaBuque>();
-            _encaList = _encaBL.ObtenerBuqueID(DBComun.Estado.verdadero, Session["c_naviera"].ToString(), Request.QueryString["c_buque"].ToString(), Request.QueryString["c_llegada"].ToString());
+            _encaList = _encaBL.ObtenerBuqueID(DBComun.Estado.verdadero, Request.QueryString["c_cliente"].ToString(), Request.QueryString["c_buque"].ToString(), Request.QueryString["c_llegada"].ToString());
 
             if (_encaList.Count > 0)
             {
                 foreach (EncaBuque item in _encaList)
                 {
+                    foreach (var itemNav in EncaNavieraDAL.GetNavieras(DBComun.Estado.verdadero).Where(a => a.c_naviera == Request.QueryString["c_cliente"].ToString()))
+                    {
+                        d_agencia.Text = itemNav.d_naviera_p;
+                        hIsoNavi.Value = itemNav.c_iso_navi;
+                        break;
+                    }
                     c_imo.Text = item.c_imo;
                     d_buque_c.Text = item.d_buque;
                     f_llegada.Text = item.f_llegada.ToString("dd/MM/yyyy HH:mm:ss");
                     c_llegada.Text = item.c_llegada;
                     hSidunea.Value = Session["b_sidunea"].ToString();
                     h_iBooking.Value = Session["b_ibooking"].ToString();
+                    hNaviera.Value = Request.QueryString["c_cliente"].ToString();
                 }
             }
         }
@@ -95,7 +102,7 @@ namespace CEPA.CCO.UI.Web
         {
             lblArchivos.DataTextField = "s_archivo";
             lblArchivos.DataValueField = "s_archivo";
-            lblArchivos.DataSource = DetaDocDAL.ObtenerDocS(DBComun.Estado.verdadero, Session["c_naviera"].ToString(), c_llegada.Text);
+            lblArchivos.DataSource = DetaDocDAL.ObtenerDocS(DBComun.Estado.verdadero, Request.QueryString["c_cliente"].ToString(), c_llegada.Text);
             lblArchivos.DataBind();
         }
 
@@ -130,18 +137,18 @@ namespace CEPA.CCO.UI.Web
                 _cargar.Imprimir();
                 Sustitucion(ref a, ref Save, _listaDeta, _cargar, ref n_manifiesto, out Html, out _fecha);
                 Thread.Sleep(4000);
-                _cargar.Clear(string.Format("wfSustituirArch.aspx?c_buque={0}&c_llegada={1}", Request.QueryString["c_buque"].ToString(), Request.QueryString["c_llegada"].ToString()));
+                _cargar.Clear(string.Format("wfSustituirArch.aspx?c_buque={0}&c_llegada={1}&c_cliente={2}", Request.QueryString["c_buque"].ToString(), Request.QueryString["c_llegada"].ToString(), Request.QueryString["c_cliente"].ToString()));
 
             }
             catch (FormatException ef)
             {              
                 CargarArchivosLINQ _carga = new CargarArchivosLINQ();
-                _carga.Clear(string.Format("wfSustituirArch.aspx?c_buque={0}&c_llegada={1}", Request.QueryString["c_buque"].ToString(), Request.QueryString["c_llegada"].ToString()), ef.Message);
+                _carga.Clear(string.Format("wfSustituirArch.aspx?c_buque={0}&c_llegada={1}&c_cliente={2}", Request.QueryString["c_buque"].ToString(), Request.QueryString["c_llegada"].ToString(), Request.QueryString["c_cliente"].ToString()), ef.Message);
             }
             catch (Exception ex)
             {                
                 CargarArchivosLINQ _carga = new CargarArchivosLINQ();
-                _carga.Clear(string.Format("wfSustituirArch.aspx?c_buque={0}&c_llegada={1}", Request.QueryString["c_buque"].ToString(), Request.QueryString["c_llegada"].ToString()), ex.Message);
+                _carga.Clear(string.Format("wfSustituirArch.aspx?c_buque={0}&c_llegada={1}&c_cliente={2}", Request.QueryString["c_buque"].ToString(), Request.QueryString["c_llegada"].ToString(), Request.QueryString["c_cliente"].ToString()), ex.Message);
             }
 
         }
@@ -193,7 +200,7 @@ namespace CEPA.CCO.UI.Web
                     string Mensaje = "";
                     int IdRegEnca = 0;
 
-                    IdRegEnca = Convert.ToInt32(EncaNavieraDAL.ObtenerIdReg(c_imo.Text, c_llegada.Text, HttpContext.Current.Session["c_naviera"].ToString()));
+                    IdRegEnca = Convert.ToInt32(EncaNavieraDAL.ObtenerIdReg(c_imo.Text, c_llegada.Text, Request.QueryString["c_cliente"].ToString()));
                     
 
                     if (Convert.ToDouble(c_imoVa) > 0)
@@ -444,8 +451,8 @@ namespace CEPA.CCO.UI.Web
                             Html += "<font color=red>En espera de correcciones por la Naviera </font>";
 
                             _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): DENEGADA Listado de Importación Buque: {0}, # de Viaje {1}, Manifiesto de Aduana # {2}", d_buque_c.Text, cn_voyage, n_manifiesto);
-                            _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-                            List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                            _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, Request.QueryString["c_cliente"].ToString());
+                            List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, Request.QueryString["c_cliente"].ToString());
 
                             if (_listaCC == null)
                                 _listaCC = new List<Notificaciones>();
@@ -463,7 +470,7 @@ namespace CEPA.CCO.UI.Web
                             CorreoRecepcion(n_manifiesto, cn_voyage);
                             #region "Almacer Sustitucion"
 
-                            List<DetaDoc> listaDoc = DetaDocDAL.ObtenerDocA(DBComun.Estado.verdadero, Session["c_naviera"].ToString(), c_llegada.Text, lblArchivos.SelectedItem.Text);
+                            List<DetaDoc> listaDoc = DetaDocDAL.ObtenerDocA(DBComun.Estado.verdadero, Request.QueryString["c_cliente"].ToString(), c_llegada.Text, lblArchivos.SelectedItem.Text);
 
                             if (listaDoc.Count == 1)
                             {
@@ -557,9 +564,9 @@ namespace CEPA.CCO.UI.Web
                                         Html += "</font>";
                                         //_correo.Subject = string.Format("Importación de Archivo Buque {0} Número de Viaje {1}", d_buque, cn_voyage);
                                         _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): ACEPTADA Listado de Importación de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque_c.Text, cn_voyage, n_manifiesto);
-                                        _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                                        _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, Request.QueryString["c_cliente"].ToString());
 
-                                        List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                                        List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, Request.QueryString["c_cliente"].ToString());
 
                                         if (_listaCC == null)
                                             _listaCC = new List<Notificaciones>();
@@ -608,8 +615,8 @@ namespace CEPA.CCO.UI.Web
                         Html += "<font color=red>En espera de correcciones por la Naviera </font>";
 
                         _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): DENEGADA Listado de Importación Buque: {0}, # de Viaje {1}, Manifiesto de Aduana # {2}", d_buque_c.Text, cn_voyage, n_manifiesto);
-                        _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-                        List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                        _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, Request.QueryString["c_cliente"].ToString());
+                        List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, Request.QueryString["c_cliente"].ToString());
 
                         if (_listaCC == null)
                             _listaCC = new List<Notificaciones>();
@@ -645,8 +652,8 @@ namespace CEPA.CCO.UI.Web
 
             //_correo.Subject = string.Format("Importación de Archivo Buque {0} Número de Viaje {1}", d_buque, cn_voyage);
             _correo1.Subject = string.Format("PASO 1 de 4: Recepción CEPA: Listado de Importación por SUSTITUCIÓN de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque_c.Text, cn_voyage, n_manifiesto);
-            _correo1.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-            _correo1.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+            _correo1.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, Request.QueryString["c_cliente"].ToString());
+            _correo1.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, Request.QueryString["c_cliente"].ToString());
             _correo1.Asunto = Html1;
             _correo1.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.verdadero);
             

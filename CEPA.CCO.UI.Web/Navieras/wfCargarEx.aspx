@@ -8,6 +8,15 @@
     <hr />
     <div class="table-responsive">
         <table class="table">
+             <tr>
+                <td>AGENCIA
+                </td>
+                <td>
+                    <asp:HiddenField ID="hNaviera" runat="server" Value="" />
+                    <asp:HiddenField ID="hIsoNavi" runat="server" Value="" />
+                    <asp:Label ID="d_agencia" runat="server" Text=""></asp:Label>
+                </td>
+            </tr>
             <tr>
                 <td>IMO
                 </td>
@@ -77,6 +86,10 @@
                     var c_imo = document.getElementById("<%= c_imo.ClientID %>").textContent;
                     var c_llegada = document.getElementById("<%= c_llegada.ClientID %>").textContent;
                     var f_llegada = document.getElementById("<%= f_llegada.ClientID %>").textContent;
+                    var c_naviera = document.getElementById("<%= hNaviera.ClientID %>").value;
+                    var c_iso_navi = document.getElementById("<%= hIsoNavi.ClientID %>").value;
+
+                    
 
                     $.blockUI({
                         message: '<h1>Procesando</h1><img src="<%= ResolveClientUrl("~/CSS/Img/progress_bar.gif") %>" />',
@@ -91,9 +104,9 @@
                         }
                     });
 
-
+                    
                     $.ajax({
-                        url: '<%= ResolveClientUrl("~/FileExport.ashx") %>' + '?d_buque=' + buque + '&c_imo=' + c_imo + '&c_llegada=' + c_llegada + '&f_llegada=' + f_llegada + '&susti=0' + '&aduana=0' + '&proceso=1',
+                        url: '<%= ResolveClientUrl("~/FileExport.ashx") %>' + '?d_buque=' + buque + '&c_imo=' + c_imo + '&c_llegada=' + c_llegada + '&f_llegada=' + f_llegada + '&susti=0' + '&aduana=0' + '&proceso=1' + '&c_naviera=' + c_naviera + '&c_iso_navi=' + c_iso_navi,
                         type: "POST",
                         data: data,
                         contentType: false,

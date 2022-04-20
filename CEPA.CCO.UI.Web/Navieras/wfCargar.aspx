@@ -9,13 +9,22 @@
     <hr />
     <div class="table-responsive">
         <table class="table">
+              <tr>
+                <td>AGENCIA
+                </td>
+                <td>
+                 <asp:HiddenField ID="hNaviera" runat="server" Value="" />
+                    <asp:HiddenField ID="hIsoNavi" runat="server" Value="" />
+                    <asp:Label ID="d_agencia" runat="server" Text=""></asp:Label>
+                </td>
+            </tr>
             <tr>
                 <td>IMO
                 </td>
                 <td>
                     <asp:Label ID="c_imo" runat="server" Text=""></asp:Label>
                     <asp:HiddenField ID="hSidunea" runat="server" />
-                    <asp:HiddenField ID="h_iBooking" runat="server" />
+                    <asp:HiddenField ID="h_iBooking" runat="server" />                 
                 </td>
             </tr>
             <tr>
@@ -103,7 +112,8 @@
                     else
                         var check = false;
 
-                    
+                    var c_naviera = document.getElementById("<%= hNaviera.ClientID %>").value;
+                    var c_iso_navi = document.getElementById("<%= hIsoNavi.ClientID %>").value;
 
 
                     $.blockUI({
@@ -121,7 +131,7 @@
 
 
                     $.ajax({
-                        url: '<%= ResolveClientUrl("~/FileUploadHandler.ashx") %>' + '?d_buque=' + buque + '&c_imo=' + c_imo + '&c_llegada=' + c_llegada + '&f_llegada=' + f_llegada + '&susti=0' + '&aduana=0' + '&proceso=1' + '&sidunea=true' + '&booking=' + b_booking,
+                        url: '<%= ResolveClientUrl("~/FileUploadHandler.ashx") %>' + '?d_buque=' + buque + '&c_imo=' + c_imo + '&c_llegada=' + c_llegada + '&f_llegada=' + f_llegada + '&susti=0' + '&aduana=0' + '&proceso=1' + '&sidunea=true' + '&booking=' + b_booking + '&c_naviera=' + c_naviera + '&c_iso_navi=' + c_iso_navi,
                         type: "POST",
                         data: data,
                         contentType: false,

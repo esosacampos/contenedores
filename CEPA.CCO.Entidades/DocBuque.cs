@@ -9,6 +9,7 @@ namespace CEPA.CCO.Entidades
 {
     public class DocBuque : EncaBuque 
     {
+        public int? CantArchivoExport { get; set; }
         public int? CantArchivo { get; set; }
         public int? IdReg { get; set; }
         public string c_voyage { get; set; }

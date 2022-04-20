@@ -53,7 +53,7 @@ namespace CEPA.CCO.ServMONITOR
             Html += string.Format("<b><u> {0} </b></u><br />", mensaje);
 
 
-            _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_cancela", DBComun.Estado.falso, "0"); ;
+            _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_service", DBComun.Estado.falso, "0"); ;
 
             _correo.Asunto = Html;
             _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.falso);

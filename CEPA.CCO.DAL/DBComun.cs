@@ -303,5 +303,31 @@ namespace CEPA.CCO.DAL
             }
         }
         #endregion
+
+        public static SqlCommand CrearProcedimiento(IDbConnection pConn, string _procedure)
+        {
+            SqlCommand _comando = (SqlCommand)pConn.CreateCommand();
+            _comando.CommandText = _procedure;
+            _comando.CommandType = CommandType.StoredProcedure;
+            return _comando;
+        }
+
+        public static void CreateParametro(ref SqlCommand pComando, string pParametro, object pValue)
+        {
+            SqlParameter _parametro = pComando.CreateParameter();
+            _parametro.ParameterName = pParametro;
+            _parametro.Value = pValue;
+            pComando.Parameters.Add(_parametro);
+        }
+
+        public static SqlDataReader EjecutarSQL(SqlCommand pComando)
+        {
+            return pComando.ExecuteReader();
+        }
+
+        public static int EjecutarAct(IDbCommand pComando)
+        {
+            return pComando.ExecuteNonQuery();
+        }
     }
 }

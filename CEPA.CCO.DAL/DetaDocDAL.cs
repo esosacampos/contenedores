@@ -56,11 +56,6 @@ namespace CEPA.CCO.DAL
                     _command.Parameters.Add(new SqlParameter("@c_usuario", _doc.c_usuario));
                     _command.Parameters.Add(new SqlParameter("@c_llegada", _doc.c_llegada));
 
-                    /*_command.Parameters.Add(new SqlParameter("@n_manifiesto", _doc.a_manif));
-                    _command.Parameters.Add(new SqlParameter("@a_manifiesto", _doc.a_manifiesto));   */
-
-
-
                     string resultado = _command.ExecuteScalar().ToString();
                     _conn.Close();
                     return resultado;
@@ -116,7 +111,7 @@ namespace CEPA.CCO.DAL
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, DBComun.Estado.verdadero))
             {
                 _conn.Open();
-                string _consulta = @"SELECT COUNT(*) FROM CCO_DETA_DOC_EXP_NAVI a INNER JOIN CCO_ENCA_EXPO_NAVI b ON a.IdReg = b.IdReg WHERE a.c_imo = '{0}' AND a.c_llegada = '{1}' AND c_naviera = '{2}'";
+                string _consulta = @"SELECT COUNT(*) FROM CCO_DETA_DOC_EXP_NAVI a INNER JOIN CCO_ENCA_EXP_NAVIERAS b ON a.IdReg = b.IdReg WHERE a.c_imo = '{0}' AND a.c_llegada = '{1}' AND c_naviera = '{2}'";
 
                 SqlCommand _command = new SqlCommand(string.Format(_consulta, c_imo, c_llegada, c_naviera), _conn as SqlConnection);
                 _command.CommandType = CommandType.Text;
@@ -206,7 +201,6 @@ namespace CEPA.CCO.DAL
             }
         }
 
-
         public static List<DetaDoc> ObtenerDocEx(DBComun.Estado pTipo, string c_naviera)
         {
             List<DetaDoc> _empleados = new List<DetaDoc>();
@@ -215,36 +209,11 @@ namespace CEPA.CCO.DAL
             using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
             {
                 _conn.Open();
-                string _consulta = null;
-                SqlCommand _command = null;
-                if (c_naviera == "219")
-                {
-                    /*_consulta = @"SELECT IdDoc, IdReg, c_imo, s_archivo, c_llegada
-                                     FROM CCO_DETA_DOC_NAVI WHERE 
-                                     EXISTS(SELECT IdReg FROM CCO_ENCA_NAVIERAS) AND b_estado = 1";*/
-                    _consulta = @"SELECT IdDoc, a.IdReg, a.c_imo, s_archivo, a.c_llegada, c_naviera
-                                FROM CCO_DETA_DOC_EXP_NAVI a INNER JOIN CCO_ENCA_EXPO_NAVI b ON a.IdReg = b.IdReg
-                                WHERE b_estado = 1";
-                    _command = new SqlCommand(_consulta, _conn as SqlConnection);
-                }
-                else
-                {
-                    /*_consulta = @"SELECT IdDoc, IdReg, c_imo, s_archivo, c_llegada
-                                     FROM CCO_DETA_DOC_NAVI WHERE 
-                                     EXISTS(SELECT IdReg FROM CCO_ENCA_NAVIERAS WHERE c_naviera = '{0}') AND b_estado = 1";*/
-                    _consulta = @"SELECT IdDoc, a.IdReg, b.c_imo, s_archivo, b.c_llegada, c_naviera
-                                FROM CCO_DETA_DOC_EXP_NAVI a INNER JOIN CCO_ENCA_EXPO_NAVI b ON a.IdReg = b.IdReg
-                                WHERE c_naviera = '{0}' AND b_estado = 1";
+                SqlCommand _command = new SqlCommand("PA_NAV_DOCUMENTOS_EXP", _conn as SqlConnection);
+                _command.CommandType = CommandType.StoredProcedure;
 
-                    /* _consulta = @"SELECT a.IdReg, a.c_imo, max(s_archivo) s_archivo, a.c_llegada, c_naviera,  COUNT(a.IdDoc) CantArch
-                                 FROM CCO_DETA_DOC_NAVI a INNER JOIN CCO_ENCA_NAVIERAS b ON a.IdReg = b.IdReg
-                                 WHERE c_naviera = '{0}' AND b_estado = 1
-                                 GROUP BY a.IdReg, a.c_imo,  a.c_llegada, c_naviera";*/
-                    _command = new SqlCommand(string.Format(_consulta, c_naviera), _conn as SqlConnection);
-                }
+                _command.Parameters.Add(new SqlParameter("@c_naviera", c_naviera));
 
-
-                _command.CommandType = CommandType.Text;
 
                 SqlDataReader _reader = _command.ExecuteReader();
 
@@ -257,7 +226,7 @@ namespace CEPA.CCO.DAL
                         c_imo = _reader.GetString(2),
                         s_archivo = _reader.GetString(3),
                         c_llegada = _reader.GetString(4),
-                        c_naviera = _reader.GetString(5)
+                        c_naviera = _reader.GetString(5)                     
                     };
 
                     _empleados.Add(_tmpEmpleado);
@@ -268,6 +237,9 @@ namespace CEPA.CCO.DAL
                 return _empleados;
             }
         }
+
+
+
 
         public static List<DetaDoc> ObtenerDocS(DBComun.Estado pTipo, string c_naviera, string c_llegada)
         {
@@ -281,6 +253,45 @@ namespace CEPA.CCO.DAL
                                     FROM CCO_DETA_DOC_NAVI WHERE 
                                     IdReg IN(SELECT IdReg FROM CCO_ENCA_NAVIERAS WHERE c_naviera = '{0}'  AND c_llegada = '{1}') AND b_estado = 1
                                     AND ISNULL(b_valid, 0) = 0";
+
+
+                SqlCommand _command = new SqlCommand(string.Format(_consulta, c_naviera, c_llegada), _conn as SqlConnection);
+                _command.CommandType = CommandType.Text;
+
+                SqlDataReader _reader = _command.ExecuteReader();
+
+                while (_reader.Read())
+                {
+                    DetaDoc _tmpEmpleado = new DetaDoc
+                    {
+                        IdDoc = (int)_reader.GetInt32(0),
+                        IdReg = (int)_reader.GetInt32(1),
+                        c_imo = _reader.GetString(2),
+                        s_archivo = _reader.GetString(3),
+                        c_llegada = _reader.GetString(4)
+                    };
+
+                    _empleados.Add(_tmpEmpleado);
+                }
+
+                _reader.Close();
+                _conn.Close();
+                return _empleados;
+            }
+        }
+
+        public static List<DetaDoc> ObtenerDocSEx(DBComun.Estado pTipo, string c_naviera, string c_llegada)
+        {
+            List<DetaDoc> _empleados = new List<DetaDoc>();
+
+
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+                string _consulta = @"SELECT DISTINCT a.IdDoc, a.IdReg, a.c_imo, s_archivo, a.c_llegada
+                                    FROM CCO_DETA_DOC_EXP_NAVI a INNER JOIN CCO_ENCA_EXP_NAVIERAS b ON a.IdReg = b.IdReg INNER JOIN 
+                                    CCO_DETA_EXP_NAVIERAS c ON a.IdDoc = c.IdDoc  
+                                    WHERE c_naviera = '{0}'  AND b.c_llegada = '{1}' AND a.b_estado = 1 AND ISNULL(b_valid, 0) = 1 AND c.c_estatus = 0";
 
 
                 SqlCommand _command = new SqlCommand(string.Format(_consulta, c_naviera, c_llegada), _conn as SqlConnection);
@@ -394,7 +405,7 @@ namespace CEPA.CCO.DAL
                 _conn.Open();
                 string _consulta = @"SELECT IdDoc, IdReg, c_imo, s_archivo, c_llegada
                                      FROM CCO_DETA_DOC_EXP_NAVI WHERE 
-                                     EXISTS(SELECT IdReg FROM CCO_ENCA_EXPO_NAVI WHERE c_naviera = '{0}' ) AND c_llegada = '{1}' AND b_estado = 1 AND s_archivo = '{2}'";
+                                     EXISTS(SELECT IdReg FROM CCO_ENCA_EXP_NAVIERAS WHERE c_naviera = '{0}' ) AND c_llegada = '{1}' AND b_estado = 1 AND s_archivo = '{2}'";
 
 
                 SqlCommand _command = new SqlCommand(string.Format(_consulta, c_naviera, c_llegada, s_archivo), _conn as SqlConnection);
@@ -599,6 +610,39 @@ namespace CEPA.CCO.DAL
             }
         }
 
+        public static string ActualizarValidacionEx(int b_valid, int IdReg, DBComun.Estado pTipo, int IdDoc)
+        {
+            string resultado = null;
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+                IDbTransaction tranUp = _conn.BeginTransaction();
+
+                string _consulta = @"UPDATE CCO_DETA_DOC_EXP_NAVI
+                                     SET b_valid = {0}, f_valid = GETDATE()
+                                     WHERE IdReg = {1} AND IdDoc = {2}
+                                     SELECT @@ROWCOUNT";
+                SqlCommand _command = new SqlCommand(string.Format(_consulta, b_valid, IdReg, IdDoc), _conn as SqlConnection);
+                _command.CommandType = CommandType.Text;
+                _command.Transaction = (SqlTransaction)tranUp;
+                try
+                {
+
+
+                    resultado = _command.ExecuteScalar().ToString();
+                    tranUp.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tranUp.Rollback();
+                    throw new Exception("Problemas en validación de listado " + ex.Message);
+                }
+                _conn.Close();
+                return resultado;
+
+            }
+        }
+
         public static string RevertirValidacion(int n_manifiesto, int IdReg, DBComun.Estado pTipo, int IdDoc)
         {
             string resultado = null;
@@ -618,6 +662,39 @@ namespace CEPA.CCO.DAL
 
                 try
                 {                    
+                    resultado = _command.ExecuteScalar().ToString();
+                    tranUp.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tranUp.Rollback();
+                    throw new Exception("Problemas en validación de listado " + ex.Message);
+                }
+                _conn.Close();
+                return resultado;
+
+            }
+        }
+
+        public static string RevertirValidacionEx(int IdReg, DBComun.Estado pTipo, int IdDoc)
+        {
+            string resultado = null;
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+
+
+                string _consulta = @"UPDATE CCO_DETA_DOC_EXP_NAVI
+                                    SET b_valid = 0, f_valid = NULL
+                                    WHERE IdReg = {0} AND IdDoc = {1}
+                                    SELECT @@ROWCOUNT";
+                IDbTransaction tranUp = _conn.BeginTransaction();
+                SqlCommand _command = new SqlCommand(string.Format(_consulta, IdReg, IdDoc), _conn as SqlConnection);
+                _command.CommandType = CommandType.Text;
+                _command.Transaction = (SqlTransaction)tranUp;
+
+                try
+                {
                     resultado = _command.ExecuteScalar().ToString();
                     tranUp.Commit();
                 }
@@ -781,6 +858,39 @@ namespace CEPA.CCO.DAL
                 _command.CommandType = CommandType.Text;
 
                 string resultado = _command.ExecuteScalar().ToString();
+                _conn.Close();
+                return resultado;
+
+            }
+        }
+
+        public static string RevertirAutoEx(DBComun.Estado pTipo, int IdDoc)
+        {
+            string resultado = null;
+            using (IDbConnection _conn = DBComun.ObtenerConexion(DBComun.TipoBD.SqlServer, pTipo))
+            {
+                _conn.Open();
+
+
+                string _consulta = @"update CCO_DETA_EXP_NAVIERAS 
+                                    set c_estatus = 0, f_reg_estatus = null, t_estatus = null, c_correlativo = 0
+                                    where IdDoc = {0}
+                                     SELECT @@ROWCOUNT";
+                IDbTransaction tranUp = _conn.BeginTransaction();
+                SqlCommand _command = new SqlCommand(string.Format(_consulta, IdDoc), _conn as SqlConnection);
+                _command.CommandType = CommandType.Text;
+                _command.Transaction = (SqlTransaction)tranUp;
+
+                try
+                {
+                    resultado = _command.ExecuteScalar().ToString();
+                    tranUp.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tranUp.Rollback();
+                    throw new Exception("Problemas en validación de listado " + ex.Message);
+                }
                 _conn.Close();
                 return resultado;
 

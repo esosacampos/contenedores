@@ -100,6 +100,8 @@ namespace CEPA.CCO.Entidades
         public string Cllegada { get; set; }
 
         public string s_descripcion { get; set; }
+
+        public string Marchamo { get; set; }
     }
 
     public class Procedure

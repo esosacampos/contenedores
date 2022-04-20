@@ -155,11 +155,13 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Aduana\wfAutoExport.aspx" />
+    <Content Include="wfAutoExport.aspx" />
     <Content Include="Aduana\wfAutorizarContenedores.aspx" />
     <Content Include="Aduana\wfCargarValid.aspx" />
     <Content Include="Aduana\wfConsultaBuques.aspx" />
-    <Content Include="Aduana\wfPrinciExport.aspx" />
+    <Content Include="wfConsulBLNvo.aspx" />
+    <Content Include="wfRevCancelExport.aspx" />
+    <Content Include="wfPrinciExport.aspx" />
     <Content Include="bootstrap\csss\autocompleteText.css" />
     <Content Include="bootstrap\csss\bootstrap-complete.css" />
     <Content Include="bootstrap\csss\bootstrap-select.css" />
@@ -274,6 +276,8 @@
     <Content Include="Navieras\wfDocumentos.aspx" />
     <Content Include="Navieras\wfExportacion.aspx" />
     <Content Include="Navieras\wfRegistrarSalida.aspx" />
+    <Content Include="Navieras\wfSustituirArchEx.aspx" />
+    <Content Include="Scripts\JS_DT\bootstrap-filestyle.min.js" />
     <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\dataTables.rowsGroup.js" />
     <Content Include="Scripts\jquery.blockui.js" />
@@ -312,12 +316,17 @@
     <Content Include="Scripts\moment-with-locales.min.js.map" />
     <Content Include="Fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="bootstrap\js\bootstrap-select.js.map" />
+    <Content Include="bootstrap\js\bootstrap-select.min.js.map" />
+    <Content Include="bootstrap\csss\bootstrap.min.css.map" />
+    <Content Include="Scripts\jquery.number.min.js.map" />
     <None Include="Service References\CepaSW\configuration91.svcinfo" />
     <None Include="Service References\CepaSW\configuration.svcinfo" />
     <None Include="Service References\CepaSW\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="wfConsulBLTmp.aspx" />
     <Content Include="wfRptIngreso.aspx" />
     <Content Include="wfSolPendiVac.aspx" />
     <Content Include="wfTipoCliente.aspx" />
@@ -482,11 +491,11 @@
     <None Include="Service References\CepaSW\WSManifiestoCEPAService.wsdl" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aduana\wfAutoExport.aspx.cs">
+    <Compile Include="wfAutoExport.aspx.cs">
       <DependentUpon>wfAutoExport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Aduana\wfAutoExport.aspx.designer.cs">
+    <Compile Include="wfAutoExport.aspx.designer.cs">
       <DependentUpon>wfAutoExport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Aduana\wfAutorizarContenedores.aspx.cs">
@@ -510,11 +519,25 @@
     <Compile Include="Aduana\wfConsultaBuques.aspx.designer.cs">
       <DependentUpon>wfConsultaBuques.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Aduana\wfPrinciExport.aspx.cs">
+    <Compile Include="wfConsulBLNvo.aspx.cs">
+      <DependentUpon>wfConsulBLNvo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfConsulBLNvo.aspx.designer.cs">
+      <DependentUpon>wfConsulBLNvo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfRevCancelExport.aspx.cs">
+      <DependentUpon>wfRevCancelExport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfRevCancelExport.aspx.designer.cs">
+      <DependentUpon>wfRevCancelExport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfPrinciExport.aspx.cs">
       <DependentUpon>wfPrinciExport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Aduana\wfPrinciExport.aspx.designer.cs">
+    <Compile Include="wfPrinciExport.aspx.designer.cs">
       <DependentUpon>wfPrinciExport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Controles\ucMultiFileUpload.ascx.cs">
@@ -721,6 +744,13 @@
     <Compile Include="Navieras\wfRegistrarSalida.aspx.designer.cs">
       <DependentUpon>wfRegistrarSalida.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Navieras\wfSustituirArchEx.aspx.cs">
+      <DependentUpon>wfSustituirArchEx.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Navieras\wfSustituirArchEx.aspx.designer.cs">
+      <DependentUpon>wfSustituirArchEx.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Service References\CEPAService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -779,6 +809,13 @@
     </Compile>
     <Compile Include="wfAlertaDAN.aspx.designer.cs">
       <DependentUpon>wfAlertaDAN.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wfConsulBLTmp.aspx.cs">
+      <DependentUpon>wfConsulBLTmp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="wfConsulBLTmp.aspx.designer.cs">
+      <DependentUpon>wfConsulBLTmp.aspx</DependentUpon>
     </Compile>
     <Compile Include="wfRptIngreso.aspx.cs">
       <DependentUpon>wfRptIngreso.aspx</DependentUpon>

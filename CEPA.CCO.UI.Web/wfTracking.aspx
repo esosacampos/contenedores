@@ -2,7 +2,7 @@
     CodeBehind="wfTracking.aspx.cs" Inherits="CEPA.CCO.UI.Web.wfTracking" ValidateRequest="false" EnableEventValidation="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <style type="text/css">
+   <style type="text/css">
         tr#rowF {
             display: none;
             background-color: rgb(23, 113, 248);
@@ -215,7 +215,7 @@
                 <asp:Button ID="btnBuscar" runat="server" Text="Consultar" CssClass="btn btn-default"
                     OnClick="btnBuscar_Click" />
                 <asp:Button ID="btnConsultar" runat="server" Text="D/T Asociados" CssClass="btn btn-success"
-                     Visible="false" OnClientClick="return confirmaSave(this.id);" />                 
+                    Visible="false" OnClientClick="return confirmaSave(this.id);" />
                 <%--<button runat="server" id="btnConsultar" onclick="window.open('_blank', 'wfConsulDecla.aspx', 'width=100,height=100');">Asociados</button>--%>
                 <%--<input type="button" id="exportpdf" value="Imprimir" class="btn btn-info">  OnClientClick="return confirmaSave(this.id);"--%>
                 <%--<asp:Button ID="btnImprime" runat="server" Text="Imprimir" CssClass="btn btn-info" OnClick="btnImprime_Click"  />--%>
@@ -227,12 +227,11 @@
     </div>
     <br />
     <br />
-    <div id="printArea" runat="server">
-        <span>
+    <div id="printArea" runat="server">        
             <asp:UpdatePanel ID="EmployeesUpdatePanel" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
                     <asp:GridView ID="grvTracking" runat="server" AutoGenerateColumns="False" DataKeyNames="IdDeta"
-                        CssClass="footable" Style="margin-top: 5%; max-width: 98%; margin-left: 15px;"
+                        CssClass="table table-condensed" Style="margin-top: 5%; max-width: 98%; margin-left: 15px;"
                         OnRowDataBound="grvTracking_RowDataBound">
                         <Columns>
                             <asp:TemplateField>
@@ -268,7 +267,7 @@
                                     <%--<button type="button" runat="server" class="btn btn-primary btn xs" onclick="return GetSelectedRow(this)" id="tooltop" data-toggle="tooltip" data-placement="top" data-original-title="Consultar el estado para despachar su contenedor">
                                         <span class="glyphicon glyphicon-usd" style="cursor: pointer;"></span>
                                     </button>--%>
-                                     <button type="button" id="fact" runat="server" class="btn btn-primary btn xs" onclick="return getBL(this)" >
+                                    <button type="button" id="fact" runat="server" class="btn btn-primary btn xs" onclick="return getBL(this)">
                                         <span class="glyphicon glyphicon-usd" style="cursor: pointer;"></span>
                                     </button>
                                 </ItemTemplate>
@@ -290,13 +289,14 @@
                                                 <asp:DetailsView ID="dtTracking" runat="server" AutoGenerateRows="False" DataKeyNames="IdDeta"
                                                     CssClass="footable" CellPadding="0" GridLines="None" Width="100%">
                                                     <Fields>
+                                                        <asp:BoundField DataField="n_BL" HeaderText="BLs Asociados" ReadOnly="True"></asp:BoundField>
                                                         <asp:BoundField DataField="s_consignatario" HeaderText="Consignatario" ReadOnly="True"></asp:BoundField>
                                                         <asp:BoundField DataField="descripcion" HeaderText="Descripcion" ReadOnly="True"></asp:BoundField>
                                                         <asp:BoundField DataField="f_rep_naviera" HeaderText="F. Reporto Naviera" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_aut_aduana" HeaderText="F. Autorizado por ADUANA" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
-                                                        <asp:BoundField DataField="f_recepA" HeaderText="F. Recepción en Arco" ReadOnly="True"
+                                                        <asp:BoundField DataField="f_recepA" HeaderText="Recepcion Contenedor" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
                                                         <asp:BoundField DataField="f_trans_aduana" HeaderText="F. Transmision ADUANA" ReadOnly="True"
                                                             DataFormatString="{0:dd/MM/yyyy HH:mm:ss}"></asp:BoundField>
@@ -401,6 +401,7 @@
                                                     </Fields>
                                                 </asp:DetailsView>
                                             </div>
+
                                         </td>
                                     </tr>
                                     </span>
@@ -411,7 +412,6 @@
                             <asp:Label ID="lblEmptyMessage" Text="Búsqueda no produjó resultados intentarlo de nuevo o llamar a Informática" runat="server" />
                         </EmptyDataTemplate>
                     </asp:GridView>
-
                 </ContentTemplate>
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="btnBuscar" EventName="Click" />
@@ -429,142 +429,7 @@
     <asp:Label ID="Label1" runat="server" Text="* Ordenados desde la última vez que visita el puerto hasta la primera" CssClass="alert-danger" Style="margin-left: 15px;"></asp:Label>
     <br />
     <asp:Label ID="Label2" runat="server" Text="* La columna Entrega indica con RT si requiere tarja y en blanco si no la requiere" CssClass="alert-danger" Style="margin-left: 15px;"></asp:Label>
-    <hr />
-    <!-- Modal HTML -->
-    <div id="myModal" class="modal fade" tabindex="-1" data-focus-on="input:first">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="line-height: 10px;">
-                    <button type="button" class="close" id="myClose" data-dismiss="modal" aria-hidden="true">
-                        ×</button>
-                    <h4 class="modal-title">¿Puedo solicitar la salida de carga en CEPA?
-                    </h4>
-                    <br />
-                    <span id="mensajeCEPA" style="font-weight: bold; padding: 8px;"></span>
-                </div>
-                <div class="modal-body">
-                    <div role="form">
-                        <input type="hidden" id="hTarja" />
-                        <input type="hidden" id="hContenedor" />
-                        <input type="hidden" id="hLlegada" />
-                        <input type="hidden" id="hFtarja" />
-                        <input type="hidden" id="hManifiesto" />
-                        <input type="hidden" id="hvPeso" />
-                        <input type="hidden" id="hTarjas" />
-                        <input type="hidden" id="hNTarjas" />
-
-                        <div class="form-group" style="line-height: 1.4;">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label id="lblIngreso">Fecha Ingreso </label>
-                                    <span class="label label-info" id="f_tarjaM"></span>
-                                </div>
-                                <div class="col-md-6">
-                                    <label id="lblSalida" style="padding-left: 10px; margin-right: 2px;"></label>
-                                    <span class="label label-success" id="f_salidaM"></span>
-                                </div>
-                            </div>
-                            <div class="row" id="calPa" style="margin-top: 6px; margin-bottom: 10px;">
-                                <div class="col-md-5" style="padding-top: 7px;">Fecha Proxima Programada</div>
-                                <div class="col-md-7">
-                                    <div class="input-group date" id="dpRetiro" data-toggle="tooltip" data-placement="top" data-original-title="Doble clic fecha a seleccionar">
-                                        <input type="text" class="form-control" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="alert alert-info" role="alert" style="background-color: #d3d3d3; border-color: #ababab; color: #060606;">
-                                <p>
-                                    Tarjas Asociadas<span class="badgeV" id="to_Tarjas"></span>:<span class="label label-default" id="d_tarjas" style="font-weight: normal; margin-left: 5px; padding-left: 2px; border-radius: 10px; padding: 7px; background-color: #6495ed; color: #fff;"></span>
-                                </p>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table" id="myTableModal">
-                                </table>
-                            </div>
-                            <div class="alert alert-info" role="alert">
-                                <p>
-                                    Los cálculos aquí plasmados, son con base a fecha de recepción del contenedor y
-                                   fecha de salida si la posee, si no se usa la fecha actual. <span class="label label-warning" id="f_leyenda" style="font-weight: normal; margin-left: -4px; padding-left: 2px;"></span><span class="label label-warning" id="f_proxima" style="margin-left: -6px; padding-left: 2px;"></span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <h4 class="modal-title">¿Se encuentra solvente con PNC-DAN, UCC y ADUANA ?</h4>
-                            <br />
-                            <span id="MensajeModal" style="font-weight: bold; padding: 4px; line-height: 1.5em;"></span>
-                        </div>
-                        <div class="form-group">
-                            <h4 class="modal-title">¿El retiro del contenedor se encuentra autorizado por ADUANA?</h4>
-                            <br />
-                            <span id="mensajeADUANA" style="font-weight: bold; padding: 8px;"></span>
-                            <%--<button type="button" class="btn btn-primary" id="btnDetalle" onclick="VerDetalle()">
-                                Detalle</button>--%>
-                            <%--<button class="btn btn-default" data-toggle="modal" href="#stack2">Launch modal</button>--%>
-                        </div>
-                        <div class="form-group" style="line-height: 1.4;">
-                            <div class="alert alert-danger" role="alert">
-                                <p>
-                                    Por favor retirar su contenedor, tan pronto le sea cargado caso contrario podrán generarse 
-                                    cargos por parqueo dentro del recinto a razón de $4.43 + IVA por hora de permanencia
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="myOK">
-                        Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal HTML -->
-
-
-    <!--Modal Declaraciones -->
-
-    <div id="stack2" class="modal fade" tabindex="-1" data-focus-on="input:first" style="display: none;">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">Stack Two</h4>
-        </div>
-        <div class="modal-body">
-            <div role="form">
-
-                <div class="form-group" style="line-height: 1.4;">
-                    <div class="table-responsive">
-                        <table class="table" id="myDecla">
-                            <tr>
-                                <th>Estado</th>
-                                <th>Tipo Documento</th>
-                                <th># Documento</th>
-                            </tr>
-                            <tr>
-                                <td>Jill</td>
-                                <td>Smith</td>
-                                <td>50</td>
-                            </tr>
-                            <tr>
-                                <td>Eve</td>
-                                <td>Jackson</td>
-                                <td>94</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" data-dismiss="modal" class="btn btn-default">Cerrar</button>
-            <button type="button" class="btn btn-primary">Ok</button>
-        </div>
-
-    </div>
-    <!-- Modal Declaraciones -->
-
+    <hr />  
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
     <script type="text/javascript" src="<%= ResolveUrl("~/Scripts/jquery.blockui.js") %>"></script>
@@ -630,7 +495,7 @@
                 var a = postbackElement;
 
                 $('#ContentPlaceHolder1_grvTracking').footable();
-                $("#ContentPlaceHolder1_grvTracking tbody > tr#rowF").css("display", "none");
+                //$("#ContentPlaceHolder1_grvTracking tbody > tr#rowF").css("display", "none");
 
                 var a = Sys.WebForms.PageRequestManager.getInstance().get_isInAsyncPostBack();
                 if (!Sys.WebForms.PageRequestManager.getInstance().get_isInAsyncPostBack()) {
@@ -642,7 +507,7 @@
                     //pageLoad();
                     //$("#GridView1").load(location.href + " #GridView1");
                     $('#ContentPlaceHolder1_grvTracking').footable();
-                    $("#ContentPlaceHolder1_grvTracking tbody > tr#rowF").css("display", "none");
+                    //$("#ContentPlaceHolder1_grvTracking tbody > tr#rowF").css("display", "none");
                 }
 
                 $.unblockUI();
@@ -701,13 +566,13 @@
             var contenedor = row.cells[3].innerHTML;
             var c_tarja = row.cells[4].innerHTML;
             var url = 'llegada=' + c_llegada + '&contenedor=' + contenedor
-            
+
             if (c_tarja != "&nbsp;")
-                window.open('wfConsulBL.aspx?' + url, '_blank');
+                window.open('wfConsulBLNvo.aspx?' + url, '_blank');
             else
                 bootbox.alert("CEPA - Contenedores: no puede proceder porque no se posee tarja vuelva intentar mas tarde.")
         }
-       
+
 
         function goDecla(lnk) {
             var row = lnk.parentNode.parentNode;
@@ -1518,7 +1383,7 @@
                             confirmed = true;
                             //controlToClick.click();
                             var contenedor = document.getElementById('<%= txtBuscar.ClientID %>').value;
-                            var url = 'contenedor=' + contenedor; 
+                            var url = 'contenedor=' + contenedor;
                             window.open('wfConsulDecla.aspx?' + url, 'popup');
                             confirmed = false;
                         }
@@ -1578,10 +1443,10 @@
 
                 $('#<%=grvTracking.ClientID %> img').click(function () {
 
-                    var img = $(this)
-                    var idDeta = $(this).attr('iddeta');
+                     var img = $(this)
+                     var idDeta = $(this).attr('iddeta');
 
-                    var tr = $('#<%=grvTracking.ClientID %> tr[iddeta =' + idDeta + ']')
+                     var tr = $('#<%=grvTracking.ClientID %> tr[iddeta =' + idDeta + ']')
                     tr.toggle();
 
 
@@ -1611,11 +1476,11 @@
 
                 CalculosTabla();
 
-                $('#<%=grvTracking.ClientID %> button').tooltip();
+                 $('#<%=grvTracking.ClientID %> button').tooltip();
 
-                $('#dpRetiro').tooltip();
+                 $('#dpRetiro').tooltip();
 
-            });
+             });
         }
     </script>
 </asp:Content>

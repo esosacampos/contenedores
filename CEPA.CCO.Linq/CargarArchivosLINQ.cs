@@ -39,6 +39,12 @@ namespace CEPA.CCO.Linq
 
         public int c_sidunea { get; set; }
         public int c_booking { get; set; }
+
+        public string c_naviera { get; set; }
+
+        public string c_iso_navi { get; set; }
+
+        public string c_navi_corto { get; set; }
         #endregion
 
         public void AlmacenaCarga()
@@ -49,6 +55,12 @@ namespace CEPA.CCO.Linq
             int _resulDeta = 0;
             //int Correlativo = 0;
             //string anum_manif = null;
+
+            foreach (var itemNav in EncaNavieraDAL.GetNavieras(DBComun.Estado.verdadero).Where(a => a.c_naviera == c_naviera))
+            {
+                c_navi_corto = itemNav.d_naviera_p;
+                break;
+            }
 
             if (sustitucion == 1)
             {
@@ -76,7 +88,7 @@ namespace CEPA.CCO.Linq
 
             if (sustitucion == 0)
             {
-                int _exis = Convert.ToInt32(DetaDocDAL.ArchivosExistentes(c_imo, c_llegada, HttpContext.Current.Session["c_naviera"].ToString(), HttpContext.Current.Session["archivo"].ToString()));
+                int _exis = Convert.ToInt32(DetaDocDAL.ArchivosExistentes(c_imo, c_llegada, c_naviera, HttpContext.Current.Session["archivo"].ToString()));
 
                 if (_exis > 0)
                 {
@@ -126,11 +138,11 @@ namespace CEPA.CCO.Linq
 
             //Verificar archivos almacenados.
 
-            int _arch = Convert.ToInt32(DetaDocDAL.ArchivosAlmacenados(c_imo, c_llegada, HttpContext.Current.Session["c_naviera"].ToString()));
+            int _arch = Convert.ToInt32(DetaDocDAL.ArchivosAlmacenados(c_imo, c_llegada, c_naviera));
 
             if (_arch > 0)
             {
-                IdRegEnca = Convert.ToInt32(EncaNavieraDAL.ObtenerIdReg(c_imo, c_llegada, HttpContext.Current.Session["c_naviera"].ToString()));
+                IdRegEnca = Convert.ToInt32(EncaNavieraDAL.ObtenerIdReg(c_imo, c_llegada, c_naviera));
             }
 
             if (sustitucion == 1)
@@ -343,7 +355,7 @@ namespace CEPA.CCO.Linq
 
                 if (nombre.Trim().Substring(17 + d_buque.Length, 2) == "01")
                 {
-                    _resultadoV = ArchivoExcelDAL.ValidarViajeC(DBComun.Estado.verdadero, c_imoVa, cn_voyage, HttpContext.Current.Session["c_naviera"].ToString());
+                    _resultadoV = ArchivoExcelDAL.ValidarViajeC(DBComun.Estado.verdadero, c_imoVa, cn_voyage, c_naviera);
                     if (_resultadoV != "NULL" || _resultadoV == "Error")
                     {
                         throw new Exception("ESTE IMO YA PRESENTO ESTE NÚMERO DE VIAJE");
@@ -514,15 +526,15 @@ namespace CEPA.CCO.Linq
 
                     if (sustitucion == 0)
                     {
-                        _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA: DENEGADA Listado de Importación de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, manif);
+                        _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA: DENEGADA Listado de IMPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, d_buque, cn_voyage, manif);
                     }
                     else
                     {
-                        _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): DENEGADA Listado de Importación Buque: {0}, # de Viaje {1}, Manifiesto de Aduana # {2}", d_buque, cn_voyage, manif);
+                        _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): DENEGADA Listado de IMPORTACIÓN Buque: {0}, # de Viaje {1}, Manifiesto de Aduana # {2}", d_buque, cn_voyage, manif);
                     }
 
-                    _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-                    List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                    _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
+                    List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
 
                     if (_listaCC == null)
                     {
@@ -582,7 +594,7 @@ namespace CEPA.CCO.Linq
                                 IdReg = -1,
                                 c_imo = c_imo,
                                 c_usuario = HttpContext.Current.Session["c_usuario"].ToString(),
-                                c_naviera = HttpContext.Current.Session["c_naviera"].ToString(),
+                                c_naviera = c_naviera,
                                 c_llegada = c_llegada,
                                 c_voyage = cn_voyage,
                                 f_llegada = Convert.ToDateTime(f_llegada.ToString("dd/MM/yyyy hh:mm tt")),
@@ -682,7 +694,7 @@ namespace CEPA.CCO.Linq
                         Html += "<b><u>DETALLE DE CARGA DE LISTADO</b></u><br />";
                         Html += "<br /> Módulo : Carga de listado de contenedores de importación <br />";
                         Html += "Mensaje : Notificación carga de listado exitosa <br /><br />";
-                        Html += string.Format("Se notifica que la carga del archivo de importación, de {0} para el buque: {1}, # de Viaje {2}, Manifiesto de Aduana #{3}, se validaron {4} contenedores de forma exitosa sin presentar inconsistencias", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, Convert.ToInt32(manif), _listaDeta.Count);
+                        Html += string.Format("Se notifica que la carga del archivo de importación, de {0} para el buque: {1}, # de Viaje {2}, Manifiesto de Aduana #{3}, se validaron {4} contenedores de forma exitosa sin presentar inconsistencias", c_navi_corto, d_buque, cn_voyage, Convert.ToInt32(manif), _listaDeta.Count);
                         Html += "<br /><br />";
                         Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
                         Html += "<font color=blue> En espera de validación de ADUANA </font>";
@@ -691,9 +703,9 @@ namespace CEPA.CCO.Linq
 
 
                         //_correo.Subject = string.Format("Importación de Archivo Buque {0} Número de Viaje {1}", d_buque, cn_voyage);
-                        _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA: ACEPTADA Listado de Importación de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, Convert.ToInt32(manif));
-                        _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-                        List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                        _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA: ACEPTADA Listado de IMPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, d_buque, cn_voyage, Convert.ToInt32(manif));
+                        _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
+                        List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
 
                         if (_listaCC == null)
                         {
@@ -728,7 +740,7 @@ namespace CEPA.CCO.Linq
                     {
                         int IdDoc = 0;
                         int IdReg = 0;
-                        List<DetaDoc> listaDoc = DetaDocDAL.ObtenerDocA(DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString(), c_llegada, arch_susti);
+                        List<DetaDoc> listaDoc = DetaDocDAL.ObtenerDocA(DBComun.Estado.verdadero, c_naviera, c_llegada, arch_susti);
 
                         if (listaDoc.Count == 1)
                         {
@@ -818,7 +830,7 @@ namespace CEPA.CCO.Linq
                                     Html += "<b><u>DETALLE DE CARGA DE LISTADO POR SUSTITUCIÓN</b></u><br />";
                                     Html += "<br /> Módulo : Carga de listado de contenedores de importación por sustitución <br />";
                                     Html += "Mensaje : Notificación carga de listado por sustitución exitosa <br /><br />";
-                                    Html += string.Format("Se notifica que la carga del archivo de importación, de {0} para el buque: {1}, # de Viaje {2}, Manifiesto de Aduana #{3}, se validaron {4} contenedores de forma exitosa sin presentar inconsistencias", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, Convert.ToInt32(manif), _listaDeta.Count);
+                                    Html += string.Format("Se notifica que la carga del archivo de importación, de {0} para el buque: {1}, # de Viaje {2}, Manifiesto de Aduana #{3}, se validaron {4} contenedores de forma exitosa sin presentar inconsistencias", c_navi_corto, d_buque, cn_voyage, Convert.ToInt32(manif), _listaDeta.Count);
 
 
                                     Html += "<br /><br />";
@@ -827,10 +839,10 @@ namespace CEPA.CCO.Linq
 
                                     Html += "</font>";
                                     //_correo.Subject = string.Format("Importación de Archivo Buque {0} Número de Viaje {1}", d_buque, cn_voyage);
-                                    _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): ACEPTADA Listado de Importación de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, Convert.ToInt32(manif));
-                                    _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                                    _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): ACEPTADA Listado de IMPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, d_buque, cn_voyage, Convert.ToInt32(manif));
+                                    _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
 
-                                    List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                                    List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
 
                                     if (_listaCC == null)
                                     {
@@ -884,7 +896,7 @@ namespace CEPA.CCO.Linq
                     Html += "<b><u>DETALLE DE CARGA DE LISTADO DENEGADO</b></u><br />";
                     Html += "<br /> Módulo : Carga de listado de contenedores de importación <br />";
                     Html += "Mensaje : Notificación carga de listado denegada <br /><br />";
-                    Html += string.Format("Se notifica que la carga del archivo de importación, de {0} para el buque: {1}, # de Viaje {2}, Manifiesto de Aduana #{3} ha sido rechazado por las inconsistencias detalladas en el presente", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, Convert.ToInt32(manif));
+                    Html += string.Format("Se notifica que la carga del archivo de importación, de {0} para el buque: {1}, # de Viaje {2}, Manifiesto de Aduana #{3} ha sido rechazado por las inconsistencias detalladas en el presente", c_navi_corto, d_buque, cn_voyage, Convert.ToInt32(manif));
 
                     Html += "</font>";
                     Html += "<br /><br />";
@@ -893,9 +905,9 @@ namespace CEPA.CCO.Linq
 
 
 
-                    _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA: DENEGADA Listado de Importación Buque: {0}, # de Viaje {1}, Manifiesto de Aduana # {2}", d_buque, cn_voyage, Convert.ToInt32(manif));
-                    _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-                    _correo.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                    _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA: DENEGADA Listado de IMPORTACIÓN Buque: {0}, # de Viaje {1}, Manifiesto de Aduana # {2}", d_buque, cn_voyage, Convert.ToInt32(manif));
+                    _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
+                    _correo.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
 
                     //Notificaciones _notiCC = new Notificaciones
                     //{
@@ -923,7 +935,7 @@ namespace CEPA.CCO.Linq
                     Html += "<b><u>DETALLE DE CARGA DE LISTADO POR SUSTITUCIÓN DENEGADO</b></u><br />";
                     Html += "<br /> Módulo : Carga de listado de contenedores de importación por sustitución de archivo <br />";
                     Html += "Mensaje : Notificación carga de listado por sustitución denegada <br /><br />";
-                    Html += string.Format("Se notifica que la carga del archivo de importación por sustitución, de {0} para el buque: {1}, # de Viaje {2}, Manifiesto de Aduana #{3} ha sido rechazado por las inconsistencias detalladas en el presente", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, Convert.ToInt32(manif));
+                    Html += string.Format("Se notifica que la carga del archivo de importación por sustitución, de {0} para el buque: {1}, # de Viaje {2}, Manifiesto de Aduana #{3} ha sido rechazado por las inconsistencias detalladas en el presente", c_navi_corto, d_buque, cn_voyage, Convert.ToInt32(manif));
 
                     Html += "</font>";
 
@@ -931,9 +943,9 @@ namespace CEPA.CCO.Linq
                     Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
                     Html += "<font color=red>En espera de correcciones por la Naviera </font>";
 
-                    _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): DENEGADA Listado de Importación Buque: {0}, # de Viaje {1}, Manifiesto de Aduana # {2}", d_buque, cn_voyage, Convert.ToInt32(manif));
-                    _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-                    List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                    _correo.Subject = _correo.Subject = string.Format("PASO 2 de 4: Validación CEPA (SUSTITUCIÓN): DENEGADA Listado de IMPORTACIÓN Buque: {0}, # de Viaje {1}, Manifiesto de Aduana # {2}", d_buque, cn_voyage, Convert.ToInt32(manif));
+                    _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
+                    List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
 
                     //Notificaciones _notiCC = new Notificaciones
                     //{
@@ -973,7 +985,7 @@ namespace CEPA.CCO.Linq
             Html1 = "<dir style=\"font-family: 'Arial'; font-size: 12px; line-height: 1.2em\">";
             Html1 += "<br />MÓDULO : RECEPCIÓN DE LISTADO DE IMPORTACIÓN POR SUSTITUCIÓN <br />";
             Html1 += "TIPO DE MENSAJE : NOTIFICACIÓN RECEPCIÓN DE ARCHIVO POR SUSTITUCIÓN <br /><br />";
-            Html1 += string.Format("Se notifica que la recepción del archivo de importación por sustitución, de {0} para el buque {1}, número de Viaje {2} y manifiesto de ADUANA # {3}, en la cual solicitan la sustitución del archivo {4}, y queda en espera de resultados de validación", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, n_manifiesto, arch_susti);
+            Html1 += string.Format("Se notifica que la recepción del archivo de importación por sustitución, de {0} para el buque {1}, número de Viaje {2} y manifiesto de ADUANA # {3}, en la cual solicitan la sustitución del archivo {4}, y queda en espera de resultados de validación", c_navi_corto, d_buque, cn_voyage, n_manifiesto, arch_susti);
 
 
             Html1 += "<br /><br />";
@@ -982,9 +994,9 @@ namespace CEPA.CCO.Linq
 
             //_correo.Subject = string.Format("Importación de Archivo Buque {0} Número de Viaje {1}", d_buque, cn_voyage);
 
-            _correo1.Subject = string.Format("PASO 1 de 4: Recepción CEPA: Listado de Importación por SUSTITUCIÓN de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, n_manifiesto);
-            _correo1.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-            _correo1.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+            _correo1.Subject = string.Format("PASO 1 de 4: Recepción CEPA: Listado de IMPORTACIÓN por SUSTITUCIÓN de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, d_buque, cn_voyage, n_manifiesto);
+            _correo1.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
+            _correo1.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
 
             //Notificaciones _notiCC = new Notificaciones
             //{
@@ -1011,16 +1023,16 @@ namespace CEPA.CCO.Linq
             Html1 = "<dir style=\"font-family: 'Arial'; font-size: 12px; line-height: 1.2em\">";
             Html1 += "<br />MÓDULO : RECEPCIÓN DE LISTADO DE IMPORTACIÓN <br />";
             Html1 += "TIPO DE MENSAJE : NOTIFICACIÓN RECEPCIÓN DE ARCHIVO <br /><br />";
-            Html1 += string.Format("Se notifica que la recepción del archivo de importación, de {0} para el buque {1}, número de Viaje {2} y manifiesto de ADUANA # {3} ha sido recibido y queda en espera de resultados de validación", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, manif);
+            Html1 += string.Format("Se notifica que la recepción del archivo de importación, de {0} para el buque {1}, número de Viaje {2} y manifiesto de ADUANA # {3} ha sido recibido y queda en espera de resultados de validación", c_navi_corto, d_buque, cn_voyage, manif);
             Html1 += "<br /><br />";
             Html1 += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
             Html1 += "<font color=blue> En espera de validación de CEPA </font>";
 
             //_correo.Subject = string.Format("Importación de Archivo Buque {0} Número de Viaje {1}", d_buque, cn_voyage);
 
-            _correo1.Subject = string.Format("PASO 1 de 4: Recepción CEPA: Listado de Importación de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", HttpContext.Current.Session["c_navi_corto"].ToString(), d_buque, cn_voyage, manif);
-            _correo1.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-            _correo1.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+            _correo1.Subject = string.Format("PASO 1 de 4: Recepción CEPA: Listado de IMPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, d_buque, cn_voyage, manif);
+            _correo1.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
+            _correo1.ListaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
 
             //Notificaciones _notiCC = new Notificaciones
             //{
@@ -1049,7 +1061,7 @@ namespace CEPA.CCO.Linq
             Html1 = "<dir style=\"font-family: 'Arial'; font-size: 12px; line-height: 1.2em\">";
             Html1 += "<br />MÓDULO : RECEPCIÓN DE LISTADO DE BOOKING <br />";
             Html1 += "TIPO DE MENSAJE : NOTIFICACIÓN RECEPCIÓN DE ARCHIVO <br /><br />";
-            Html1 += string.Format("Se notifica que la recepción del listado de bookings de {0}, con fecha de actualización {1} ha sido recibido", HttpContext.Current.Session["c_navi_corto"].ToString(), _fecha.ToString("dd/MM/yyyy HH:mm"));
+            Html1 += string.Format("Se notifica que la recepción del listado de bookings de {0}, con fecha de actualización {1} ha sido recibido", c_navi_corto, _fecha.ToString("dd/MM/yyyy HH:mm"));
             Html1 += "<br /><br />";
             Html1 += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
             Html1 += "<font color=blue> En espera de validación de CEPA </font>";
@@ -1084,7 +1096,10 @@ namespace CEPA.CCO.Linq
 
             Html += "a. Código Internacional de Naviera : " + nombre.TrimStart().Substring(0, 4) + " - ";
 
-            if (HttpContext.Current.Session["c_iso_navi"].ToString().TrimStart() != nombre.TrimStart().Substring(0, 4))
+            if (c_iso_navi == "OOLU")
+                c_iso_navi = "REMU";
+
+            if (c_iso_navi != nombre.TrimStart().Substring(0, 4))
             {
                 Html += "<font color=\"red\">INVALIDO CODIGO INCORRECTO</font><br />";
                 ErrorNombre = true;
@@ -1216,7 +1231,7 @@ namespace CEPA.CCO.Linq
 
             Html += "a. Código Internacional de Naviera : " + nombre.TrimStart().Substring(0, 4) + " - ";
 
-            if (HttpContext.Current.Session["c_iso_navi"].ToString().TrimStart() != nombre.TrimStart().Substring(0, 4))
+            if (c_iso_navi != nombre.TrimStart().Substring(0, 4))
             {
                 Html += "<font color=\"red\">INVALIDO CODIGO INCORRECTO</font><br />";
                 ErrorNombre = true;
@@ -2091,7 +2106,7 @@ namespace CEPA.CCO.Linq
                         Html += "<br /><br />";
                         Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
                         Html += "<font color=red>En espera de correcciones por la Naviera </font>";
-                        _correo.Subject = string.Format("PASO 3 de 4: Validación ADUANA: DENEGADA Listado de Importación de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, d_buque, itemEnca.c_voyage, n_manifiesto);
+                        _correo.Subject = string.Format("PASO 3 de 4: Validación ADUANA: DENEGADA Listado de IMPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, d_buque, itemEnca.c_voyage, n_manifiesto);
                         int resuly = Convert.ToInt32(DetaDocDAL.ActualizarValidacion(0, n_manifiesto, IdRegC, DBComun.Estado.verdadero, IdDocC));
                     }
                     else
@@ -2099,14 +2114,14 @@ namespace CEPA.CCO.Linq
                         Html += "<br /><br />";
                         Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
                         Html += "<font color=blue>En espera autorización de ADUANA </font>";
-                        _correo.Subject = string.Format("PASO 3 de 4: Validación ADUANA: ACEPTADA Listado de Importación de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, d_buque, itemEnca.c_voyage, n_manifiesto);
+                        _correo.Subject = string.Format("PASO 3 de 4: Validación ADUANA: ACEPTADA Listado de IMPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, d_buque, itemEnca.c_voyage, n_manifiesto);
                         int resuly = Convert.ToInt32(DetaDocDAL.ActualizarValidacion(1, n_manifiesto, IdRegC, DBComun.Estado.verdadero, IdDocC));
                     }
 
 
-                    _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-                    _correo.ListaNoti = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
-                    List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, HttpContext.Current.Session["c_naviera"].ToString());
+                    _correo.ListaNoti = NotificacionesDAL.ObtenerNotificaciones("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
+                    _correo.ListaNoti = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
+                    List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCC("b_noti_carga", DBComun.Estado.verdadero, c_naviera);
 
                     if (_listaCC == null)
                     {
@@ -2161,7 +2176,7 @@ namespace CEPA.CCO.Linq
             }
             #endregion
 
-            int _exis = Convert.ToInt32(DetaDocDAL.ArchivosExistentes(c_imo, c_llegada, HttpContext.Current.Session["c_naviera"].ToString(), HttpContext.Current.Session["archivo"].ToString()));
+            int _exis = Convert.ToInt32(DetaDocDAL.ArchivosExistentes(c_imo, c_llegada, c_naviera, HttpContext.Current.Session["archivo"].ToString()));
 
             if (_exis > 0)
             {
@@ -2178,11 +2193,11 @@ namespace CEPA.CCO.Linq
                 break;
             }
 
-            int _arch = Convert.ToInt32(DetaDocDAL.archReestiba(c_imo, c_llegada, HttpContext.Current.Session["c_naviera"].ToString()));
+            int _arch = Convert.ToInt32(DetaDocDAL.archReestiba(c_imo, c_llegada, c_naviera));
 
             if (_arch > 0)
             {
-                IdRegEnca = Convert.ToInt32(EncaNavieraDAL.ObtenerIdReg(c_imo, c_llegada, HttpContext.Current.Session["c_naviera"].ToString()));
+                IdRegEnca = Convert.ToInt32(EncaNavieraDAL.ObtenerIdReg(c_imo, c_llegada, c_naviera));
             }
 
             string c_imoVa = ArchivoExcelDAL.GetImoRe(a, DBComun.Estado.verdadero);

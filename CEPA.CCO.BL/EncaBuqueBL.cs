@@ -19,5 +19,12 @@ namespace CEPA.CCO.BL
         {
             return EncaBuqueDAL.ObtenerBuquesID(pTipo, c_cliente, c_buque, c_llegada);
         }
+
+        public List<EncaBuque> ObtenerBuqueCC(DBComun.Estado pTipo, List<string> c_cliente)
+        {
+            return EncaBuqueDAL.ObtenerBuquesConce(pTipo, c_cliente);
+        }
+
+        
     }
 }

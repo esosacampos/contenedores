@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="mfDefault.aspx.cs" Inherits="CEPA.CCO.MobilConte.mfDefault" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="mfDefault.aspx.cs" Inherits="CEPA.CCO.MobilPatio.mfDefault" %>
 
 <!DOCTYPE html>
 <html lang="es">

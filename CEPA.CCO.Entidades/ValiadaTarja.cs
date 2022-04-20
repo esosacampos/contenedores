@@ -60,5 +60,40 @@ namespace CEPA.CCO.Entidades
         public string b_aduana { get; set; }
         public string b_staduana { get; set; }
 
+        public int c_correlativo { get; set; }
+        public double v_peso { get; set; }
+
+    }
+
+    public class Ubicaciones
+    {
+        public int IdZona { get; set; }
+        public string Zona { get; set; }
+
+        public int Carril { get; set; }
+
+        public int Posicion { get; set; }
+        public int Nivel { get; set; }
+    }
+
+    public class Gruas
+    {
+        public int IdGrua { get; set; }
+        public string Nombre { get; set; }
+    }
+
+    public class Confirmacion
+    {
+        public int IdDeta { get; set; }
+        public int IdZona { get; set; }
+        public int IdGrua { get; set; }
+        public int Carril { get; set; }
+        public int Posicion { get; set; }
+        public int Nivel { get; set; }
+        public int v_tara { get; set; }
+        public int c_marcacion { get; set; }
+        public string s_condicion { get; set; }
+        public int b_sobredimensionado { get; set; }
+
     }
 }

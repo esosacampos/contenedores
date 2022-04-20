@@ -211,7 +211,7 @@ namespace CEPA.CCO.AduanaService
 
             try
             {
-               TransmisionAuto();
+                TransmisionAuto();
             }
             catch (Exception ex)
             {
@@ -336,6 +336,31 @@ namespace CEPA.CCO.AduanaService
                     tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ERROR: NO SE PUEDE EJECUTAR LIBERACION DAN (" + ex.Message + ")");
                 }
                 EnvioServicio("MODULO LIBERACION DE CONTENEDORES:<br/><br/>Detalle Error : <br/>" + _cadena, "SERVICIO DE ADUANA ERROR");
+
+                GeneAutExp();
+            }
+
+            try
+            {
+                GeneAutExp();
+            }
+            catch (Exception ex)
+            {
+
+                string detalleExcep;
+
+                string Mensaje;
+
+                string tipoExcepcion;
+                getExcepcion(ex, out detalleExcep, out Mensaje, out tipoExcepcion);
+
+                string _cadena = "<b>MENSAJE: </b>" + Mensaje + "<br/>" + "<b>TIPO EXCEPCION: </b>" + tipoExcepcion + "<br/>" + "<b>DETALLE ERROR: </b>" + detalleExcep;
+
+                using (StreamWriter tw = new StreamWriter(Archivo, true))
+                {
+                    tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ERROR: NO SE PUEDE EJECUTAR GENERACION LISTADO PREVIO EXPORT  (" + ex.Message + ")");
+                }
+                EnvioServicio("MODULO GENERACION DE LISTADO PREVIO CONTENEDORES EXPORTACION:<br/><br/>Detalle Error : <br/>" + _cadena, "SERVICIO DE ADUANA ERROR");
 
                 Stop();
                 return;
@@ -611,7 +636,7 @@ namespace CEPA.CCO.AduanaService
                                         int pAduana = 0;
                                         foreach (EncaNaviera pIncoC in pEnca)
                                         {
-                                            
+
                                             List<ContenedoresAduana> pListaNoAduana = ResulNavieraDAL.ObtenerAutorizadosNOADUANA(DBComun.Estado.falso, iPendiente.num_manif, pIncoC.c_naviera, Convert.ToInt32(iPendiente.a_manifiesto));
 
                                             if (pListaNoAduana.Count > 0)
@@ -629,7 +654,7 @@ namespace CEPA.CCO.AduanaService
                                                 pAduana += 1;
                                             }
 
-                                           
+
                                             // Inconsistencias Peso
                                             List<ContenedoresAduana> pListaNoWight = ResulNavieraDAL.ObtenerAutorizadosNOWEIGTH(DBComun.Estado.falso, iPendiente.num_manif, pIncoC.c_naviera, Convert.ToInt32(iPendiente.a_manifiesto));
 
@@ -648,7 +673,7 @@ namespace CEPA.CCO.AduanaService
                                                 pAduana += 1;
                                             }
 
-                                         
+
                                             // Inconsistencias Shipper
                                             List<ContenedoresAduana> pListaShipper = ResulNavieraDAL.ObtenerAutorizadosSHIPPER(DBComun.Estado.falso, iPendiente.num_manif, pIncoC.c_naviera, Convert.ToInt32(iPendiente.a_manifiesto));
 
@@ -680,7 +705,7 @@ namespace CEPA.CCO.AduanaService
                                         }
                                         else
                                         {
-                                            pRespuesta.Add("NO EXISTEN INCONSISTENCIAS DIFERENTES QUE VALIDAR EN: # MANIFIESTO: " + iPendiente.a_manifiesto + "-"+ iPendiente.num_manif );
+                                            pRespuesta.Add("NO EXISTEN INCONSISTENCIAS DIFERENTES QUE VALIDAR EN: # MANIFIESTO: " + iPendiente.a_manifiesto + "-" + iPendiente.num_manif);
                                         }
 
 
@@ -815,7 +840,9 @@ namespace CEPA.CCO.AduanaService
                                 b_requiere = item.b_req_tarja,
                                 n_BL = item.n_BL,
                                 n_manifiesto = item.num_manif.ToString(),
-                                a_manifiesto = item.a_manifiesto
+                                a_manifiesto = item.a_manifiesto,
+                                b_ret_dir = item.b_ret_dir,
+                                b_transhipment = item.b_transferencia
                             };
 
                             string resultado = DetaNavieraDAL.SADFI_BL(pDeta, DBComun.Estado.falso);
@@ -1155,7 +1182,7 @@ namespace CEPA.CCO.AduanaService
                             Html += "<br /><br />";
                             Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
                             Html += "<font color=red>En espera de correcciones por la Naviera </font>";
-                            _correo.Subject = string.Format("PASO 3 de 4: Validación ADUANA: DENEGADA Listado de Importación de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, iPendiente.d_buque, itemEnca.c_voyage, iPendiente.num_manif);
+                            _correo.Subject = string.Format("PASO 3 de 4: Validación ADUANA: DENEGADA Listado de IMPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, iPendiente.d_buque, itemEnca.c_voyage, iPendiente.num_manif);
                             int resuly = Convert.ToInt32(DetaDocDAL.ActualizarValidacion(0, iPendiente.num_manif, (int)iPendiente.IdReg, DBComun.Estado.falso, iPendiente.IdDoc));
                             pRespuesta.Add(string.Format("PASO 3 de 4: Validación ADUANA: DENEGADA Listado de Importación de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, iPendiente.d_buque, itemEnca.c_voyage, iPendiente.num_manif));
                         }
@@ -1164,7 +1191,7 @@ namespace CEPA.CCO.AduanaService
                             Html += "<br /><br />";
                             Html += "<font style=\"color:#1F497D;\"><b> SIGUIENTE PASO: </b></font><br />";
                             Html += "<font color=blue>En espera autorización de ADUANA </font>";
-                            _correo.Subject = string.Format("PASO 3 de 4: Validación ADUANA: ACEPTADA Listado de Importación de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, iPendiente.d_buque, itemEnca.c_voyage, iPendiente.num_manif);
+                            _correo.Subject = string.Format("PASO 3 de 4: Validación ADUANA: ACEPTADA Listado de IMPORTACIÓN de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, iPendiente.d_buque, itemEnca.c_voyage, iPendiente.num_manif);
                             int resuly = Convert.ToInt32(DetaDocDAL.ActualizarValidacion(1, iPendiente.num_manif, (int)iPendiente.IdReg, DBComun.Estado.falso, iPendiente.IdDoc));
                             pRespuesta.Add(string.Format("PASO 3 de 4: Validación ADUANA: ACEPTADA Listado de Importación de {0} para el Buque: {1}, # de Viaje {2}, Manifiesto de Aduana # {3}", c_navi_corto, iPendiente.d_buque, itemEnca.c_voyage, iPendiente.num_manif));
                             mAuto = true;
@@ -1349,20 +1376,20 @@ namespace CEPA.CCO.AduanaService
                             _Aduana = Encoding.UTF8.GetString(memoryStream.ToArray());
                             b_sid = item.b_sidunea;
 
-                            int sadfi_res = Convert.ToInt32(DetaNavieraDAL.ActSADFI_AMP(_pListM, DBComun.Estado.falso, item.contenedor, item.c_llegada, item.IdDeta, item.f_rpatio));
+                            int sadfi_res = Convert.ToInt32(DetaNavieraDAL.ActSADFI_AMP(_pListM, DBComun.Estado.falso, item.contenedor.Replace("#", ""), item.c_llegada, item.IdDeta, item.f_rpatio));
 
                             if (sadfi_res == 0)
                             {
                                 using (StreamWriter tw = new StreamWriter(Archivo, true))
                                 {
-                                    tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ACTUALIZACION SADFI IdDeta #: " + item.IdDeta + " # Contenedor: " + item.contenedor);
+                                    tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ACTUALIZACION SADFI IdDeta #: " + item.IdDeta + " # Contenedor: " + item.contenedor.Replace("#", ""));
                                 }
                             }
                             else
                             {
                                 using (StreamWriter tw = new StreamWriter(Archivo, true))
                                 {
-                                    tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ACTUALIZACION INCORRECTA SADFI IdDeta #: " + item.IdDeta + " # Contenedor: " + item.contenedor);
+                                    tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ACTUALIZACION INCORRECTA SADFI IdDeta #: " + item.IdDeta + " # Contenedor: " + item.contenedor.Replace("#", ""));
                                 }
                             }
 
@@ -1385,14 +1412,14 @@ namespace CEPA.CCO.AduanaService
                                 {
                                     using (StreamWriter tw = new StreamWriter(Archivo, true))
                                     {
-                                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ACTUALIZACION COARRI IdDeta #: " + item.IdDeta + " # Contenedor: " + item.contenedor);
+                                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ACTUALIZACION COARRI IdDeta #: " + item.IdDeta + " # Contenedor: " + item.contenedor.Replace("#", ""));
                                     }
                                 }
                                 else
                                 {
                                     using (StreamWriter tw = new StreamWriter(Archivo, true))
                                     {
-                                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ACTUALIZACION COARRI INCORRECTA IdDeta #: " + item.IdDeta + " # Contenedor: " + item.contenedor + "BD NO ACTUALIZADA");
+                                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ACTUALIZACION COARRI INCORRECTA IdDeta #: " + item.IdDeta + " # Contenedor: " + item.contenedor.Replace("#", "") + " BD NO ACTUALIZADA");
                                     }
                                 }
                             }
@@ -1400,12 +1427,12 @@ namespace CEPA.CCO.AduanaService
                             {
                                 using (StreamWriter tw = new StreamWriter(Archivo, true))
                                 {
-                                    tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ACTUALIZACION COARRI INCORRECTA IdDeta #: " + item.IdDeta + " # Contenedor: " + item.contenedor + "LOG ERROR: " + respuesta);
+                                    tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": ACTUALIZACION COARRI INCORRECTA IdDeta #: " + item.IdDeta + " # Contenedor: " + item.contenedor.Replace("#", "") + " LOG ERROR: " + respuesta);
                                 }
                             }
-                           
-                           
-                         
+
+
+
 
                             if (item.b_sidunea == 0)
                             {
@@ -1875,6 +1902,8 @@ namespace CEPA.CCO.AduanaService
                         List<CorteCOTECNA> pBuquesCorte = new List<CorteCOTECNA>();
                         List<CorteCOTECNA> pCorteConte = new List<CorteCOTECNA>();
 
+                        List<CorteCOTECNA> pLstExp = new List<CorteCOTECNA>();
+
                         pCortePendiente = CorteCOTECNADAL.CorteLlegadas(DBComun.Estado.falso, item.c_llegada);
 
 
@@ -1910,7 +1939,7 @@ namespace CEPA.CCO.AduanaService
 
                             if (query.Count > 0)
                             {
-                                int c_total = 0, c_dan = 0, c_dga = 0;
+                                int c_total = 0, c_dan = 0, c_dga = 0, c_ed = 0, c_pc = 0;
                                 string cb_llegada = null, cb_nul = null;
 
                                 EnvioCorreo _correo = new EnvioCorreo();
@@ -1924,15 +1953,32 @@ namespace CEPA.CCO.AduanaService
                                     break;
                                 }
 
+                                pLstExp = CorteCOTECNADAL.CorteLlegadasExp(DBComun.Estado.falso, item.c_llegada);
+
+                                List<CorteCOTECNA> queryExp = (from a in pLstExp
+                                                               join b in pBuquesCorte on new { c_llegada = a.c_llegada, c_cliente = a.c_cliente } equals new { c_llegada = b.c_llegada, c_cliente = b.c_cliente }
+                                                               where a.c_llegada == item.c_llegada && b.f_atraque != null
+                                                               select new CorteCOTECNA
+                                                               {
+                                                                   c_nul = b.c_nul,
+                                                                   c_llegada = a.c_llegada,
+                                                                   c_cliente = a.c_cliente,
+                                                                   d_buque = b.d_buque,
+                                                                   d_cliente = b.d_cliente + " - " + a.c_prefijo,
+                                                                   t_contenedores = a.t_contenedores,
+                                                                   t_ed = a.t_ed,
+                                                                   t_pc = a.t_pc
+                                                               }).ToList();
+
                                 Html = "<dir style=\"font-family: 'Arial'; font-size: 12px; line-height: 1.2em\">";
 
-                                Html += "MÓDULO : LISTADO DE CONTENEDORES DE IMPORTACION AUTORIZADOS POR BUQUE <br />";
-                                Html += "TIPO DE MENSAJE : NOTIFICACIÓN DE CONTENEDORES DE IMPORTACION AUTORIZADOS POR BUQUE <br /><br />";
+                                Html += "MÓDULO : LISTADO DE CONTENEDORES AUTORIZADOS POR BUQUE <br />";
+                                Html += "TIPO DE MENSAJE : NOTIFICACIÓN DE CONTENEDORES AUTORIZADOS POR BUQUE <br /><br />";
 
-                                Html += string.Format("Estimados, se presenta a continuacion el informe de contenedores de importación autorizados por manifiesto y naviera, procedentes del barco <b>{0}</b>:", barco);
+                                Html += string.Format("Estimados, se presenta a continuacion el informe de contenedores autorizados por manifiesto y naviera, procedentes del barco <b>{0}</b>:", barco);
                                 Html += "<br/><br/>";
 
-                                Html += "<b><u>RESUMEN</b></u><br />";
+                                Html += "<b><u>RESUMEN IMPORTACION</b></u><br />";
                                 Html += "<br />";
 
                                 Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1em;width: 100%;border: thin solid #4F81BD; border-collapse: separate; border-spacing:0px; \">";
@@ -1941,8 +1987,7 @@ namespace CEPA.CCO.AduanaService
                                 Html += "<td width=\"10%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>MANIFIESTO</font></th>";
                                 Html += "<td width=\"40%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>NAVIERA</font></th>";
                                 Html += "<td width=\"15%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TOTAL CONTENEDORES</font></th>";
-                                Html += "<td width=\"15%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TOTAL R. DAN</font></th>";
-                                Html += "<td width=\"15%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TOTAL S. DGA</font></th>";
+                                Html += "<td width=\"15%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TOTAL R. DAN</font></th>";                                
                                 Html += "</center>";
                                 Html += "</tr>";
 
@@ -1952,27 +1997,68 @@ namespace CEPA.CCO.AduanaService
                                     Html += "<td height=\"25\"><font size=2 color=blue>" + ritem.n_manifiesto + "</font></td>";
                                     Html += "<td height=\"25\"><font size=2 color=blue>" + ritem.d_cliente + "</font></td>";
                                     Html += "<td height=\"25\"><font size=2 color=blue>" + ritem.t_contenedores.ToString() + "</font></td>";
-                                    Html += "<td height=\"25\"><font size=2 color=blue>" + ritem.t_dan.ToString() + "</font></td>";
-                                    Html += "<td height=\"25\"><font size=2 color=blue>" + ritem.t_dga.ToString() + "</font></td>";
+                                    Html += "<td height=\"25\"><font size=2 color=blue>" + ritem.t_dan.ToString() + "</font></td>";                                    
                                     Html += "</center>";
                                     Html += "</tr>";
                                     c_total = c_total + ritem.t_contenedores;
-                                    c_dan = c_dan + ritem.t_dan;
-                                    c_dga = c_dga + ritem.t_dga;
+                                    c_dan = c_dan + ritem.t_dan;                                    
                                 }
 
                                 Html += "<tr>";
                                 Html += "<center>";
                                 Html += "<td colspan=\"2\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font size=2 color=white>TOTAL</font></td>";
                                 Html += "<td height=\"25\" bgcolor=#1584CE><font size=2 color=white>" + c_total.ToString() + "</font></td>";
-                                Html += "<td height=\"25\" bgcolor=#1584CE><font size=2 color=white>" + c_dan.ToString() + "</font></td>";
-                                Html += "<td height=\"25\" bgcolor=#1584CE><font size=2 color=white>" + c_dga.ToString() + "</font></td>";
+                                Html += "<td height=\"25\" bgcolor=#1584CE><font size=2 color=white>" + c_dan.ToString() + "</font></td>";                                
                                 Html += "</center>";
                                 Html += "</tr>";
                                 Html += "</font></table>";
+                                Html += "<br/><br/>";
 
+                                if (queryExp.Count > 0)
+                                {
+                                    c_total = 0;
+                                    c_dan = 0;
+                                    c_dga = 0;
+                                    Html += "<b><u>RESUMEN EXPORTACION</b></u><br />";
+                                    Html += "<br />";
 
-                                _correo.Subject = string.Format("COTECNA: RESUMEN DE CONTENEDORES DE IMPORTACION AUTORIZADOS PARA EL BUQUE {0} CON FECHA DE ATRAQUE {1}", barco, f_atraque);
+                                    Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1em;width: 100%;border: thin solid #4F81BD; border-collapse: separate; border-spacing:0px; \">";
+                                    Html += "<tr>";
+                                    Html += "<center>";
+                                    Html += "<td width=\"40%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>NAVIERA</font></th>";
+                                    Html += "<td width=\"15%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TOTAL CONTENEDORES</font></th>";
+                                    Html += "<td width=\"15%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TOTAL EMBARQUE DIRECTO</font></th>";
+                                    Html += "<td width=\"15%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TOTAL PATIO CEPA</font></th>";
+                                    Html += "</center>";
+                                    Html += "</tr>";
+
+                                    foreach (var ritEx in queryExp)
+                                    {
+                                        Html += "<center>";
+                                        Html += "<td height=\"25\"><font size=2 color=blue>" + ritEx.d_cliente + "</font></td>";
+                                        Html += "<td height=\"25\"><font size=2 color=blue>" + ritEx.t_contenedores.ToString() + "</font></td>";
+                                        Html += "<td height=\"25\"><font size=2 color=blue>" + ritEx.t_ed.ToString() + "</font></td>";
+                                        Html += "<td height=\"25\"><font size=2 color=blue>" + ritEx.t_pc.ToString() + "</font></td>";
+                                        Html += "</center>";
+                                        Html += "</tr>";
+                                        c_total = c_total + ritEx.t_contenedores;
+                                        c_ed = c_ed + ritEx.t_ed;
+                                        c_pc = c_pc + ritEx.t_pc;
+                                    }
+
+                                    Html += "<tr>";
+                                    Html += "<center>";
+                                    Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font size=2 color=white>TOTAL</font></td>";
+                                    Html += "<td height=\"25\" bgcolor=#1584CE><font size=2 color=white>" + c_total.ToString() + "</font></td>";
+                                    Html += "<td height=\"25\" bgcolor=#1584CE><font size=2 color=white>" + c_ed.ToString() + "</font></td>";
+                                    Html += "<td height=\"25\" bgcolor=#1584CE><font size=2 color=white>" + c_pc.ToString() + "</font></td>";
+                                    Html += "</center>";
+                                    Html += "</tr>";
+                                    Html += "</font></table>";
+                                    Html += "<br/><br/>";
+                                }
+
+                                _correo.Subject = string.Format("COTECNA: RESUMEN DE CONTENEDORES AUTORIZADOS PARA EL BUQUE {0} CON FECHA DE ATRAQUE {1}", barco, f_atraque);
 
                                 //Notificaciones _notiCC = new Notificaciones
                                 //{
@@ -1987,6 +2073,7 @@ namespace CEPA.CCO.AduanaService
                                 //_correo.ListaNoti = _ccList;
 
                                 string act = CorteCOTECNADAL.ActCOTECNA(cb_llegada, cb_nul);
+                                string actExp = CorteCOTECNADAL.ActCOTECNAExp(cb_llegada, cb_nul);
 
                                 if (act != null)
                                 {
@@ -2247,7 +2334,7 @@ namespace CEPA.CCO.AduanaService
         private void liquidBuque()
         {
             List<EncaLiquid> pLiquidPendiente = new List<EncaLiquid>();
-
+            string archivoARI = "";
 
             try
             {
@@ -2265,6 +2352,9 @@ namespace CEPA.CCO.AduanaService
 
                         List<DetaillLiquid> pDetalleLiquid = new List<DetaillLiquid>();
                         List<EncaLiquid> pEncaResumen = new List<EncaLiquid>();
+
+                        List<LiquidADUANA> pResumenLiquidExp = new List<LiquidADUANA>();
+                        List<DetaillLiquid> pDetalleLiquidEx = new List<DetaillLiquid>();
 
                         pEncaLiquid = LiquidAduanaDAL.EncaLiquidADUANA(DBComun.Estado.falso, item.c_llegada);
 
@@ -2315,10 +2405,10 @@ namespace CEPA.CCO.AduanaService
 
                                 Html = "<dir style=\"font-family: 'Arial'; font-size: 12px; line-height: 1.2em\">";
 
-                                Html += "MÓDULO : LISTADO DE CONTENEDORES DE IMPORTACION DESCARGADOS POR BUQUE <br />";
-                                Html += "TIPO DE MENSAJE : NOTIFICACIÓN DE CONTENEDORES DE IMPORTACION DESCARGADOS POR BUQUE <br /><br />";
+                                Html += "MÓDULO : LISTADO DE CONTENEDORES CARGADOS Y DESCARGADOS POR BUQUE <br />";
+                                Html += "TIPO DE MENSAJE : NOTIFICACIÓN DE CONTENEDORES CARGADOS Y DESCARGADOS POR BUQUE <br /><br />";
 
-                                Html += string.Format("Estimados, se presenta a continuacion el informe de contenedores de importación descargados por manifiesto y naviera, procedentes del barco <b>{0}</b>:", _encaItem.n_buque);
+                                Html += string.Format("Estimados, se presenta a continuacion el informe de contenedores cargados y descargados por listados, manifiesto y naviera, procedentes del barco <b>{0}</b>:", _encaItem.n_buque);
                                 Html += "<br/><br/>";
 
                                 Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1em;\">";
@@ -2347,7 +2437,7 @@ namespace CEPA.CCO.AduanaService
                                 Html += "<br />";
 
 
-                                Html += "<b><u>RESUMEN</b></u><br />";
+                                Html += "<b><u>RESUMEN IMPORTACION</b></u><br />";
                                 Html += "<br />";
 
                                 Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1em;width: 100%;border: thin solid #4F81BD; border-collapse: separate; border-spacing:0px; \">";
@@ -2359,6 +2449,8 @@ namespace CEPA.CCO.AduanaService
                                 Html += "<td width=\"15%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>NO RECIBIDOS</font></th>";
                                 Html += "</center>";
                                 Html += "</tr>";
+
+                                pResumenLiquidExp = LiquidAduanaDAL.LiquidResumenExp(DBComun.Estado.falso, item.c_llegada);
 
                                 foreach (var ritem in query)
                                 {
@@ -2442,9 +2534,157 @@ namespace CEPA.CCO.AduanaService
                                     }
                                 }
 
+                                List<LiquidADUANA> queryExp = (from a in pResumenLiquidExp
+                                                               join b in pEncaResumen on new { c_llegada = a.c_llegada, c_cliente = a.c_cliente } equals new { c_llegada = b.c_llegada, c_cliente = b.c_cliente }
+                                                               where a.c_llegada == item.c_llegada && b.f_desatraque != null
+                                                               select new LiquidADUANA
+                                                               {
+                                                                   c_llegada = a.c_llegada,
+                                                                   c_cliente = a.c_cliente,
+                                                                   d_buque = b.n_buque,
+                                                                   d_cliente = b.d_cliente + " - " + a.c_prefijo,                                                                   
+                                                                   t_cargados = a.t_cargados,
+                                                                   t_cancelados = a.t_cancelados,
+                                                                   t_embarcados = a.t_embarcados,
+                                                                   t_ed = a.t_ed,
+                                                                   t_pc = a.t_pc
+                                                               }).ToList();
+
+                                NotiAutorizadosSer _notiAutorizados = new NotiAutorizadosSer();
+                               
+                                if (queryExp.Count > 0)
+                                {
+
+                                    List<ArchivoExport> pLstArivus = new List<ArchivoExport>();
+                                    pLstArivus = DetaNavieraDAL.getLstARIVU(item.c_llegada, DBComun.Estado.falso);
+
+                                    if(pLstArivus.Count() > 0)
+                                    {
+                                        archivoARI = _notiAutorizados.generarARIVUS(pLstArivus, _encaItem);
+                                    }
 
 
-                                _correo.Subject = string.Format("ADUANA: RESUMEN DE CONTENEDORES DE IMPORTACION DESCARGADOS PARA EL BUQUE {0} - NUL # {1} CON FECHA DE DESATRAQUE {2}", _encaItem.n_buque, _encaItem.c_null, _encaItem.s_desatraque);
+                                    int c_cargados = 0, ce_cancelados = 0, c_embarcados = 0, c_ted = 0, c_tpc = 0;
+
+                                    Html += "<b><u>RESUMEN EXPORTACION</b></u><br />";
+                                    Html += "<br />";
+
+                                    Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1em;width: 100%;border: thin solid #4F81BD; border-collapse: separate; border-spacing:0px; \">";
+                                    Html += "<tr>";
+                                    Html += "<center>";
+                                    Html += "<td width=\"45%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>NAVIERA</font></th>";
+                                    Html += "<td width=\"20%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TOTAL CARGADOS</font></th>";
+                                    Html += "<td width=\"20%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>CANCELADOS</font></th>";
+                                    Html += "<td width=\"20%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>EMBARCADOS</font></th>";
+                                    Html += "<td width=\"15%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>EMBARQUE DIRECTO</font></th>";
+                                    Html += "<td width=\"15%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>PATIO CEPA</font></th>";
+                                    Html += "</center>";
+                                    Html += "</tr>";
+
+                                    foreach (var ritemEx in queryExp)
+                                    {
+                                        Html += "<center>";
+                                        //Html += "<td height=\"25\"><font size=2 color=blue>" + ritem.n_manifiesto + "</font></td>";
+                                        Html += "<td align=\"left\" height=\"25\"><font size=2 color=blue>" + ritemEx.d_cliente + "</font></td>";
+                                        Html += "<td height=\"25\"><font size=2 color=blue>" + ritemEx.t_cargados.ToString() + "</font></td>";
+                                        Html += "<td height=\"25\"><font size=2 color=blue>" + ritemEx.t_cancelados.ToString() + "</font></td>";
+                                        Html += "<td height=\"25\"><font size=2 color=blue>" + ritemEx.t_embarcados.ToString() + "</font></td>";
+                                        Html += "<td height=\"25\"><font size=2 color=blue>" + ritemEx.t_ed.ToString() + "</font></td>";
+                                        Html += "<td height=\"25\"><font size=2 color=blue>" + ritemEx.t_pc.ToString() + "</font></td>";
+                                        Html += "</center>";
+                                        Html += "</tr>";
+                                        c_cargados = c_cargados + ritemEx.t_cargados;
+                                        ce_cancelados = ce_cancelados + ritemEx.t_cancelados;
+                                        c_embarcados = c_embarcados + ritemEx.t_embarcados;
+                                        c_ted = c_ted + ritemEx.t_ed;
+                                        c_tpc = c_tpc + ritemEx.t_pc;
+                                    }
+
+                                    Html += "<tr>";
+                                    Html += "<center>";
+                                    Html += "<td height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font size=2 color=white>TOTAL</font></td>";
+                                    Html += "<td height=\"25\" bgcolor=#1584CE><font size=2 color=white>" + c_cargados.ToString() + "</font></td>";
+                                    Html += "<td height=\"25\" bgcolor=#1584CE><font size=2 color=white>" + ce_cancelados.ToString() + "</font></td>";
+                                    Html += "<td height=\"25\" bgcolor=#1584CE><font size=2 color=white>" + c_embarcados.ToString() + "</font></td>";
+                                    Html += "<td height=\"25\" bgcolor=#1584CE><font size=2 color=white>" + c_ted.ToString() + "</font></td>";
+                                    Html += "<td height=\"25\" bgcolor=#1584CE><font size=2 color=white>" + c_tpc.ToString() + "</font></td>";
+                                    Html += "</center>";
+                                    Html += "</tr>";
+                                    Html += "</font></table>";
+                                    Html += "<br/><br/>";
+
+
+
+                                    pDetalleLiquidEx = LiquidAduanaDAL.LiquidDetalleExp(DBComun.Estado.falso, item.c_llegada);
+
+                                    if (pDetalleLiquidEx.Count > 0)
+                                    {
+                                        List<DetaillLiquid> queryDetaillsEx = (from a in pDetalleLiquidEx
+                                                                               join b in pEncaResumen on new { c_llegada = a.c_llegada, c_cliente = a.c_naviera } equals new { c_llegada = b.c_llegada, c_cliente = b.c_cliente }
+                                                                               where a.c_llegada == item.c_llegada && b.f_desatraque != null
+                                                                               select new DetaillLiquid
+                                                                               {
+                                                                                   c_correlativo = a.c_correlativo,
+                                                                                   d_cliente = b.d_cliente + " - " + a.d_cliente,
+                                                                                   n_contenedor = a.n_contenedor,
+                                                                                   c_naviera = a.c_naviera,
+                                                                                   c_llegada = a.c_llegada,
+                                                                                   c_corr_lst = a.c_corr_lst,
+                                                                                   t_doc = a.t_doc,
+                                                                                   n_doc = a.n_doc,
+                                                                                   s_justificacion = a.s_justificacion
+                                                                               }).ToList();
+
+                                        if (queryDetaillsEx == null)
+                                        {
+                                            queryDetaillsEx = new List<DetaillLiquid>();
+                                        }
+
+                                        if (queryDetaillsEx.Count > 0)
+                                        {
+                                            Html += "Detalle de contenedores no embarcados por Naviera:";
+                                            Html += "<br/><br/>";
+
+                                            Html += "<table style=\"font-family: 'Arial' ; font-size: 11px;  line-height: 1em;width: 100%;border: thin solid #4F81BD; border-collapse: separate; border-spacing:0px; \">";
+                                            Html += "<tr>";
+                                            Html += "<center>";
+                                            Html += "<td width=\"7%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>#</font></th>";
+                                            Html += "<td width=\"7%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>CORR. LISTADOS</font></th>";
+                                            Html += "<td width=\"53%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>NAVIERA</font></th>";
+                                            Html += "<td width=\"20%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2># DE CONTENEDOR</font></th>";
+                                            Html += "<td width=\"20%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>TIPO DOCUMENTO</font></th>";
+                                            Html += "<td width=\"20%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>NUMERO DOCUMENTO</font></th>";
+                                            Html += "<td width=\"20%\" height=\"25\" bgcolor=#1584CE style=\"font-weight:bold\"><font color=white size=2>JUSTIFICACION</font></th>";
+                                            Html += "</center>";
+                                            Html += "</tr>";
+
+                                            foreach (var rDetaillEx in queryDetaillsEx)
+                                            {
+                                                Html += "<center>";
+                                                Html += "<td height=\"25\"><font size=2 color=blue>" + rDetaillEx.c_correlativo + "</font></td>";
+                                                Html += "<td height=\"25\"><font size=2 color=blue>" + rDetaillEx.c_corr_lst + "</font></td>";
+                                                Html += "<td align=\"left\" height=\"25\"><font size=2 color=blue>" + rDetaillEx.d_cliente + "</font></td>";
+                                                Html += "<td height=\"25\"><font size=2 color=blue>" + rDetaillEx.n_contenedor + "</font></td>";
+                                                Html += "<td height=\"25\"><font size=2 color=blue>" + rDetaillEx.t_doc + "</font></td>";
+                                                Html += "<td height=\"25\"><font size=2 color=blue>" + rDetaillEx.n_doc + "</font></td>";
+                                                Html += "<td height=\"25\"><font size=2 color=blue>" + rDetaillEx.s_justificacion + "</font></td>";
+                                                Html += "</center>";
+                                                Html += "</tr>";
+
+                                            }
+                                            Html += "</font></table>";
+                                            Html += "<br/><br/>";
+                                        }
+                                    }
+
+
+
+
+                                }
+
+
+
+                                _correo.Subject = string.Format("ADUANA: RESUMEN DE CONTENEDORES CARGADOS Y DESCARGADOS PARA EL BUQUE {0} - NUL # {1} CON FECHA DE DESATRAQUE {2}", _encaItem.n_buque, _encaItem.c_null, _encaItem.s_desatraque);
 
                                 //Notificaciones _notiCC = new Notificaciones
                                 //{
@@ -2461,13 +2701,19 @@ namespace CEPA.CCO.AduanaService
                                 _correo.ListaNoti = NotificacionesDAL.ObtenerNotiLIQUID(DBComun.Estado.falso);
                                 List<Notificaciones> _listaCC = NotificacionesDAL.ObtenerNotificacionesCCN("b_noti_liquid", DBComun.Estado.falso, "0");
                                 _correo.ListaCC = _listaCC;
-
+                                List<string> pArchivos = new List<string>();
+                                if (archivoARI.Length > 0)
+                                {
+                                    pArchivos.Add(archivoARI);
+                                    _correo.ListArch = pArchivos;
+                                }
                                 _correo.Asunto = Html;
                                 _correo.EnviarCorreo(DBComun.TipoCorreo.CEPA, DBComun.Estado.falso, "servicio");
 
                                 EnvioErrorCorreo(_correo.Subject, "MODULO ADUANA :");
 
                                 string act = CorteCOTECNADAL.ActLIQUID(item.c_llegada);
+                                string actEx = CorteCOTECNADAL.ActLIQUIDExp(item.c_llegada);
 
                                 if (act != null)
                                 {
@@ -2773,6 +3019,249 @@ namespace CEPA.CCO.AduanaService
                 throw new Exception(ex.Message);
             }
 
+        }
+
+        private void GeneAutExp()
+        {
+            //Pendientes de validación
+            List<ArchivoExport> _listaAOrdenar1 = new List<ArchivoExport>();
+            List<DocBuque> pLstPendientes = DocBuqueLINQ.ObtenerAduanaEx(DBComun.Estado.falso);
+
+            List<string> pListaNo = new List<string>();
+            List<string> pRespuesta = new List<string>();
+
+
+            if (pLstPendientes == null)
+            {
+                pLstPendientes = new List<DocBuque>();
+            }
+
+            int? IdReg = 0;
+            int IdDoc = 0;
+
+            EnvioCorreo _correo = new EnvioCorreo();
+
+            int valores = 0;
+            //int cantidad = cant;
+            int Correlativo = 0;
+            int cont = 0;
+            NotiAutorizadosSer _notiAutorizados = new NotiAutorizadosSer();
+            CargarArchivosLINQ _cargar = new CargarArchivosLINQ();
+            try
+            {
+
+                #region "cod"
+
+
+                if (pLstPendientes.Count > 0)
+                {
+                    foreach (var iPendiente in pLstPendientes)
+                    {
+
+                        int _resultado = Convert.ToInt32(DetaNavieraDAL.ActualizarDetaExp(DBComun.Estado.falso, (int)iPendiente.IdReg, iPendiente.IdDoc));
+
+                        if (_resultado > 0)
+                        {
+                            valores = _resultado;
+                            cont = cont + 1;
+                        }
+
+                        if (valores > 0)
+                        {
+
+                            List<ArchivoExport> _listAutorizados = DetaNavieraDAL.ObtenerAutorizadosEx((int)iPendiente.IdReg, (int)iPendiente.IdDoc, DBComun.Estado.falso).OrderBy(a => a.c_puerto_trasbordo).ToList();
+
+                            List<ArchivoExport> _listaPatioCEPA = new List<ArchivoExport>();
+                            List<ArchivoExport> _listaPredio = new List<ArchivoExport>();
+                            _listaPatioCEPA = _listAutorizados.Where(a => a.s_trafico != "EMBARQUE DIRECTO").ToList();
+                            _listaPredio = _listAutorizados.Where(a => a.s_trafico == "EMBARQUE DIRECTO").ToList();
+
+                            if (_listaPredio.Count > 0)
+                            {
+                                Correlativo = Convert.ToInt32(DetaNavieraDAL.ObtenerCorrelativoEx(iPendiente.c_imo, iPendiente.c_llegada, iPendiente.c_cliente, DBComun.Estado.falso, "b_emb_dir = 'Y'")) + 1;
+
+                                //var _destinos = _listAutorizados.GroupBy(i => i.c_detalle_puerto).Select(group => group.First());
+
+                                var _destinos = (from a in _listaPredio
+                                                 group a by a.c_puerto_trasbordo into g
+                                                 select new
+                                                 {
+                                                     c_puerto_trasbordo = g.Key
+                                                 }).OrderBy(a => a.c_puerto_trasbordo).ToList();
+
+
+                                var _predios = (from a in _listaPredio
+                                                group a by a.s_nom_predio into g
+                                                select new
+                                                {
+                                                    s_nom_predio = g.Key
+                                                }).OrderBy(a => a.s_nom_predio).ToList();
+
+
+                                IdReg = iPendiente.IdReg;
+                                IdDoc = iPendiente.IdDoc;
+
+                                List<ArchivoExport> _list = new List<ArchivoExport>();
+
+
+                                valores = _listaPredio.Count;
+
+                                if (_destinos.Count() > 0 && _predios.Count() > 0)
+                                {
+                                    foreach (var itemPre in _predios)
+                                    {
+                                        foreach (var item in _destinos)
+                                        {
+                                            for (int i = 1; i <= 2; i++)
+                                            {
+                                                var consulta = DetaNavieraLINQ.AlmacenarArchivoEx(_listaPredio, DBComun.Estado.falso, i);
+                                                if (consulta.Count() > 0)
+                                                {
+                                                    var _trafico = consulta.Where(c => c.c_puerto_trasbordo.Equals(item.c_puerto_trasbordo) && c.s_nom_predio.Equals(itemPre.s_nom_predio)).ToList();
+
+                                                    if (_trafico.Count > 0)
+                                                        _list.AddRange(_trafico);
+
+                                                    foreach (var item_C in _trafico)
+                                                    {
+                                                        _listaPredio.RemoveAll(rt => rt.n_contenedor.ToUpper() == item_C.n_contenedor.ToUpper());
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (_list.Count > 0)
+                                {
+                                    foreach (ArchivoExport deta in _list)
+                                    {
+                                        int _actCorre = Convert.ToInt32(DetaNavieraDAL.ActualizarCorrelativoExPR(DBComun.Estado.falso, Correlativo, deta.IdDeta));
+                                        Correlativo = Correlativo + 1;
+                                    }
+                                }
+                                
+                                int _rango = ((Correlativo - 1) - valores) + 1;
+
+
+                                List<ArchivoExport> _listaAOrdenar = DetaNavieraDAL.ObtenerResultadoEx((int)iPendiente.IdReg, _rango, Correlativo - 1, DBComun.Estado.falso, "Y");
+
+                                _notiAutorizados.IdDoc = iPendiente.IdDoc;
+                                _notiAutorizados.GenerarAplicacionEX(_listaAOrdenar, iPendiente.c_cliente, iPendiente.d_cliente, iPendiente.c_llegada, (int)iPendiente.IdReg,
+                                 iPendiente.d_buque, iPendiente.f_llegada, valores, valores, null, iPendiente.c_voyage, "PR");
+
+                                int resuly = Convert.ToInt32(DetaDocDAL.ActualizarValidacionEx(1, (int)iPendiente.IdReg, DBComun.Estado.falso, iPendiente.IdDoc));
+
+                                using (StreamWriter tw = new StreamWriter(Archivo, true))
+                                {
+                                    tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + string.Format(": PASO 4 DE 4: GENERADO LISTADO AUTORIZADO DE EMBARQUE DIRECTO DE EXPORTACION BUQUE {0} NAVIERA {1} ", iPendiente.d_buque, iPendiente.d_cliente));
+                                }
+                            }
+
+
+                            if (_listaPatioCEPA.Count > 0)
+                            {
+                                Correlativo = Convert.ToInt32(DetaNavieraDAL.ObtenerCorrelativoExPC(iPendiente.c_imo, iPendiente.c_llegada, iPendiente.c_cliente, DBComun.Estado.falso, "b_emb_dir = ''")) + 1;
+
+                                //var _destinos = _listAutorizados.GroupBy(i => i.c_detalle_puerto).Select(group => group.First());
+
+                                var _destinos = (from a in _listaPatioCEPA
+                                                 group a by a.c_puerto_trasbordo into g
+                                                 select new
+                                                 {
+                                                     c_puerto_trasbordo = g.Key
+                                                 }).OrderBy(a => a.c_puerto_trasbordo).ToList();
+
+
+                                IdReg = iPendiente.IdReg;
+                                IdDoc = iPendiente.IdDoc;
+
+                                List<ArchivoExport> _list = new List<ArchivoExport>();
+
+                                for (int d = 1; d <= 2; d++)
+                                {
+                                    if (d == 1)
+                                        _listaAOrdenar1 = _listaPatioCEPA.Where(f => f.s_trafico == "PATIO CEPA").ToList();
+                                    else if (d == 2)
+                                        _listaAOrdenar1 = _listaPatioCEPA.Where(f => f.s_trafico == "TRANSBORDO").ToList();
+
+                                    if (_listaAOrdenar1.Count > 0)
+                                    {
+                                        for (int i = 1; i <= 2; i++)
+                                        {
+                                            var consulta = DetaNavieraLINQ.AlmacenarArchivoEx(_listaAOrdenar1, DBComun.Estado.falso, i);
+                                            if (_destinos.Count() > 0 && consulta.Count > 0)
+                                            {
+                                                foreach (var item in _destinos)
+                                                {
+                                                    var _trafico = consulta.Where(c => c.c_puerto_trasbordo.Equals(item.c_puerto_trasbordo)).ToList();
+
+                                                    if (_trafico.Count > 0)
+                                                        _list.AddRange(_trafico);
+
+                                                    foreach (var item_C in _trafico)
+                                                    {
+                                                        _listaAOrdenar1.RemoveAll(rt => rt.n_contenedor.ToUpper() == item_C.n_contenedor.ToUpper());
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                }
+
+                                if (_list.Count > 0)
+                                {
+                                    foreach (ArchivoExport deta in _list)
+                                    {
+                                        int _actCorre = Convert.ToInt32(DetaNavieraDAL.ActualizarCorrelativoExPC(DBComun.Estado.falso, Correlativo, deta.IdDeta));
+                                        Correlativo = Correlativo + 1;
+                                    }
+                                }
+
+                                valores = _listaPatioCEPA.Count;
+                                int _rango = ((Correlativo - 1) - valores) + 1;
+
+
+                                List<ArchivoExport> _listaAOrdenar = DetaNavieraDAL.ObtenerResultadoEx((int)iPendiente.IdReg, _rango, Correlativo - 1, DBComun.Estado.falso, "");
+
+                                _notiAutorizados.IdDoc = iPendiente.IdDoc;
+                                _notiAutorizados.GenerarAplicacionEX(_listaAOrdenar, iPendiente.c_cliente, iPendiente.d_cliente, iPendiente.c_llegada, (int)iPendiente.IdReg,
+                                 iPendiente.d_buque, iPendiente.f_llegada, valores, valores, null, iPendiente.c_voyage, "PC");
+
+                                int resuly = Convert.ToInt32(DetaDocDAL.ActualizarValidacionEx(1, (int)iPendiente.IdReg, DBComun.Estado.falso, iPendiente.IdDoc));
+
+                                using (StreamWriter tw = new StreamWriter(Archivo, true))
+                                {
+                                    tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + string.Format(": PASO 3 DE 4: GENERADO LISTADO PREVIO DE EXPORTACION BUQUE {0} NAVIERA {1} ", iPendiente.d_buque, iPendiente.d_cliente));
+                                }
+                            }
+                        }
+
+                       
+                    }
+
+
+                }
+                else
+                {
+
+                    using (StreamWriter tw = new StreamWriter(Archivo, true))
+                    {
+                        tw.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.CreateSpecificCulture("es-SV")) + ": NO EXISTEN LISTADO DE EXPORTACIÓN PENDIENTE DE GENERAR");
+                    }
+                }
+
+                #endregion
+            }
+
+            catch (Exception ex)
+            {
+                int resuly = Convert.ToInt32(DetaDocDAL.RevertirValidacionEx((int)IdReg, DBComun.Estado.falso, IdDoc));
+                int _resultado = Convert.ToInt32(DetaNavieraDAL.RevertirDetaEx(DBComun.Estado.falso, (int)IdReg, IdDoc));
+                //string _rinco = ResulNavieraDAL.delADUANA_Auto(DBComun.Estado.falso, numMa, a_manifiesto);
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
